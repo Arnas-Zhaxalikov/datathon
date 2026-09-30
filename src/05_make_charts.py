@@ -1,4 +1,8 @@
-"""Генерация графиков для презентации. Запускать из корня репозитория после шагов 01-04."""
+"""Генерация графиков для презентации. Запускать из корня репозитория после шагов 01-04.
+
+Тема задаётся переменной окружения CHART_THEME: dark (по умолчанию, под изометрические
+слайды) или light. Палитра каждой темы проверена валидатором на различимость при
+дальтонизме: попарное расстояние не ниже 22 при протанопии против порога 15."""
 import glob
 import os
 
@@ -9,12 +13,21 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-FIG = "outputs/figures"
+THEME = os.environ.get("CHART_THEME", "dark")
+
+PALETTE = {
+    "dark":  dict(blue="#4A8CD4", ochre="#C07F33", purple="#9179C9", surface="#12192B",
+                  ink="#F2F5F8", ink2="#B8C4D6", muted="#8494AB", grid="#26324C"),
+    "light": dict(blue="#2C6CB0", ochre="#C0762A", purple="#6B5CA5", surface="#FAFAF7",
+                  ink="#16223A", ink2="#4A5568", muted="#8A9099", grid="#DEDFDA"),
+}[THEME]
+
+FIG = "outputs/figures" if THEME == "dark" else "outputs/figures_light"
 os.makedirs(FIG, exist_ok=True)
 
-BLUE, OCHRE, PURPLE = "#2C6CB0", "#C0762A", "#6B5CA5"
-SURFACE = "#FAFAF7"
-INK, INK2, MUTED, GRID = "#16223A", "#4A5568", "#8A9099", "#DEDFDA"
+BLUE, OCHRE, PURPLE = PALETTE["blue"], PALETTE["ochre"], PALETTE["purple"]
+SURFACE = PALETTE["surface"]
+INK, INK2, MUTED, GRID = PALETTE["ink"], PALETTE["ink2"], PALETTE["muted"], PALETTE["grid"]
 
 plt.rcParams.update({
     "figure.facecolor": SURFACE,
@@ -368,4 +381,4 @@ grid_y(ax)
 ax.set_title("Охват формы 1-Т меняется: обвал в 2024", fontsize=22, color=INK, loc="left", pad=14)
 save(fig, "firms_by_year")
 
-print(f"\nГотово: {len(os.listdir(FIG))} файлов в {FIG}/")
+print(f"\nГотово: {len(os.listdir(FIG))} файлов в {FIG}/ (тема {THEME})")

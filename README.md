@@ -19,6 +19,7 @@
 | 3 | `src/03_build_merged.py` | Объединяет d002, d004, d006 и d008 в таблицу домохозяйств |
 | 4 | `src/04_analyze_merged.py` | Сегменты, депривация, корреляции, регрессия |
 | 5 | `src/05_make_charts.py` | Одиннадцать графиков презентации в `outputs/figures/` |
+| 6 | `src/06_make_isometrics.py` | Изометрическая графика слайдов в `outputs/isometric/` |
 
 `notebooks/01_descriptive_analysis.ipynb` — тот же путь с пояснениями, 45 ячеек, каждая проверена запуском.
 
@@ -37,7 +38,10 @@ python src/02_analyze_labour.py
 python src/03_build_merged.py
 python src/04_analyze_merged.py
 python src/05_make_charts.py
+python src/06_make_isometrics.py
 ```
+
+Тема графиков задаётся переменной `CHART_THEME`: `dark` по умолчанию, под изометрические слайды, или `light` — тогда файлы пишутся в `outputs/figures_light/`.
 
 Шаг 1 идемпотентен: готовые файлы пропускаются, повторный запуск бесплатен.
 
@@ -69,7 +73,9 @@ D-серия связывается по ключу `NOMER` без потерь:
 `outputs/households_2021_2024.csv` — 48 000 строк (12 000 домохозяйств × 4 года), 37 колонок: состав, жильё, благоустройство, доходы, расходы, субъективные оценки и производные индексы.
 
 - `outputs/aggregates/` — восемнадцать CSV с агрегатами для слайдов
-- `outputs/figures/` — одиннадцать графиков презентации
+- `outputs/figures/` — одиннадцать графиков презентации, тёмная тема
+- `outputs/figures_light/` — те же графики на светлом фоне
+- `outputs/isometric/` — изометрические SVG: сетка фона, стопка слоёв, конвейер, схема слияния
 - `outputs/dashboard.html` — интерактивный дашборд
 - `outputs/*_analysis_output.txt` — полный текстовый вывод анализа
 
@@ -113,6 +119,7 @@ D-серия связывается по ключу `NOMER` без потерь:
 ├── outputs/
 │   ├── aggregates/      агрегаты для слайдов
 │   ├── figures/         графики презентации
+│   ├── isometric/       изометрическая графика слайдов
 │   ├── households_2021_2024.csv    объединённая таблица
 │   └── dashboard.html   интерактивный дашборд
 ├── docs/data_notes.md   находки и ограничения
