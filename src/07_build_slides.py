@@ -1,8 +1,9 @@
 """Сборка HTML-слайдов презентации. Редакционная вёрстка: сетка, линейки, акцент."""
 import json
+import os
 import pathlib
 
-OUT = pathlib.Path("/tmp/claude-0/-home-claude/0d0e2ed4-36a7-5572-b68c-9454ae6c8f69/scratchpad/deck/project/slides")
+OUT = pathlib.Path("outputs/slides")
 OUT.mkdir(parents=True, exist_ok=True)
 
 BG, INK, INK2, MUTED = "#FFFFFF", "#14161A", "#55606E", "#8B96A5"
@@ -12,7 +13,14 @@ DISPLAY = "'Oswald', 'Arial Narrow', sans-serif"
 SANS = "'IBM Plex Sans', Arial, sans-serif"
 MONO = "'IBM Plex Mono', 'Courier New', monospace"
 
-IMG = json.loads(pathlib.Path("/tmp/blobs.json").read_text())
+# Графики берутся из outputs/figures по относительному пути. Для загрузки колоды в хостинг
+# слайдов можно передать файл соответствия ключ → URL переменной SLIDES_BLOBS.
+FIG = {"informality": "informality_anomaly"}
+IMG = {k: f"../figures/{FIG.get(k, k)}.png" for k in (
+    "employment_sex", "employment_age", "employment_region", "informality",
+    "urban_rural", "household_types", "savings_gap", "completeness")}
+if os.environ.get("SLIDES_BLOBS"):
+    IMG.update(json.loads(pathlib.Path(os.environ["SLIDES_BLOBS"]).read_text()))
 
 
 def chrome(kicker, num, total=10):
