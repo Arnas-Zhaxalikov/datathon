@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>STAT.DATATHON-2026 — дескриптивная аналитика датасетов</title>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#f6f6f4; --panel:#ffffff; --ink:#15171a; --muted:#6a7078; --line:#e2e3df;
+  --accent:#1f6feb; --accent2:#d9822b; --accent3:#2e8b6f; --danger:#c0392b;
+  --grid:#e8e9e6;
+}
+:root:not([data-theme="light"]){}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#131417; --panel:#1b1d21; --ink:#eceef0; --muted:#9aa1a9; --line:#2b2e34;
+    --accent:#5a9bff; --accent2:#e59a4c; --accent3:#4fb896; --danger:#e06a5c; --grid:#262a30;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#131417; --panel:#1b1d21; --ink:#eceef0; --muted:#9aa1a9; --line:#2b2e34;
+  --accent:#5a9bff; --accent2:#e59a4c; --accent3:#4fb896; --danger:#e06a5c; --grid:#262a30;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:22px 16px 60px}
+header h1{font-size:23px;font-weight:700;margin:0 0 4px;letter-spacing:-.01em}
+header p{margin:0;color:var(--muted);font-size:14px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:20px 0 6px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi .v{font-size:22px;font-weight:700;font-family:"IBM Plex Mono",monospace;letter-spacing:-.02em}
+.kpi .l{font-size:12px;color:var(--muted);margin-top:2px}
+nav{display:flex;gap:6px;flex-wrap:wrap;margin:22px 0 14px;position:sticky;top:env(safe-area-inset-top,0px);
+  background:var(--bg);padding:8px 0;z-index:5;border-bottom:1px solid var(--line)}
+nav button{font:inherit;font-size:14px;font-weight:500;color:var(--muted);background:transparent;
+  border:1px solid transparent;border-radius:8px;padding:7px 12px;cursor:pointer}
+nav button:hover{color:var(--ink)}
+nav button[aria-selected="true"]{background:var(--panel);border-color:var(--line);color:var(--ink)}
+section[hidden]{display:none}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
+.card h2{font-size:16px;margin:0 0 3px;font-weight:600}
+.card .sub{font-size:13px;color:var(--muted);margin:0 0 14px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:14px}
+.chart{position:relative;height:300px}
+.chart.tall{height:420px}
+.tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:520px}
+th,td{text-align:right;padding:7px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+thead th{color:var(--muted);font-weight:500;font-size:12.5px;text-transform:uppercase;letter-spacing:.04em}
+tbody tr:hover{background:color-mix(in srgb,var(--accent) 7%,transparent)}
+.mono{font-family:"IBM Plex Mono",monospace}
+.neg{color:var(--danger);font-weight:600}
+.pos{color:var(--accent3);font-weight:600}
+.flag{background:color-mix(in srgb,var(--danger) 13%,transparent)}
+.note{border-left:3px solid var(--accent2);padding:10px 13px;background:color-mix(in srgb,var(--accent2) 8%,transparent);
+  border-radius:0 8px 8px 0;font-size:13.5px;margin-top:12px}
+.note b{font-weight:600}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-top:10px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px}
+footer{color:var(--muted);font-size:12.5px;margin-top:26px;border-top:1px solid var(--line);padding-top:14px}
+@media(max-width:560px){.chart{height:260px}.chart.tall{height:520px}header h1{font-size:20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>STAT.DATATHON-2026 · дескриптивная аналитика датасетов</h1>
+  <p>Синтетические микроданные БНС АСПР РК, 2021–2024. 236 таблиц, 72,6 млн строк, 4,68 ГБ CSV.</p>
+</header>
+
+<div class="kpis" id="kpis"></div>
+
+<nav role="tablist">
+  <button role="tab" aria-selected="true" data-t="t-over">Обзор данных</button>
+  <button role="tab" aria-selected="false" data-t="t-lab">Рынок труда</button>
+  <button role="tab" aria-selected="false" data-t="t-hh">Домохозяйства</button>
+  <button role="tab" aria-selected="false" data-t="t-qual">Качество данных</button>
+</nav>
+
+<section id="t-over">
+  <div class="card">
+    <h2>Состав архива</h2>
+    <p class="sub">Объём по формам. После конвертации в parquet весь массив занимает 301 МБ вместо 4,68 ГБ.</p>
+    <div class="tablewrap"><table id="tbl-inv"></table></div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <h2>Строки по формам</h2>
+      <p class="sub">Логарифмическая шкала: формы предприятий на два порядка крупнее обследований.</p>
+      <div class="chart"><canvas id="c-inv"></canvas></div>
+    </div>
+    <div class="card">
+      <h2>Предприятия в форме 1-Т (годовая)</h2>
+      <p class="sub">Рост 2021–2023 и обвал в 2024 — это смена охвата выгрузки, а не экономика.</p>
+      <div class="chart"><canvas id="c-firms"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<section id="t-lab" hidden>
+  <div class="grid2">
+    <div class="card">
+      <h2>Ключевые индикаторы занятости</h2>
+      <p class="sub">T-001, ~470 тыс. наблюдений в год.</p>
+      <div class="chart"><canvas id="c-lab"></canvas></div>
+    </div>
+    <div class="card">
+      <h2>Занятость по полу</h2>
+      <p class="sub">Разрыв держится около 7 п.п. все четыре года.</p>
+      <div class="chart"><canvas id="c-sex"></canvas></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Занятость по регионам: 2021 против 2024</h2>
+    <p class="sub">Сортировка по изменению. Регионы Абай, Жетісу и Ұлытау появляются только с 2022 года.</p>
+    <div class="chart tall"><canvas id="c-reg"></canvas></div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <h2>Занятость по возрасту и полу, 2024</h2>
+      <p class="sub">Максимум в группе 25–34 лет, обвал после 65.</p>
+      <div class="chart"><canvas id="c-age"></canvas></div>
+    </div>
+    <div class="card">
+      <h2>Работа без трудового договора, %</h2>
+      <p class="sub">База — респонденты с заполненным ORB_TRDDOG.</p>
+      <div class="chart"><canvas id="c-inf"></canvas></div>
+      <div class="note"><b>Аномалия.</b> Алматинская область: 6,3 → 5,4 → 4,8 → <b>40,7%</b> при стабильной базе ответов. Похоже на сбой генератора; без этого региона показатель 2024 года остаётся около 3%.</div>
+    </div>
+  </div>
+</section>
+
+<section id="t-hh" hidden>
+  <div class="grid2">
+    <div class="card">
+      <h2>Доходы и расходы, индекс 2021 = 100</h2>
+      <p class="sub">Доходы растут на 26 п.п. быстрее расходов.</p>
+      <div class="chart"><canvas id="c-ie"></canvas></div>
+      <div class="note"><b>Гипотеза для Результата 2.</b> Разрыв означает либо рост нормы сбережений, либо систематический недоучёт расходов — стандартная проблема бюджетных обследований.</div>
+    </div>
+    <div class="card">
+      <h2>Расходы по категориям КИПЦ, млрд тенге</h2>
+      <p class="sub">Вопросы 1–7 формы D-004, все кварталы.</p>
+      <div class="chart"><canvas id="c-co"></canvas></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Скрытый разрез «город — село»</h2>
+    <p class="sub">Поле <span class="mono">K</span> не описано в документации и принимает два значения. Три независимые формы дают согласованную картину.</p>
+    <div class="tablewrap"><table id="tbl-ur"></table></div>
+    <div class="note"><b>K — это не номер домохозяйства, а признак типа поселения.</b> Меньше площадь, больше благоустройства, меньше семья и втрое ниже неформальность у K = 1 — это город. Разрез есть в данных, просто он не подписан: открывает темы от жилищной депривации до сельской неформальной занятости.</div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <h2>Рост расходов по категориям, 2021 → 2024</h2>
+      <p class="sub">Неравномерность роста и есть содержательный сюжет.</p>
+      <div class="chart"><canvas id="c-cog"></canvas></div>
+    </div>
+    <div class="card">
+      <h2>Жилищные условия, D-006</h2>
+      <p class="sub">Средняя площадь растёт, число комнат и удобств стоит.</p>
+      <div class="tablewrap"><table id="tbl-hz"></table></div>
+      <div class="note">Динамики почти нет — интереснее разброс между домохозяйствами: 42 признака благоустройства дают готовый индекс депривации.</div>
+    </div>
+  </div>
+</section>
+
+<section id="t-qual" hidden>
+  <div class="card">
+    <h2>Дрейф схемы между годами</h2>
+    <p class="sub">Наивный скрипт, написанный под один год, сломается на остальных.</p>
+    <div class="tablewrap"><table id="tbl-drift"></table></div>
+  </div>
+  <div class="card">
+    <h2>Заполненность таблиц</h2>
+    <p class="sub">Доля непустых ячеек. Низкие значения у анкет с ветвлениями — это норма, а не ошибка.</p>
+    <div class="chart tall"><canvas id="c-comp"></canvas></div>
+  </div>
+  <div class="card">
+    <h2>Что проверить перед анализом</h2>
+    <div class="tablewrap"><table id="tbl-check"></table></div>
+  </div>
+</section>
+
+<footer>
+  Источник: синтетические микроданные организатора (файл synthetic_microdata_2021-2024_20260921). Все значения посчитаны на полном архиве.
+  Названия регионов сопоставлены по кодам КАТО и требуют сверки со справочником. Формы 1-Т и 2-Т показаны только структурно: без справочника кодов KCP абсолютные величины не интерпретируются.
+</footer>
+</div>
+
+<script>
+const D = {"labour": [{"yr": 2021, "n": 472456, "emp_rate": 67.64, "searching": 3.68, "contract_base": 229313.0, "no_contract": 3.47, "emp_female": 64.36, "emp_male": 71.47}, {"yr": 2022, "n": 467667, "emp_rate": 67.18, "searching": 3.62, "contract_base": 228083.0, "no_contract": 3.46, "emp_female": 63.1, "emp_male": 71.91}, {"yr": 2023, "n": 475635, "emp_rate": 66.35, "searching": 3.64, "contract_base": 229021.0, "no_contract": 3.02, "emp_female": 62.47, "emp_male": 70.92}, {"yr": 2024, "n": 469352, "emp_rate": 65.86, "searching": 3.51, "contract_base": 228016.0, "no_contract": 5.18, "emp_female": 62.66, "emp_male": 69.6}], "emp_region": [{"reg": "10", "2021": NaN, "2022": 66.1, "2023": 66.0, "2024": 67.1, "change": NaN, "name": "Абай"}, {"reg": "11", "2021": 71.0, "2022": 71.8, "2023": 71.2, "2024": 68.7, "change": -2.3, "name": "Акмолинская"}, {"reg": "15", "2021": 67.1, "2022": 66.5, "2023": 65.2, "2024": 67.4, "change": 0.3, "name": "Актюбинская"}, {"reg": "19", "2021": 66.6, "2022": 67.4, "2023": 65.6, "2024": 64.7, "change": -1.9, "name": "Алматинская"}, {"reg": "23", "2021": 68.5, "2022": 67.8, "2023": 67.7, "2024": 70.3, "change": 1.8, "name": "Атырауская"}, {"reg": "27", "2021": 68.1, "2022": 70.0, "2023": 67.7, "2024": 67.3, "change": -0.8, "name": "ЗКО"}, {"reg": "31", "2021": 63.1, "2022": 62.5, "2023": 63.4, "2024": 66.4, "change": 3.3, "name": "Жамбылская"}, {"reg": "33", "2021": NaN, "2022": 66.3, "2023": 62.7, "2024": 60.6, "change": NaN, "name": "Жетісу"}, {"reg": "35", "2021": 67.3, "2022": 65.6, "2023": 65.5, "2024": 65.5, "change": -1.8, "name": "Карагандинская"}, {"reg": "39", "2021": 71.4, "2022": 72.5, "2023": 70.7, "2024": 69.2, "change": -2.2, "name": "Костанайская"}, {"reg": "43", "2021": 60.6, "2022": 60.2, "2023": 61.3, "2024": 58.6, "change": -2.0, "name": "Кызылординская"}, {"reg": "47", "2021": 63.5, "2022": 66.8, "2023": 67.3, "2024": 62.3, "change": -1.2, "name": "Мангистауская"}, {"reg": "55", "2021": 74.2, "2022": 73.2, "2023": 71.8, "2024": 71.9, "change": -2.3, "name": "Павлодарская"}, {"reg": "59", "2021": 73.1, "2022": 73.4, "2023": 71.6, "2024": 69.5, "change": -3.6, "name": "СКО"}, {"reg": "61", "2021": 64.4, "2022": 62.3, "2023": 63.0, "2024": 61.3, "change": -3.1, "name": "Туркестанская"}, {"reg": "62", "2021": NaN, "2022": 67.8, "2023": 62.4, "2024": 64.2, "change": NaN, "name": "Ұлытау"}, {"reg": "63", "2021": 69.4, "2022": 65.3, "2023": 63.3, "2024": 64.3, "change": -5.1, "name": "ВКО"}, {"reg": "71", "2021": 61.9, "2022": 66.5, "2023": 66.1, "2024": 68.2, "change": 6.3, "name": "Астана"}, {"reg": "75", "2021": 63.7, "2022": 59.2, "2023": 61.5, "2024": 61.9, "change": -1.8, "name": "Алматы"}, {"reg": "79", "2021": 63.9, "2022": 61.9, "2023": 64.7, "2024": 61.9, "change": -2.0, "name": "Шымкент"}], "inf_region": [{"reg": "10", "2021": NaN, "2022": 2.1, "2023": 1.6, "2024": 3.2, "name": "Абай"}, {"reg": "11", "2021": 1.5, "2022": 1.6, "2023": 1.7, "2024": 1.3, "name": "Акмолинская"}, {"reg": "15", "2021": 1.1, "2022": 1.1, "2023": 1.3, "2024": 1.0, "name": "Актюбинская"}, {"reg": "19", "2021": 6.3, "2022": 5.4, "2023": 4.8, "2024": 40.7, "name": "Алматинская"}, {"reg": "23", "2021": 3.3, "2022": 2.2, "2023": 1.4, "2024": 2.1, "name": "Атырауская"}, {"reg": "27", "2021": 3.4, "2022": 3.0, "2023": 3.3, "2024": 1.9, "name": "ЗКО"}, {"reg": "31", "2021": 16.5, "2022": 12.9, "2023": 9.6, "2024": 10.2, "name": "Жамбылская"}, {"reg": "33", "2021": NaN, "2022": 2.7, "2023": 2.1, "2024": 3.1, "name": "Жетісу"}, {"reg": "35", "2021": 2.1, "2022": 1.2, "2023": 1.5, "2024": 2.2, "name": "Карагандинская"}, {"reg": "39", "2021": 1.9, "2022": 1.9, "2023": 1.8, "2024": 1.2, "name": "Костанайская"}, {"reg": "43", "2021": 5.1, "2022": 6.0, "2023": 2.2, "2024": 3.0, "name": "Кызылординская"}, {"reg": "47", "2021": 1.2, "2022": 1.2, "2023": 1.6, "2024": 4.3, "name": "Мангистауская"}, {"reg": "55", "2021": 1.8, "2022": 3.2, "2023": 2.7, "2024": 1.7, "name": "Павлодарская"}, {"reg": "59", "2021": 2.2, "2022": 1.6, "2023": 1.9, "2024": 1.3, "name": "СКО"}, {"reg": "61", "2021": 8.0, "2022": 16.8, "2023": 15.3, "2024": 12.9, "name": "Туркестанская"}, {"reg": "62", "2021": NaN, "2022": 1.9, "2023": 1.3, "2024": 2.6, "name": "Ұлытау"}, {"reg": "63", "2021": 2.0, "2022": 1.9, "2023": 1.5, "2024": 2.8, "name": "ВКО"}, {"reg": "71", "2021": 0.6, "2022": 1.9, "2023": 1.1, "2024": 1.1, "name": "Астана"}, {"reg": "75", "2021": 1.8, "2022": 1.1, "2023": 1.2, "2024": 2.0, "name": "Алматы"}, {"reg": "79", "2021": 0.7, "2022": 1.2, "2023": 1.2, "2024": 1.0, "name": "Шымкент"}], "income": [{"yr": 2021, "hh": 11930, "wage_inc": 20287534441.0, "col4": 6955191084.0, "col22": 466173477.0, "wage_per_hh_month": 141712.0}, {"yr": 2022, "hh": 11925, "wage_inc": 25332572028.0, "col4": 6938851209.0, "col22": 498895675.0, "wage_per_hh_month": 177027.0}, {"yr": 2023, "hh": 11965, "wage_inc": 30754206481.0, "col4": 7398504931.0, "col22": 565851655.0, "wage_per_hh_month": 214196.0}, {"yr": 2024, "hh": 11948, "wage_inc": 34371284235.0, "col4": 8258324597.0, "col22": 592842472.0, "wage_per_hh_month": 239728.0}], "spend_q": [{"yr": 2021, "q1": 6541923344.0, "q2": 1859073642.0, "q3": 1026533813.0, "q4": 341027625.0, "q5": 395165553.0, "q6": 1740368887.0, "q7": 586534032.0, "total": 12490626896.0}, {"yr": 2022, "q1": 7838895351.0, "q2": 2043662435.0, "q3": 1160486601.0, "q4": 498141249.0, "q5": 439615774.0, "q6": 2097533060.0, "q7": 733778567.0, "total": 14812113037.0}, {"yr": 2023, "q1": 8656126700.0, "q2": 2245296655.0, "q3": 1321411438.0, "q4": 627229662.0, "q5": 540445017.0, "q6": 2548542486.0, "q7": 834869213.0, "total": 16773921171.0}, {"yr": 2024, "q1": 8938389065.0, "q2": 2512150353.0, "q3": 1479013651.0, "q4": 656743998.0, "q5": 540067073.0, "q6": 2837091055.0, "q7": 915036416.0, "total": 17878491611.0}], "coicop": [{"p": "03", "2021": 2517912630.0, "2022": 3089057689.0, "2023": 3376845260.0, "2024": 3324851585.0, "name": "Одежда и обувь"}, {"p": "04", "2021": 2034452554.0, "2022": 2324000663.0, "2023": 2536035622.0, "2024": 2800730744.0, "name": "Жильё, ЖКУ"}, {"p": "05", "2021": 1665047523.0, "2022": 1971291195.0, "2023": 2194020061.0, "2024": 2299723611.0, "name": "Мебель, быт"}, {"p": "12", "2021": 1356506461.0, "2022": 1660369057.0, "2023": 1953634033.0, "2024": 2170533656.0, "name": "Прочие товары и услуги"}, {"p": "08", "2021": 1239513581.0, "2022": 1474487207.0, "2023": 1691748311.0, "2024": 1805864561.0, "name": "Связь"}, {"p": "07", "2021": 971957887.0, "2022": 1112170994.0, "2023": 1266252370.0, "2024": 1467477285.0, "name": "Транспорт"}, {"p": "06", "2021": 870153061.0, "2022": 942152363.0, "2023": 1075082458.0, "2024": 1109300935.0, "name": "Здоровье"}, {"p": "09", "2021": 506371888.0, "2022": 671061640.0, "2023": 836757853.0, "2024": 912376181.0, "name": "Отдых"}, {"p": "21", "2021": 566115565.0, "2022": 634025770.0, "2023": 688861493.0, "2024": 755711918.0, "name": "Прочее 21"}, {"p": "10", "2021": 298856516.0, "2022": 408574684.0, "2023": 526031837.0, "2024": 536920683.0, "name": "Образование"}, {"p": "11", "2021": 155684436.0, "2022": 220331885.0, "2023": 275715419.0, "2024": 307196305.0, "name": "Кафе, отели"}, {"p": "44", "2021": 65409071.0, "2022": 39646386.0, "2023": 63865386.0, "2024": 58983178.0, "name": "Прочее 44"}, {"p": "22", "2021": 12222815.0, "2022": 28744165.0, "2023": 34203373.0, "2024": 27082769.0, "name": "Прочее 22"}, {"p": "63", "2021": 6667027.0, "2022": 12282377.0, "2023": 19173554.0, "2024": 22597506.0, "name": "Прочее 63"}, {"p": "23", "2021": 5869814.0, "2022": 7439658.0, "2023": 9149661.0, "2024": 11359097.0, "name": "Прочее 23"}, {"p": "47", "2021": 1393650.0, "2022": 3391914.0, "2023": 1243290.0, "2024": 2092575.0, "name": "Прочее 47"}, {"p": "53", "2021": 101900.0, "2022": 408573.0, "2023": 565200.0, "2024": 695916.0, "name": "Прочее 53"}], "housing": [{"yr": 2021, "hh": 11636, "area": 69.89, "rooms": 2.88, "amenities_of_42": 11.99}, {"yr": 2022, "hh": 11744, "area": 72.0, "rooms": 2.94, "amenities_of_42": 12.21}, {"yr": 2023, "hh": 11659, "area": 71.34, "rooms": 2.91, "amenities_of_42": 12.54}, {"yr": 2024, "hh": 11704, "area": 72.99, "rooms": 2.94, "amenities_of_42": 12.37}], "age_sex": [{"ag": "15-24", "sex": 1, "n": 28432, "emp": 42.3}, {"ag": "15-24", "sex": 2, "n": 32722, "emp": 39.4}, {"ag": "25-34", "sex": 1, "n": 36902, "emp": 93.1}, {"ag": "25-34", "sex": 2, "n": 40467, "emp": 83.8}, {"ag": "35-44", "sex": 1, "n": 46862, "emp": 91.7}, {"ag": "35-44", "sex": 2, "n": 54252, "emp": 84.6}, {"ag": "45-54", "sex": 1, "n": 38245, "emp": 89.0}, {"ag": "45-54", "sex": 2, "n": 43699, "emp": 83.8}, {"ag": "55-64", "sex": 1, "n": 34536, "emp": 70.9}, {"ag": "55-64", "sex": 2, "n": 41398, "emp": 62.0}, {"ag": "65+", "sex": 1, "n": 31570, "emp": 8.9}, {"ag": "65+", "sex": 2, "n": 40267, "emp": 8.4}], "firms": [{"yr": 2021, "firms": 70874}, {"yr": 2022, "firms": 77994}, {"yr": 2023, "firms": 83754}, {"yr": 2024, "firms": 52289}], "completeness": [{"table": "d006__2023__rio2023", "rows": 11659, "cols": 247, "filled_pct": 32.9}, {"table": "d006__2022__rio2022", "rows": 11744, "cols": 247, "filled_pct": 33.2}, {"table": "d006__2024__rio_2024", "rows": 11704, "cols": 247, "filled_pct": 33.5}, {"table": "d006__2021__rio", "rows": 11636, "cols": 247, "filled_pct": 33.8}, {"table": "1t_god__2021_1t_god", "rows": 7721951, "cols": 16, "filled_pct": 42.0}, {"table": "d002__2024__ocenka", "rows": 11931, "cols": 97, "filled_pct": 45.0}, {"table": "d002__2023__ocenka", "rows": 11953, "cols": 98, "filled_pct": 45.3}, {"table": "1t_god__2022_1t_god", "rows": 8285961, "cols": 18, "filled_pct": 48.3}, {"table": "1t_god__2023_1t_god", "rows": 8574325, "cols": 19, "filled_pct": 51.0}, {"table": "d008__2023__kontr_k", "rows": 42689, "cols": 31, "filled_pct": 57.1}, {"table": "d008__2021__kontr_k", "rows": 41868, "cols": 29, "filled_pct": 57.1}, {"table": "d008__2024__kontr_k", "rows": 41821, "cols": 35, "filled_pct": 59.2}, {"table": "d008__2022__kontr_k", "rows": 42681, "cols": 31, "filled_pct": 59.8}, {"table": "d002__2022__ocenka", "rows": 11934, "cols": 63, "filled_pct": 61.2}, {"table": "d004__2023__1kv__kv_vopr9", "rows": 50314, "cols": 19, "filled_pct": 64.5}, {"table": "1t_god__sr_1t_god_12_2024", "rows": 5443662, "cols": 30, "filled_pct": 65.7}, {"table": "d004__2021__1kv__kv_vopr9", "rows": 51716, "cols": 20, "filled_pct": 66.2}, {"table": "d004__2024__1kv__kv_vopr9", "rows": 50165, "cols": 20, "filled_pct": 67.6}, {"table": "d004__2022__1kv__kv_vopr9", "rows": 52913, "cols": 19, "filled_pct": 69.1}, {"table": "t001__2024__baza", "rows": 469352, "cols": 40, "filled_pct": 73.1}, {"table": "t001__2023__baza", "rows": 475635, "cols": 40, "filled_pct": 73.4}, {"table": "d002__2024__subject", "rows": 11931, "cols": 75, "filled_pct": 74.7}, {"table": "d002__2023__subject", "rows": 11953, "cols": 75, "filled_pct": 74.8}, {"table": "d002__2021__ocenka", "rows": 11953, "cols": 48, "filled_pct": 76.1}, {"table": "t001__2021__2021", "rows": 472456, "cols": 39, "filled_pct": 76.4}, {"table": "t001__2022__baza", "rows": 467667, "cols": 40, "filled_pct": 76.9}, {"table": "1t_kv__1kv2021", "rows": 1547716, "cols": 8, "filled_pct": 78.8}, {"table": "1t_kv__2kv2021", "rows": 1572541, "cols": 8, "filled_pct": 78.9}, {"table": "1t_kv__3kv2021", "rows": 1614596, "cols": 8, "filled_pct": 78.9}, {"table": "1t_kv__4kv2021", "rows": 1624192, "cols": 8, "filled_pct": 78.9}, {"table": "d004__2024__1kv__kv_vopr12", "rows": 6882, "cols": 12, "filled_pct": 81.0}, {"table": "1t_kv__2kv2023", "rows": 1438249, "cols": 10, "filled_pct": 83.1}, {"table": "1t_kv__3kv2022", "rows": 1619210, "cols": 10, "filled_pct": 83.1}, {"table": "1t_kv__2kv2022", "rows": 1562755, "cols": 10, "filled_pct": 83.1}, {"table": "1t_kv__1kv2023", "rows": 1416073, "cols": 10, "filled_pct": 83.1}, {"table": "1t_kv__4kv2022", "rows": 1631009, "cols": 10, "filled_pct": 83.1}, {"table": "1t_kv__1kv2022", "rows": 1555073, "cols": 10, "filled_pct": 83.1}, {"table": "1t_kv__3kv2023", "rows": 1468595, "cols": 10, "filled_pct": 83.2}, {"table": "d004__2021__1kv__kv_vopr6", "rows": 36743, "cols": 10, "filled_pct": 85.1}, {"table": "d004__2023__1kv__kv_vopr6", "rows": 42121, "cols": 10, "filled_pct": 85.2}, {"table": "d004__2024__1kv__kv_vopr6", "rows": 44054, "cols": 10, "filled_pct": 85.6}, {"table": "d004__2022__1kv__kv_vopr6", "rows": 39345, "cols": 10, "filled_pct": 86.0}, {"table": "d004__2021__1kv__kv_vopr12", "rows": 5601, "cols": 9, "filled_pct": 86.8}, {"table": "d004__2023__1kv__kv_vopr12", "rows": 6063, "cols": 9, "filled_pct": 86.9}, {"table": "d004__2022__1kv__kv_vopr12", "rows": 5692, "cols": 9, "filled_pct": 87.2}, {"table": "d004__2021__1kv__kv_vopr1", "rows": 268143, "cols": 9, "filled_pct": 88.9}, {"table": "d004__2022__1kv__kv_vopr1", "rows": 270907, "cols": 9, "filled_pct": 88.9}, {"table": "1t_kv__4kv2023", "rows": 1466320, "cols": 16, "filled_pct": 89.5}, {"table": "d004__2024__1kv__kv_vopr1", "rows": 269130, "cols": 10, "filled_pct": 90.0}, {"table": "d004__2023__1kv__kv_vopr1", "rows": 267827, "cols": 10, "filled_pct": 90.0}, {"table": "2t__2_t_oplata_truda_2021", "rows": 1884114, "cols": 13, "filled_pct": 91.5}, {"table": "1t_kv__1t_kv_12_2024", "rows": 1515869, "cols": 10, "filled_pct": 92.4}, {"table": "1t_kv__1t_kv_09_2024", "rows": 1506346, "cols": 10, "filled_pct": 92.4}, {"table": "1t_kv__1t_kv_03_2024", "rows": 1456083, "cols": 10, "filled_pct": 92.5}, {"table": "1t_kv__1t_kv_06_2024", "rows": 1485615, "cols": 10, "filled_pct": 92.5}, {"table": "2t__2_t_oplata_truda_2023", "rows": 1748127, "cols": 16, "filled_pct": 92.8}, {"table": "2t__2_t_oplata_truda_2022", "rows": 1708363, "cols": 16, "filled_pct": 92.9}, {"table": "2t__sr_2t_ot_god_04_2024_parol_2025", "rows": 1988210, "cols": 20, "filled_pct": 94.3}, {"table": "d004__2021__1kv__kv_vopr11", "rows": 24680, "cols": 33, "filled_pct": 97.0}, {"table": "d004__2023__1kv__kv_vopr10", "rows": 7556, "cols": 11, "filled_pct": 97.5}, {"table": "d004__2022__1kv__kv_vopr10", "rows": 7956, "cols": 11, "filled_pct": 97.9}, {"table": "d004__2024__1kv__kv_vopr10", "rows": 8107, "cols": 12, "filled_pct": 98.2}, {"table": "d004__2021__1kv__kv_vopr10", "rows": 7653, "cols": 12, "filled_pct": 98.3}, {"table": "d004__2024__1kv__kv_vopr2", "rows": 65466, "cols": 9, "filled_pct": 99.2}, {"table": "d004__2023__1kv__kv_vopr2", "rows": 64324, "cols": 9, "filled_pct": 99.3}, {"table": "d004__2021__1kv__kv_vopr2", "rows": 63983, "cols": 9, "filled_pct": 99.5}, {"table": "d004__2022__1kv__kv_vopr2", "rows": 63392, "cols": 9, "filled_pct": 99.6}, {"table": "d004__2023__1kv__kv_vopr4", "rows": 3018, "cols": 8, "filled_pct": 100.0}, {"table": "d004__2022__1kv__kv_vopr4", "rows": 2583, "cols": 8, "filled_pct": 100.0}, {"table": "d004__2022__1kv__kv_vopr3", "rows": 27068, "cols": 8, "filled_pct": 100.0}, {"table": "d004__2022__1kv__kv_vopr5", "rows": 4361, "cols": 8, "filled_pct": 100.0}, {"table": "d004__2022__1kv__kv_vopr7", "rows": 15010, "cols": 8, "filled_pct": 100.0}, {"table": "d004__2021__1kv__kv_vopr7", "rows": 14330, "cols": 8, "filled_pct": 100.0}, {"table": "d004__2021__1kv__kv_vopr4", "rows": 1737, "cols": 8, "filled_pct": 100.0}, {"table": "d004__2021__1kv__kv_vopr0", "rows": 12000, "cols": 6, "filled_pct": 100.0}, {"table": "d004__2021__1kv__kv_vopr3", "rows": 26787, "cols": 8, "filled_pct": 100.0}, {"table": "d004__2022__1kv__kv_vopr0", "rows": 12000, "cols": 6, "filled_pct": 100.0}, {"table": "d004__2021__1kv__kv_vopr5", "rows": 5270, "cols": 8, "filled_pct": 100.0}, {"table": "d004__2022__1kv__kv_vopr11", "rows": 24874, "cols": 33, "filled_pct": 100.0}, {"table": "d002__2021__subject", "rows": 11953, "cols": 52, "filled_pct": 100.0}, {"table": "d002__2022__subject", "rows": 11934, "cols": 48, "filled_pct": 100.0}, {"table": "d004__2023__1kv__kv_vopr3", "rows": 27403, "cols": 8, "filled_pct": 100.0}, {"table": "d004__2023__1kv__kv_vopr0", "rows": 12000, "cols": 6, "filled_pct": 100.0}, {"table": "d004__2023__1kv__kv_vopr11", "rows": 24831, "cols": 33, "filled_pct": 100.0}, {"table": "d004__2023__1kv__kv_vopr7", "rows": 15573, "cols": 8, "filled_pct": 100.0}, {"table": "d004__2023__1kv__kv_vopr5", "rows": 4398, "cols": 8, "filled_pct": 100.0}, {"table": "d004__2024__1kv__kv_vopr0", "rows": 12000, "cols": 6, "filled_pct": 100.0}, {"table": "d004__2024__1kv__kv_vopr11", "rows": 24535, "cols": 33, "filled_pct": 100.0}, {"table": "d004__2024__1kv__kv_vopr7", "rows": 16355, "cols": 8, "filled_pct": 100.0}, {"table": "d004__2024__1kv__kv_vopr5", "rows": 4511, "cols": 8, "filled_pct": 100.0}, {"table": "d004__2024__1kv__kv_vopr3", "rows": 26191, "cols": 8, "filled_pct": 100.0}, {"table": "d004__2024__1kv__kv_vopr4", "rows": 2843, "cols": 8, "filled_pct": 100.0}], "inventory": [{"form": "1t_god", "files": 4, "rows": 30025899, "csv_gb": 2.12, "unit": "предприятие × показатель"}, {"form": "1t_kv", "files": 16, "rows": 24480242, "csv_gb": 1.36, "unit": "предприятие × показатель"}, {"form": "2t", "files": 4, "rows": 7328814, "csv_gb": 0.61, "unit": "предприятие × показатель"}, {"form": "t001", "files": 4, "rows": 1885110, "csv_gb": 0.16, "unit": "респондент"}, {"form": "d004", "files": 192, "rows": 8612484, "csv_gb": 0.4, "unit": "покупка / доход"}, {"form": "d008", "files": 4, "rows": 169059, "csv_gb": 0.01, "unit": "член домохозяйства"}, {"form": "d006", "files": 4, "rows": 46743, "csv_gb": 0.02, "unit": "домохозяйство"}, {"form": "d002", "files": 8, "rows": 95542, "csv_gb": 0.01, "unit": "домохозяйство"}]};
+const css = k => getComputedStyle(document.documentElement).getPropertyValue(k).trim();
+const A = () => css('--accent'), A2 = () => css('--accent2'), A3 = () => css('--accent3'), DG = () => css('--danger');
+Chart.defaults.font.family = "'IBM Plex Sans', sans-serif";
+Chart.defaults.font.size = 12;
+Chart.defaults.color = css('--muted');
+const gridc = () => ({ color: css('--grid'), drawTicks: false });
+const YEARS = [2021, 2022, 2023, 2024];
+const fmt = n => n.toLocaleString('ru-RU');
+
+// KPIs
+const kpi = [
+  ['72,6 млн', 'строк во всех формах'],
+  ['236', 'таблиц в 8 формах'],
+  ['4,68 ГБ → 301 МБ', 'CSV → parquet zstd'],
+  ['20', 'регионов с 2022 года (было 17)'],
+  ['65,9%', 'занятость в 2024 (−1,7 п.п. к 2021)'],
+  ['+69% / +43%', 'рост доходов / расходов']
+];
+document.getElementById('kpis').innerHTML = kpi.map(k => `<div class="kpi"><div class="v">${k[0]}</div><div class="l">${k[1]}</div></div>`).join('');
+
+// tabs
+document.querySelectorAll('nav button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('nav button').forEach(x => x.setAttribute('aria-selected', x === b));
+  document.querySelectorAll('section').forEach(s => s.hidden = s.id !== b.dataset.t);
+});
+
+// inventory table
+const inv = D.inventory;
+document.getElementById('tbl-inv').innerHTML =
+  `<thead><tr><th>Форма</th><th>Единица наблюдения</th><th>Файлов</th><th>Строк</th><th>CSV, ГБ</th></tr></thead><tbody>` +
+  inv.map(r => `<tr><td class="mono">${r.form}</td><td>${r.unit}</td><td>${r.files}</td><td class="mono">${fmt(r.rows)}</td><td class="mono">${r.csv_gb.toFixed(2)}</td></tr>`).join('') +
+  `</tbody>`;
+
+const mk = (id, cfg) => new Chart(document.getElementById(id), cfg);
+const barOpts = (extra = {}) => Object.assign({
+  responsive: true, maintainAspectRatio: false,
+  plugins: { legend: { display: false } },
+  scales: { x: { grid: { display: false } }, y: { grid: gridc(), beginAtZero: true } }
+}, extra);
+
+mk('c-inv', {
+  type: 'bar',
+  data: { labels: inv.map(r => r.form), datasets: [{ data: inv.map(r => r.rows), backgroundColor: A(), borderRadius: 4 }] },
+  options: barOpts({ scales: { x: { grid: { display: false } }, y: { type: 'logarithmic', grid: gridc() } } })
+});
+
+mk('c-firms', {
+  type: 'bar',
+  data: { labels: D.firms.map(r => r.yr), datasets: [{ data: D.firms.map(r => r.firms), backgroundColor: D.firms.map(r => r.yr === 2024 ? DG() : A()), borderRadius: 4 }] },
+  options: barOpts()
+});
+
+// labour
+const lab = D.labour;
+mk('c-lab', {
+  type: 'line',
+  data: {
+    labels: YEARS,
+    datasets: [
+      { label: 'Занятость, %', data: lab.map(r => r.emp_rate), borderColor: A(), backgroundColor: A(), tension: .25, yAxisID: 'y' },
+      { label: 'Ищут работу, %', data: lab.map(r => r.searching), borderColor: A2(), backgroundColor: A2(), tension: .25, yAxisID: 'y1' },
+      { label: 'Без договора, %', data: lab.map(r => r.no_contract), borderColor: DG(), backgroundColor: DG(), borderDash: [5, 4], tension: .25, yAxisID: 'y1' }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, usePointStyle: true } } },
+    scales: {
+      x: { grid: { display: false } },
+      y: { position: 'left', grid: gridc(), min: 60, max: 70, title: { display: true, text: 'занятость, %' } },
+      y1: { position: 'right', grid: { display: false }, min: 0, max: 8, title: { display: true, text: 'прочее, %' } }
+    }
+  }
+});
+
+mk('c-sex', {
+  type: 'bar',
+  data: {
+    labels: YEARS,
+    datasets: [
+      { label: 'Мужчины', data: lab.map(r => r.emp_male), backgroundColor: A(), borderRadius: 4 },
+      { label: 'Женщины', data: lab.map(r => r.emp_female), backgroundColor: A2(), borderRadius: 4 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, usePointStyle: true } } },
+    scales: { x: { grid: { display: false } }, y: { grid: gridc(), min: 55, max: 75 } }
+  }
+});
+
+const er = D.emp_region.slice().sort((a, b) => (a.change == null ? 99 : a.change) - (b.change == null ? 99 : b.change));
+mk('c-reg', {
+  type: 'bar',
+  data: {
+    labels: er.map(r => r.name || r.reg),
+    datasets: [
+      { label: '2021', data: er.map(r => r['2021']), backgroundColor: css('--muted'), borderRadius: 3 },
+      { label: '2024', data: er.map(r => r['2024']), backgroundColor: A(), borderRadius: 3 }
+    ]
+  },
+  options: {
+    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, usePointStyle: true } } },
+    scales: { x: { grid: gridc(), min: 50, title: { display: true, text: '% занятых' } }, y: { grid: { display: false } } }
+  }
+});
+
+const ages = [...new Set(D.age_sex.map(r => r.ag))];
+mk('c-age', {
+  type: 'bar',
+  data: {
+    labels: ages,
+    datasets: [
+      { label: 'Мужчины', data: ages.map(a => (D.age_sex.find(r => r.ag === a && r.sex === 1) || {}).emp), backgroundColor: A(), borderRadius: 4 },
+      { label: 'Женщины', data: ages.map(a => (D.age_sex.find(r => r.ag === a && r.sex === 2) || {}).emp), backgroundColor: A2(), borderRadius: 4 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, usePointStyle: true } } },
+    scales: { x: { grid: { display: false } }, y: { grid: gridc(), beginAtZero: true, max: 100 } }
+  }
+});
+
+const ir = D.inf_region.slice().sort((a, b) => (b['2024'] || 0) - (a['2024'] || 0)).slice(0, 10);
+mk('c-inf', {
+  type: 'bar',
+  data: {
+    labels: ir.map(r => r.name || r.reg),
+    datasets: [
+      { label: '2021', data: ir.map(r => r['2021']), backgroundColor: css('--muted'), borderRadius: 3 },
+      { label: '2024', data: ir.map(r => r['2024']), backgroundColor: ir.map(r => (r['2024'] > 30 ? DG() : A())), borderRadius: 3 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, usePointStyle: true } } },
+    scales: { x: { grid: { display: false }, ticks: { maxRotation: 55, minRotation: 45 } }, y: { grid: gridc(), beginAtZero: true } }
+  }
+});
+
+// households
+const inc = D.income, spq = D.spend_q;
+const incIdx = inc.map(r => 100 * r.wage_per_hh_month / inc[0].wage_per_hh_month);
+const spIdx = spq.map(r => 100 * r.total / spq[0].total);
+mk('c-ie', {
+  type: 'line',
+  data: {
+    labels: YEARS,
+    datasets: [
+      { label: 'Доходы', data: incIdx, borderColor: A3(), backgroundColor: A3(), tension: .25 },
+      { label: 'Расходы', data: spIdx, borderColor: A2(), backgroundColor: A2(), tension: .25 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, usePointStyle: true } } },
+    scales: { x: { grid: { display: false } }, y: { grid: gridc(), min: 95 } }
+  }
+});
+
+const co = D.coicop.filter(r => r['2024'] > 1e8);
+mk('c-co', {
+  type: 'bar',
+  data: {
+    labels: co.map(r => r.name),
+    datasets: YEARS.map((y, i) => ({
+      label: String(y), data: co.map(r => r[y] / 1e9),
+      backgroundColor: [css('--muted'), A3(), A2(), A()][i], borderRadius: 3
+    }))
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, usePointStyle: true } } },
+    scales: { x: { grid: { display: false }, ticks: { maxRotation: 55, minRotation: 45 } }, y: { grid: gridc(), beginAtZero: true } }
+  }
+});
+
+const cog = co.map(r => ({ name: r.name, g: 100 * (r['2024'] / r['2021'] - 1) })).sort((a, b) => b.g - a.g);
+mk('c-cog', {
+  type: 'bar',
+  data: { labels: cog.map(r => r.name), datasets: [{ data: cog.map(r => r.g), backgroundColor: A3(), borderRadius: 3 }] },
+  options: {
+    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: { x: { grid: gridc(), title: { display: true, text: '% роста за 3 года' } }, y: { grid: { display: false } } }
+  }
+});
+
+const ur = [['Площадь жилья, м²','65,1','82,4'],['Удобств из 42','12,7','11,9'],
+  ['Размер домохозяйства','4,21','4,90'],['Уровень занятости, %','64,4','67,0'],
+  ['Работа без договора, %','2,8','7,2'],['Домохозяйств в выборке','6 375','5 329']];
+document.getElementById('tbl-ur').innerHTML =
+  `<thead><tr><th>Показатель, 2024</th><th>K = 1 (похоже на город)</th><th>K = 2 (похоже на село)</th></tr></thead><tbody>` +
+  ur.map(r=>`<tr><td style="text-align:left">${r[0]}</td><td class="mono">${r[1]}</td><td class="mono">${r[2]}</td></tr>`).join('') + `</tbody>`;
+
+document.getElementById('tbl-hz').innerHTML =
+  `<thead><tr><th>Год</th><th>Домохозяйств</th><th>Площадь, м²</th><th>Комнат</th><th>Удобств из 42</th></tr></thead><tbody>` +
+  D.housing.map(r => `<tr><td class="mono">${r.yr}</td><td class="mono">${fmt(r.hh)}</td><td class="mono">${r.area.toFixed(1)}</td><td class="mono">${r.rooms.toFixed(1)}</td><td class="mono">${r.amenities_of_42.toFixed(1)}</td></tr>`).join('') + `</tbody>`;
+
+// quality
+const drift = [
+  ['Колонка со значением', 'GR1', 'GR1', 'GR1', 'VAL_NUM', 'переименование в 2024'],
+  ['Колонка региона', 'KATO', 'KATO', 'KATO', 'KATO1', 'двузначный → девятизначный код'],
+  ['Колонок в 1-Т годовой', '16', '18', '19', '30', 'схема расширяется каждый год'],
+  ['Кодов ОКЭД в 1-Т', '83', '—', '—', '539', 'двузначный → пятизначный'],
+  ['Регионов в выборке', '17', '20', '20', '20', 'реформа 2022: Абай, Жетісу, Ұлытау'],
+  ['Предприятий в 1-Т', '70 874', '77 994', '83 754', '52 289', 'смена охвата в 2024'],
+  ['Колонок в 1-Т квартальной', '8', '10', '10 / 16', '10', '4 кв. 2023 выбивается']
+];
+document.getElementById('tbl-drift').innerHTML =
+  `<thead><tr><th>Что меняется</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>Комментарий</th></tr></thead><tbody>` +
+  drift.map(r => `<tr><td>${r[0]}</td><td class="mono">${r[1]}</td><td class="mono">${r[2]}</td><td class="mono">${r[3]}</td><td class="mono">${r[4]}</td><td style="text-align:left;white-space:normal;color:var(--muted)">${r[5]}</td></tr>`).join('') + `</tbody>`;
+
+const cp = D.completeness.slice(0, 22);
+mk('c-comp', {
+  type: 'bar',
+  data: { labels: cp.map(r => r.table), datasets: [{ data: cp.map(r => r.filled_pct), backgroundColor: cp.map(r => r.filled_pct < 45 ? A2() : A()), borderRadius: 3 }] },
+  options: {
+    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: { x: { grid: gridc(), max: 100, title: { display: true, text: '% непустых ячеек' } }, y: { grid: { display: false }, ticks: { font: { size: 10 } } } }
+  }
+});
+
+const checks = [
+  ['Алматинская область, ORB_TRDDOG', 'скачок до 40,7% в 2024 при стабильной базе', 'исключить регион или объяснить как артефакт'],
+  ['T-001, 2022, строка 26332', 'запятая внутри кавычек ломает автопарсер', 'читать с quote=\'"\''],
+  ['1-Т, 2-Т, коды KCP', 'справочника нет, до 18 строк на предприятие и код', 'запросить справочник, не считать абсолютные величины'],
+  ['D-серия, панель по годам', 'номера домохозяйств перевыдаются: совпадение региона по одному номеру 5,4% при случайном уровне 5%', 'только повторные срезы, не панель'],
+  ['Поле K', 'это не номер домохозяйства, а неподписанный признак город/село', 'использовать как разрез, направление кодировки уточнить'],
+  ['Продукты питания', 'дневник питания (D-001) в архив не включён', 'коэффициент Энгеля напрямую не считается'],
+  ['NEET', 'в выгрузке нет признака обучения', 'переопределить индикатор и защитить определение']
+];
+document.getElementById('tbl-check').innerHTML =
+  `<thead><tr><th>Где</th><th>Что не так</th><th>Что делать</th></tr></thead><tbody>` +
+  checks.map(r => `<tr><td style="text-align:left;white-space:normal">${r[0]}</td><td style="text-align:left;white-space:normal;color:var(--muted)">${r[1]}</td><td style="text-align:left;white-space:normal">${r[2]}</td></tr>`).join('') + `</tbody>`;
+</script>
+</body>
+</html>

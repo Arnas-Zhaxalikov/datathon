@@ -1,0 +1,3 @@
+settlement,hh,hh_size,children,elderly,emp_ratio,area_m2,area_pc,amenities_42,durables_46,income_month,spend_month,savings_rate,has_land_pct,satisfaction
+город / urban,6603,3.26,0.89,0.32,0.403,65.1,26.3,12.7,15.4,344988.0,126926.0,63.5,20.2,7.42
+село / rural,5397,3.77,1.07,0.36,0.392,82.4,29.7,11.9,16.8,388289.0,121706.0,68.6,85.3,7.63

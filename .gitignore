@@ -1,0 +1,13 @@
+# Данные организатора и промежуточные файлы / organiser's data and intermediates
+data/
+!data/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# OS
+.DS_Store
