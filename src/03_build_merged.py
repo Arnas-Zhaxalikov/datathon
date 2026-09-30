@@ -1,9 +1,4 @@
-"""
-Сборка единой таблицы домохозяйств из форм D-серии / Building the merged household table from the D-series.
-
-Ключ связи / join key: NOMER (идентификатор домохозяйства внутри года).
-Формы / forms: d008 (состав), d006 (жильё), d004 (расходы и доходы), d002 (субъективные оценки).
-"""
+"""Сборка единой таблицы домохозяйств из форм D-серии по ключу NOMER."""
 import duckdb, glob, os, pandas as pd
 
 con = duckdb.connect()
@@ -13,7 +8,7 @@ os.makedirs(OUT, exist_ok=True)
 
 AMEN = " + ".join([f"case when cast(U{i} as varchar)='1' then 1 else 0 end" for i in range(1, 43)])
 TDP  = " + ".join([f"case when TDP{i} is not null then 1 else 0 end" for i in range(1, 47)])
-# шкалы удовлетворённости: значения >10 — служебные коды («затрудняюсь», «не применимо»)
+# значения >10 в шкалах удовлетворённости — служебные коды
 SAT  = " , ".join([f"case when GR{i} <= 10 then GR{i} end" for i in range(1, 6)])
 
 frames = []
@@ -68,26 +63,26 @@ for Y in (2021, 2022, 2023, 2024):
     """
     df = con.execute(q).df()
     frames.append(df)
-    print(f"{Y}: {len(df):,} домохозяйств / households, "
-          f"жильё {df.area_total.notna().sum():,}, доходы {df.income_total.notna().sum():,}, "
-          f"расходы {df.spend_total.notna().sum():,}, оценки {df.sat_mean.notna().sum():,}")
+    print(f"{Y}: {len(df):,} домохозяйств, жильё {df.area_total.notna().sum():,}, "
+          f"доходы {df.income_total.notna().sum():,}, расходы {df.spend_total.notna().sum():,}, "
+          f"оценки {df.sat_mean.notna().sum():,}")
 
 m = pd.concat(frames, ignore_index=True)
 
-# Производные признаки / derived features
+# Производные признаки
 m["income_pc"]     = m.income_total / m.hh_size
 m["spend_pc"]      = m.spend_total / m.hh_size
 m["savings_abs"]   = m.income_total - m.spend_total
 m["savings_rate"]  = 100 * m.savings_abs / m.income_total
 m["area_pc"]       = m.area_total / m.hh_size
-m["dep_index"]     = 100 * (1 - m.amenities_42 / 42)      # индекс жилищной депривации
-m["settlement"]    = m.K.map({1: "город / urban", 2: "село / rural"})
+m["dep_index"]     = 100 * (1 - m.amenities_42 / 42)
+m["settlement"]    = m.K.map({1: "город", 2: "село"})
 m["emp_ratio"]     = m.n_employed / m.hh_size
 
 con.register("m_df", m)
 con.execute(f"copy m_df to '{OUT}/households_2021_2024.parquet' (format parquet, compression zstd)")
 m.to_csv(f"{OUT}/households_2021_2024.csv", index=False)
-print(f"\nИтого / total: {len(m):,} строк, {m.shape[1]} колонок")
-print(f"Файл / file: {OUT}/households_2021_2024.parquet "
+print(f"\nИтого: {len(m):,} строк, {m.shape[1]} колонок")
+print(f"Файл: {OUT}/households_2021_2024.parquet "
       f"({os.path.getsize(f'{OUT}/households_2021_2024.parquet')/1e6:.1f} МБ)")
-print("\nКолонки / columns:", list(m.columns))
+print("\nКолонки:", list(m.columns))

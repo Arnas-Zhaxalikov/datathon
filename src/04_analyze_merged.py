@@ -1,6 +1,4 @@
-"""
-Анализ объединённой таблицы домохозяйств / Analysis of the merged household table.
-"""
+"""Анализ объединённой таблицы домохозяйств."""
 import duckdb, pandas as pd, numpy as np, os
 
 con = duckdb.connect()
@@ -10,7 +8,7 @@ os.makedirs("outputs/aggregates", exist_ok=True)
 pd.set_option("display.width", 220)
 sep = lambda t: print("\n" + "=" * 78 + f"\n{t}\n" + "=" * 78)
 
-sep("1. КОНТРОЛЬ СУММ / SANITY CHECK — среднее на домохозяйство в месяц, тенге")
+sep("1. КОНТРОЛЬ СУММ — среднее на домохозяйство в месяц, тенге")
 chk = con.execute("""
   select year,
          count(*) as hh,
@@ -23,7 +21,7 @@ chk = con.execute("""
 print(chk.to_string(index=False))
 chk.to_csv("outputs/aggregates/m_totals_by_year.csv", index=False)
 
-sep("2. РАЗРЫВ СБЕРЕЖЕНИЙ / THE SAVINGS GAP — норма сбережений, %")
+sep("2. РАЗРЫВ СБЕРЕЖЕНИЙ — норма сбережений, %")
 gap = con.execute("""
   select year, settlement,
          count(*) as hh,
@@ -36,7 +34,7 @@ gap = con.execute("""
 print(gap.to_string(index=False))
 gap.to_csv("outputs/aggregates/m_savings_gap.csv", index=False)
 
-sep("3. РАЗРЫВ ПО КВИНТИЛЯМ ДОХОДА, 2024 / SAVINGS GAP BY INCOME QUINTILE")
+sep("3. РАЗРЫВ ПО КВИНТИЛЯМ ДОХОДА, 2024")
 qt = con.execute("""
   with q as (select *, ntile(5) over (order by income_pc) as quintile
              from m where year = 2024 and income_total > 0 and spend_total > 0)
@@ -51,7 +49,7 @@ qt = con.execute("""
 print(qt.to_string(index=False))
 qt.to_csv("outputs/aggregates/m_quintiles_2024.csv", index=False)
 
-sep("4. ГОРОД И СЕЛО — полный профиль, 2024 / URBAN vs RURAL PROFILE")
+sep("4. ГОРОД И СЕЛО — полный профиль, 2024")
 ur = con.execute("""
   select settlement, count(*) as hh,
          round(avg(hh_size),2) as hh_size, round(avg(n_child),2) as children,
@@ -66,7 +64,7 @@ ur = con.execute("""
 print(ur.T.to_string())
 ur.to_csv("outputs/aggregates/m_urban_rural_2024.csv", index=False)
 
-sep("5. ЖИЛИЩНАЯ ДЕПРИВАЦИЯ ПО РЕГИОНАМ, 2024 / HOUSING DEPRIVATION BY REGION")
+sep("5. ЖИЛИЩНАЯ ДЕПРИВАЦИЯ ПО РЕГИОНАМ, 2024")
 KATO = {10:"Абай",11:"Акмолинская",15:"Актюбинская",19:"Алматинская",23:"Атырауская",27:"ЗКО",
         31:"Жамбылская",33:"Жетісу",35:"Карагандинская",39:"Костанайская",43:"Кызылординская",
         47:"Мангистауская",55:"Павлодарская",59:"СКО",61:"Туркестанская",62:"Ұлытау",63:"ВКО",
@@ -82,7 +80,7 @@ dep["region"] = dep.TE.map(KATO)
 print(dep[["region","hh","amenities","deprivation","income_month","area_pc","rural_pct"]].to_string(index=False))
 dep.to_csv("outputs/aggregates/m_deprivation_by_region.csv", index=False)
 
-sep("6. ТИПЫ ДОМОХОЗЯЙСТВ, 2024 / HOUSEHOLD TYPES")
+sep("6. ТИПЫ ДОМОХОЗЯЙСТВ, 2024")
 ht = con.execute("""
   with t as (select *,
        case when hh_size = 1 then 'одиночка / single'
@@ -99,18 +97,18 @@ ht = con.execute("""
 print(ht.to_string(index=False))
 ht.to_csv("outputs/aggregates/m_household_types_2024.csv", index=False)
 
-sep("7. МЕЖФОРМЕННЫЕ КОРРЕЛЯЦИИ / CROSS-FORM CORRELATIONS (README: ослаблены ~вдвое)")
+sep("7. КОРРЕЛЯЦИИ МЕЖДУ ПРИЗНАКАМИ (README обещает ослабление примерно вдвое)")
 df = con.execute("select * from m where year = 2024").df()
 pairs = [
-    ("area_total","hh_size","площадь жилья ~ размер домохозяйства / dwelling area ~ hh size"),
-    ("area_total","n_child","площадь ~ число детей / area ~ children"),
-    ("amenities_42","income_total","благоустройство ~ доход / amenities ~ income"),
-    ("durables_46","income_total","предметы ДП ~ доход / durables ~ income"),
-    ("income_total","spend_total","доход ~ расход / income ~ spending"),
-    ("income_pc","sat_mean","доход на душу ~ удовлетворённость / income pc ~ satisfaction"),
-    ("amenities_42","sat_mean","благоустройство ~ удовлетворённость / amenities ~ satisfaction"),
-    ("head_edu","income_total","образование главы ~ доход / head education ~ income"),
-    ("emp_ratio","income_pc","доля занятых ~ доход на душу / employment ratio ~ income pc"),
+    ("area_total","hh_size","площадь жилья ~ размер домохозяйства"),
+    ("area_total","n_child","площадь жилья ~ число детей"),
+    ("amenities_42","income_total","благоустройство ~ доход"),
+    ("durables_46","income_total","предметы ДП ~ доход"),
+    ("income_total","spend_total","доход ~ расход"),
+    ("income_pc","sat_mean","доход на душу ~ удовлетворённость"),
+    ("amenities_42","sat_mean","благоустройство ~ удовлетворённость"),
+    ("head_edu","income_total","образование главы ~ доход"),
+    ("emp_ratio","income_pc","доля занятых ~ доход на душу"),
 ]
 rows = []
 for a, b, label in pairs:
@@ -122,30 +120,28 @@ cor = pd.DataFrame(rows)
 print(cor.to_string(index=False))
 cor.to_csv("outputs/aggregates/m_correlations_2024.csv", index=False)
 
-sep("8. РЕГРЕССИЯ: что объясняет доход на душу, 2024 / OLS: drivers of income per capita")
+sep("8. РЕГРЕССИЯ: что объясняет доход на душу, 2024")
 d = df[["income_pc","head_edu","emp_ratio","amenities_42","durables_46","hh_size","K","n_child"]].dropna()
 d = d[(d.income_pc > 0) & (d.income_pc < d.income_pc.quantile(0.99))]
 y = np.log(d.income_pc.values)
 X = np.column_stack([np.ones(len(d)), d.head_edu, d.emp_ratio, d.amenities_42,
                      d.durables_46, d.hh_size, (d.K == 2).astype(float), d.n_child])
-names = ["const","образование главы / head edu","доля занятых / emp ratio",
-         "благоустройство / amenities","предметы ДП / durables","размер дх / hh size",
-         "село / rural","дети / children"]
+names = ["константа", "образование главы", "доля занятых", "благоустройство",
+         "предметы ДП", "размер домохозяйства", "село", "число детей"]
 beta, *_ = np.linalg.lstsq(X, y, rcond=None)
 resid = y - X @ beta
 s2 = resid @ resid / (len(y) - X.shape[1])
 se = np.sqrt(np.diag(s2 * np.linalg.inv(X.T @ X)))
 tv = beta / se
 r2 = 1 - (resid @ resid) / ((y - y.mean()) @ (y - y.mean()))
-ols = pd.DataFrame({"переменная / variable": names, "коэффициент / coef": beta.round(4),
-                    "ст.ошибка / se": se.round(4), "t": tv.round(1)})
+ols = pd.DataFrame({"переменная": names, "коэффициент": beta.round(4),
+                    "ст.ошибка": se.round(4), "t": tv.round(1)})
 print(ols.to_string(index=False))
-print(f"\nn = {len(d):,},  R² = {r2:.3f}   (зависимая: log дохода на душу / dependent: log income per capita)")
-print("ВАЖНО / NOTE: стандартные ошибки на синтетике занижены (README), значимость трактовать осторожно.")
-print("Standard errors are understated on synthetic data — treat significance cautiously.")
+print(f"\nn = {len(d):,},  R² = {r2:.3f}   (зависимая переменная: log дохода на душу)")
+print("Стандартные ошибки на синтетике занижены (README организатора) — значимость трактовать осторожно.")
 ols.to_csv("outputs/aggregates/m_ols_income_2024.csv", index=False)
 
-sep("9. ДИНАМИКА НОРМЫ СБЕРЕЖЕНИЙ 2021-2024 / SAVINGS RATE DYNAMICS")
+sep("9. ДИНАМИКА НОРМЫ СБЕРЕЖЕНИЙ, 2021–2024")
 dyn = con.execute("""
   select year,
          round(median(case when settlement like 'город%' then savings_rate end),1) as urban,
@@ -154,16 +150,12 @@ dyn = con.execute("""
   from m where income_total > 0 and spend_total > 0 group by year order by year""").df()
 print(dyn.to_string(index=False))
 dyn.to_csv("outputs/aggregates/m_savings_dynamics.csv", index=False)
-print("\nГотово. Агрегаты в agg/ / Done. Aggregates written to outputs/aggregates/")
+print("\nГотово. Агрегаты в outputs/aggregates/")
 
-sep("10. ПРОВЕРКА РАЗРЫВА: полнота расходов / TESTING THE GAP: expenditure completeness")
-print("""Расходы (spend_total) собраны по вопросам 1-7, где есть денежное поле STOIMK.
-Продовольствие записано в вопросах 9-10 в натуральных/смешанных единицах и в STOIMK не попадает.
-Ниже — верхняя граница: все числовые поля вопросов 9-10 засчитаны как тенге.
-
-Spending (spend_total) comes from questions 1-7, which carry the monetary field STOIMK.
-Food sits in questions 9-10 in physical/mixed units and never reaches STOIMK.
-Below is an upper bound: every numeric field of q9-q10 counted as tenge.""")
+sep("10. ПРОВЕРКА РАЗРЫВА: полнота расходов")
+print("""Расходы собраны по вопросам 1-7, где есть денежное поле STOIMK.
+Продовольствие записано в вопросах 9-10 в натуральных и смешанных единицах и в STOIMK не попадает.
+Ниже — верхняя граница: все числовые поля вопросов 9-10 засчитаны как тенге.""")
 import glob as _g
 parts = []
 for v in (9, 10):
@@ -187,13 +179,8 @@ sens = con.execute("""
 print(sens.to_string(index=False))
 sens.to_csv("outputs/aggregates/m_gap_sensitivity.csv", index=False)
 print("""
-ВЫВОД / CONCLUSION
+ВЫВОД
 Даже при самой щедрой оценке продовольствия норма сбережений остаётся около 57%.
 Реальный показатель для Казахстана — порядка 10-15%. Значит, разрыв не поведенческий:
 блоки доходов и расходов в синтетике откалиброваны независимо, и их совместное
-распределение не воспроизведено. Это ограничение достоверности, НЕ указанное в README.
-
-Even under the most generous food estimate the savings rate stays near 57%.
-The real figure for Kazakhstan is on the order of 10-15%. The gap is therefore not
-behavioural: the income and expenditure blocks were calibrated independently and their
-joint distribution is not reproduced. This is a fidelity limitation NOT listed in the README.""")
+распределение не воспроизведено. Это ограничение достоверности не указано в README.""")
