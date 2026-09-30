@@ -31,8 +31,7 @@
     "labour",
     "regions",
     "households",
-    "limits",
-    "plan"
+    "limits"
   ],
   "sections": {
     "s1": {
@@ -52,7 +51,7 @@
       "start": "urbanrural"
     },
     "s5": {
-      "description": "Ограничения достоверности и план работ до финала",
+      "description": "Ограничения достоверности данных",
       "start": "limits"
     }
   },

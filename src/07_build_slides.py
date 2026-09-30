@@ -15,7 +15,7 @@ MONO = "'IBM Plex Mono', 'Courier New', monospace"
 IMG = json.loads(pathlib.Path("/tmp/blobs.json").read_text())
 
 
-def chrome(kicker, num, total=11):
+def chrome(kicker, num, total=10):
     """Верхняя строка: рубрика слева, номер справа, под ними жирная линейка."""
     return (f'<div style="display:flex;justify-content:space-between;align-items:baseline;'
             f'border-bottom:3px solid {RULE};padding:0 0 14px">'
@@ -117,7 +117,7 @@ cover = (
       f'<p style="font-family:{DISPLAY};font-size:34px;font-weight:500;letter-spacing:0.5px;'
       f'color:{INK}">Команда «Котлы чудес»</p>'
       f'<p style="font-size:24px;color:{INK2}">Арнас Жаксаликов &middot; Аружан Болат</p></div>'
-      f'<p style="font-family:{MONO};font-size:22px;color:{MUTED}">01 / 11</p></div>'
+      f'<p style="font-family:{MONO};font-size:22px;color:{MUTED}">01 / 10</p></div>'
 )
 slide("cover", cover,
       "Мы обработали весь архив целиком, а не выборку: двести тридцать шесть таблиц, семьдесят два "
@@ -280,7 +280,7 @@ slide("regions",
       + f'<div style="width:858px;display:flex;flex-direction:column;gap:26px">'
       + stats([("+6,3", "п.п. в Астане — единственный выраженный рост", TEAL),
                ("−5,1", "п.п. в ВКО, следом СКО с −3,6", RED)])
-      + note("01", "Гипотеза для Результата 2",
+      + note("01", "Что стоит проверить",
              "Если периферия теряет людей активного возраста и удерживает группу 65+, где занятость "
              "8,9%, то национальное снижение демографическое, а не экономическое. Для политики это "
              "разные диагнозы.", RED, size=22)
@@ -336,9 +336,9 @@ slide("limits",
         f'и разрез город–село.</p></div>'
         f'<div style="flex:1;display:flex;flex-direction:column;gap:8px">'
         f'<h3 style="font-family:{DISPLAY};font-size:28px;font-weight:500;letter-spacing:0.5px;'
-        f'color:{RED}">Результат 2, к 7 октября</h3>'
-        f'<p style="font-size:23px;line-height:1.4;color:{INK2}">Детская бедность как структурный '
-        f'эффект плюс сельская неформальность. Код, данные и все графики — в репозитории проекта.</p>'
+        f'color:{RED}">Что нужно уточнить у организаторов</h3>'
+        f'<p style="font-size:23px;line-height:1.4;color:{INK2}">Справочник кодов KCP для форм 1-Т '
+        f'и 2-Т и направление кодировки поля K. Без них часть архива остаётся нечитаемой.</p>'
         f'</div></div>'
       + foot("Стандартные ошибки на синтетике занижены (README организатора) — эффекты трактуем как нижнюю границу"),
       "Наша главная методологическая находка. Норма сбережений по расчёту выходит шестьдесят шесть "
@@ -346,40 +346,3 @@ slide("limits",
       "если засчитать все числовые поля этих вопросов как тенге, норма сбережений падает только до "
       "пятидесяти семи процентов, при реальных для Казахстана десяти–пятнадцати. Значит, блоки "
       "доходов и расходов откалиброваны независимо.")
-
-# ── 11 План работ ─────────────────────────────────────────────────────────────
-STAGES = [("Дескриптивная аналитика", 0, 9, RED, "сделано"),
-          ("Гипотезы и методология", 10, 16, TEAL, "7 октября"),
-          ("Завершение проекта", 17, 21, NEUTRAL, "12 октября"),
-          ("Допуск к финалу", 22, 25, NEUTRAL, "13–16 октября"),
-          ("Финал и защита", 29, 30, NEUTRAL, "20 октября")]
-TRACK, DAYS = 1120, 30
-TICKS = [(0, "21.09"), (9, "30.09"), (16, "7.10"), (21, "12.10"), (29, "20.10")]
-ticks = "".join(
-    f'<p style="position:absolute;left:{d / DAYS * TRACK - 50:.0f}px;top:0px;width:100px;'
-    f'text-align:center;font-family:{MONO};font-size:21px;color:{MUTED}">{t}</p>'
-    f'<x-shape kind="rect" style="position:absolute;left:{d / DAYS * TRACK:.0f}px;top:34px;'
-    f'width:1px;height:330px;background:{RULE_SOFT}"></x-shape>' for d, t in TICKS)
-bars = "".join(
-    f'<div style="display:flex;align-items:center;gap:24px;height:58px">'
-    f'<p style="width:392px;text-align:right;font-size:24px;color:{INK}">{n}</p>'
-    f'<div style="position:relative;width:{TRACK}px;height:34px">'
-    f'<x-shape kind="rect" style="position:absolute;left:{s / DAYS * TRACK:.0f}px;top:0px;'
-    f'width:{max((e - s) / DAYS * TRACK, 10):.0f}px;height:34px;background:{c}"></x-shape></div>'
-    f'<p style="width:190px;font-family:{MONO};font-size:21px;color:{MUTED}">{d}</p></div>'
-    for n, s, e, c, d in STAGES)
-slide("plan",
-      chrome("План", 11)
-      + title("До финала", "Этапы конкурса от 21 сентября до 20 октября")
-      + f'<div style="position:relative;height:400px">'
-        f'<div style="position:absolute;left:416px;top:0px;width:{TRACK}px;height:370px">{ticks}</div>'
-        f'<div style="position:absolute;left:0px;top:48px;width:1696px;display:flex;'
-        f'flex-direction:column;gap:6px">{bars}</div></div>'
-      + f'<div style="display:flex;gap:40px;align-items:center;border-top:3px solid {RULE};'
-        f'padding:22px 0 0">'
-        f'<p style="font-size:24px;color:{INK}"><span style="color:{RED}">Красным</span> — что сделано, '
-        f'<span style="color:{TEAL}">бирюзовым</span> — следующий этап, серым — план.</p></div>'
-      + foot("График по регламенту конкурса STAT.DATATHON-2026"),
-      "Где мы находимся. Дескриптивная аналитика закрыта тридцатого сентября. Следующий этап — "
-      "гипотезы и методология к седьмому октября. Дальше завершение проекта к двенадцатому, "
-      "техническая проверка на допуск и финал двадцатого октября.")
