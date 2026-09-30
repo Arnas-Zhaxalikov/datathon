@@ -13,16 +13,16 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-THEME = os.environ.get("CHART_THEME", "dark")
+THEME = os.environ.get("CHART_THEME", "light")
 
 PALETTE = {
     "dark":  dict(blue="#4A8CD4", ochre="#C07F33", purple="#9179C9", surface="#12192B",
                   ink="#F2F5F8", ink2="#B8C4D6", muted="#8494AB", grid="#26324C"),
-    "light": dict(blue="#2C6CB0", ochre="#C0762A", purple="#6B5CA5", surface="#FAFAF7",
+    "light": dict(blue="#2C6CB0", ochre="#C0762A", purple="#6B5CA5", surface="#FFFFFF",
                   ink="#16223A", ink2="#4A5568", muted="#8A9099", grid="#DEDFDA"),
 }[THEME]
 
-FIG = "outputs/figures" if THEME == "dark" else "outputs/figures_light"
+FIG = "outputs/figures" if THEME == "light" else "outputs/figures_dark"
 os.makedirs(FIG, exist_ok=True)
 
 BLUE, OCHRE, PURPLE = PALETTE["blue"], PALETTE["ochre"], PALETTE["purple"]
