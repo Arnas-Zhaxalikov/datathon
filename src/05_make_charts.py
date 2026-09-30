@@ -16,16 +16,19 @@ import pandas as pd
 THEME = os.environ.get("CHART_THEME", "light")
 
 PALETTE = {
-    "dark":  dict(blue="#4A8CD4", ochre="#C07F33", purple="#9179C9", surface="#12192B",
-                  ink="#F2F5F8", ink2="#B8C4D6", muted="#8494AB", grid="#26324C"),
-    "light": dict(blue="#2C6CB0", ochre="#C0762A", purple="#6B5CA5", surface="#FFFFFF",
-                  ink="#16223A", ink2="#4A5568", muted="#8A9099", grid="#DEDFDA"),
+    "dark":  dict(blue="#E4675C", ochre="#2BBFB0", purple="#9179C9", surface="#14161A",
+                  ink="#F2F4F7", ink2="#B9C0CB", muted="#8B96A5", grid="#2A2E35",
+                  neutral="#7A8594"),
+    "light": dict(blue="#C4362F", ochre="#0E9B8E", purple="#6E4BC7", surface="#FFFFFF",
+                  ink="#14161A", ink2="#55606E", muted="#8B96A5", grid="#E4E7EC",
+                  neutral="#7A8594"),
 }[THEME]
 
 FIG = "outputs/figures" if THEME == "light" else "outputs/figures_dark"
 os.makedirs(FIG, exist_ok=True)
 
 BLUE, OCHRE, PURPLE = PALETTE["blue"], PALETTE["ochre"], PALETTE["purple"]
+NEUTRAL = PALETTE["neutral"]
 SURFACE = PALETTE["surface"]
 INK, INK2, MUTED, GRID = PALETTE["ink"], PALETTE["ink2"], PALETTE["muted"], PALETTE["grid"]
 
@@ -133,13 +136,14 @@ reg["ch"] = reg[2024] - reg[2021]
 reg = reg.sort_values("ch")
 names = [KATO.get(int(i), str(i)) for i in reg.index]
 fig, ax = plt.subplots(figsize=(7.4, 6.4))
-ax.barh(names, reg.ch, height=0.68, color=[OCHRE if v < 0 else BLUE for v in reg.ch])
+ax.barh(names, reg.ch, height=0.68, color=[BLUE if v < 0 else OCHRE for v in reg.ch])
 ax.axvline(0, color=INK2, linewidth=1.2)
 for i, v in enumerate(reg.ch):
     ax.annotate(f"{v:+.1f}".replace(".", ","), (v, i), xytext=(7 if v >= 0 else -7, 0), textcoords="offset points",
                 va="center", ha="left" if v >= 0 else "right", fontsize=17, color=INK2)
 ax.set_xlabel("изменение, п.п.")
 ax.set_xlim(-7.5, 8.5)
+ax.set_xticks([-6, -4, -2, 0, 2, 4, 6, 8])
 grid_x(ax)
 ax.set_title("Занятость: изменение 2021 → 2024", fontsize=23, color=INK, loc="left", pad=14)
 save(fig, "employment_region")
@@ -153,7 +157,7 @@ a19 = inf[inf.TE == 19].sort_values("yr")
 rest = inf[(inf.yr == 2024) & (inf.TE != 19)].sort_values("v", ascending=False).head(8)
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12.4, 4.3),
                               gridspec_kw={"width_ratios": [1, 1.25], "wspace": 0.42})
-ax1.plot(a19.yr, a19.v, "-o", color=OCHRE, linewidth=2, markersize=9)
+ax1.plot(a19.yr, a19.v, "-o", color=BLUE, linewidth=2, markersize=9)
 ax1.annotate("40,7%", (a19.yr.iloc[-1], a19.v.iloc[-1]), xytext=(-64, -6),
              textcoords="offset points", fontsize=22, fontweight="bold", color=INK)
 ax1.set_xticks(YEARS)
@@ -162,7 +166,7 @@ ax1.set_ylabel("% без договора")
 grid_y(ax1)
 ax1.set_title("Алматинская область", fontsize=22, color=INK, loc="left", pad=12)
 n2 = [KATO.get(int(i), str(i)) for i in rest.TE]
-ax2.barh(n2[::-1], rest.v.values[::-1], height=0.66, color=BLUE)
+ax2.barh(n2[::-1], rest.v.values[::-1], height=0.66, color=NEUTRAL)
 for i, v in enumerate(rest.v.values[::-1]):
     ax2.annotate(f"{v:.1f}".replace(".", ","), (v, i), xytext=(6, 0), textcoords="offset points",
                  va="center", fontsize=17, color=INK2)
@@ -209,7 +213,7 @@ emph = ht.ty.isin(["С детьми", "Многодетные, 3+"])
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12.6, 4.2),
                               gridspec_kw={"width_ratios": [1.5, 1], "wspace": 0.12})
 ax1.barh(ht.ty[::-1], ht.inc[::-1], height=0.66,
-         color=[OCHRE if e else BLUE for e in emph[::-1]])
+         color=[BLUE if e else NEUTRAL for e in emph[::-1]])
 for i, v in enumerate(ht.inc[::-1]):
     ax1.annotate(f"{v:,.0f}".replace(",", " "), (v, i), xytext=(7, 0), textcoords="offset points",
                  va="center", fontsize=18, fontweight="bold", color=INK)
@@ -220,7 +224,7 @@ ax1.set_xticklabels(["0", "50", "100", "150", "200"])
 grid_x(ax1)
 ax1.set_title("Доход на душу, 2024", fontsize=22, color=INK, loc="left", pad=14)
 ax2.barh(ht.ty[::-1], ht.sat[::-1], height=0.66,
-         color=[OCHRE if e else BLUE for e in emph[::-1]])
+         color=[BLUE if e else NEUTRAL for e in emph[::-1]])
 for i, v in enumerate(ht.sat[::-1]):
     ax2.annotate(f"{v:.2f}".replace(".", ","), (v, i), xytext=(7, 0), textcoords="offset points",
                  va="center", fontsize=18, color=INK2)
@@ -298,7 +302,7 @@ grid_y(ax1)
 ax1.set_title("Индекс, 2021 = 100", fontsize=22, color=INK, loc="left", pad=14)
 bars = ["наш расчёт", "+ еда,\nмаксимум", "Казахстан,\nфакт"]
 vals = [sav.now_, sav.with_food, 12.5]
-fig_colors = [OCHRE, OCHRE, BLUE]
+fig_colors = [BLUE, BLUE, NEUTRAL]
 ax2.bar(bars, vals, width=0.58, color=fig_colors)
 for i, v in enumerate(vals):
     ax2.annotate(f"{v:.1f}%".replace(".", ","), (i, v), xytext=(0, 7), textcoords="offset points",
@@ -327,7 +331,7 @@ for label, a, b, kind in pairs:
     rows.append({"label": label, "r": d[a].corr(d[b]), "kind": kind})
 cor = pd.DataFrame(rows).sort_values("r")
 fig, ax = plt.subplots(figsize=(8.8, 4.6))
-colors = [BLUE if k == "структурные" else OCHRE for k in cor.kind]
+colors = [OCHRE if k == "структурные" else BLUE for k in cor.kind]
 ax.hlines(cor.label, 0, cor.r, color=colors, linewidth=2)
 ax.plot(cor.r, cor.label, "o", markersize=10, color="none", markeredgewidth=0)
 for (lab_, r, k), c in zip(cor.itertuples(index=False), colors):
@@ -341,9 +345,9 @@ ax.set_xticks([0, 0.1, 0.2, 0.3, 0.4])
 ax.set_xticklabels(["0", "0,1", "0,2", "0,3", "0,4"])
 ax.set_xlabel("коэффициент корреляции Пирсона")
 grid_x(ax)
-handles = [plt.Line2D([], [], color=BLUE, marker="o", linewidth=2, markersize=9,
+handles = [plt.Line2D([], [], color=OCHRE, marker="o", linewidth=2, markersize=9,
                       label="Структура домохозяйства"),
-           plt.Line2D([], [], color=OCHRE, marker="o", linewidth=2, markersize=9,
+           plt.Line2D([], [], color=BLUE, marker="o", linewidth=2, markersize=9,
                       label="Уровень жизни")]
 ax.legend(handles=handles, loc="lower right")
 ax.set_title("Работают структурные признаки, уровневые — нет", fontsize=23, color=INK, loc="left", pad=14)
@@ -353,7 +357,7 @@ save(fig, "correlations")
 comp = pd.read_csv("outputs/aggregates/completeness.csv").sort_values("filled_pct").head(10)
 fig, ax = plt.subplots(figsize=(8.4, 4.9))
 ax.barh(comp.table[::-1], comp.filled_pct[::-1], height=0.68,
-        color=[OCHRE if v < 50 else BLUE for v in comp.filled_pct[::-1]])
+        color=[BLUE if v < 50 else NEUTRAL for v in comp.filled_pct[::-1]])
 for i, v in enumerate(comp.filled_pct[::-1]):
     ax.annotate(f"{v:.0f}%", (v, i), xytext=(6, 0), textcoords="offset points",
                 va="center", fontsize=17, color=INK2)
@@ -371,7 +375,7 @@ for y in YEARS:
     firms.append({"yr": y, "n": con.execute(f"select count(distinct ID) from '{f}'").fetchone()[0]})
 fr = pd.DataFrame(firms)
 fig, ax = plt.subplots(figsize=(7.2, 4.0))
-ax.bar(fr.yr.astype(str), fr.n, width=0.58, color=[BLUE, BLUE, BLUE, OCHRE])
+ax.bar(fr.yr.astype(str), fr.n, width=0.58, color=[NEUTRAL, NEUTRAL, NEUTRAL, BLUE])
 for i, v in enumerate(fr.n):
     ax.annotate(f"{v:,}".replace(",", " "), (i, v), xytext=(0, 7), textcoords="offset points",
                 ha="center", fontsize=20, color=INK)
