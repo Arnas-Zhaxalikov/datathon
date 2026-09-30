@@ -1,0 +1,60 @@
+{
+  "v": 4,
+  "attachments": {},
+  "createdOnFiles": {
+    "at": "2026-09-30T08:10:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "faces": {
+    "oswald": {
+      "family": "Oswald",
+      "href": "https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&display=swap"
+    },
+    "ibm-plex-sans": {
+      "family": "IBM Plex Sans",
+      "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+    },
+    "ibm-plex-mono": {
+      "family": "IBM Plex Mono",
+      "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    }
+  },
+  "lists": "css",
+  "order": [
+    "cover",
+    "data",
+    "merged",
+    "quality",
+    "anomaly",
+    "urbanrural",
+    "labour",
+    "regions",
+    "households",
+    "limits",
+    "plan"
+  ],
+  "sections": {
+    "s1": {
+      "description": "Титул: команда, авторы и масштаб обработанных данных",
+      "start": "cover"
+    },
+    "s2": {
+      "description": "Что в архиве: формы, единицы наблюдения и объединённая таблица",
+      "start": "data"
+    },
+    "s3": {
+      "description": "Качество данных: заполненность, дрейф схемы и аномалия генератора",
+      "start": "quality"
+    },
+    "s4": {
+      "description": "Первые наблюдения: город и село, рынок труда, регионы, домохозяйства",
+      "start": "urbanrural"
+    },
+    "s5": {
+      "description": "Ограничения достоверности и план работ до финала",
+      "start": "limits"
+    }
+  },
+  "title": "Результат 1 — Котлы чудес"
+}
