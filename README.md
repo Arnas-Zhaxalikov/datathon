@@ -4,7 +4,7 @@
 
 **Команда:** Котлы чудес
 **Авторы:** Арнас Жаксаликов, Аружан Болат
-**Трек:** AI for Official Statistics — ИИ-аналитик поверх микроданных, методология в [`docs/RULES.md`](docs/RULES.md)
+**Трек:** AI for Official Statistics — ИИ-аналитик поверх микроданных, методология в [`docs/RULES.md`](docs/RULES.md), гипотезы Результата 2 — в [`docs/hypotheses.md`](docs/hypotheses.md)
 
 ---
 
