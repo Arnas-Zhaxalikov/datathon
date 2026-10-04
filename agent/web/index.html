@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ИИ-аналитик — STAT.DATATHON-2026</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <span class="title">ИИ-аналитик</span>
+      <span class="subtitle">STAT.DATATHON-2026 · AI for Official Statistics</span>
+    </header>
+    <main id="chat" class="chat">
+      <div class="row assistant intro">
+        <div class="avatar">ИИ</div>
+        <div class="bubble">
+          <p>Спросите про занятость, доходы, домохозяйства или регионы за 2021–2024. Перед каждым содержательным ответом я сверяюсь с аудитом данных — под ответом будет видно, какие проверки прошли.</p>
+        </div>
+      </div>
+    </main>
+    <form id="form" class="composer">
+      <textarea id="input" placeholder="Например: как менялась занятость в Алматинской области?" rows="1"></textarea>
+      <button type="submit" id="send">Отправить</button>
+    </form>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
