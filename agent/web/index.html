@@ -4,19 +4,47 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Qamqor AI — STAT.DATATHON-2026</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a7d93'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round'%3E%3Ccircle cx='16' cy='16' r='9.5'/%3E%3Cpath d='M12 7.6Q14.6 16 12 24.4M20 7.6Q17.4 16 20 24.4M7.6 12Q16 14.6 24.4 12M7.6 20Q16 17.4 24.4 20'/%3E%3C/g%3E%3C/svg%3E">
+<script>
+  // тема ставится до отрисовки, чтобы страница не мигала: сохранённый выбор, иначе системная настройка
+  (function () {
+    var theme = null;
+    try { theme = localStorage.getItem("theme"); } catch (e) {}
+    if (theme !== "light" && theme !== "dark") {
+      theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    document.documentElement.dataset.theme = theme;
+  })();
+</script>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="app">
     <header class="header">
       <div class="header-top">
-        <span class="title">Qamqor AI</span>
+        <div class="brand">
+          <!-- знак — шанырак: круг с перекрещёнными дугами, символ дома и семьи -->
+          <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+            <rect class="logo-bg" width="32" height="32" rx="8"/>
+            <g class="logo-mark">
+              <circle cx="16" cy="16" r="9.5"/>
+              <path d="M12 7.6Q14.6 16 12 24.4M20 7.6Q17.4 16 20 24.4M7.6 12Q16 14.6 24.4 12M7.6 20Q16 17.4 24.4 20"/>
+            </g>
+          </svg>
+          <span class="title">Qamqor <span class="title-ai">AI</span></span>
+        </div>
         <span class="subtitle">STAT.DATATHON-2026 · AI for Official Statistics</span>
-        <select id="lang-select" class="lang-select" data-i18n-aria="lang_label">
-          <option value="en">English</option>
-          <option value="kk">Қазақша</option>
-          <option value="ru">Русский</option>
-        </select>
+        <div class="header-controls">
+          <select id="lang-select" class="lang-select" data-i18n-aria="lang_label">
+            <option value="en">English</option>
+            <option value="kk">Қазақша</option>
+            <option value="ru">Русский</option>
+          </select>
+          <button type="button" id="theme-toggle" class="icon-btn" data-i18n-aria="theme_label">
+            <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg>
+          </button>
+        </div>
       </div>
       <nav class="tabs" id="tabs">
         <button class="tab active" data-tab="family" data-i18n="tab_family">My family</button>
@@ -32,7 +60,7 @@
           <h2 data-i18n="family_title">Your family profile</h2>
           <p class="hint" data-i18n="family_hint"></p>
 
-          <form id="family-form" class="form-grid">
+          <form id="family-form" class="form-grid card">
             <label><span data-i18n="f_hh_size">Family size</span>
               <input type="number" id="f-hh-size" min="1" value="4" required>
             </label>
@@ -45,16 +73,145 @@
             <label><span data-i18n="f_income">Family income per month, KZT</span>
               <input type="number" id="f-income" min="0" step="1000" value="200000" required>
             </label>
-            <label><span data-i18n="f_settlement">Where you live</span>
-              <select id="f-settlement">
-                <option value="город" data-i18n="city">City</option>
-                <option value="село" data-i18n="village">Village</option>
-              </select>
+            <label class="span-2"><span data-i18n="f_region">Region</span>
+              <select id="f-region" required></select>
+            </label>
+
+            <div class="form-section span-2" data-i18n="f_optional_title"></div>
+            <label><span data-i18n="f_earner_wage"></span>
+              <input type="number" id="f-earner-wage" min="0" step="1000" data-i18n-placeholder="ph_optional">
+            </label>
+            <label><span data-i18n="f_transfers"></span>
+              <input type="number" id="f-transfers" min="0" step="1000" data-i18n-placeholder="ph_optional">
+            </label>
+            <label><span data-i18n="f_housing"></span>
+              <input type="number" id="f-housing" min="0" step="1000" data-i18n-placeholder="ph_optional">
             </label>
             <button type="submit" class="btn-primary" data-i18n="calc">Calculate</button>
           </form>
 
-          <div id="family-result" class="result hidden"></div>
+          <p id="family-error" class="error-text hidden"></p>
+
+          <!-- Разметка результата статична: расчёт только заполняет числа и тексты,
+               поэтому ползунки не пересоздаются при пересчёте -->
+          <div id="family-result" class="result hidden">
+            <!-- статус, шкала, вывод -->
+            <div class="card">
+              <div class="result-badge">
+                <span class="status-dot" id="r-dot"></span>
+                <div>
+                  <div class="result-label" id="r-label"></div>
+                  <div class="result-sub" id="r-sub"></div>
+                </div>
+              </div>
+
+              <div class="meter">
+                <div class="meter-flag" id="m-worst"><i class="mk mk-worst"></i><span></span></div>
+                <div class="meter-flag" id="m-now"><i class="mk mk-now"></i><span></span></div>
+                <div class="meter-track">
+                  <div class="meter-zone zone-a" id="z-a"></div>
+                  <div class="meter-zone zone-b" id="z-b"></div>
+                  <div class="meter-zone zone-c"></div>
+                  <div class="meter-marker marker-worst" id="mk-worst"></div>
+                  <div class="meter-marker marker-now" id="mk-now"></div>
+                </div>
+                <div class="meter-bounds">
+                  <div class="meter-bound bound-asp" id="b-asp"><span></span></div>
+                  <div class="meter-bound bound-sm" id="b-sm"><span></span></div>
+                </div>
+                <div class="meter-zones-legend">
+                  <span><i class="sw zone-a"></i><span data-i18n="z_a"></span></span>
+                  <span><i class="sw zone-b"></i><span data-i18n="z_b"></span></span>
+                  <span><i class="sw zone-c"></i><span data-i18n="z_c"></span></span>
+                </div>
+              </div>
+
+              <p class="outcome" id="r-outcome"></p>
+              <p class="outcome-link hidden" id="r-link"><a target="_blank" rel="noopener" data-i18n="out_A_link"></a></p>
+              <p class="peers hidden" id="r-peers"></p>
+
+              <div class="assumptions">
+                <div class="assumptions-title" data-i18n="as_title"></div>
+                <ul id="r-assumptions"></ul>
+              </div>
+            </div>
+
+            <!-- три сценария -->
+            <div class="card">
+              <h3 data-i18n="sc_title"></h3>
+              <p class="hint" data-i18n="sc_hint"></p>
+
+              <div class="scenario" data-scenario="earner_gap">
+                <div class="scenario-head">
+                  <span class="scenario-title" data-i18n="sc_earner_title"></span>
+                  <span class="scenario-flag hidden">⚠ <span data-i18n="sc_cross"></span></span>
+                </div>
+                <label class="slider"><span id="s-months-label"></span>
+                  <input type="range" id="s-months" min="1" max="12" step="1" value="3">
+                </label>
+                <p class="scenario-assume" id="sc-earner-assume"></p>
+                <div class="scenario-line"><span data-i18n="sc_avg_label"></span><b id="sc-earner-avg"></b></div>
+                <div class="scenario-formula" id="sc-earner-avg-f"></div>
+                <div class="scenario-line"><span data-i18n="sc_during_label"></span><b id="sc-earner-during"></b></div>
+                <div class="scenario-formula" id="sc-earner-during-f"></div>
+              </div>
+
+              <div class="scenario" data-scenario="income_drop">
+                <div class="scenario-head">
+                  <span class="scenario-title" data-i18n="sc_drop_title"></span>
+                  <span class="scenario-flag hidden">⚠ <span data-i18n="sc_cross"></span></span>
+                </div>
+                <label class="slider"><span id="s-drop-label"></span>
+                  <input type="range" id="s-drop" min="5" max="50" step="5" value="15">
+                </label>
+                <p class="scenario-assume" id="sc-drop-assume"></p>
+                <div class="scenario-line"><span data-i18n="sc_pp_label"></span><b id="sc-drop-v"></b></div>
+                <div class="scenario-formula" id="sc-drop-f"></div>
+              </div>
+
+              <div class="scenario" data-scenario="housing_rise">
+                <div class="scenario-head">
+                  <span class="scenario-title" data-i18n="sc_housing_title"></span>
+                  <span class="scenario-flag hidden">⚠ <span data-i18n="sc_cross"></span></span>
+                </div>
+                <label class="slider"><span id="s-rise-label"></span>
+                  <input type="range" id="s-rise" min="5" max="100" step="5" value="30">
+                </label>
+                <p class="scenario-assume" id="sc-housing-assume"></p>
+                <div class="scenario-line"><span data-i18n="sc_pp_label"></span><b id="sc-housing-v"></b></div>
+                <div class="scenario-formula" id="sc-housing-f"></div>
+              </div>
+            </div>
+
+            <!-- а что, если -->
+            <div class="card">
+              <h3 data-i18n="wi_title"></h3>
+              <div class="form-grid">
+                <label><span data-i18n="wi_wage"></span>
+                  <input type="number" id="w-wage" min="0" step="10000" placeholder="0">
+                </label>
+                <label><span data-i18n="wi_allowance"></span>
+                  <input type="number" id="w-allowance" min="0" step="1000" placeholder="0">
+                </label>
+              </div>
+              <p class="hint whatif-empty" id="w-empty" data-i18n="wi_empty"></p>
+              <div class="whatif hidden" id="w-result">
+                <div class="whatif-col">
+                  <div class="whatif-cap" data-i18n="wi_before"></div>
+                  <div class="whatif-status"><span class="status-dot" id="w-before-dot"></span><span id="w-before-label"></span></div>
+                  <div class="whatif-num" id="w-before-num"></div>
+                </div>
+                <div class="whatif-arrow" aria-hidden="true">→</div>
+                <div class="whatif-col">
+                  <div class="whatif-cap" data-i18n="wi_after"></div>
+                  <div class="whatif-status"><span class="status-dot" id="w-after-dot"></span><span id="w-after-label"></span></div>
+                  <div class="whatif-num" id="w-after-num"></div>
+                </div>
+              </div>
+            </div>
+
+            <p class="hint small footnote" id="r-foot"></p>
+          </div>
         </div>
       </section>
 
@@ -64,7 +221,11 @@
           <h2 data-i18n="overview_title">Who official poverty statistics do not see</h2>
           <p class="hint" id="overview-hint"></p>
           <div class="tiles" id="overview-tiles"></div>
-          <p class="hint small" data-i18n-html="overview_note"></p>
+          <div class="card region-card hidden" id="overview-regions">
+            <h3 data-i18n="ov_regions_title"></h3>
+            <div class="table-wrap"><table class="region-table" id="overview-region-table"></table></div>
+          </div>
+          <p class="hint small" id="overview-note"></p>
         </div>
       </section>
 
@@ -75,6 +236,11 @@
             <div class="avatar" data-i18n="avatar_ai">AI</div>
             <div class="bubble">
               <p data-i18n="chat_intro"></p>
+              <div class="suggestions" id="suggestions">
+                <button type="button" class="suggestion" data-i18n="sug_1"></button>
+                <button type="button" class="suggestion" data-i18n="sug_2"></button>
+                <button type="button" class="suggestion" data-i18n="sug_3"></button>
+              </div>
             </div>
           </div>
         </div>
@@ -86,6 +252,7 @@
     </main>
   </div>
   <script src="i18n.js"></script>
+  <script src="charts.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

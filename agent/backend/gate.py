@@ -18,6 +18,7 @@ CHECKLIST_SCHEMA = {
         "checked_correlation_reliability": {"type": "boolean"},
         "flagged_small_sample": {"type": "boolean"},
         "cross_checked_against_priors": {"type": "boolean"},
+        "forecast_caveated": {"type": "boolean"},
         "applicable": {
             "type": "array",
             "items": {"type": "string"},
@@ -30,6 +31,7 @@ CHECKLIST_SCHEMA = {
         "checked_correlation_reliability",
         "flagged_small_sample",
         "cross_checked_against_priors",
+        "forecast_caveated",
         "applicable",
     ],
     "additionalProperties": False,
@@ -47,6 +49,9 @@ GATE_PROMPT = """Ты проверяешь ответ ИИ-аналитика н
 - checked_correlation_reliability: при утверждении о связи двух переменных упомянута её надёжность
 - flagged_small_sample: малые подвыборки (n<30) помечены как нестабильные
 - cross_checked_against_priors: производные показатели сверены с реальными ориентирами
+- forecast_caveated: прогноз дан с диапазоном и оговоркой, что это экстраполяция тренда по четырём годовым срезам
+
+Блоки ```chart в ответе — спецификации графиков для интерфейса; числа в них считаются частью ответа.
 
 Вопрос пользователя:
 {question}

@@ -6,6 +6,19 @@ langSelect.value = currentLang;
 langSelect.addEventListener("change", () => setLang(langSelect.value));
 applyStaticTranslations();
 
+// ---------- Тема ----------
+// Начальное значение data-theme ставит скрипт в <head> index.html
+
+document.getElementById("theme-toggle").addEventListener("click", () => {
+  const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = next;
+  try {
+    localStorage.setItem("theme", next);
+  } catch (e) {
+    // хранилище недоступно — тема просто не запомнится
+  }
+});
+
 // ---------- Tabs ----------
 
 const tabs = document.querySelectorAll(".tab");
@@ -27,6 +40,8 @@ tabs.forEach((btn) => {
 });
 
 // ---------- Моя семья ----------
+// Все числа приходят из /api/classify (agent/backend/engine.py). Здесь только
+// подстановка в готовую разметку и тексты на языке интерфейса.
 
 const STATUS_COLOR = {
   good: "var(--status-good)",
@@ -35,117 +50,265 @@ const STATUS_COLOR = {
   critical: "var(--status-critical)",
 };
 
-const familyForm = document.getElementById("family-form");
-const familyResult = document.getElementById("family-result");
+const $ = (id) => document.getElementById(id);
+const familyForm = $("family-form");
+const familyResult = $("family-result");
+const familyError = $("family-error");
 
 // последний результат/ошибка — чтобы перерисовать при смене языка
 let familyData = null;
 let familyErrorKey = null;
+let regionsList = [];
 
-familyForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const payload = {
-    hh_size: Number(document.getElementById("f-hh-size").value),
-    n_child: Number(document.getElementById("f-n-child").value),
-    n_employed: Number(document.getElementById("f-n-employed").value),
-    income_monthly: Number(document.getElementById("f-income").value),
-    settlement: document.getElementById("f-settlement").value,
+const kzt = (v) => `${fmt(v)} ${t("kzt")}`;
+const fmtPct = (v) => Number(v).toLocaleString(LOCALES[currentLang], { maximumFractionDigits: 1 });
+const optNum = (id) => ($(id).value.trim() === "" ? null : Number($(id).value));
+
+async function loadRegions() {
+  try {
+    const res = await fetch("/api/regions");
+    if (!res.ok) throw new Error(String(res.status));
+    regionsList = await res.json();
+    renderRegions();
+  } catch (e) {
+    showFamilyError("no_connection");
+  }
+}
+
+function renderRegions() {
+  const select = $("f-region");
+  const current = select.value;
+  const placeholder = new Option(t("f_region_choose"), "");
+  placeholder.disabled = true;
+  select.replaceChildren(placeholder, ...regionsList.map((r) => new Option(regionName(r.code, r.name), r.code)));
+  select.value = current;
+}
+
+function familyPayload() {
+  return {
+    hh_size: Number($("f-hh-size").value),
+    n_child: Number($("f-n-child").value),
+    n_employed: Number($("f-n-employed").value),
+    income_monthly: Number($("f-income").value),
+    region: Number($("f-region").value),
+    earner_wage: optNum("f-earner-wage"),
+    transfers: optNum("f-transfers"),
+    housing_cost: optNum("f-housing"),
+    months_without_wage: Number($("s-months").value),
+    income_drop_pct: Number($("s-drop").value),
+    housing_rise_pct: Number($("s-rise").value),
+    whatif_extra_wage: optNum("w-wage") || 0,
+    whatif_child_allowance: optNum("w-allowance") || 0,
   };
+}
 
-  const btn = familyForm.querySelector("button");
-  btn.disabled = true;
-  btn.textContent = t("calculating");
+let calcSeq = 0;
+
+async function calculate() {
+  const seq = ++calcSeq; // ответы на устаревшие запросы (ползунок уже сдвинут дальше) отбрасываются
   try {
     const res = await fetch("/api/classify", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(familyPayload()),
     });
     const data = await res.json();
+    if (seq !== calcSeq) return;
     if (!res.ok) {
-      // тексты ошибок бэкенда — на русском, поэтому показываем свой перевод по коду ответа
-      showFamilyError(res.status === 400 || res.status === 422 ? "calc_invalid" : "calc_error");
+      // сервер присылает код ошибки, текст на нужном языке — из словаря
+      const code = data.detail && data.detail.code;
+      showFamilyError(code && I18N[DEFAULT_LANG][code] ? code : res.status < 500 ? "calc_invalid" : "calc_error");
       return;
     }
     familyData = data;
     familyErrorKey = null;
-    renderFamilyResult(data);
+    renderFamilyResult();
   } catch (err) {
-    showFamilyError("no_connection");
-  } finally {
-    btn.disabled = false;
-    btn.textContent = t("calc");
+    if (seq === calcSeq) showFamilyError("no_connection");
   }
+}
+
+familyForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const btn = familyForm.querySelector("button");
+  btn.disabled = true;
+  btn.textContent = t("calculating");
+  await calculate();
+  btn.disabled = false;
+  btn.textContent = t("calc");
 });
+
+// после первого расчёта любое изменение пересчитывает результат без кнопки
+let recalcTimer = null;
+function scheduleRecalc(delay) {
+  if (!familyData && !familyErrorKey) return;
+  clearTimeout(recalcTimer);
+  recalcTimer = setTimeout(() => {
+    if (familyForm.checkValidity()) calculate();
+  }, delay);
+}
+familyForm.addEventListener("change", () => scheduleRecalc(0));
+["s-months", "s-drop", "s-rise"].forEach((id) =>
+  $(id).addEventListener("input", () => {
+    renderSliderLabels();
+    scheduleRecalc(40);
+  })
+);
+["w-wage", "w-allowance"].forEach((id) => $(id).addEventListener("input", () => scheduleRecalc(250)));
 
 function showFamilyError(key) {
   familyData = null;
   familyErrorKey = key;
-  familyResult.classList.remove("hidden");
-  familyResult.innerHTML = `<p class="error-text">${escapeHtml(t(key))}</p>`;
+  familyResult.classList.add("hidden");
+  familyError.classList.remove("hidden");
+  familyError.textContent = t(key);
 }
 
-function renderFamilyResult(data) {
-  familyResult.classList.remove("hidden");
-  familyResult.innerHTML = `
-    <div class="result-badge">
-      <span class="status-dot" style="background:${STATUS_COLOR[data.status]}"></span>
-      <div>
-        <div class="result-label">${escapeHtml(t("group_" + data.group))}</div>
-        <div class="result-sub">${t("result_sub", { p: data.pct_of_poverty_line })}</div>
-      </div>
-    </div>
-
-    <div class="meter-wrap">
-      <div class="meter-track" id="meter-track"></div>
-      <div class="meter-ticks">
-        <span>0</span>
-        <span>${t("tick_asp", { v: fmt(data.asp_threshold) })}</span>
-        <span>${t("tick_pm", { v: fmt(data.poverty_line) })}</span>
-      </div>
-      <div class="meter-legend">
-        <span><i class="dot dot-now"></i>${t("legend_now", { v: fmt(data.income_pc) })}</span>
-        <span><i class="dot dot-stress"></i>${t("legend_stress", { v: fmt(data.worst_stress_income_pc) })}</span>
-      </div>
-    </div>
-
-    <div class="stress-table">
-      ${Object.entries(data.stress_scenarios)
-        .map(
-          ([k, v]) =>
-            `<div class="stress-row"><span>${escapeHtml(t("stress_" + k))}</span><b>${fmt(v)} ${t("per_month")}${
-              v < data.poverty_line ? " ⚠" : ""
-            }</b></div>`
-        )
-        .join("")}
-    </div>
-  `;
-  drawMeter(data);
+function renderSliderLabels() {
+  $("s-months-label").textContent = t("sc_earner_param", { n: $("s-months").value });
+  $("s-drop-label").textContent = t("sc_drop_param", { x: $("s-drop").value });
+  $("s-rise-label").textContent = t("sc_housing_param", { y: $("s-rise").value });
 }
 
-function drawMeter(data) {
-  const track = document.getElementById("meter-track");
-  // шкала — от 0 до максимума из (доход сейчас * 1.15, ПМ * 1.6), чтобы метки не вылезали за край
-  const max = Math.max(data.income_pc * 1.15, data.poverty_line * 1.6);
+function scenarioShort(key, d) {
+  const sc = d.scenarios[key];
+  if (key === "earner_gap") return t("sc_earner_short", { n: sc.months });
+  if (key === "income_drop") return t("sc_drop_short", { x: fmtPct(sc.pct) });
+  return t("sc_housing_short", { y: fmtPct(sc.pct) });
+}
+
+function outcomeText(d) {
+  const o = d.outcome;
+  if (d.group === "A") return t("out_A", { v: fmt(o.topup_family) });
+  if (d.group === "B") return t("out_B", { pc: fmt(o.gap_pc), fam: fmt(o.gap_family), asp: fmt(o.above_asp_pc) });
+  const margin = { pc: fmt(o.margin_pc), fam: fmt(o.margin_family) };
+  if (d.group === "C") return t("out_C", { ...margin, list: o.failing.map((k) => scenarioShort(k, d)).join("; ") });
+  return t("out_D", margin);
+}
+
+function assumptionText(a) {
+  if (a.field === "housing_cost") return t("as_housing", { v: fmt(a.value), p: fmtPct(a.share_pct) });
+  if (a.basis === "no_workers") return t("as_wage_none");
+  if (a.basis === "minus_transfers") return t("as_wage_minus", { v: fmt(a.value), n: a.workers });
+  return t("as_wage_share", { v: fmt(a.value), p: fmtPct(a.share_pct), n: a.workers });
+}
+
+function setStatus(dotId, labelId, status, group) {
+  $(dotId).style.background = STATUS_COLOR[status];
+  $(labelId).textContent = t("group_" + group);
+}
+
+function renderFamilyResult() {
+  const d = familyData;
+  if (!d) return;
+  familyError.classList.add("hidden");
+  familyResult.classList.remove("hidden");
+
+  // статус и вывод
+  setStatus("r-dot", "r-label", d.status, d.group);
+  $("r-sub").textContent = t("result_sub", { v: fmt(d.income_pc), p: fmtPct(d.pct_of_sm) });
+  drawMeter(d);
+  $("r-outcome").textContent = outcomeText(d);
+  $("r-link").classList.toggle("hidden", d.group !== "A");
+  $("r-link").firstElementChild.href = `https://egov.kz/cms/${currentLang}/services/pass166_mtszn`;
+
+  $("r-peers").classList.toggle("hidden", !d.peers);
+  if (d.peers) {
+    $("r-peers").textContent = t("peers", { c: d.peers.n_child, p: fmtPct(d.peers.pct_below_sm), n: fmt(d.peers.n) });
+  }
+
+  const items = d.assumptions.length ? d.assumptions.map(assumptionText) : [t("as_none")];
+  $("r-assumptions").replaceChildren(
+    ...items.map((text) => {
+      const li = document.createElement("li");
+      li.textContent = text;
+      return li;
+    })
+  );
+
+  // сценарии: что предполагается и как получено число
+  const I = fmt(d.income_monthly);
+  const W = fmt(d.earner_wage);
+  const H = fmt(d.housing_cost);
+  const S = d.hh_size;
+  const { earner_gap: eg, income_drop: dr, housing_rise: hr } = d.scenarios;
+  renderSliderLabels();
+
+  $("sc-earner-assume").textContent = t("sc_earner_assume", { n: eg.months, w: W });
+  $("sc-earner-avg").textContent = kzt(eg.income_pc);
+  $("sc-earner-avg-f").textContent = `(${I} × 12 − ${W} × ${eg.months}) / 12 / ${S} = ${fmt(eg.income_pc)}`;
+  $("sc-earner-during").textContent = kzt(eg.during_pc);
+  $("sc-earner-during-f").textContent = `(${I} − ${W}) / ${S} = ${fmt(eg.during_pc)}`;
+
+  $("sc-drop-assume").textContent = t("sc_drop_assume", { x: fmtPct(dr.pct) });
+  $("sc-drop-v").textContent = kzt(dr.income_pc);
+  $("sc-drop-f").textContent = `${I} × (100% − ${fmtPct(dr.pct)}%) / ${S} = ${fmt(dr.income_pc)}`;
+
+  $("sc-housing-assume").textContent = t("sc_housing_assume", { h: H, y: fmtPct(hr.pct), d: fmt(hr.extra_cost) });
+  $("sc-housing-v").textContent = kzt(hr.income_pc);
+  $("sc-housing-f").textContent = `(${I} − ${H} × ${fmtPct(hr.pct)}%) / ${S} = ${fmt(hr.income_pc)}`;
+
+  // предупреждение — только если сценарий опускает ниже минимума семью, которая была выше
+  familyResult.querySelectorAll(".scenario").forEach((el) => {
+    el.querySelector(".scenario-flag").classList.toggle("hidden", !d.scenarios[el.dataset.scenario].crosses);
+  });
+
+  // а что, если
+  const wi = d.what_if;
+  $("w-empty").classList.toggle("hidden", Boolean(wi));
+  $("w-result").classList.toggle("hidden", !wi);
+  if (wi) {
+    setStatus("w-before-dot", "w-before-label", d.status, d.group);
+    $("w-before-num").textContent = t("wi_line", { v: fmt(d.income_pc) });
+    setStatus("w-after-dot", "w-after-label", wi.status, wi.group);
+    $("w-after-num").textContent = t("wi_line", { v: fmt(wi.income_pc) });
+  }
+
+  $("r-foot").textContent = t("foot", {
+    year: d.year,
+    region: regionName(d.region.code, d.region.name),
+    sm: fmt(d.sm),
+    asp: fmt(d.asp),
+  });
+}
+
+function drawMeter(d) {
+  // шкала от 0; правый край — с запасом над минимумом и над доходом семьи, но не дальше
+  // 3,2 минимума: иначе у обеспеченной семьи зоны у нуля сжались бы до нечитаемых
+  const max = Math.max(d.sm * 1.6, Math.min(Math.max(d.income_pc, d.worst.income_pc) * 1.15, d.sm * 3.2));
   const pct = (v) => Math.max(0, Math.min(100, (v / max) * 100));
+  const pAsp = pct(d.asp);
+  const pSm = pct(d.sm);
 
-  const ascPct = pct(data.asp_threshold);
-  const pmPct = pct(data.poverty_line);
-  const nowPct = pct(data.income_pc);
-  const stressPct = pct(data.worst_stress_income_pc);
+  $("z-a").style.width = `${pAsp}%`;
+  $("z-b").style.width = `${pSm - pAsp}%`;
 
-  track.innerHTML = `
-    <div class="meter-zone zone-a" style="width:${ascPct}%"></div>
-    <div class="meter-zone zone-b" style="width:${pmPct - ascPct}%"></div>
-    <div class="meter-zone zone-cd" style="width:${100 - pmPct}%"></div>
-    <div class="meter-marker marker-stress" style="left:${stressPct}%" title="${escapeHtml(
-      t("title_stress", { v: fmt(data.worst_stress_income_pc) })
-    )}"></div>
-    <div class="meter-marker marker-now" style="left:${nowPct}%" title="${escapeHtml(
-      t("title_now", { v: fmt(data.income_pc) })
-    )}"></div>
-  `;
+  // подписи границ стоят вплотную к самим границам: черта АСП — слева от своей, минимум — справа
+  const bAsp = $("b-asp");
+  bAsp.style.right = `${100 - pAsp}%`;
+  bAsp.style.maxWidth = `${pAsp}%`;
+  bAsp.firstElementChild.textContent = t("tick_asp", { v: fmt(d.asp) });
+  const bSm = $("b-sm");
+  bSm.style.left = `${pSm}%`;
+  bSm.style.maxWidth = `${100 - pSm}%`;
+  bSm.firstElementChild.textContent = t("tick_pm", { v: fmt(d.sm) });
+
+  const place = (markerId, flagId, value, text) => {
+    const p = pct(value);
+    $(markerId).style.left = `${p}%`;
+    const flag = $(flagId);
+    const flip = p > 50; // подпись растёт от маркера внутрь шкалы, чтобы не вылезать за край
+    flag.classList.toggle("flip", flip);
+    flag.style.marginLeft = flip ? "0" : `${p}%`;
+    flag.style.marginRight = flip ? `${100 - p}%` : "0";
+    flag.lastElementChild.textContent = text;
+  };
+  place("mk-now", "m-now", d.income_pc, t("m_now", { v: fmt(d.income_pc) }));
+  place("mk-worst", "m-worst", d.worst.income_pc, t("m_worst", { v: fmt(d.worst.income_pc) }));
 }
+
+loadRegions();
+renderSliderLabels();
 
 // ---------- Обзор по стране ----------
 
@@ -155,14 +318,14 @@ let overviewStatus = null; // "calculating" | "overview_error" — пока пл
 function showOverviewStatus(key) {
   overviewStatus = key;
   const cls = key === "overview_error" ? "error-text" : "hint";
-  document.getElementById("overview-tiles").innerHTML = `<p class="${cls}">${escapeHtml(t(key))}</p>`;
+  $("overview-tiles").innerHTML = `<p class="${cls}">${escapeHtml(t(key))}</p>`;
 }
 
 async function loadOverview() {
   if (overviewData || overviewStatus === "calculating") return;
   showOverviewStatus("calculating");
   try {
-    const res = await fetch("/api/summary?year=2024");
+    const res = await fetch("/api/summary");
     if (!res.ok) throw new Error(String(res.status));
     overviewData = await res.json();
     overviewStatus = null;
@@ -174,14 +337,16 @@ async function loadOverview() {
 
 function renderOverview() {
   const data = overviewData;
-  document.getElementById("overview-hint").textContent = t("overview_hint", {
+  $("overview-hint").textContent = t("overview_hint", {
     n: fmt(data.total_households),
-    pm: fmt(data.poverty_line),
-    asp: fmt(data.asp_threshold),
+    lo: fmt(data.sm_min),
+    hi: fmt(data.sm_max),
+    p: fmtPct(data.pct_below_sm),
   });
+  $("overview-note").textContent = t("overview_note", { rel: fmt(data.relative_poverty_line) });
 
-  const order = ["B", "C", "A", "D"]; // от самой "невидимой" проблемы к устойчивым
-  document.getElementById("overview-tiles").innerHTML = order
+  const order = ["A", "B", "C", "D"]; // по возрастанию дохода
+  $("overview-tiles").innerHTML = order
     .map((g) => {
       const grp = data.groups[g];
       return `
@@ -190,11 +355,25 @@ function renderOverview() {
             <span class="status-dot" style="width:10px;height:10px;background:${STATUS_COLOR[grp.status]}"></span>
             ${escapeHtml(t("group_" + g))}
           </div>
-          <div class="tile-value">${grp.pct}%</div>
+          <div class="tile-value">${fmtPct(grp.pct)}%</div>
           <div class="tile-sub">${fmt(grp.count)} ${escapeHtml(t("households"))}</div>
         </div>`;
     })
     .join("");
+
+  // по регионам: у каждого свой минимум, итог по стране — сумма этих строк
+  const head = ["ov_region", "ov_sm", "ov_n", "ov_below"].map((k) => `<th>${escapeHtml(t(k))}</th>`).join("");
+  const rows = [...data.by_region]
+    .sort((a, b) => b.pct_below_sm - a.pct_below_sm)
+    .map(
+      (r) =>
+        `<tr><td>${escapeHtml(regionName(r.code, r.name))}</td><td>${fmt(r.sm)}</td><td>${fmt(r.n)}</td><td>${fmtPct(
+          r.pct_below_sm
+        )}%</td></tr>`
+    )
+    .join("");
+  $("overview-region-table").innerHTML = `<tr>${head}</tr>${rows}`;
+  $("overview-regions").classList.remove("hidden");
 }
 
 // ---------- Чат (режим "Для анализа") ----------
@@ -212,6 +391,7 @@ const CHECKLIST_KEYS = [
   "checked_correlation_reliability",
   "flagged_small_sample",
   "cross_checked_against_priors",
+  "forecast_caveated",
 ];
 
 function escapeHtml(s) {
@@ -224,16 +404,82 @@ function escapeHtml(s) {
   }[c]));
 }
 
-function renderMarkdownLite(text) {
-  let safe = escapeHtml(text);
-  safe = safe.replace(/```([\s\S]*?)```/g, (_, code) => `<pre><code>${code}</code></pre>`);
-  safe = safe.replace(/`([^`]+)`/g, "<code>$1</code>");
-  safe = safe.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
-  safe = safe
+const isTableRow = (line) => line.trim().startsWith("|");
+const isTableSeparator = (line) => /^\s*\|?[\s:|-]*-[\s:|-]*\|?\s*$/.test(line);
+const tableCells = (line) => line.trim().replace(/^\||\|$/g, "").split("|").map((c) => c.trim());
+
+function renderInline(s) {
+  return s.replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+}
+
+function renderTable(lines) {
+  const row = (line, tag) => `<tr>${tableCells(line).map((c) => `<${tag}>${renderInline(c)}</${tag}>`).join("")}</tr>`;
+  const body = lines.slice(2).map((l) => row(l, "td")).join("");
+  return `<div class="table-wrap"><table>${row(lines[0], "th")}${body}</table></div>`;
+}
+
+function renderBlock(block) {
+  const lines = block.split("\n");
+  // таблица может идти сразу за строкой текста, без пустой строки между ними
+  const start = lines.findIndex(isTableRow);
+  if (start >= 0 && lines.length - start >= 2 && isTableSeparator(lines[start + 1]) && lines.slice(start).every(isTableRow)) {
+    const lead = start > 0 ? renderBlock(lines.slice(0, start).join("\n")) : "";
+    return lead + renderTable(lines.slice(start));
+  }
+  const isItem = (l) => /^\s*[-*] /.test(l);
+  const firstItem = lines.findIndex(isItem);
+  if (firstItem >= 0 && lines.slice(firstItem).every(isItem)) {
+    const lead = firstItem > 0 ? renderBlock(lines.slice(0, firstItem).join("\n")) : "";
+    const items = lines.slice(firstItem).map((l) => `<li>${renderInline(l.replace(/^\s*[-*] /, ""))}</li>`);
+    return `${lead}<ul>${items.join("")}</ul>`;
+  }
+  if (lines.length === 1 && /^#{1,4} /.test(lines[0])) {
+    return `<p><strong>${renderInline(lines[0].replace(/^#{1,4} /, ""))}</strong></p>`;
+  }
+  return `<p>${renderInline(lines.join("<br>"))}</p>`;
+}
+
+// charts — необязательный массив: в него складываются спецификации из блоков ```chart
+function renderMarkdownLite(text, charts) {
+  // блоки кода вынимаются до разбивки на абзацы — внутри них бывают пустые строки
+  const fenced = [];
+  const stash = (html) => `\n\n\u0000${fenced.push(html) - 1}\u0000\n\n`;
+  const src = String(text).replace(/```([a-zA-Z]*)[ \t]*\n?([\s\S]*?)```/g, (_, lang, code) => {
+    if (lang === "chart" && charts) {
+      try {
+        charts.push(JSON.parse(code));
+        return stash(`<div class="chart-host" data-chart="${charts.length - 1}"></div>`);
+      } catch (e) {
+        // спецификация не разобралась — покажем её как обычный код
+      }
+    }
+    return stash(`<pre><code>${escapeHtml(code)}</code></pre>`);
+  });
+
+  return escapeHtml(src)
     .split(/\n{2,}/)
-    .map((p) => `<p>${p.replace(/\n/g, "<br>")}</p>`)
+    .map((b) => b.trim())
+    .filter(Boolean)
+    .map((b) => {
+      const m = b.match(/^\u0000(\d+)\u0000$/);
+      return m ? fenced[Number(m[1])] : renderBlock(b);
+    })
     .join("");
-  return safe;
+}
+
+function renderReply(bubble, text) {
+  const charts = [];
+  bubble.innerHTML = renderMarkdownLite(text, charts);
+  bubble.querySelectorAll(".chart-host").forEach((host) => {
+    const spec = charts[Number(host.dataset.chart)];
+    try {
+      mountChart(host, spec);
+    } catch (e) {
+      const pre = document.createElement("pre");
+      pre.textContent = JSON.stringify(spec, null, 2);
+      host.replaceChildren(pre);
+    }
+  });
 }
 
 function addRow(role, text) {
@@ -270,13 +516,16 @@ function renderChecklist(bubble, checklist) {
 }
 
 function showChatError(bubble, text) {
-  bubble.innerHTML = `<span style="color:#b42318">${escapeHtml(text)}</span>`;
+  bubble.innerHTML = `<span class="error-text">${escapeHtml(text)}</span>`;
 }
 
 async function send(message) {
   addRow("user", message);
   const typingBubble = addRow("assistant", "");
-  typingBubble.innerHTML = `<span class="typing">${escapeHtml(t("typing"))}</span>`;
+  // ответ с выполнением кода идёт около минуты — показываем, что работа идёт
+  typingBubble.innerHTML = `<span class="typing"><span class="typing-dots"><i></i><i></i><i></i></span><span data-i18n="typing">${escapeHtml(
+    t("typing")
+  )}</span></span>`;
 
   sendBtn.disabled = true;
   try {
@@ -294,7 +543,7 @@ async function send(message) {
     const data = await res.json();
     sessionId = data.session_id;
     sessionStorage.setItem("session_id", sessionId);
-    typingBubble.innerHTML = renderMarkdownLite(data.reply);
+    renderReply(typingBubble, data.reply);
     renderChecklist(typingBubble, data.checklist);
     chat.scrollTop = chat.scrollHeight;
   } catch (e) {
@@ -304,10 +553,15 @@ async function send(message) {
   }
 }
 
+document.getElementById("suggestions").addEventListener("click", (e) => {
+  const btn = e.target.closest(".suggestion");
+  if (btn && !sendBtn.disabled) send(btn.textContent);
+});
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const text = input.value.trim();
-  if (!text) return;
+  if (!text || sendBtn.disabled) return;
   input.value = "";
   input.style.height = "auto";
   send(text);
@@ -328,7 +582,9 @@ input.addEventListener("input", () => {
 // ---------- Смена языка: перерисовать всё, что собрано в JS ----------
 
 document.addEventListener("langchange", () => {
-  if (familyData) renderFamilyResult(familyData);
+  renderRegions();
+  renderSliderLabels();
+  if (familyData) renderFamilyResult();
   else if (familyErrorKey) showFamilyError(familyErrorKey);
 
   if (overviewData) renderOverview();

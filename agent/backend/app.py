@@ -2,8 +2,9 @@
 
     uvicorn app:app --reload --port 8000
 
-Детерминированные эндпоинты (/api/summary, /api/classify, /api/policy-simulate)
-работают без ключа — это чистый расчёт по households_2021_2024.parquet.
+Детерминированные эндпоинты (/api/regions, /api/summary, /api/classify,
+/api/policy-simulate) работают без ключа — это чистый расчёт (engine.py) по
+households_2021_2024.parquet.
 /api/chat (аналитик, LLM поверх code_execution) требует ANTHROPIC_API_KEY в
 agent/backend/.env — без него отвечает понятной ошибкой, а не падает весь сервер.
 """
@@ -20,6 +21,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
+import engine
 import segmentation as seg
 
 load_dotenv()
@@ -58,9 +60,22 @@ def _require_llm():
 # ---------------------------------------------------------------------------
 
 
+def _calc(fn, **kwargs) -> dict:
+    """Ошибка ввода уходит кодом (detail.code) — текст на нужном языке подставляет интерфейс."""
+    try:
+        return fn(**kwargs)
+    except engine.InputError as e:
+        raise HTTPException(status_code=400, detail={"code": e.code}) from e
+
+
+@app.get("/api/regions")
+def regions() -> list[dict]:
+    return seg.regions()
+
+
 @app.get("/api/summary")
-def summary(year: int = 2024) -> dict:
-    return seg.national_summary(year)
+def summary(year: int = engine.SM_YEAR) -> dict:
+    return _calc(seg.national_summary, year=year)
 
 
 class ClassifyRequest(BaseModel):
@@ -68,36 +83,36 @@ class ClassifyRequest(BaseModel):
     n_child: int = 0
     n_employed: int = 0
     income_monthly: float
-    settlement: str = "город"
-    year: int = 2024
+    region: int
+    year: int = engine.SM_YEAR
+    # необязательные: для пустых расчётный модуль берёт допущение и возвращает его
+    earner_wage: Optional[float] = None
+    transfers: Optional[float] = None
+    housing_cost: Optional[float] = None
+    # параметры трёх сценариев
+    months_without_wage: int = engine.DEFAULT_MONTHS_WITHOUT_WAGE
+    income_drop_pct: float = engine.DEFAULT_INCOME_DROP_PCT
+    housing_rise_pct: float = engine.DEFAULT_HOUSING_RISE_PCT
+    # «а что, если»
+    whatif_extra_wage: float = 0
+    whatif_child_allowance: float = 0
 
 
 @app.post("/api/classify")
 def classify(req: ClassifyRequest) -> dict:
-    if req.hh_size < 1:
-        raise HTTPException(status_code=400, detail="Размер семьи должен быть не меньше 1")
-    if req.income_monthly < 0:
-        raise HTTPException(status_code=400, detail="Доход не может быть отрицательным")
-    return seg.classify_household(
-        hh_size=req.hh_size,
-        n_child=req.n_child,
-        n_employed=req.n_employed,
-        income_monthly=req.income_monthly,
-        settlement=req.settlement,
-        year=req.year,
-    )
+    return _calc(seg.classify_household, **req.model_dump())
 
 
 class PolicyRequest(BaseModel):
-    year: int = 2024
-    new_asp_ratio: float = 0.7
+    year: int = engine.SM_YEAR
+    new_asp_ratio: float = engine.ASP_RATIO
     topup_amount: float = 30000
 
 
 @app.post("/api/policy-simulate")
 def policy_simulate(req: PolicyRequest) -> dict:
-    return seg.policy_simulate(
-        year=req.year, new_asp_ratio=req.new_asp_ratio, topup_amount=req.topup_amount
+    return _calc(
+        seg.policy_simulate, year=req.year, new_asp_ratio=req.new_asp_ratio, topup_amount=req.topup_amount
     )
 
 
