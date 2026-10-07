@@ -109,6 +109,7 @@ def policy_simulate(req: PolicyRequest) -> dict:
 class ChatRequest(BaseModel):
     session_id: Optional[str] = None
     message: str
+    lang: str = "en"
 
 
 class ChatResponse(BaseModel):
@@ -128,7 +129,7 @@ def chat(req: ChatRequest) -> ChatResponse:
     session = sessions.setdefault(session_id, Session())
 
     try:
-        reply = agent.ask(session, req.message)
+        reply = agent.ask(session, req.message, req.lang)
     except anthropic.APIError as e:
         raise HTTPException(status_code=502, detail=str(e)) from e
 

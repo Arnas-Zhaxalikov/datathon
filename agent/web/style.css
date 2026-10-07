@@ -47,6 +47,20 @@ html, body {
 .title { font-weight: 700; font-size: 16px; }
 .subtitle { font-size: 12px; color: var(--text-muted); }
 
+.lang-select {
+  margin-left: auto;
+  align-self: center;
+  font-family: inherit;
+  font-size: 13px;
+  padding: 5px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+}
+.lang-select:focus { outline: none; border-color: var(--accent); }
+
 .tabs {
   display: flex;
   gap: 4px;

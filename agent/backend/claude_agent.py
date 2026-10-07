@@ -18,6 +18,14 @@ HOUSEHOLDS_CSV = ROOT / "outputs" / "households_2021_2024.csv"
 
 MODEL = "claude-sonnet-5-5"
 
+# язык интерфейса (agent/web/i18n.js) → инструкция о языке ответа
+DEFAULT_LANG = "en"
+REPLY_LANGUAGE = {
+    "en": "Отвечай на английском языке.",
+    "kk": "Отвечай на казахском языке.",
+    "ru": "Отвечай на русском языке.",
+}
+
 DATA_FILES = [HOUSEHOLDS_CSV, AGG_DIR / "data_quality_flags.json"] + sorted(
     AGG_DIR.glob("*.csv")
 )
@@ -48,7 +56,7 @@ def _build_system_prompt() -> str:
         "известных аномалий синтетики. Остальные CSV — агрегаты по "
         "занятости, доходам, сегментам домохозяйств, корреляциям.\n\n"
         "Перед любым содержательным утверждением выполни код, который "
-        "читает data_quality_flags.json, и свериcь с ним. Отвечай на русском, "
+        "читает data_quality_flags.json, и свериcь с ним. Отвечай "
         "кратко и по существу, с конкретными числами из данных. Строго "
         "следуй правилам ниже.\n\n"
         + rules
@@ -79,7 +87,7 @@ class ClaudeAgent:
             self._uploaded_file_ids = ids
         return self._uploaded_file_ids
 
-    def ask(self, session: Session, user_message: str) -> str:
+    def ask(self, session: Session, user_message: str, lang: str = DEFAULT_LANG) -> str:
         content: list[dict] = [{"type": "text", "text": user_message}]
 
         kwargs: dict = dict(
@@ -90,7 +98,10 @@ class ClaudeAgent:
                     "type": "text",
                     "text": self.system_prompt,
                     "cache_control": {"type": "ephemeral"},
-                }
+                },
+                # язык ответа — отдельным блоком после кэшируемого, чтобы смена
+                # языка в интерфейсе не сбрасывала кэш основного промпта
+                {"type": "text", "text": REPLY_LANGUAGE.get(lang, REPLY_LANGUAGE[DEFAULT_LANG])},
             ],
             tools=[{"type": "code_execution_20260120", "name": "code_execution"}],
             output_config={"effort": "medium"},

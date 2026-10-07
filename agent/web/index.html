@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,11 +12,16 @@
       <div class="header-top">
         <span class="title">Qamqor AI</span>
         <span class="subtitle">STAT.DATATHON-2026 · AI for Official Statistics</span>
+        <select id="lang-select" class="lang-select" data-i18n-aria="lang_label">
+          <option value="en">English</option>
+          <option value="kk">Қазақша</option>
+          <option value="ru">Русский</option>
+        </select>
       </div>
       <nav class="tabs" id="tabs">
-        <button class="tab active" data-tab="family">Моя семья</button>
-        <button class="tab" data-tab="overview">Обзор по стране</button>
-        <button class="tab" data-tab="analyst">Для анализа (ИИ)</button>
+        <button class="tab active" data-tab="family" data-i18n="tab_family">My family</button>
+        <button class="tab" data-tab="overview" data-i18n="tab_overview">Country overview</button>
+        <button class="tab" data-tab="analyst" data-i18n="tab_analyst">Analysis (AI)</button>
       </nav>
     </header>
 
@@ -24,29 +29,29 @@
       <!-- ============ Моя семья ============ -->
       <section id="panel-family" class="panel active">
         <div class="panel-inner">
-          <h2>Профиль вашей семьи</h2>
-          <p class="hint">Данные не сохраняются — расчёт происходит здесь же, на синтетических данных STAT.DATATHON-2026.</p>
+          <h2 data-i18n="family_title">Your family profile</h2>
+          <p class="hint" data-i18n="family_hint"></p>
 
           <form id="family-form" class="form-grid">
-            <label>Размер семьи
+            <label><span data-i18n="f_hh_size">Family size</span>
               <input type="number" id="f-hh-size" min="1" value="4" required>
             </label>
-            <label>Детей
+            <label><span data-i18n="f_n_child">Children</span>
               <input type="number" id="f-n-child" min="0" value="2" required>
             </label>
-            <label>Работающих членов семьи
+            <label><span data-i18n="f_n_employed">Working family members</span>
               <input type="number" id="f-n-employed" min="0" value="1" required>
             </label>
-            <label>Доход семьи в месяц, тг
+            <label><span data-i18n="f_income">Family income per month, KZT</span>
               <input type="number" id="f-income" min="0" step="1000" value="200000" required>
             </label>
-            <label>Где живёте
+            <label><span data-i18n="f_settlement">Where you live</span>
               <select id="f-settlement">
-                <option value="город">Город</option>
-                <option value="село">Село</option>
+                <option value="город" data-i18n="city">City</option>
+                <option value="село" data-i18n="village">Village</option>
               </select>
             </label>
-            <button type="submit" class="btn-primary">Рассчитать</button>
+            <button type="submit" class="btn-primary" data-i18n="calc">Calculate</button>
           </form>
 
           <div id="family-result" class="result hidden"></div>
@@ -56,10 +61,10 @@
       <!-- ============ Обзор по стране ============ -->
       <section id="panel-overview" class="panel">
         <div class="panel-inner">
-          <h2>Кого не видит официальная статистика бедности</h2>
+          <h2 data-i18n="overview_title">Who official poverty statistics do not see</h2>
           <p class="hint" id="overview-hint"></p>
           <div class="tiles" id="overview-tiles"></div>
-          <p class="hint small">Черта прожиточного минимума и черта АСП — относительные (50% и 35% медианного дохода на душу за год), не официальные показатели БНС. Методология: <code>agent/backend/segmentation.py</code>.</p>
+          <p class="hint small" data-i18n-html="overview_note"></p>
         </div>
       </section>
 
@@ -67,19 +72,20 @@
       <section id="panel-analyst" class="panel">
         <div class="chat" id="chat">
           <div class="row assistant intro">
-            <div class="avatar">ИИ</div>
+            <div class="avatar" data-i18n="avatar_ai">AI</div>
             <div class="bubble">
-              <p>Спросите про занятость, доходы, домохозяйства или регионы за 2021–2024. Перед каждым содержательным ответом я сверяюсь с аудитом данных — под ответом будет видно, какие проверки прошли.</p>
+              <p data-i18n="chat_intro"></p>
             </div>
           </div>
         </div>
         <form id="form" class="composer">
-          <textarea id="input" placeholder="Например: как менялась занятость в Алматинской области?" rows="1"></textarea>
-          <button type="submit" id="send">Отправить</button>
+          <textarea id="input" data-i18n-placeholder="chat_placeholder" rows="1"></textarea>
+          <button type="submit" id="send" data-i18n="send">Send</button>
         </form>
       </section>
     </main>
   </div>
+  <script src="i18n.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
