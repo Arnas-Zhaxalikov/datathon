@@ -3,27 +3,82 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ИИ-аналитик — STAT.DATATHON-2026</title>
+<title>Qamqor AI — STAT.DATATHON-2026</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="app">
     <header class="header">
-      <span class="title">ИИ-аналитик</span>
-      <span class="subtitle">STAT.DATATHON-2026 · AI for Official Statistics</span>
-    </header>
-    <main id="chat" class="chat">
-      <div class="row assistant intro">
-        <div class="avatar">ИИ</div>
-        <div class="bubble">
-          <p>Спросите про занятость, доходы, домохозяйства или регионы за 2021–2024. Перед каждым содержательным ответом я сверяюсь с аудитом данных — под ответом будет видно, какие проверки прошли.</p>
-        </div>
+      <div class="header-top">
+        <span class="title">Qamqor AI</span>
+        <span class="subtitle">STAT.DATATHON-2026 · AI for Official Statistics</span>
       </div>
+      <nav class="tabs" id="tabs">
+        <button class="tab active" data-tab="family">Моя семья</button>
+        <button class="tab" data-tab="overview">Обзор по стране</button>
+        <button class="tab" data-tab="analyst">Для анализа (ИИ)</button>
+      </nav>
+    </header>
+
+    <main class="content">
+      <!-- ============ Моя семья ============ -->
+      <section id="panel-family" class="panel active">
+        <div class="panel-inner">
+          <h2>Профиль вашей семьи</h2>
+          <p class="hint">Данные не сохраняются — расчёт происходит здесь же, на синтетических данных STAT.DATATHON-2026.</p>
+
+          <form id="family-form" class="form-grid">
+            <label>Размер семьи
+              <input type="number" id="f-hh-size" min="1" value="4" required>
+            </label>
+            <label>Детей
+              <input type="number" id="f-n-child" min="0" value="2" required>
+            </label>
+            <label>Работающих членов семьи
+              <input type="number" id="f-n-employed" min="0" value="1" required>
+            </label>
+            <label>Доход семьи в месяц, тг
+              <input type="number" id="f-income" min="0" step="1000" value="200000" required>
+            </label>
+            <label>Где живёте
+              <select id="f-settlement">
+                <option value="город">Город</option>
+                <option value="село">Село</option>
+              </select>
+            </label>
+            <button type="submit" class="btn-primary">Рассчитать</button>
+          </form>
+
+          <div id="family-result" class="result hidden"></div>
+        </div>
+      </section>
+
+      <!-- ============ Обзор по стране ============ -->
+      <section id="panel-overview" class="panel">
+        <div class="panel-inner">
+          <h2>Кого не видит официальная статистика бедности</h2>
+          <p class="hint" id="overview-hint"></p>
+          <div class="tiles" id="overview-tiles"></div>
+          <p class="hint small">Черта прожиточного минимума и черта АСП — относительные (50% и 35% медианного дохода на душу за год), не официальные показатели БНС. Методология: <code>agent/backend/segmentation.py</code>.</p>
+        </div>
+      </section>
+
+      <!-- ============ Для анализа (ИИ) ============ -->
+      <section id="panel-analyst" class="panel">
+        <div class="chat" id="chat">
+          <div class="row assistant intro">
+            <div class="avatar">ИИ</div>
+            <div class="bubble">
+              <p>Спросите про занятость, доходы, домохозяйства или регионы за 2021–2024. Перед каждым содержательным ответом я сверяюсь с аудитом данных — под ответом будет видно, какие проверки прошли.</p>
+            </div>
+          </div>
+        </div>
+        <form id="form" class="composer">
+          <textarea id="input" placeholder="Например: как менялась занятость в Алматинской области?" rows="1"></textarea>
+          <button type="submit" id="send">Отправить</button>
+        </form>
+      </section>
     </main>
-    <form id="form" class="composer">
-      <textarea id="input" placeholder="Например: как менялась занятость в Алматинской области?" rows="1"></textarea>
-      <button type="submit" id="send">Отправить</button>
-    </form>
   </div>
   <script src="app.js"></script>
 </body>

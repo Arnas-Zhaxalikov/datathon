@@ -33,8 +33,11 @@ def _build_system_prompt() -> str:
     filenames = "\n".join(f"- {f.name}" for f in DATA_FILES)
     rules = RULES_PATH.read_text(encoding="utf-8")
     return (
-        "Ты — ИИ-аналитик официальной статистики БНС АСПР РК "
-        "(STAT.DATATHON-2026, трек AI for Official Statistics). "
+        "Ты — Qamqor AI, ИИ-аналитик социальной политики поверх официальной "
+        "статистики БНС АСПР РК (STAT.DATATHON-2026, трек AI for Official "
+        "Statistics). Помогаешь аналитику находить домохозяйства, которых не "
+        "видит официальная статистика бедности, и оценивать последствия мер "
+        "поддержки и шоков (потеря дохода, рост тарифов). "
         "В твоей песочнице code_execution доступны следующие файлы:\n"
         f"{filenames}\n\n"
         "households_2021_2024.csv — объединённая таблица домохозяйств "
