@@ -80,6 +80,7 @@ def risk_screen(hh_size: int, n_child: int, region: int, n_child_u7: int = 0, n_
     r = T.call("risk_screen", {"size": hh_size, "n_child": n_child, "n_child_u7": n_child_u7, "n_elderly": n_elderly,
                                "region": E.REGION_NAMES[str(region)], "urban": urban})["result"]
     return {"rank_pct": r["risk_rank_pct"], "level": r["level"], "factors": r["factors"], "inputs": r["inputs"],
+            "train_years": r["model"]["train_years"],
             "test_year": r["model"]["test_year"], "recall_top20_pct": r["model"]["recall_top20_pct"],
             "model_version": r["model"]["version"], "trained_at": r["model"]["trained_at"]}
 

@@ -550,6 +550,11 @@ legend + * { clear: both; }
 
 .checklist { margin-top: var(--s3); display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 .checklist-cap { font-size: 11px; color: var(--text-muted); margin-right: 2px; }
+.howto { margin-top: var(--s3); border-top: 1px solid var(--border); padding-top: var(--s2); }
+.howto summary { cursor: pointer; font-size: var(--fs-xs); font-weight: 600; color: var(--text-muted); padding: var(--s1) 0; }
+.howto summary:hover { color: var(--text-secondary); }
+.howto .checklist { margin-top: var(--s2); border-top: 0; padding-top: 0; }
+.howto-calls { margin-top: var(--s2); padding-left: var(--s4); font-family: ui-monospace, Consolas, monospace; font-size: 11px; color: var(--text-muted); line-height: 1.5; overflow-wrap: anywhere; }
 .chip { font-size: 11px; padding: 3px 8px; border-radius: 999px; border: 1px solid var(--border); color: var(--text-muted); white-space: nowrap; }
 .chip.ok { color: var(--ok-text); border-color: var(--ok-border); background: var(--ok-bg); }
 .chip.bad { color: var(--bad-text); border-color: var(--bad-border); background: var(--bad-bg); }

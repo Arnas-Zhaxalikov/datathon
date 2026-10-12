@@ -169,7 +169,9 @@ TOOLS = [
                        "composition, region and urban or rural; income is NOT an input and must not be asked for. "
                        "Returns the place in the ranking of 2024 sample households ('risk higher than X% of people in "
                        "the sample'), a level (high: top 10%, elevated: top 10-20%, usual: the rest) and the main "
-                       "factors from the regression coefficients, against the average household. It is a filter that "
+                       "factors from the regression coefficients. Only factors the household actually has are listed "
+                       "(no children: no children factor; no elderly members: no elderly factor), and each is a "
+                       "comparison with the average household of the sample: say so when you name them. It is a filter that "
                        "says whom to check, not a decision: eligibility is decided on income (check_household). To "
                        "answer 'where does this figure come from', call explain with the ids in explain_nodes.",
         "input_schema": {"type": "object", "properties": {

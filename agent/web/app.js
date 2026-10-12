@@ -184,8 +184,7 @@ function renderRisk() {
   $("risk-factors").replaceChildren(
     ...(shown.length ? shown : [null]).map((f) => {
       const li = document.createElement("li");
-      const key = f && f.key === "elderly" ? (r.inputs.n_elderly > 0 ? "elderly_some" : "elderly_none") : f && f.key;
-      li.textContent = f ? `${f.direction === "raises" ? "↑" : "↓"} ${t("risk_f_" + key)} — ${t("risk_" + f.direction)}` : t("risk_f_none");
+      li.textContent = f ? `${f.direction === "raises" ? "↑" : "↓"} ${t("risk_f_" + f.key)} — ${t("risk_" + f.direction)}` : t("risk_f_none");
       return li;
     })
   );
@@ -701,13 +700,24 @@ function addRow(role, text) {
 // под ответом — какие расчёты ядра были вызваны: числа в ответе берутся только из них
 function renderTools(bubble, tools) {
   if (!tools || tools.length === 0) return;
+  // раскрывающийся блок: в тексте ответа внутренних имён нет, вызовы видны здесь
+  const details = document.createElement("details");
+  details.className = "howto";
+  const cap = document.createElement("summary");
+  cap.dataset.i18n = "how_computed";
+  cap.textContent = t("how_computed");
+  details.appendChild(cap);
   const box = document.createElement("div");
   box.className = "checklist";
-  const cap = document.createElement("span");
-  cap.className = "checklist-cap";
-  cap.dataset.i18n = "tools_used";
-  cap.textContent = t("tools_used");
-  box.appendChild(cap);
+  details.appendChild(box);
+  const calls = document.createElement("ul");
+  calls.className = "howto-calls";
+  tools.forEach((tool) => {
+    const li = document.createElement("li");
+    li.textContent = `${tool.name}(${JSON.stringify(tool.args)})`;
+    calls.appendChild(li);
+  });
+  details.appendChild(calls);
   // один и тот же расчёт, вызванный несколько раз, показывается один раз со счётчиком
   const counts = new Map();
   tools.forEach((tool) => {
@@ -723,7 +733,7 @@ function renderTools(bubble, tools) {
     chip.title = tool.name;
     box.appendChild(chip);
   });
-  bubble.appendChild(box);
+  bubble.appendChild(details);
   labelToolChips(box);
 }
 

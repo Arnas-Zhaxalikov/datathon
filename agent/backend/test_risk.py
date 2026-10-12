@@ -71,6 +71,15 @@ def test_every_region_answers():
             assert {f["key"] for f in r["factors"]} == {"children", "household_size", "elderly", "region", "urban"}
 
 
+def test_only_factors_the_family_has():
+    keys = lambda **kw: {f["key"] for f in core.risk_screen(region=ASTANA, **kw)["factors"]}
+    assert keys(hh_size=2, n_child=0) == {"household_size", "region", "urban"}
+    assert keys(hh_size=4, n_child=2) == {"children", "household_size", "region", "urban"}
+    assert keys(hh_size=2, n_child=0, n_elderly=2) == {"elderly", "household_size", "region", "urban"}
+    tool = core.T.call("risk_screen", {"size": 6, "n_child": 4, "region": "Shymkent city"})["result"]
+    assert "elderly" not in {f["key"] for f in tool["factors"]} and "average household" in tool["factors_compared_with"]
+
+
 def test_levels_follow_the_rank():
     assert [RS.level(p) for p in (95, 90, 89.9, 80, 79.9, 10)] == ["high", "high", "elevated", "elevated", "usual", "usual"]
 

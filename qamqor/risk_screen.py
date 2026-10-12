@@ -126,18 +126,19 @@ def screen(size: int, n_child: int = 0, n_child_u7: int = 0, n_elderly: int = 0,
     row = pd.DataFrame([{"size": size, "n_child": n_child, "n_child_u7": n_child_u7, "n_elderly": n_elderly,
                          "n_working_age": size - n_child - n_elderly, "urban": int(is_urban), "region": code}])
     X = design(row)
+    b = _state()["bundle"]
     risk = float(predict(X)[0])
     pct = percentile(risk)
-    b = _state()["bundle"]
     return {
         "risk_rank_pct": pct,
         "rank_text": f"risk higher than {pct}% of people in the {b['test_year']} sample",
         "level": level(pct),
         "levels": {"high": f"top {100 - HIGH:g}%", "elevated": f"top {100 - ELEVATED:g}% but not top {100 - HIGH:g}%", "usual": "the rest"},
-        # RU: вклад считается относительно средней семьи, поэтому отсутствие пожилых — тоже вклад.
-        # EN: contributions are against the average household, so having no elderly members is a contribution too.
-        "factors": [{**f, "note": "no members aged 63 or over; against the average household this raises the risk"}
-                    if f["key"] == "elderly" and n_elderly == 0 else f for f in _factors(X.to_numpy(float)[0])],
+        # RU: только факторы, которые есть у этой семьи: без детей нет фактора «дети», без пожилых — «пожилые».
+        # EN: only factors this household has: no children, no "children" factor; no elderly, no "elderly" factor.
+        "factors": [f for f in _factors(X.to_numpy(float)[0])
+                    if not (f["key"] == "children" and n_child == 0) and not (f["key"] == "elderly" and n_elderly == 0)],
+        "factors_compared_with": f"the average household of the {b['train_years'][0]}-{b['train_years'][-1]} sample",
         "inputs": {**row.drop(columns="region").iloc[0].astype(int).to_dict(), "region": E.REGION_NAMES[code],
                    "urban_assumed": assumed_urban},
         "model": {"kind": "logistic regression", "version": b["version"], "trained_at": b["trained_at"],
