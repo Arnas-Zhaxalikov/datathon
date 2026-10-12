@@ -59,44 +59,63 @@ _LINE = {"type": "string", "enum": ["regional", "actual", "budget"],
 _REGION = {"type": "string", "enum": sorted(E.REGION_NAMES.values()),
            "description": "Region or city where the household lives. Sets the regional subsistence minimum."}
 
+_STRESS = {"type": "string", "enum": ["weak", "base", "strong"],
+           "description": "Strength of the four stress tests. base (default): main earner 3 months without earnings "
+                          "(employees keep 45%, self-employed nothing), cost of living +10%, housing and utilities +30%, "
+                          "one more dependant. weak: 2 months, +5%, +15%, a dependant for half a year. "
+                          "strong: 6 months, +15%, +50%, two more dependants."}
+
+_LEVELS = ("the A-E income map: A above the subsistence minimum and passing all four stress tests, B failing one test, "
+           "C failing two or more, D below the subsistence minimum but not below the TSA line, E below the TSA line "
+           "(income-eligible for TSA). A is the most resilient level, E the lowest income")
+
 TOOLS = [
     {
         "name": "gap_overview",
-        "description": "Who is missed by the official poverty definition. Returns shares of people in four tiers: "
-                       "A income-eligible for TSA, B below the subsistence minimum but not TSA-eligible, "
-                       "C hidden vulnerable (above the minimum but failing a stress test), D resilient; "
-                       "optionally by household type or region, plus the reasons tier C is vulnerable. Always includes "
+        "description": "Who is missed by the official poverty definition. Returns shares of people on " + _LEVELS + "; "
+                       "optionally by household type or region, plus which tests levels B and C fail. Always includes "
                        "three_lines: the share of people below the TSA line, the budget-law minimum and the regional "
                        "minimum, and the uncovered band between the first and the third. Set equivalence_scale to true "
-                       "to add a sensitivity test with the Bureau's equivalence scale (first member 1, each further 0.8).",
+                       "to add a sensitivity test with the Bureau's equivalence scale (first member 1, each further 0.8). "
+                       "Set profile to true to add the profile of levels B and C: children, earners, regions, and which "
+                       "shock brings each level below the minimum.",
         "input_schema": {"type": "object", "properties": {
-            "year": _YEAR, "group_by": _GROUP, "line_mode": _LINE,
-            "equivalence_scale": {"type": "boolean", "description": "Add the equivalence-scale sensitivity test. Default false."}}},
+            "year": _YEAR, "group_by": _GROUP, "line_mode": _LINE, "stress_version": _STRESS,
+            "equivalence_scale": {"type": "boolean", "description": "Add the equivalence-scale sensitivity test. Default false."},
+            "profile": {"type": "boolean", "description": "Add the profile of levels B and C. Default false."}}},
     },
     {
         "name": "simulate",
         "description": "Static what-if. Applies an optional shock, then an optional policy, and compares poverty, "
-                       "tiers, inequality, cost and beneficiaries with the baseline. Use for questions like "
+                       "levels A-E, inequality, cost and beneficiaries with the baseline. Use for questions like "
                        "'what if the TSA threshold is raised' or 'what if utility tariffs rise 30%'.",
         "input_schema": {"type": "object", "properties": {"year": _YEAR, "policy": _POLICY, "shock": _SHOCK,
-                                                          "group_by": _GROUP, "line_mode": _LINE}},
+                                                          "group_by": _GROUP, "line_mode": _LINE, "stress_version": _STRESS}},
     },
     {
         "name": "compare_policies",
         "description": "Runs several policies side by side, optionally after a shock. If equal_budget is true, each "
-                       "policy is first tuned to cost the same as the first one, so the comparison is fair.",
+                       "policy is first tuned to cost the same as the first one, so the comparison is fair. With a shock "
+                       "and equal_budget, set focus_levels_b_c to true to also get the result for levels B and C: what "
+                       "share of them ends up below the subsistence minimum after the shock with each policy, and what "
+                       "part of each policy's spending reaches them.",
         "input_schema": {"type": "object", "properties": {
             "year": _YEAR, "policies": {"type": "array", "items": _POLICY, "minItems": 2},
-            "shock": _SHOCK, "equal_budget": {"type": "boolean"}, "line_mode": _LINE}, "required": ["policies"]},
+            "shock": _SHOCK, "equal_budget": {"type": "boolean"}, "line_mode": _LINE, "stress_version": _STRESS,
+            "focus_levels_b_c": {"type": "boolean", "description": "Add the result for levels B and C. Needs shock and equal_budget."}},
+            "required": ["policies"]},
     },
     {
         "name": "check_household",
-        "description": "Citizen side. Profiles one household from a description: income per person, TSA income "
-                       "eligibility and top-up, margin above the subsistence minimum of its region, stress tests, drivers.",
+        "description": "Citizen side. Profiles one household from a description: income per person, its level on "
+                       + _LEVELS + ", the list of failed stress tests, TSA income eligibility and top-up, margin above "
+                       "the subsistence minimum of its region, drivers.",
         "input_schema": {"type": "object", "properties": {
-            "year": _YEAR, "region": _REGION,
+            "year": _YEAR, "region": _REGION, "stress_version": _STRESS,
             "members": {"type": "array", "minItems": 1, "items": {"type": "object", "properties": {
                 "age": {"type": "number"}, "labor_month": {"type": "number"},
+                "self_employed": {"type": "boolean", "description": "True if labor_month is self-employment income. "
+                                  "An employee keeps 45% of earnings in the main-earner test, a self-employed person nothing."},
                 "pension_month": {"type": "number"}, "other_month": {"type": "number"}}, "required": ["age"]}},
             "utilities_month": {"type": "number", "description": "Housing and utility costs, tenge per month."}},
             "required": ["members"]},
@@ -104,10 +123,18 @@ TOOLS = [
 ]
 
 CAVEATS = [
-    "Synthetic data: figures are illustrative, not official estimates.",
+    "Synthetic data without survey weights: shares are shares of the sample. Use them for relative and methodological "
+    "statements only; do not turn them into numbers of people or money for the country.",
     "Regional subsistence minimums are the Bureau of National Statistics annual values for 2022-2024; the 2022 regional values are rebuilt from monthly data with the Bureau's method.",
-    "No survey weights: shares are shares of the sample.",
+    "Levels A-E: A is the most resilient, E is below the TSA line. In versions before 0.3 the letters ran the other way.",
+    "The main earner's employment type is not in the household table: the wage share of the household's labour income is used to apply the 45% replacement.",
     "Static model: no behavioural response; full take-up unless stated.",
+    "Income-based poverty; official statistics use consumption.",
+]
+# RU: оговорки для check_household: про выборку там говорить нечего. EN: caveats for check_household: nothing about the sample applies.
+HOUSEHOLD_CAVEATS = [
+    "Levels A-E: A is the most resilient, E is below the TSA line.",
+    "Static estimate from stated income; TSA also has non-income conditions not modelled here.",
     "Income-based poverty; official statistics use consumption.",
 ]
 
@@ -159,23 +186,30 @@ def call(name: str, args: dict | None = None) -> dict:
 
 
 def _run(name: str, a: dict, year: int) -> dict:
+    st = E.stress_tests(a.get("stress_version", "base"))
     if name == "check_household":
-        out = E.check_household(a["members"], a.get("utilities_month", 0.0), year, region=a.get("region"))
-        return {"result": _clean(out), "caveats": CAVEATS[3:]}
+        out = E.check_household(a["members"], a.get("utilities_month", 0.0), year, st=st, region=a.get("region"))
+        return {"result": _clean(out), "caveats": HOUSEHOLD_CAVEATS}
     df = _year_df(year)
     if name == "gap_overview":
         g = a.get("group_by", "hh_type")
-        c = E.classify(df, year)
+        c = E.classify(df, year, st)
         rows = []
         for key, part in df.groupby(g):
             t = c.loc[part.index, "tier"]
             label = E.REGION_NAMES.get(str(key), str(key)) if g == "region" else str(key)
             rows.append({g: label, "persons_pct_of_sample": round(100 * part["size"].sum() / df["size"].sum(), 1),
                          **{k: round(100 * E.share(t == k, part), 1) for k in E.TIERS}})
-        C = c[c["tier"] == "C_hidden_vulnerable"]
-        why = {k: round(100 * E.share(C[k], df.loc[C.index]), 1) for k in C.columns if k.startswith(("fail_", "drv_"))}
-        out = {"overall": E.summary(df, year), "three_lines": E.three_lines(df, year),
-               "by_group": rows, "why_hidden_vulnerable_pct": why}
+        # RU: какие тесты не проходят уровни B и C и какие у них структурные причины.
+        # EN: which tests levels B and C fail and what their structural drivers are.
+        R = c[c["tier"].isin(E.AT_RISK)]
+        labels = E.test_labels(st)
+        why = {labels.get(k, k): round(100 * E.share(R[k], df.loc[R.index]), 1)
+               for k in R.columns if k.startswith(("fail_", "drv_"))}
+        out = {"overall": E.summary(df, year, st), "stress_tests": labels, "three_lines": E.three_lines(df, year),
+               "by_group": rows, "why_levels_b_c_pct": why}
+        if a.get("profile"):
+            out["levels_b_c_profile"] = E.at_risk_profile(df, year, st)
         if a.get("equivalence_scale"):
             # RU: проверка чувствительности, всегда на региональной черте. EN: a sensitivity test, always on the regional line.
             out["equivalence_scale"] = E.equivalence_test(df, year, g)
@@ -183,14 +217,17 @@ def _run(name: str, a: dict, year: int) -> dict:
                                                 "the Bureau's scale', not 'misclassified'. 'Same line' lowers poverty by "
                                                 "construction; 'same headcount' shows who changes places.")
     elif name == "simulate":
-        out = E.scenario(df, year, _policy(a.get("policy")), _shock(a.get("shock")), group_by=a.get("group_by", "hh_type"))
+        out = E.scenario(df, year, _policy(a.get("policy")), _shock(a.get("shock")), st=st,
+                         group_by=a.get("group_by", "hh_type"))
     elif name == "compare_policies":
         pols = [_policy(p) for p in a["policies"]]
         shock = _shock(a.get("shock"))
         budget = None
         if a.get("equal_budget"):
-            budget = E.scenario(df, year, pols[0], shock, group_by=None)["cost"]["per_capita_tenge_year"]
-        out = E.compare(df, year, pols, shock, equal_cost_per_capita=budget)
+            budget = E.scenario(df, year, pols[0], shock, st=st, group_by=None)["cost"]["per_capita_tenge_year"]
+        out = E.compare(df, year, pols, shock, equal_cost_per_capita=budget, st=st)
+        if a.get("focus_levels_b_c") and shock is not None and budget is not None:
+            out["levels_b_c"] = E.compare_for_group(df, year, pols, shock, budget, st)
     else:
         raise ValueError(f"unknown tool: {name}")
     return {"result": _clean(out), "caveats": CAVEATS}

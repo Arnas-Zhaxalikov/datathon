@@ -17,12 +17,19 @@ what a given support measure would change.
 | 3 | `engine.three_lines`: три черты рядом и «непокрытая полоса» | `engine.three_lines`: three lines side by side and the "uncovered band" |
 | 4 | `engine.equivalence_test`: проверка шкалой эквивалентности БНС | `engine.equivalence_test`: a test with the BNS equivalence scale |
 | 5 | `gap_overview` возвращает `three_lines` и, по запросу, `equivalence_scale` | `gap_overview` returns `three_lines` and, on request, `equivalence_scale` |
+| 6 | Четыре стресс-теста вместо трёх, в трёх версиях: слабая, базовая, сильная | Four stress tests instead of three, in three versions: weak, base, strong |
+| 7 | Карта доходов A–E вместо групп A–D; **буквы идут в обратную сторону** | The A–E income map replaces tiers A–D; **the letters run the other way** |
+| 8 | `check_household` возвращает уровень и список непройденных тестов | `check_household` returns the level and the list of failed tests |
+| 9 | `engine.at_risk_profile` и `engine.compare_for_group`: профиль уровней B и C и меры при равном бюджете для них | `engine.at_risk_profile` and `engine.compare_for_group`: the profile of levels B and C and measures at equal budget for them |
+| 10 | Убран пересчёт стоимости «на страну»: данные без весов | Scaling of costs "to the country" is removed: the data has no weights |
 
-**RU.** Группы A–D, стресс-тесты, меры и шоки не менялись. Из-за новых черт итог 2024 года
-сдвинулся с 9,0% до 9,1% ниже ПМ; Туркестанская область — с 12,5% до 14,2%.
+**RU.** Из-за новых черт итог 2024 года сдвинулся с 9,0% до 9,07% ниже ПМ (95% ДИ 8,4–9,7);
+Туркестанская область — с 12,5% до 14,2%. Что изменилось относительно v0.2 и какие старые цифры
+больше нельзя использовать — в `CHANGES.md`. Все итоговые таблицы — в `results/final_tables.md`.
 
-**EN.** Tiers A–D, stress tests, measures and shocks are unchanged. With the new lines the 2024
-headline moved from 9.0% to 9.1% below the SM; Turkestan from 12.5% to 14.2%.
+**EN.** With the new lines the 2024 headline moved from 9.0% to 9.07% below the SM (95% CI
+8.4–9.7); Turkestan from 12.5% to 14.2%. What changed against v0.2 and which old figures must no
+longer be used is in `CHANGES.md`. All final tables are in `results/final_tables.md`.
 
 ## Файлы / Files
 
@@ -33,7 +40,11 @@ headline moved from 9.0% to 9.1% below the SM; Turkestan from 12.5% to 14.2%.
 | `tools.py` | Четыре инструмента для языковой модели | Four tools for the language model |
 | `run_baseline.py` | Первый прогон всех модулей | First run of all modules |
 | `results/results.json` | Результаты прогона | Results of the run |
-| `verify.py` | Независимая проверка итогов без `engine.py` | An independent check of the results without `engine.py` |
+| `verify.py` | Независимая проверка итогов без `engine.py` и сверка инструментов с `results.json` | An independent check of the results without `engine.py`, plus a tools-versus-`results.json` check |
+| `make_tables.py` | Собирает итоговые таблицы и график из `results.json` | Builds the final tables and the chart from `results.json` |
+| `results/final_tables.md` | Итоговые таблицы: единственный источник чисел для слайдов | The final tables: the single source of numbers for slides |
+| `results/three_lines.svg` | График трёх черт | The three-lines chart |
+| `CHANGES.md` | Что изменилось относительно v0.2 и какие цифры устарели | What changed against v0.2 and which figures are retired |
 | `ref/regional_sm_annual_2022_2024.csv` | Годовые ПМ по регионам (БНС) | Annual regional SMs (BNS) |
 
 ## Запуск / Run
@@ -42,26 +53,45 @@ headline moved from 9.0% to 9.1% below the SM; Turkestan from 12.5% to 14.2%.
 pip install pandas numpy
 python build.py  <папка с данными / data folder>  out
 python run_baseline.py  out/households.csv  results
+python make_tables.py  results
 python verify.py  out/households.csv  ref/regional_sm_annual_2022_2024.csv  results/results.json
 ```
 
 `<data folder>` — папка, где лежат `d004/`, `d008/` и т.д. / the folder holding `d004/`, `d008/` etc.
 
-## Четыре группы / Four tiers
+## Карта доходов A–E / The A–E income map
 
-Доход на человека в месяц сравнивается с прожиточным минимумом (ПМ) / monthly income per
-person is compared with the subsistence minimum (SM):
+Доход на человека в месяц сравнивается с прожиточным минимумом (ПМ) своего региона / monthly
+income per person is compared with the subsistence minimum (SM) of the household's region:
 
-- **A** — ниже черты АСП (70% ПМ) / below the TSA line (70% of SM)
-- **B** — ниже ПМ, но выше черты АСП: бедные, которым помощь не положена / below SM but above
-  the TSA line: poor yet not eligible
-- **C** — выше ПМ, но падают ниже ПМ хотя бы в одном стресс-тесте: «скрытые уязвимые» /
-  above SM but falling below it in at least one stress test: the "hidden vulnerable"
-- **D** — устойчивые / resilient
+- **A** — выше ПМ и проходит все стресс-тесты / above the SM and passes every stress test
+- **B** — выше ПМ, не проходит один стресс-тест / above the SM, fails one stress test
+- **C** — выше ПМ, не проходит два и более / above the SM, fails two or more
+- **D** — ниже ПМ, но не ниже черты АСП / below the SM but not below the TSA line
+- **E** — ниже черты АСП (70% ПМ) / below the TSA line (70% of the SM)
 
-Стресс-тесты по умолчанию / default stress tests (`engine.StressTests`):
-главный кормилец 3 месяца без заработка; доход −15%; жильё и коммунальные +30% /
-main earner loses 3 months of earnings; income −15%; housing and utilities +30%.
+**RU.** До v0.3 буквы шли наоборот: A — ниже черты АСП, D — устойчивые. Старые подписи с
+буквами использовать нельзя.
+**EN.** Before v0.3 the letters ran the other way: A — below the TSA line, D — resilient. Old
+labels with letters must not be reused.
+
+## Четыре стресс-теста / Four stress tests
+
+`engine.StressTests`, версии / versions `engine.STRESS_VERSIONS`:
+
+| Тест / Test | Слабая / Weak | Базовая / Base | Сильная / Strong |
+|---|---|---|---|
+| Главный кормилец без заработка; наёмный сохраняет 45%, самозанятый — ничего / main earner without earnings; an employee keeps 45%, a self-employed person nothing | 2 мес. / months | 3 | 6 |
+| Стоимость жизни / cost of living | +5% | +10% | +15% |
+| Жильё и коммунальные / housing and utilities | +15% | +30% | +50% |
+| Ещё один иждивенец / one more dependant | на полгода / for half a year | 1 | 2 |
+
+**RU.** Тест не пройден, если после него доход на человека ниже ПМ. Тест с иждивенцем строже
+остальных почти для всех семей (один человек — это больше 10% для любой семьи меньше десяти
+человек), поэтому уровень B в базовой версии — это семьи, не проходящие только его.
+**EN.** A test is failed if per-capita income after it is below the SM. The dependant test is
+stricter than the others for almost every household (one person is more than 10% for any
+household of fewer than ten), so in the base version level B is the households failing only it.
 
 ## Региональные черты / Regional lines
 
@@ -144,13 +174,22 @@ it only picks the calculation and explains the numbers.
    method, (9 × nine-month average + October + November + December) / 12; the same calculation
    for the country matched the published totals to within 2 tenge.
 3. **RU.** K=1 — город, K=2 — село. **EN.** K=1 urban, K=2 rural.
+5. **RU.** Тип занятости главного кормильца в таблице «семья-год» неизвестен. В тесте «кормилец без
+   заработка» 45% применяется к доле зарплаты в трудовом доходе всей семьи (`inc_wage / inc_labor`).
+   В `check_household` тип задаётся явно (`self_employed`).
+   **EN.** The main earner's employment type is not in the household-year table. In the "main earner
+   without earnings" test the 45% applies to the wage share of the whole household's labour income
+   (`inc_wage / inc_labor`). In `check_household` the type is given explicitly (`self_employed`).
 4. **RU.** Кварталы без интервью (`REZ=2`) пересчитаны на полный год.
    **EN.** Quarters with no interview (`REZ=2`) are scaled to a full year.
 
 ## Ограничения / Limitations
 
 - **RU.** Данные синтетические: цифры иллюстративные. **EN.** Synthetic data: figures are illustrative.
-- **RU.** Весов нет: доли — это доли выборки. **EN.** No weights: shares are sample shares.
+- **RU.** Весов нет: доли — это доли выборки. Допустимы только относительные и методологические
+  выводы; оценок численности или сумм по стране ядро не выдаёт.
+  **EN.** No weights: shares are sample shares. Only relative and methodological statements are
+  valid; the engine gives no national counts or sums.
 - **RU.** Бедность считается по доходу; официальная статистика — по потреблению.
   **EN.** Poverty is income-based; official statistics use consumption.
 - **RU.** В данных нет расходов на еду (форма D-003), поэтому нет шока цен на продукты.

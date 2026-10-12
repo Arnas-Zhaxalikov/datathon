@@ -6,6 +6,7 @@ Qamqor AI — базовый прогон всех модулей (v0.3) / basel
 """
 import json
 import sys
+from dataclasses import asdict
 from pathlib import Path
 
 import pandas as pd
@@ -73,19 +74,26 @@ def main():
         rows.append({"hh_type": key, "persons_pct_of_sample": round(100 * g["size"].sum() / df["size"].sum(), 1),
                      **{k: round(100 * E.share(t == k, g), 1) for k in E.TIERS}})
     R["gap_by_type_2024"] = rows
-    # RU: почему семьи группы C уязвимы. EN: why tier C households are vulnerable.
-    C = c[c.tier == "C_hidden_vulnerable"]
-    dC = df.loc[C.index]
-    R["hidden_vulnerable_reasons_2024"] = {k: round(100 * E.share(C[k], dC), 1)
-                                           for k in C.columns if k.startswith(("fail_", "drv_"))}
-    # RU: чувствительность к силе стресс-теста. EN: sensitivity to stress-test strength.
-    sens = []
-    for months, drop, util in [(1, 0.05, 0.10), (2, 0.10, 0.20), (3, 0.15, 0.30), (6, 0.25, 0.50)]:
-        st = E.StressTests(months, drop, util)
+    # RU: какие тесты не проходят уровни B и C и какие у них структурные причины.
+    # EN: which tests levels B and C fail and what their structural drivers are.
+    labels = E.test_labels(E.StressTests())
+    reasons = {}
+    for name, tiers in (("B", ["B_fails_one_test"]), ("C", ["C_fails_two_or_more"]), ("B_and_C", E.AT_RISK)):
+        part = c[c.tier.isin(tiers)]
+        reasons[name] = {labels.get(k, k): round(100 * E.share(part[k], df.loc[part.index]), 1)
+                         for k in part.columns if k.startswith(("fail_", "drv_"))}
+    R["levels_b_c_reasons_2024"] = reasons
+    # RU: три версии набора стресс-тестов: уровни и доля людей выше ПМ, не проходящих каждый тест.
+    # EN: the three versions of the stress-test set: levels and the share of people above the SM failing each test.
+    R["stress_tests"] = {v: {**asdict(st), "labels": E.test_labels(st)} for v, st in E.STRESS_VERSIONS.items()}
+    versions = []
+    for v, st in E.STRESS_VERSIONS.items():
+        cv = E.classify(df, 2024, st)
+        above = cv["pc_income"] >= cv["sm"] - E.EPS
         s = E.summary(df, 2024, st)
-        sens.append({"main_earner_months_lost": months, "income_drop": drop, "utilities_rise": util,
-                     "hidden_vulnerable_pct": s["tiers_pct"]["C_hidden_vulnerable"]})
-    R["hidden_vulnerable_sensitivity_2024"] = sens
+        versions.append({"version": v, "tiers_pct": s["tiers_pct"], "at_risk_pct": s["at_risk_pct"],
+                         "above_sm_and_failing_pct": {t: round(100 * E.share(cv[t] & above, df), 2) for t in E.TESTS}})
+    R["levels_by_stress_version_2024"] = versions
     def below(mode, g):
         m = by_mode[mode].loc[g.index]
         return round(100 * E.share(m["pc_income"] < m["sm"] - E.EPS, g), 1)
@@ -109,10 +117,16 @@ def main():
     R["regional_line_reclassification_2024"] = {
         "become_poor_pct": round(100 * E.share(~pa & pr, df), 2),
         "stop_being_poor_pct": round(100 * E.share(pa & ~pr, df), 2)}
-    R["uncertainty_2024"] = E.bootstrap(df, lambda d: {
-        "poverty_rate_sm_pct": E.summary(d, 2024)["poverty_rate_sm_pct"],
-        "tsa_eligible_pct": E.summary(d, 2024)["tiers_pct"]["A_tsa_eligible"],
-        "hidden_vulnerable_pct": E.summary(d, 2024)["tiers_pct"]["C_hidden_vulnerable"]}, B=200)
+    def headline(d):
+        s = E.summary(d, 2024)
+        return {"poverty_rate_sm_pct": s["poverty_rate_sm_pct"],
+                "E_below_tsa_line_pct": s["tiers_pct"]["E_below_tsa_line"],
+                "D_below_sm_pct": s["tiers_pct"]["D_below_sm"],
+                "C_fails_two_or_more_pct": s["tiers_pct"]["C_fails_two_or_more"],
+                "B_fails_one_test_pct": s["tiers_pct"]["B_fails_one_test"],
+                "at_risk_b_and_c_pct": s["at_risk_pct"]}
+
+    R["uncertainty_2024"] = E.bootstrap(df, headline, B=200)
 
     # ---- 1b. Шкала эквивалентности БНС / the BNS equivalence scale (v0.3) -----------------
     # RU: проверка чувствительности: что меняется, если считать доход не на человека, а на
@@ -152,8 +166,21 @@ def main():
     R["compare_equal_budget_after_shock_2024"] = E.compare(df, 2024, cands, shock=E.Shock("wages", 0.10),
                                                            equal_cost_per_capita=budget)
 
-    (out / "results.json").write_text(json.dumps(R, ensure_ascii=False, indent=2, default=float), encoding="utf-8")
-    c.join(df[["hh_id", "hh_type", "region", "urban", "size", "n_child"]]).to_csv(out / "households_classified_2024.csv", index=False)
+    # ---- 5. Уровни B и C: кто это, что их опускает ниже ПМ, какая мера помогает ------------
+    # RU: профиль уровней B и C и сравнение мер при равном бюджете именно для этой группы,
+    #     после каждого из четырёх шоков.
+    # EN: the profile of levels B and C and measures at equal budget for this group specifically,
+    #     after each of the four shocks.
+    R["levels_b_c_profile_2024"] = E.at_risk_profile(df, 2024)
+    R["levels_b_c_equal_budget_2024"] = [E.compare_for_group(df, 2024, cands, E.Shock(k, s), budget)
+                                         for k, s in E.PROFILE_SHOCKS]
+
+    # RU: newline="\n" — чтобы файл был одинаковым на Windows и Linux. EN: so the file is identical on Windows and Linux.
+    with open(out / "results.json", "w", encoding="utf-8", newline="\n") as f:
+        f.write(json.dumps(R, ensure_ascii=False, indent=2, default=float))
+    cls = c.join(df[["hh_id", "hh_type", "region", "urban", "size", "n_child"]])
+    cls.insert(0, "level", cls["tier"].map(E.level))
+    cls.to_csv(out / "households_classified_2024.csv", index=False, lineterminator="\n")
     print("saved ->", out / "results.json")
 
 

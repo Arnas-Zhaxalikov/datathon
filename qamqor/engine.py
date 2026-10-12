@@ -123,15 +123,32 @@ def _wmean(x, df) -> float:
 # EN: The targeted social assistance (TSA) line before 2025 — 70% of the SM.
 TSA_SHARE = 0.70
 
-# RU: Условная численность населения для пересчёта стоимости «на страну». Это иллюстрация.
-# EN: Nominal population used to scale costs "to the country". Illustrative only.
-POPULATION = 20_000_000
-
 # RU: допуск в тенге, чтобы семья, доведённая ровно до черты, не считалась «ниже черты».
 # EN: a tolerance in tenge so a household topped up exactly to the line is not counted "below" it.
 EPS = 0.01
 
-TIERS = ["A_tsa_eligible", "B_poor_not_eligible", "C_hidden_vulnerable", "D_resilient"]
+# RU: Карта доходов A–E (v0.3). Буква — уровень, от самого устойчивого к самому низкому доходу:
+#     A — выше ПМ и проходит все стресс-тесты;
+#     B — выше ПМ, не проходит один стресс-тест;
+#     C — выше ПМ, не проходит два и более стресс-тестов;
+#     D — ниже ПМ, но не ниже черты АСП;
+#     E — ниже черты АСП.
+#     ВНИМАНИЕ: в v0.1–v0.2 буквы шли наоборот (A — ниже черты АСП, D — устойчивые).
+# EN: The A–E income map (v0.3). A letter is a level, from the most resilient to the lowest income:
+#     A — above the SM and passes every stress test;
+#     B — above the SM, fails one stress test;
+#     C — above the SM, fails two or more stress tests;
+#     D — below the SM but not below the TSA line;
+#     E — below the TSA line.
+#     NOTE: in v0.1–v0.2 the letters ran the other way (A — below the TSA line, D — resilient).
+TIERS = ["A_resilient", "B_fails_one_test", "C_fails_two_or_more", "D_below_sm", "E_below_tsa_line"]
+# RU: «не проходят стресс-тест»: выше ПМ, но уровни B и C. EN: "at risk": above the SM, levels B and C.
+AT_RISK = ["B_fails_one_test", "C_fails_two_or_more"]
+
+
+def level(tier: str) -> str:
+    """RU: буква уровня по полному названию. EN: the level letter from the full tier name."""
+    return str(tier)[0]
 
 # RU: Названия регионов по первым двум цифрам кода КАТО (колонка TE).
 # EN: Region names by the first two digits of the KATO code (the TE column).
@@ -146,11 +163,83 @@ REGION_NAMES = {
 
 @dataclass
 class StressTests:
-    """RU: Стандартные стресс-тесты для поиска «скрытых уязвимых».
-       EN: Standard stress tests used to find the "hidden vulnerable"."""
-    main_earner_months_lost: float = 3.0   # RU: главный кормилец без заработка N месяцев / EN: main earner loses N months of earnings
-    income_drop: float = 0.15              # RU: общий доход падает на 15% / EN: total income falls by 15%
-    utilities_rise: float = 0.30           # RU: коммунальные платежи растут на 30% / EN: housing and utility costs rise by 30%
+    """
+    RU: Четыре стресс-теста (v0.3). Семья выше ПМ «не проходит» тест, если после него доход на
+        человека оказывается ниже ПМ своего региона.
+        1) Главный кормилец N месяцев без заработка. Наёмный работник сохраняет долю
+           wage_replacement своего заработка (социальная выплата по потере работы, 45%),
+           самозанятый не сохраняет ничего.
+        2) Стоимость жизни растёт: доходы те же, цены выше, реальный доход = доход / (1 + рост).
+        3) Жильё и коммунальные услуги дорожают: из дохода вычитается прирост этих расходов.
+        4) В семье появляется ещё один иждивенец без дохода: тот же доход делится на большее
+           число людей. Дробное значение (0,5) означает «на полгода».
+    EN: Four stress tests (v0.3). A household above the SM "fails" a test if its per-capita income
+        after it is below its own region's SM.
+        1) The main earner goes N months without earnings. An employee keeps the wage_replacement
+           share of earnings (the job-loss social payment, 45%); a self-employed person keeps nothing.
+        2) The cost of living rises: incomes unchanged, prices higher, real income = income / (1 + rise).
+        3) Housing and utilities cost more: the increase is subtracted from income.
+        4) One more dependant without income joins the household: the same income is shared by
+           more people. A fractional value (0.5) means "for half a year".
+    """
+    main_earner_months_lost: float = 3.0
+    wage_replacement: float = 0.45
+    cost_of_living_rise: float = 0.10
+    utilities_rise: float = 0.30
+    extra_dependants: float = 1.0
+
+
+# RU: три версии набора: слабая, базовая (по умолчанию) и сильная.
+# EN: three versions of the set: weak, base (the default) and strong.
+STRESS_VERSIONS = {
+    "weak": StressTests(main_earner_months_lost=2, cost_of_living_rise=0.05, utilities_rise=0.15, extra_dependants=0.5),
+    "base": StressTests(),
+    "strong": StressTests(main_earner_months_lost=6, cost_of_living_rise=0.15, utilities_rise=0.50, extra_dependants=2),
+}
+
+# RU: колонки с итогом каждого теста. EN: the per-test result columns.
+TESTS = ["fail_earner_loss", "fail_cost_of_living", "fail_utilities", "fail_extra_dependant"]
+
+
+def stress_tests(version: str = "base") -> StressTests:
+    if version not in STRESS_VERSIONS:
+        raise ValueError("stress version must be 'weak', 'base' or 'strong'")
+    return STRESS_VERSIONS[version]
+
+
+def test_labels(st: StressTests) -> dict:
+    """RU: понятные названия тестов с их параметрами. EN: readable test names with their parameters."""
+    dep = (f"{st.extra_dependants:g} more dependant(s)" if st.extra_dependants >= 1
+           else f"one more dependant for {12 * st.extra_dependants:g} months")
+    return {
+        "fail_earner_loss": f"main earner {st.main_earner_months_lost:g} months without earnings "
+                            f"(employees keep {st.wage_replacement:.0%}, self-employed nothing)",
+        "fail_cost_of_living": f"cost of living +{st.cost_of_living_rise:.0%}",
+        "fail_utilities": f"housing and utility costs +{st.utilities_rise:.0%}",
+        "fail_extra_dependant": dep,
+    }
+
+
+def main_earner_wage_share(df: pd.DataFrame) -> pd.Series:
+    """
+    RU: Какая часть заработка главного кормильца — зарплата по найму (её частично замещает выплата).
+        ДОПУЩЕНИЕ: в таблице «семья-год» нет типа занятости главного кормильца, поэтому берётся
+        доля зарплаты в трудовом доходе всей семьи (inc_wage / inc_labor). Если в данных есть
+        колонка main_earner_wage_share (её задаёт check_household), используется она.
+    EN: What part of the main earner's earnings is wages (partly replaced by the payment).
+        ASSUMPTION: the household-year table has no employment type for the main earner, so the
+        wage share of the whole household's labour income (inc_wage / inc_labor) is used. If the
+        data has a main_earner_wage_share column (check_household sets it), that is used instead.
+    """
+    if "main_earner_wage_share" in df.columns:
+        return df["main_earner_wage_share"].astype(float)
+    return (df["inc_wage"] / df["inc_labor"].replace(0, np.nan)).fillna(0.0).clip(0.0, 1.0)
+
+
+def earner_loss(df: pd.DataFrame, months: float, wage_replacement: float) -> pd.Series:
+    """RU: сколько годового дохода теряет семья, когда главный кормилец months месяцев без заработка.
+       EN: annual income lost when the main earner goes months months without earnings."""
+    return df["main_earner_labor"] * months / 12.0 * (1.0 - wage_replacement * main_earner_wage_share(df))
 
 
 # =========================================================================================
@@ -199,38 +288,42 @@ def stress_flags(df: pd.DataFrame, pm, st: StressTests, income=None) -> pd.DataF
        EN: for each household — whether it fails each stress test (per-capita income below SM)."""
     inc = df["income"] if income is None else income
     n = df["size"] * 12.0
-    lost = df["main_earner_labor"] * st.main_earner_months_lost / 12.0
+    lost = earner_loss(df, st.main_earner_months_lost, st.wage_replacement)
     return pd.DataFrame({
         "fail_earner_loss": (inc - lost) / n < pm - EPS,
-        "fail_income_drop": inc * (1 - st.income_drop) / n < pm - EPS,
+        "fail_cost_of_living": inc / (1 + st.cost_of_living_rise) / n < pm - EPS,
         "fail_utilities": (inc - df["utilities"] * st.utilities_rise) / n < pm - EPS,
+        "fail_extra_dependant": inc / ((df["size"] + st.extra_dependants) * 12.0) < pm - EPS,
     }, index=df.index)
 
 
 def classify(df: pd.DataFrame, year: int, st: StressTests | None = None, income=None,
              tsa_line: float | None = None) -> pd.DataFrame:
     """
-    RU: Делит семьи на четыре группы.
-        A — доход ниже черты АСП (право на помощь по доходу);
-        B — ниже прожиточного минимума, но выше черты АСП (бедные, которым помощь не положена);
-        C — выше ПМ, но не выдерживают хотя бы один стресс-тест («скрытые уязвимые»);
-        D — устойчивые.
-    EN: Splits households into four tiers.
-        A — income below the TSA line (income-eligible for assistance);
-        B — below the subsistence minimum but above the TSA line (poor yet not eligible);
-        C — above the SM but failing at least one stress test (the "hidden vulnerable");
-        D — resilient.
+    RU: Делит семьи на пять уровней карты доходов A–E (см. TIERS).
+        E — доход ниже черты АСП; D — ниже ПМ, но не ниже черты АСП;
+        C — выше ПМ, не проходит два и более стресс-тестов; B — не проходит один; A — проходит все.
+        n_tests_failed — сколько тестов не пройдено (считается для всех, но уровень задаёт
+        только у семей выше ПМ).
+    EN: Splits households into the five levels of the A–E income map (see TIERS).
+        E — income below the TSA line; D — below the SM but not below the TSA line;
+        C — above the SM, fails two or more stress tests; B — fails one; A — passes all.
+        n_tests_failed — how many tests are failed (computed for everyone, but it sets the level
+        only for households above the SM).
     """
     st = st or StressTests()
     pm = sm(df, year)
     line = TSA_SHARE * pm if tsa_line is None else tsa_line
     pc = per_capita(df, income)
     f = stress_flags(df, pm, st, income)
-    tier = pd.Series("D_resilient", index=df.index)
-    tier[f.any(axis=1)] = "C_hidden_vulnerable"
-    tier[pc < pm - EPS] = "B_poor_not_eligible"
-    tier[pc < line - EPS] = "A_tsa_eligible"
+    n_failed = f.sum(axis=1)
+    tier = pd.Series("A_resilient", index=df.index)
+    tier[n_failed == 1] = "B_fails_one_test"
+    tier[n_failed >= 2] = "C_fails_two_or_more"
+    tier[pc < pm - EPS] = "D_below_sm"
+    tier[pc < line - EPS] = "E_below_tsa_line"
     out = f.copy()
+    out["n_tests_failed"] = n_failed
     out["pc_income"] = pc
     out["sm"] = pm
     out["tier"] = tier
@@ -265,6 +358,9 @@ def summary(df: pd.DataFrame, year: int, st: StressTests | None = None, income=N
         "gini": round(gini(pc, df["size"]), 4),
         "gap_to_sm_per_capita_year": round(poverty_gap_cost(df, pc, pm) / df["size"].sum()),
         "tiers_pct": {t: round(100 * share(c["tier"] == t, df), 2) for t in TIERS},
+        # RU: выше ПМ, но не проходят хотя бы один стресс-тест (уровни B и C вместе).
+        # EN: above the SM but failing at least one stress test (levels B and C together).
+        "at_risk_pct": round(100 * share(c["tier"].isin(AT_RISK), df), 2),
     }
     return res
 
@@ -449,24 +545,27 @@ class Shock:
     """
     RU: Изменение условий. kind:
         "wages"       — все трудовые доходы падают на size (0.10 = на 10%);
-        "earner_loss" — главный кормилец теряет заработок на size месяцев;
+        "earner_loss" — главный кормилец size месяцев без заработка (наёмный сохраняет wage_replacement);
         "utilities"   — расходы на жильё и коммунальные услуги растут на size (0.30 = на 30%);
         "prices"      — общий рост цен на size при неизменных доходах (реальный доход падает);
         "none".
     EN: A change in conditions. kind:
         "wages"       — all labour income falls by size (0.10 = 10%);
-        "earner_loss" — the main earner loses earnings for size months;
+        "earner_loss" — the main earner goes size months without earnings (an employee keeps wage_replacement);
         "utilities"   — housing and utility costs rise by size (0.30 = 30%);
         "prices"      — a general price rise of size with incomes unchanged (real income falls);
         "none".
     """
     kind: str = "none"
     size: float = 0.0
+    # RU: для "earner_loss": какую долю заработка сохраняет наёмный работник (как в стресс-тесте).
+    # EN: for "earner_loss": the share of earnings an employee keeps (as in the stress test).
+    wage_replacement: float = 0.45
 
     def name(self) -> str:
         return {
             "wages": f"Labour income -{self.size:.0%}",
-            "earner_loss": f"Main earner loses {self.size:g} months of earnings",
+            "earner_loss": f"Main earner {self.size:g} months without earnings (employees keep {self.wage_replacement:.0%})",
             "utilities": f"Housing and utility costs +{self.size:.0%}",
             "prices": f"Prices +{self.size:.0%}",
         }.get(self.kind, "No shock")
@@ -480,7 +579,7 @@ def apply_shock(df: pd.DataFrame, shock: Shock | None) -> pd.Series:
     if shock.kind == "wages":
         return inc - df["inc_labor"] * shock.size
     if shock.kind == "earner_loss":
-        return inc - df["main_earner_labor"] * shock.size / 12.0
+        return inc - earner_loss(df, shock.size, shock.wage_replacement)
     if shock.kind == "utilities":
         return inc - df["utilities"] * shock.size
     if shock.kind == "prices":
@@ -559,8 +658,8 @@ def scenario(df: pd.DataFrame, year: int, policy: Policy | None = None, shock: S
         "cost": {
             "sample_tenge_year": round(cost),
             "per_capita_tenge_year": round(cost / persons),
+            # RU: пересчёта «на страну» нет: данные без весов. EN: no scaling "to the country": the data has no weights.
             "share_of_household_income_pct": round(100 * cost / base_inc.sum(), 3),
-            "illustrative_national_bln_tenge_year": round(cost / persons * POPULATION / 1e9, 1),
         },
         "poverty_gap_closed_pct": None,
         "beneficiaries": {
@@ -588,7 +687,7 @@ def scenario(df: pd.DataFrame, year: int, policy: Policy | None = None, shock: S
                 "poor_baseline_pct": round(100 * share(pc0[i] < pm[i] - EPS, g), 1),
                 "poor_after_shock_pct": round(100 * share(pc1[i] < pm[i] - EPS, g), 1),
                 "poor_after_policy_pct": round(100 * share(pc2[i] < pm[i] - EPS, g), 1),
-                "hidden_vulnerable_after_policy_pct": round(100 * share(c2.loc[i, "tier"] == "C_hidden_vulnerable", g), 1),
+                "at_risk_after_policy_pct": round(100 * share(c2.loc[i, "tier"].isin(AT_RISK), g), 1),
                 "receives_payment_pct": round(100 * share(got[i], g), 1),
                 "share_of_spending_pct": round(100 * float(pay[i].sum() / cost), 1) if cost > 0 else 0.0,
             })
@@ -652,6 +751,111 @@ def compare(df: pd.DataFrame, year: int, policies: list[Policy], shock: Shock | 
 
 
 # =========================================================================================
+# Профиль уровней B и C / profile of levels B and C (v0.3)
+# =========================================================================================
+PROFILE_SHOCKS = [("wages", 0.10), ("earner_loss", 3), ("utilities", 0.30), ("prices", 0.10)]
+
+
+def at_risk_profile(df: pd.DataFrame, year: int, st: StressTests | None = None) -> dict:
+    """
+    RU: Кто находится на уровнях B и C (выше ПМ, но не проходят стресс-тесты): состав по числу
+        детей и числу работающих, доля по регионам и город/село, какие тесты не пройдены и какой
+        шок опускает группу ниже ПМ. Для сравнения те же строки даны для уровня A и для всех.
+        Доли — по людям.
+    EN: Who is on levels B and C (above the SM but failing stress tests): composition by number of
+        children and earners, the share by region and urban/rural, which tests are failed, and
+        which shock brings the group below the SM. The same rows are given for level A and for
+        everyone, for comparison. Shares are person-based.
+    """
+    st = st or StressTests()
+    c = classify(df, year, st)
+    pm = c["sm"]
+    labels = test_labels(st)
+    groups = {"B": c["tier"] == "B_fails_one_test", "C": c["tier"] == "C_fails_two_or_more",
+              "B_and_C": c["tier"].isin(AT_RISK), "A": c["tier"] == "A_resilient",
+              "all": pd.Series(True, index=df.index)}
+    kids = np.select([df["n_child"] == 0, df["n_child"] == 1, df["n_child"] == 2, df["n_child"] == 3],
+                     ["0", "1", "2", "3"], default="4+")
+    earners = np.select([df["n_earners"] == 0, df["n_earners"] == 1], ["0", "1"], default="2+")
+    shocked = {Shock(k, s).name(): per_capita(df, apply_shock(df, Shock(k, s))) < pm - EPS for k, s in PROFILE_SHOCKS}
+    persons = float(df["size"].sum())
+
+    def comp(mask, key):
+        d = df[mask]
+        return {v: round(100 * share(key[mask.to_numpy()] == v, d), 1) for v in sorted(set(key))}
+
+    out = {"year": year, "stress_tests": labels, "groups": {}}
+    for name, mask in groups.items():
+        d = df[mask]
+        if not len(d):
+            continue
+        out["groups"][name] = {
+            "persons_pct_of_sample": round(100 * d["size"].sum() / persons, 2),
+            "households_in_sample": int(len(d)),
+            "median_income_per_capita": round(weighted_median(c.loc[mask, "pc_income"], d["size"])),
+            "median_margin_above_sm_pct": round(100 * weighted_median(c.loc[mask, "pc_income"] / pm[mask] - 1, d["size"]), 1),
+            "by_children_pct": comp(mask, kids),
+            "by_earners_pct": comp(mask, earners),
+            "one_earner_pct": round(100 * share(df.loc[mask, "n_earners"] == 1, d), 1),
+            "urban_pct": round(100 * share(df.loc[mask, "urban"] == 1, d), 1),
+            "tests_failed_pct": {labels[t]: round(100 * share(c.loc[mask, t], d), 1) for t in TESTS},
+            "below_sm_after_shock_pct": {k: round(100 * share(v[mask], d), 1) for k, v in shocked.items()},
+        }
+    # RU: доля уровней B и C внутри каждого региона. EN: the share of levels B and C within each region.
+    rows = []
+    for key, g in df.groupby("region"):
+        t = c.loc[g.index, "tier"]
+        rows.append({"region": REGION_NAMES.get(str(key), str(key)),
+                     "persons_pct_of_sample": round(100 * g["size"].sum() / persons, 1),
+                     "B_pct": round(100 * share(t == "B_fails_one_test", g), 1),
+                     "C_pct": round(100 * share(t == "C_fails_two_or_more", g), 1),
+                     "B_and_C_pct": round(100 * share(t.isin(AT_RISK), g), 1)})
+    out["by_region"] = sorted(rows, key=lambda r: -r["B_and_C_pct"])
+    return out
+
+
+def compare_for_group(df: pd.DataFrame, year: int, policies: list[Policy], shock: Shock,
+                      equal_cost_per_capita: float, st: StressTests | None = None) -> dict:
+    """
+    RU: Сравнение мер при равном бюджете для уровней B и C. Группа фиксируется до шока. Затем
+        шок -> мера, и для этой группы считается: какая доля оказалась ниже ПМ после шока без
+        меры и с мерой, и какая часть расходов меры дошла до группы.
+    EN: Measures at equal budget for levels B and C. The group is fixed before the shock. Then
+        shock -> measure, and for this group: the share below the SM after the shock without and
+        with the measure, and the part of the measure's spending that reaches the group.
+    """
+    st = st or StressTests()
+    c0 = classify(df, year, st)
+    pm = c0["sm"]
+    grp = c0["tier"].isin(AT_RISK)
+    d = df[grp]
+    shocked = apply_shock(df, shock)
+    below_shock = 100 * share(per_capita(df, shocked)[grp] < pm[grp] - EPS, d)
+    rows = []
+    for p in policies:
+        if p.kind in ("tsa", "child_allowance"):
+            p = solve_budget(df, year, p, equal_cost_per_capita, shock)
+        pay, _ = apply_policy(df, year, p, shocked)
+        final = shocked + pay
+        cost = float(pay.sum())
+        below = 100 * share(per_capita(df, final)[grp] < pm[grp] - EPS, d)
+        rows.append({
+            "policy": p.name(),
+            "cost_per_capita_tenge_year": round(cost / float(df["size"].sum())),
+            "group_below_sm_after_shock_and_policy_pct": round(below, 1),
+            "group_kept_above_sm_pct_points": round(below_shock - below, 1),
+            "group_receives_payment_pct": round(100 * share((pay > 0)[grp], d), 1),
+            "share_of_spending_to_group_pct": round(100 * float(pay[grp].sum()) / cost, 1) if cost > 0 else 0.0,
+            "all_below_sm_after_shock_and_policy_pct": round(100 * share(per_capita(df, final) < pm - EPS, df), 2),
+        })
+    return {"year": year, "group": "levels B and C before the shock", "shock": shock.name(),
+            "group_persons_pct_of_sample": round(100 * d["size"].sum() / float(df["size"].sum()), 2),
+            "group_below_sm_after_shock_no_policy_pct": round(below_shock, 1),
+            "all_below_sm_after_shock_no_policy_pct": round(100 * share(per_capita(df, shocked) < pm - EPS, df), 2),
+            "equal_cost_per_capita": equal_cost_per_capita, "results": rows}
+
+
+# =========================================================================================
 # Неопределённость / uncertainty
 # =========================================================================================
 def bootstrap(df: pd.DataFrame, fn, B: int = 200, seed: int = 7) -> dict:
@@ -706,19 +910,29 @@ def check_household(members: list[dict], utilities_month: float = 0.0, year: int
                     st: StressTests | None = None, region: str | None = None) -> dict:
     """
     RU: Профиль одной семьи по её описанию. members — список словарей:
-        {"age": 34, "labor_month": 250000, "pension_month": 0, "other_month": 0}
+        {"age": 34, "labor_month": 250000, "self_employed": false, "pension_month": 0, "other_month": 0}
+        self_employed нужен для теста «кормилец без заработка»: наёмный сохраняет 45%, самозанятый — ничего.
+        Возвращает уровень карты доходов A–E и список непройденных стресс-тестов.
     EN: Profile of one household from a description. members — a list of dicts:
-        {"age": 34, "labor_month": 250000, "pension_month": 0, "other_month": 0}
+        {"age": 34, "labor_month": 250000, "self_employed": false, "pension_month": 0, "other_month": 0}
+        self_employed matters for the "main earner without earnings" test: an employee keeps 45%,
+        a self-employed person nothing. Returns the A–E income map level and the list of failed stress tests.
     """
     st = st or StressTests()
     code = region_code(region)
     labor = [12 * float(m.get("labor_month", 0)) for m in members]
+    self_emp = [bool(m.get("self_employed", False)) for m in members]
     pension = 12 * sum(float(m.get("pension_month", 0)) for m in members)
     other = 12 * sum(float(m.get("other_month", 0)) for m in members)
     ages = [float(m.get("age", 30)) for m in members]
+    main = max(range(len(labor)), key=lambda i: labor[i]) if labor else None
     row = pd.DataFrame([{
         "size": len(members), "n_child": sum(a < 18 for a in ages), "n_elderly": sum(a >= 63 for a in ages),
-        "n_earners": sum(x > 0 for x in labor), "main_earner_labor": max(labor) if labor else 0.0,
+        "n_earners": sum(x > 0 for x in labor), "main_earner_labor": labor[main] if main is not None else 0.0,
+        # RU: здесь тип занятости главного кормильца известен точно. EN: here the main earner's type is known exactly.
+        "main_earner_wage_share": 0.0 if main is None or self_emp[main] else 1.0,
+        "inc_wage": sum(x for x, s in zip(labor, self_emp) if not s),
+        "inc_self_emp": sum(x for x, s in zip(labor, self_emp) if s),
         "inc_labor": sum(labor), "inc_pension": pension, "inc_child_benefit": 0.0,
         "income": sum(labor) + pension + other, "utilities": 12 * float(utilities_month),
         "region": code if code else "",
@@ -727,6 +941,7 @@ def check_household(members: list[dict], utilities_month: float = 0.0, year: int
     pc = float(c["pc_income"])
     pm = float(c["sm"])
     line = TSA_SHARE * pm
+    labels = test_labels(st)
     return {
         "year": year,
         "region": REGION_NAMES.get(code, "not given: national value used") if line_mode_used(year) == "regional" else "national line",
@@ -735,15 +950,15 @@ def check_household(members: list[dict], utilities_month: float = 0.0, year: int
         "income_per_capita_month": round(pc),
         "subsistence_minimum": round(pm),
         "tsa_line": round(line),
+        "level": level(c["tier"]),
         "tier": c["tier"],
         "tsa_income_eligible": bool(pc < line - EPS),
         "tsa_topup_month_whole_family": round(max(0.0, line - pc) * len(members)),
         "margin_above_sm_month_per_capita": round(pc - pm),
-        "stress_tests": {
-            f"main earner loses {st.main_earner_months_lost:g} months of earnings": bool(c["fail_earner_loss"]),
-            f"income falls {st.income_drop:.0%}": bool(c["fail_income_drop"]),
-            f"housing and utility costs rise {st.utilities_rise:.0%}": bool(c["fail_utilities"]),
-        },
+        # RU: true — тест не пройден (доход на человека после него ниже ПМ).
+        # EN: true — the test is failed (per-capita income after it is below the SM).
+        "stress_tests": {labels[t]: bool(c[t]) for t in TESTS},
+        "failed_tests": [labels[t] for t in TESTS if bool(c[t])],
         "drivers": [k[4:] for k in c.index if k.startswith("drv_") and bool(c[k])],
         "note": "Static estimate from stated income; TSA also has non-income conditions not modelled here.",
     }

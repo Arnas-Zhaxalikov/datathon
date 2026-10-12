@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" width="760" height="420" font-family="system-ui, Segoe UI, Arial, sans-serif">
+<rect width="760" height="420" fill="#fcfcfb"/>
+<text x="20" y="28" font-size="17" font-weight="600" fill="#0b0b0b">Три черты: доля людей ниже каждой, %</text>
+<text x="20" y="48" font-size="12" fill="#52514e">Синтетические данные без весов, доли выборки. Разница между первым и третьим столбцом — непокрытая полоса.</text>
+<rect x="20" y="60" width="12" height="12" rx="2" fill="#2a78d6"/>
+<text x="38" y="70" font-size="12" fill="#52514e">Ниже черты АСП (70% регионального ПМ)</text>
+<rect x="294.2" y="60" width="12" height="12" rx="2" fill="#eb6834"/>
+<text x="312.2" y="70" font-size="12" fill="#52514e">Ниже бюджетного ПМ</text>
+<rect x="443.0" y="60" width="12" height="12" rx="2" fill="#1baf7a"/>
+<text x="461.0" y="70" font-size="12" fill="#52514e">Ниже регионального ПМ</text>
+<line x1="56" x2="740" y1="376.0" y2="376.0" stroke="#e1e0d9"/>
+<text x="48" y="380.0" font-size="11" text-anchor="end" fill="#898781">0</text>
+<line x1="56" x2="740" y1="303.5" y2="303.5" stroke="#e1e0d9"/>
+<text x="48" y="307.5" font-size="11" text-anchor="end" fill="#898781">4</text>
+<line x1="56" x2="740" y1="231.0" y2="231.0" stroke="#e1e0d9"/>
+<text x="48" y="235.0" font-size="11" text-anchor="end" fill="#898781">8</text>
+<line x1="56" x2="740" y1="158.5" y2="158.5" stroke="#e1e0d9"/>
+<text x="48" y="162.5" font-size="11" text-anchor="end" fill="#898781">12</text>
+<line x1="56" x2="740" y1="86.0" y2="86.0" stroke="#e1e0d9"/>
+<text x="48" y="90.0" font-size="11" text-anchor="end" fill="#898781">16</text>
+<path d="M132.0,376.0V297.0Q132.0,293.0 136.0,293.0H152.0Q156.0,293.0 156.0,297.0V376.0Z" fill="#2a78d6"/>
+<text x="144.0" y="287.0" font-size="11" text-anchor="middle" fill="#0b0b0b">4,58</text>
+<path d="M158.0,376.0V213.4Q158.0,209.4 162.0,209.4H178.0Q182.0,209.4 182.0,213.4V376.0Z" fill="#eb6834"/>
+<text x="170.0" y="203.4" font-size="11" text-anchor="middle" fill="#0b0b0b">9,19</text>
+<path d="M184.0,376.0V118.6Q184.0,114.6 188.0,114.6H204.0Q208.0,114.6 208.0,118.6V376.0Z" fill="#1baf7a"/>
+<text x="196.0" y="108.6" font-size="11" text-anchor="middle" fill="#0b0b0b">14,42</text>
+<text x="170.0" y="396" font-size="12" text-anchor="middle" fill="#52514e">2022</text>
+<text x="170.0" y="412" font-size="11" text-anchor="middle" fill="#898781">непокрытая полоса 9,84%</text>
+<path d="M360.0,376.0V314.4Q360.0,310.4 364.0,310.4H380.0Q384.0,310.4 384.0,314.4V376.0Z" fill="#2a78d6"/>
+<text x="372.0" y="304.4" font-size="11" text-anchor="middle" fill="#0b0b0b">3,62</text>
+<path d="M386.0,376.0V247.3Q386.0,243.3 390.0,243.3H406.0Q410.0,243.3 410.0,247.3V376.0Z" fill="#eb6834"/>
+<text x="398.0" y="237.3" font-size="11" text-anchor="middle" fill="#0b0b0b">7,32</text>
+<path d="M412.0,376.0V151.4Q412.0,147.4 416.0,147.4H432.0Q436.0,147.4 436.0,151.4V376.0Z" fill="#1baf7a"/>
+<text x="424.0" y="141.4" font-size="11" text-anchor="middle" fill="#0b0b0b">12,61</text>
+<text x="398.0" y="396" font-size="12" text-anchor="middle" fill="#52514e">2023</text>
+<text x="398.0" y="412" font-size="11" text-anchor="middle" fill="#898781">непокрытая полоса 8,99%</text>
+<path d="M588.0,376.0V335.2Q588.0,331.2 592.0,331.2H608.0Q612.0,331.2 612.0,335.2V376.0Z" fill="#2a78d6"/>
+<text x="600.0" y="325.2" font-size="11" text-anchor="middle" fill="#0b0b0b">2,47</text>
+<path d="M614.0,376.0V280.0Q614.0,276.0 618.0,276.0H634.0Q638.0,276.0 638.0,280.0V376.0Z" fill="#eb6834"/>
+<text x="626.0" y="270.0" font-size="11" text-anchor="middle" fill="#0b0b0b">5,52</text>
+<path d="M640.0,376.0V215.6Q640.0,211.6 644.0,211.6H660.0Q664.0,211.6 664.0,215.6V376.0Z" fill="#1baf7a"/>
+<text x="652.0" y="205.6" font-size="11" text-anchor="middle" fill="#0b0b0b">9,07</text>
+<text x="626.0" y="396" font-size="12" text-anchor="middle" fill="#52514e">2024</text>
+<text x="626.0" y="412" font-size="11" text-anchor="middle" fill="#898781">непокрытая полоса 6,61%</text>
+<line x1="56" x2="740" y1="376.0" y2="376.0" stroke="#c3c2b7"/>
+</svg>
