@@ -1,4 +1,4 @@
-# Qamqor AI — расчётное ядро / calculation engine (v0.3)
+# Qamqor AI — расчётное ядро / calculation engine (v0.3.3)
 
 **RU.** Калькулятор социальной политики на синтетических микроданных STAT.DATATHON-2026.
 Находит семьи, которые не считаются бедными, но не выдерживают обычного удара по доходу, и
@@ -50,9 +50,11 @@ longer be used is in `CHANGES.md`. All final tables are in `results/final_tables
 ## Запуск / Run
 
 ```
-pip install pandas numpy
+pip install pandas numpy scikit-learn statsmodels
 python build.py  <папка с данными / data folder>  out
 python run_baseline.py  out/households.csv  results
+python regression.py  out/households.csv  results
+python quick_screen.py  out/households.csv  results
 python make_tables.py  results
 python verify.py  out/households.csv  ref/regional_sm_annual_2022_2024.csv  results/results.json
 ```
@@ -135,6 +137,44 @@ the BNS scale: the first member counts as 1, each further member as 0.8. Two rea
 (poverty falls by construction) and "same headcount" (who changes places). This is a sensitivity
 test: TSA is per-capita by law, and BNS applies the scale to income used for consumption, not to
 money income.
+
+## Быстрый скрининг / Quick screen (v0.3.1)
+
+**RU.** `quick_screen.py` отвечает на вопрос: можно ли, не зная дохода, предсказать, что семья
+бедна или близка к бедности (доход ниже 125% ПМ)? Модель учится на 2022–2023 годах и проверяется
+на семьях 2024 года. Три набора признаков: состав семьи и регион; плюс число работающих; плюс
+расходы на ЖКУ. Доход в признаки не входит. Результаты — в `results/quick_screen.json`:
+качество моделей, сравнение с простыми правилами, что важно для модели, состязание способов
+адресности при равном бюджете, кого модель пропускает.
+
+**EN.** `quick_screen.py` answers: without knowing income, can we predict that a household is poor
+or close to poverty (income below 125% of the SM)? The model is trained on 2022–2023 and tested on
+2024 households. Three feature sets: composition and region; plus the number of earners; plus
+utility spending. Income is not a feature. Results are in `results/quick_screen.json`: model
+quality, comparison with simple rules, what drives the model, a targeting contest at equal budget,
+and whom the model misses.
+
+**RU.** Оговорки: модель ранжирует семьи, но уровень риска завышает (обучена на более бедных
+годах), поэтому порог задаётся долей отмеченных, а не вероятностью. Число работающих взято из
+записей о доходах (доход от труда больше нуля). Модель не решает, кто беден: это первый фильтр
+перед проверкой дохода.
+
+**EN.** Caveats: the model ranks households but overstates the level of risk (it is trained on
+poorer years), so the cut-off is set as a share flagged, not as a probability. The number of
+earners is taken from the income records (labour income above zero). The model does not decide who
+is poor: it is a first filter before an income check.
+
+## Регрессии / Regressions (v0.3.2)
+
+**RU.** `regression.py` оценивает, что связано с бедностью при прочих равных: линейная модель
+дохода на человека относительно регионального ПМ, логистические модели «ниже ПМ» и «скрытые
+уязвимые среди небедных», разложение «детского штрафа» и проверка по годам. Результаты — в
+`results/regression.json`. Это связи, а не причины.
+
+**EN.** `regression.py` estimates what is associated with poverty, other things equal: a linear
+model of income per person relative to the regional SM, logistic models for "below the SM" and
+"levels B and C among the non-poor", a decomposition of the "child penalty" and a check by year.
+Results are in `results/regression.json`. These are associations, not causes.
 
 ## Четыре модуля / Four modules
 

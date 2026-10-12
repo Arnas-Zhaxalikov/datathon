@@ -286,14 +286,20 @@ def poverty_gap_cost(df, pc, line) -> float:
 def stress_flags(df: pd.DataFrame, pm, st: StressTests, income=None) -> pd.DataFrame:
     """RU: для каждой семьи — провалит ли она каждый стресс-тест (доход на человека ниже ПМ).
        EN: for each household — whether it fails each stress test (per-capita income below SM)."""
+    return stress_incomes(df, st, income).lt(pm - EPS, axis=0)
+
+
+def stress_incomes(df: pd.DataFrame, st: StressTests, income=None) -> pd.DataFrame:
+    """RU: доход на человека в месяц после каждого стресс-теста (колонки — как в TESTS).
+       EN: monthly per-capita income after each stress test (columns as in TESTS)."""
     inc = df["income"] if income is None else income
     n = df["size"] * 12.0
     lost = earner_loss(df, st.main_earner_months_lost, st.wage_replacement)
     return pd.DataFrame({
-        "fail_earner_loss": (inc - lost) / n < pm - EPS,
-        "fail_cost_of_living": inc / (1 + st.cost_of_living_rise) / n < pm - EPS,
-        "fail_utilities": (inc - df["utilities"] * st.utilities_rise) / n < pm - EPS,
-        "fail_extra_dependant": inc / ((df["size"] + st.extra_dependants) * 12.0) < pm - EPS,
+        "fail_earner_loss": (inc - lost) / n,
+        "fail_cost_of_living": inc / (1 + st.cost_of_living_rise) / n,
+        "fail_utilities": (inc - df["utilities"] * st.utilities_rise) / n,
+        "fail_extra_dependant": inc / ((df["size"] + st.extra_dependants) * 12.0),
     }, index=df.index)
 
 
@@ -942,6 +948,7 @@ def check_household(members: list[dict], utilities_month: float = 0.0, year: int
     pm = float(c["sm"])
     line = TSA_SHARE * pm
     labels = test_labels(st)
+    after = stress_incomes(row, st).iloc[0]
     return {
         "year": year,
         "region": REGION_NAMES.get(code, "not given: national value used") if line_mode_used(year) == "regional" else "national line",
@@ -959,6 +966,15 @@ def check_household(members: list[dict], utilities_month: float = 0.0, year: int
         # EN: true — the test is failed (per-capita income after it is below the SM).
         "stress_tests": {labels[t]: bool(c[t]) for t in TESTS},
         "failed_tests": [labels[t] for t in TESTS if bool(c[t])],
+        # RU: то же по тестам, с доходом на человека после каждого. EN: the same per test, with per-capita income after each.
+        "tests": [{"key": t, "label": labels[t], "failed": bool(c[t]),
+                   "income_per_capita_month": round(float(after[t]))} for t in TESTS],
+        "inputs": {
+            "income_month": round(float(row["income"].iloc[0]) / 12),
+            "main_earner_labor_month": round(float(row["main_earner_labor"].iloc[0]) / 12),
+            "main_earner_keeps_pct": round(100 * st.wage_replacement * float(row["main_earner_wage_share"].iloc[0])),
+            "utilities_month": round(float(row["utilities"].iloc[0]) / 12),
+        },
         "drivers": [k[4:] for k in c.index if k.startswith("drv_") and bool(c[k])],
         "note": "Static estimate from stated income; TSA also has non-income conditions not modelled here.",
     }

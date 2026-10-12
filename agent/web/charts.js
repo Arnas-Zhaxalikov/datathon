@@ -311,10 +311,13 @@ function drawBar(spec, ctx) {
   const barH = 14;
   const charW = 7.4; // с запасом под кириллицу и казахские буквы, чтобы подпись не обрезалась зря
   const labelW = Math.min(Math.round(W * 0.38), Math.max(...labels.map((l) => l.length)) * charW + 12);
-  const m = { t: 6, r: 64, b: 6, l: labelW };
-  const H = m.t + n * rowH + m.b;
   const lo = Math.min(0, ...present);
   const hi = Math.max(0, ...present);
+  // у отрицательных столбцов значение пишется слева от конца столбца — под него нужна своя
+  // полоса между названиями и графиком, иначе число наезжает на название категории
+  const valueW = 8 + 7.2 * Math.max(...present.map((v) => fmtNum(v).length));
+  const m = { t: 6, r: hi > 0 ? valueW + 8 : 16, b: 6, l: labelW + (lo < 0 ? valueW : 0) };
+  const H = m.t + n * rowH + m.b;
   const x = (v) => m.l + ((W - m.l - m.r) * (v - lo)) / (hi - lo || 1);
   const maxChars = Math.max(4, Math.floor((labelW - 12) / charW));
 
@@ -327,7 +330,7 @@ function drawBar(spec, ctx) {
     const yb = top + (rowH - barH) / 2;
     const g = svgEl("g", { class: "chart-row" });
     g.appendChild(svgEl("rect", { x: 0, y: top, width: W, height: rowH, class: "chart-hit" }));
-    const text = svgEl("text", { x: m.l - 8, y: top + rowH / 2 + 4, class: "chart-label", "text-anchor": "end" }, truncate(lab, maxChars));
+    const text = svgEl("text", { x: labelW - 8, y: top + rowH / 2 + 4, class: "chart-label", "text-anchor": "end" }, truncate(lab, maxChars));
     g.appendChild(text);
 
     const v = values[i];

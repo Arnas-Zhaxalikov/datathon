@@ -23,7 +23,7 @@ def main():
     out = Path(sys.argv[2]) if len(sys.argv) > 2 else Path("results")
     out.mkdir(parents=True, exist_ok=True)
     allh = load(src)
-    R = {"version": "0.3"}
+    R = {"version": "0.3.3"}
     years = [int(y) for y in sorted(allh.year.unique())]
     by_year = {y: allh[allh.year == y].reset_index(drop=True) for y in years}
 

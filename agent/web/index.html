@@ -102,6 +102,10 @@
                   <label class="field span-2"><span data-i18n="f_earner_wage"></span>
                     <input type="number" id="f-earner-wage" min="0" step="1000" inputmode="numeric" data-i18n-placeholder="ph_optional">
                   </label>
+                  <label class="check span-2">
+                    <input type="checkbox" id="f-self-employed">
+                    <span data-i18n="f_self_employed"></span>
+                  </label>
                   <label class="field span-2"><span data-i18n="f_transfers"></span>
                     <input type="number" id="f-transfers" min="0" step="1000" inputmode="numeric" data-i18n-placeholder="ph_optional">
                   </label>
@@ -164,7 +168,7 @@
                   </div>
 
                   <p class="outcome" id="r-outcome"></p>
-                  <p class="outcome-link hidden" id="r-link"><a target="_blank" rel="noopener" data-i18n="out_A_link"></a></p>
+                  <p class="outcome-link hidden" id="r-link"><a target="_blank" rel="noopener" data-i18n="out_E_link"></a></p>
                   <p class="peers hidden" id="r-peers"></p>
 
                   <div class="assumptions">
@@ -173,12 +177,12 @@
                   </div>
                 </section>
 
-                <!-- три сценария -->
+                <!-- четыре стресс-теста -->
                 <section class="card">
                   <h2 class="card-title" data-i18n="sc_title"></h2>
                   <p class="card-lead" data-i18n="sc_hint"></p>
 
-                  <div class="scenario" data-scenario="earner_gap">
+                  <div class="scenario" data-scenario="fail_earner_loss">
                     <div class="scenario-head">
                       <h3 class="scenario-title" data-i18n="sc_earner_title"></h3>
                       <span class="scenario-flag hidden"><span aria-hidden="true">⚠</span> <span data-i18n="sc_cross"></span></span>
@@ -186,27 +190,25 @@
                     <label class="slider"><span id="s-months-label"></span>
                       <input type="range" id="s-months" min="1" max="12" step="1" value="3">
                     </label>
-                    <p class="scenario-assume" id="sc-earner-assume"></p>
-                    <div class="scenario-line"><span data-i18n="sc_avg_label"></span><b id="sc-earner-avg"></b></div>
-                    <div class="scenario-formula" id="sc-earner-avg-f"></div>
-                    <div class="scenario-line"><span data-i18n="sc_during_label"></span><b id="sc-earner-during"></b></div>
-                    <div class="scenario-formula" id="sc-earner-during-f"></div>
+                    <p class="scenario-assume" data-assume></p>
+                    <div class="scenario-line"><span data-i18n="sc_year_label"></span><b data-value></b></div>
+                    <div class="scenario-formula" data-formula></div>
                   </div>
 
-                  <div class="scenario" data-scenario="income_drop">
+                  <div class="scenario" data-scenario="fail_cost_of_living">
                     <div class="scenario-head">
-                      <h3 class="scenario-title" data-i18n="sc_drop_title"></h3>
+                      <h3 class="scenario-title" data-i18n="sc_col_title"></h3>
                       <span class="scenario-flag hidden"><span aria-hidden="true">⚠</span> <span data-i18n="sc_cross"></span></span>
                     </div>
-                    <label class="slider"><span id="s-drop-label"></span>
-                      <input type="range" id="s-drop" min="5" max="50" step="5" value="15">
+                    <label class="slider"><span id="s-col-label"></span>
+                      <input type="range" id="s-col" min="5" max="30" step="5" value="10">
                     </label>
-                    <p class="scenario-assume" id="sc-drop-assume"></p>
-                    <div class="scenario-line"><span data-i18n="sc_pp_label"></span><b id="sc-drop-v"></b></div>
-                    <div class="scenario-formula" id="sc-drop-f"></div>
+                    <p class="scenario-assume" data-assume></p>
+                    <div class="scenario-line"><span data-i18n="sc_real_label"></span><b data-value></b></div>
+                    <div class="scenario-formula" data-formula></div>
                   </div>
 
-                  <div class="scenario" data-scenario="housing_rise">
+                  <div class="scenario" data-scenario="fail_utilities">
                     <div class="scenario-head">
                       <h3 class="scenario-title" data-i18n="sc_housing_title"></h3>
                       <span class="scenario-flag hidden"><span aria-hidden="true">⚠</span> <span data-i18n="sc_cross"></span></span>
@@ -214,9 +216,22 @@
                     <label class="slider"><span id="s-rise-label"></span>
                       <input type="range" id="s-rise" min="5" max="100" step="5" value="30">
                     </label>
-                    <p class="scenario-assume" id="sc-housing-assume"></p>
-                    <div class="scenario-line"><span data-i18n="sc_pp_label"></span><b id="sc-housing-v"></b></div>
-                    <div class="scenario-formula" id="sc-housing-f"></div>
+                    <p class="scenario-assume" data-assume></p>
+                    <div class="scenario-line"><span data-i18n="sc_pp_label"></span><b data-value></b></div>
+                    <div class="scenario-formula" data-formula></div>
+                  </div>
+
+                  <div class="scenario" data-scenario="fail_extra_dependant">
+                    <div class="scenario-head">
+                      <h3 class="scenario-title" data-i18n="sc_dep_title"></h3>
+                      <span class="scenario-flag hidden"><span aria-hidden="true">⚠</span> <span data-i18n="sc_cross"></span></span>
+                    </div>
+                    <label class="slider"><span id="s-dep-label"></span>
+                      <input type="range" id="s-dep" min="0.5" max="3" step="0.5" value="1">
+                    </label>
+                    <p class="scenario-assume" data-assume></p>
+                    <div class="scenario-line"><span data-i18n="sc_pp_label"></span><b data-value></b></div>
+                    <div class="scenario-formula" data-formula></div>
                   </div>
                 </section>
 

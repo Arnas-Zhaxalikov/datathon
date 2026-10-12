@@ -188,6 +188,58 @@ for block in R["levels_b_c_equal_budget_2024"]:
             r["group_receives_payment_pct"], r["share_of_spending_to_group_pct"],
             r["all_below_sm_after_shock_and_policy_pct"]] for r in block["results"]])
 
+# ---- 8. Регрессии (regression.py) ----------------------------------------------------------
+FACTOR_RU = {"n_child": "Ещё один ребёнок", "n_elderly": "Ещё один пожилой", "n_working_age": "Ещё один взрослый трудоспособного возраста",
+             "n_earners": "Ещё один работающий", "urban": "Город (против села)"}
+if (out / "regression.json").exists():
+    G = json.loads((out / "regression.json").read_text(encoding="utf-8"))
+    h("8. Регрессии: что связано с доходом и уровнем (2024)")
+    p("Уровень семьи, устойчивые стандартные ошибки. Это связи при прочих равных, а не причины. "
+      "Во всех моделях учтён регион.")
+    o = G["ols_income_per_person_2024"]
+    p(f"**Доход на человека относительно регионального ПМ** (линейная модель, R² = {num(o['r2'], 3)}):")
+    table(["Фактор", "Изменение дохода на человека, %", "95% ДИ, %"],
+          [[FACTOR_RU[k], v["effect_pct"], f"{num(v['ci95_pct'][0])} … {num(v['ci95_pct'][1])}"] for k, v in o["effects"].items()])
+    for key, title in [("logit_poor_2024", "Ниже регионального ПМ (уровни D и E)"),
+                       ("logit_levels_b_c_among_nonpoor_2024", "Уровни B и C среди тех, кто выше ПМ")]:
+        m = G[key]
+        p(f"**{title}** (логистическая модель, псевдо-R² = {num(m['pseudo_r2'], 3)}):")
+        table(["Фактор", "Отношение шансов", "95% ДИ", "Средний предельный эффект, п.п."],
+              [[FACTOR_RU[k], v["odds_ratio"], f"{num(v['ci95'][0])}–{num(v['ci95'][1])}", v["avg_effect_points"]]
+               for k, v in m["effects"].items()])
+    cp = G["child_penalty_2024"]
+    p("**Как ребёнок связан с доходом** (изменение на одного ребёнка, %):")
+    table(["Модель", "Доход на человека", "Доход семьи"],
+          [[{"children only": "только число детей",
+             "holding adults, elderly, earners, region fixed": "при тех же взрослых, пожилых, работающих и регионе"}[k],
+            v["per_person_income_pct_per_child"], v["household_income_pct_per_child"]]
+           for k, v in cp.items() if isinstance(v, dict)])
+    p(f"Чисто арифметический эффект — тот же доход семьи делится на одного человека больше: "
+      f"{num(cp['arithmetic_effect_of_one_more_member_pct'])}%.")
+
+# ---- 9. Быстрый скрининг (quick_screen.py) -------------------------------------------------
+if (out / "quick_screen.json").exists():
+    Q = json.loads((out / "quick_screen.json").read_text(encoding="utf-8"))
+    h("9. Быстрый скрининг: можно ли найти семьи ниже ПМ, не зная дохода")
+    p(f"Модель учится на {Q['train_years'][0]}–{Q['train_years'][-1]} годах и проверяется на семьях {Q['test_year']} года. "
+      "Доход в признаки не входит. Это первый фильтр перед проверкой дохода: модель не решает, у кого доход ниже ПМ.")
+    FS = {"composition_region": "состав семьи и регион", "plus_employment": "+ число работающих", "plus_utilities": "+ расходы на ЖКУ"}
+    MN = {"logistic": "логистическая", "boosting": "бустинг"}
+    table(["Признаки", "Модель", "AUC", "Найдено из тех, кто ниже ПМ, если отметить 20% людей, %",
+           "Верно среди отмеченных, %"],
+          [[FS[r["features"]], MN[r["model"]], num(r["auc"], 3), r["flag_top_20pct"]["found_pct"], r["flag_top_20pct"]["correct_pct"]]
+           for r in Q["models"] if r["target"] == "poor"])
+    RULE = {"3+ children": "3 и более детей", "4+ children": "4 и более детей", "no earner": "нет работающих",
+            "one earner and 4+ members": "один работающий и 4+ человека"}
+    p("Простые правила для сравнения:")
+    table(["Правило", "Отмечено людей, %", "Найдено из тех, кто ниже ПМ, %", "Верно среди отмеченных, %"],
+          [[RULE[k], v["flagged_pct_of_people"], v["found_pct"], v["correct_pct"]] for k, v in Q["rules"]["poor"].items()])
+    c = Q["targeting_contest_2024"]
+    p(f"Способы адресности при равном бюджете ({num(int(c['budget_per_capita_tenge_year']))} тг на человека выборки в год):")
+    table(["Способ", "Получают, % людей", "Расходы, дошедшие до тех, кто ниже ПМ, %", "Закрыто дефицита до ПМ, %", "Ниже ПМ после, %"],
+          [[r["method"], r["people_receiving_pct"], r["spending_reaching_the_poor_pct"], r["shortfall_closed_pct"],
+            r["below_sm_after_pct"]] for r in c["results"]])
+
 (out / "final_tables.md").write_text("\n".join(L).rstrip() + "\n", encoding="utf-8", newline="\n")
 
 # ---- График трёх черт / the three-lines chart ------------------------------------------------
