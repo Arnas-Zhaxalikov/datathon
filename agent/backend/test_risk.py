@@ -91,16 +91,23 @@ def test_rank_of_100_sample_households_matches_the_saved_model():
     sample = scores.sample(100, random_state=7)
     recomputed = RS.predict(RS.design(hh.loc[sample["hh_id"]]))
     assert (recomputed == sample["risk"].to_numpy()).all()
+    checked = 0
     for (_, s), risk in zip(sample.iterrows(), recomputed):
         h = hh.loc[s["hh_id"]]
+        assert RS.percentile(s["risk"]) == RS.percentile(risk), s["hh_id"]
+        # правила состава — для введённых человеком семей; в обследовании встречаются и семьи без взрослых
+        if core.HR.violations(int(h["size"]), int(h["n_child"]), int(h["n_child_u7"]), int(h["n_elderly"])):
+            continue
+        checked += 1
         got = core.risk_screen(hh_size=int(h["size"]), n_child=int(h["n_child"]), n_child_u7=int(h["n_child_u7"]),
                                n_elderly=int(h["n_elderly"]), region=int(h["region"]), urban=bool(h["urban"]))
         assert got["rank_pct"] == RS.percentile(s["risk"]) == RS.percentile(risk), s["hh_id"]
+    assert checked >= 90
 
 
 def test_invalid_input():
-    for bad, code in [(dict(region=99), "err_region"), (dict(n_child_u7=3), "err_risk_members"),
-                      (dict(n_elderly=3), "err_risk_members"), (dict(hh_size=0), "err_risk_members")]:
+    for bad, code in [(dict(region=99), "err_region"), (dict(n_child_u7=3), "err_child_u7"),
+                      (dict(n_elderly=3), "err_children_elderly"), (dict(hh_size=0), "err_size")]:
         try:
             core.risk_screen(**{**BASE, **bad})
         except core.InputError as e:

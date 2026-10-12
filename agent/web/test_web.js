@@ -74,6 +74,59 @@ test("тёмная тема: серый текст не ниже 4,5:1 на вс
   assert.ok(contrast(v("text-muted"), v("surface")) >= 7, "мелкий серый текст на карточке — с запасом");
 });
 
+// ---- правила состава семьи (validate.js; те же на сервере — qamqor/household_rules.py) ----
+const { validateFamily } = require("./validate.js");
+const OK = { size: 4, child: 2, u7: 1, elderly: 1, employed: 1 };
+const keys = (f) => validateFamily({ ...OK, ...f }).map((e) => e.key);
+const fields = (f) => validateFamily({ ...OK, ...f }).map((e) => e.field);
+
+test("состав: обычная семья проходит", () => {
+  assert.deepStrictEqual(validateFamily(OK), []);
+});
+test("правило 1: размер семьи не меньше 1", () => {
+  assert.deepStrictEqual(keys({ size: 0, child: 0, u7: 0, elderly: 0, employed: 0 }), ["err_size"]);
+  assert.deepStrictEqual(fields({ size: 0, child: 0, u7: 0, elderly: 0, employed: 0 }), ["f-hh-size"]);
+  assert.deepStrictEqual(keys({ size: NaN }), ["err_size"]); // пустое поле
+});
+test("правило 2: хотя бы один взрослый", () => {
+  assert.deepStrictEqual(keys({ size: 2, child: 2, u7: 0, elderly: 0, employed: 0 }), ["err_no_adult"]);
+  assert.deepStrictEqual(fields({ size: 2, child: 2, u7: 0, elderly: 0, employed: 0 }), ["f-n-child"]);
+  assert.deepStrictEqual(keys({ size: 2, child: 1, u7: 0, elderly: 0, employed: 1 }), []);
+});
+test("правило 3: детей и людей 63+ вместе не больше размера семьи", () => {
+  assert.deepStrictEqual(keys({ size: 4, child: 2, elderly: 3 }), ["err_children_elderly"]);
+  assert.deepStrictEqual(fields({ size: 4, child: 2, elderly: 3 }), ["f-elderly"]);
+  assert.deepStrictEqual(keys({ size: 4, child: 2, elderly: 2 }), []);
+});
+test("правило 4: детей до 7 лет не больше, чем детей", () => {
+  assert.deepStrictEqual(keys({ u7: 3 }), ["err_child_u7"]);
+  assert.deepStrictEqual(fields({ u7: 3 }), ["f-child-u7"]);
+  assert.deepStrictEqual(keys({ u7: 2 }), []);
+});
+test("правило 5: работающих не больше, чем взрослых", () => {
+  assert.deepStrictEqual(keys({ employed: 3 }), ["err_employed"]);
+  assert.deepStrictEqual(fields({ employed: 3 }), ["f-n-employed"]);
+  assert.deepStrictEqual(keys({ employed: 2 }), []);
+  assert.deepStrictEqual(keys({ size: 3, child: 0, u7: 0, elderly: 3, employed: 3 }), []); // работающие 63+ считаются
+  assert.deepStrictEqual(keys({ employed: null, child: 3, u7: 0, elderly: 0 }), []); // режим без дохода: поле не проверяется
+});
+test("правило 6: работающих может не быть", () => {
+  assert.deepStrictEqual(keys({ size: 2, child: 0, u7: 0, elderly: 2, employed: 0 }), []); // семья пенсионеров
+});
+test("3 человека, 3 ребёнка, 1 работающий — отклоняется", () => {
+  assert.deepStrictEqual(keys({ size: 3, child: 3, u7: 0, elderly: 0, employed: 1 }), ["err_no_adult", "err_employed"]);
+});
+test("2 человека, 1 ребёнок, 2 работающих — отклоняется", () => {
+  assert.deepStrictEqual(keys({ size: 2, child: 1, u7: 0, elderly: 0, employed: 2 }), ["err_employed"]);
+});
+test("тексты ошибок состава есть на трёх языках", () => {
+  for (const lang of LANGS) {
+    for (const key of ["err_size", "err_no_adult", "err_children_elderly", "err_child_u7", "err_employed"]) {
+      assert.ok(typeof I18N[lang][key] === "string" && I18N[lang][key].length > 10, `${lang} ${key}`);
+    }
+  }
+});
+
 let failed = 0;
 for (const [name, fn] of tests) {
   try {

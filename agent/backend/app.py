@@ -65,6 +65,11 @@ def summary() -> dict:
     return core.summary()
 
 
+def _input_error(e: "core.InputError") -> HTTPException:
+    """Ошибка ввода: 422, расчёт не выполнялся. Код — ключ текста на языке интерфейса, message — текст по-английски."""
+    return HTTPException(status_code=422, detail={"code": e.code, "field": e.field, "message": e.message})
+
+
 class ClassifyRequest(BaseModel):
     hh_size: int
     n_child: int = 0
@@ -76,6 +81,9 @@ class ClassifyRequest(BaseModel):
     earner_self_employed: bool = False
     transfers: Optional[float] = None
     housing_cost: Optional[float] = None
+    # только для проверки состава семьи
+    n_child_u7: int = 0
+    n_elderly: int = 0
     # параметры трёх стресс-тестов (по умолчанию — базовая версия ядра)
     months_without_wage: float = core.E.StressTests().main_earner_months_lost
     cost_of_living_pct: float = core.E.StressTests().cost_of_living_rise * 100
@@ -90,8 +98,7 @@ def classify(req: ClassifyRequest) -> dict:
     try:
         return core.classify_household(**req.model_dump())
     except core.InputError as e:
-        # ошибка ввода уходит кодом — текст на нужном языке подставляет интерфейс
-        raise HTTPException(status_code=400, detail={"code": e.code}) from e
+        raise _input_error(e) from e
 
 
 class RiskScreenRequest(BaseModel):
@@ -111,7 +118,7 @@ def risk_screen(req: RiskScreenRequest) -> dict:
     try:
         return core.risk_screen(**req.model_dump())
     except core.InputError as e:
-        raise HTTPException(status_code=400, detail={"code": e.code}) from e
+        raise _input_error(e) from e
 
 
 # ---------------------------------------------------------------------------

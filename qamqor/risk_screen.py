@@ -26,6 +26,7 @@ import numpy as np
 import pandas as pd
 
 import engine as E
+import household_rules as HR
 
 DIR = Path(__file__).resolve().parent / "results" / "poverty_challenge"
 MODEL_PATH, SCORES_PATH = DIR / "model_logit.joblib", DIR / "scores_2024.csv"
@@ -119,8 +120,7 @@ def screen(size: int, n_child: int = 0, n_child_u7: int = 0, n_elderly: int = 0,
     if code is None:
         raise ValueError(f"unknown region: {region!r}")
     size, n_child, n_child_u7, n_elderly = int(size), int(n_child), int(n_child_u7), int(n_elderly)
-    if size < 1 or min(n_child, n_child_u7, n_elderly) < 0 or n_child_u7 > n_child or n_child + n_elderly > size:
-        raise ValueError("household composition is inconsistent")
+    HR.check(size, n_child, n_child_u7, n_elderly)   # RU: невозможную семью не считаем. EN: an impossible household is not computed.
     assumed_urban = urban is None and code not in CITY_REGIONS
     is_urban = True if code in CITY_REGIONS or urban is None else bool(urban)
     row = pd.DataFrame([{"size": size, "n_child": n_child, "n_child_u7": n_child_u7, "n_elderly": n_elderly,

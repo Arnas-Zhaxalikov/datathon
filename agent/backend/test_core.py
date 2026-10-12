@@ -73,8 +73,8 @@ def test_summary_matches_the_tool():
 
 
 def test_invalid_input():
-    for bad, code in [(dict(region=99), "err_region"), (dict(n_child=5), "err_members"),
-                      (dict(earner_wage=150_000, transfers=100_000), "err_amounts"), (dict(hh_size=0), "err_values")]:
+    for bad, code in [(dict(region=99), "err_region"), (dict(n_child=5), "err_no_adult"),
+                      (dict(earner_wage=150_000, transfers=100_000), "err_amounts"), (dict(hh_size=0), "err_size")]:
         try:
             core.classify_household(**{**BASE, **bad})
         except core.InputError as e:

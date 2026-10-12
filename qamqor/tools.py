@@ -40,6 +40,7 @@ from pathlib import Path
 import pandas as pd
 
 import engine as E
+import household_rules as HR
 import risk_screen as RS
 
 _DATA: pd.DataFrame | None = None
@@ -131,7 +132,9 @@ TOOLS = [
     },
     {
         "name": "check_household",
-        "description": "Citizen side. Profiles one household from a description: income per person, its level on "
+        "description": "Citizen side. The household must be possible: at least one adult (18 or over), and only adults have "
+                       "labour income; otherwise the tool returns an error and you must ask the person to clarify the "
+                       "composition instead of computing. Profiles one household from a description: income per person, its level on "
                        + _LEVELS + ", the list of failed stress tests, TSA income eligibility and top-up, margin above "
                        "the subsistence minimum of its region, drivers.",
         "input_schema": {"type": "object", "properties": {
@@ -165,7 +168,9 @@ TOOLS = [
     },
     {
         "name": "risk_screen",
-        "description": "Income-free risk screen for one household. A saved logistic regression sees only household "
+        "description": "Income-free risk screen for one household. The household must be possible (at least one adult; children "
+                       "plus people aged 63+ not more than the household; children under 7 not more than children): otherwise "
+                       "the tool returns an error and you must ask the person to clarify the composition. A saved logistic regression sees only household "
                        "composition, region and urban or rural; income is NOT an input and must not be asked for. "
                        "Returns the place in the ranking of 2024 sample households ('risk higher than X% of people in "
                        "the sample'), a level (high: top 10%, elevated: top 10-20%, usual: the rest) and the main "
@@ -373,6 +378,7 @@ def _run(name: str, a: dict, year: int) -> dict:
         return {"result": _clean(out), "caveats": RISK_CAVEATS}
     st = E.stress_tests(a.get("stress_version", "base"))
     if name == "check_household":
+        HR.check_members(a["members"])   # RU: невозможную семью не считаем. EN: an impossible household is not computed.
         out = E.check_household(a["members"], a.get("utilities_month", 0.0), year, st=st, region=a.get("region"))
         return {"result": _clean(out), "caveats": HOUSEHOLD_CAVEATS}
     df = _year_df(year)

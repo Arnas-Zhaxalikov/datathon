@@ -302,6 +302,13 @@ legend + * { clear: both; }
 .check input { width: 18px; height: 18px; margin: 1px 0 0; flex: 0 0 auto; accent-color: var(--accent); }
 /* подсветка незаполненного — только после попытки отправить, не с первого взгляда */
 .was-submitted .field :invalid { border-color: var(--bad-text); }
+/* ошибка состава семьи — под своим полем */
+.field.has-error input { border-color: var(--bad-text); }
+/* текст ошибки стоит под полем вне потока, чтобы соседнее поле в строке не съезжало; место даёт увеличенный отступ строк */
+.field { position: relative; }
+.field-error { position: absolute; top: calc(100% + 4px); left: 0; right: 0; font-size: var(--fs-xs); line-height: 1.3; color: var(--bad-text); }
+.form-grid:has(.has-error) { row-gap: 48px; }
+.form-grid:has(.has-error) > .has-error:last-child { margin-bottom: 30px; }
 
 .btn {
   display: inline-flex;

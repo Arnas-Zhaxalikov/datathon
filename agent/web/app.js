@@ -118,6 +118,8 @@ function familyPayload() {
     earner_self_employed: $("f-self-employed").checked,
     transfers: optNum("f-transfers"),
     housing_cost: optNum("f-housing"),
+    n_child_u7: Number($("f-child-u7").value || 0),
+    n_elderly: Number($("f-elderly").value || 0),
     whatif_extra_wage: optNum("w-wage") || 0,
     whatif_child_allowance: optNum("w-allowance") || 0,
   };
@@ -138,16 +140,42 @@ function riskPayload() {
   };
 }
 
-// проверка состава до запроса: детей и пожилых не больше, чем людей в семье
-function compositionError() {
-  const size = Number($("f-hh-size").value);
-  const child = Number($("f-n-child").value);
-  const u7 = Number($("f-child-u7").value || 0);
-  const elderly = Number($("f-elderly").value || 0);
-  if (child + elderly > size || u7 > child) return "err_risk_members";
-  if (familyMode === "income" && Number($("f-n-employed").value) > size) return "err_members";
-  return null;
+// проверка состава семьи: правила — в validate.js (те же на сервере, qamqor/household_rules.py).
+// Сообщение стоит под своим полем, кнопка «Рассчитать» неактивна, пока есть ошибка.
+let fieldErrors = [];
+
+function validateForm() {
+  fieldErrors = validateFamily({
+    size: Number($("f-hh-size").value),
+    child: Number($("f-n-child").value),
+    u7: Number($("f-child-u7").value || 0),
+    elderly: Number($("f-elderly").value || 0),
+    employed: familyMode === "income" ? Number($("f-n-employed").value) : null,
+  });
+  renderFieldErrors();
+  return fieldErrors.length === 0;
 }
+
+function renderFieldErrors() {
+  familyForm.querySelectorAll(".field-error").forEach((el) => el.remove());
+  familyForm.querySelectorAll(".field.has-error").forEach((el) => {
+    el.classList.remove("has-error");
+    el.querySelector("input").removeAttribute("aria-invalid");
+  });
+  fieldErrors.forEach((e) => {
+    const input = $(e.field);
+    const label = input.closest(".field");
+    label.classList.add("has-error");
+    input.setAttribute("aria-invalid", "true");
+    const note = document.createElement("small");
+    note.className = "field-error";
+    note.setAttribute("role", "alert");
+    note.textContent = t(e.key);
+    label.appendChild(note);
+  });
+  familyForm.querySelector('button[type="submit"]').disabled = fieldErrors.length > 0;
+}
+familyForm.addEventListener("input", validateForm);
 
 function syncUrbanField() {
   const city = CITY_REGIONS.includes(Number($("f-region").value));
@@ -164,6 +192,7 @@ function setMode(mode) {
     if (el.matches("fieldset")) el.disabled = mode !== "income";
   });
   $(mode === "screen" ? "risk-slot-screen" : "risk-slot-income").appendChild($("risk-block"));
+  validateForm(); // поле «работающих» проверяется только в режиме с доходом
   // расчёт по доходу сам не запускается: доход должен ввести человек, а не остаться от значения по умолчанию
   if (mode === "screen" ? familyData || riskData || familyErrorKey : familyData) runCalculation();
   else renderAll();
@@ -267,10 +296,11 @@ function setFamilyError(key) {
 
 async function runCalculation() {
   syncUrbanField();
-  const bad = compositionError();
-  if (bad) {
-    setFamilyError(bad);
+  if (!validateForm()) {
+    // невозможная семья не считается: результата нет, ошибка — под полем
+    familyData = null;
     riskData = null;
+    familyErrorKey = null;
     renderAll();
     return;
   }
@@ -290,12 +320,16 @@ familyForm.addEventListener("submit", async (e) => {
   const btn = familyForm.querySelector('button[type="submit"]');
   btn.disabled = true;
   btn.setAttribute("aria-busy", "true");
-  if (familyForm.checkValidity()) await runCalculation();
+  if (!validateForm()) {
+    await runCalculation();
+    const first = fieldErrors[0] && $(fieldErrors[0].field);
+    if (first) first.focus();
+  } else if (familyForm.checkValidity()) await runCalculation();
   else {
     setFamilyError($("f-region").value ? "calc_invalid" : "err_region");
     renderAll();
   }
-  btn.disabled = false;
+  btn.disabled = fieldErrors.length > 0;
   btn.removeAttribute("aria-busy");
   if (familyErrorKey) {
     const invalid = familyForm.querySelector(":invalid:not(fieldset)");
@@ -339,6 +373,7 @@ function renderAll() {
   $("family-empty").classList.toggle("hidden", showIncome || showScreen);
   familyError.classList.toggle("hidden", !familyErrorKey);
   if (familyErrorKey) familyError.textContent = t(familyErrorKey);
+  renderFieldErrors(); // тексты под полями — на языке интерфейса
   // в режиме с доходом сбой оценки не мешает основному расчёту: сообщение отдельно
   const riskOnly = familyMode === "income" && showIncome && riskErrorKey;
   $("risk-error").classList.toggle("hidden", !riskOnly);

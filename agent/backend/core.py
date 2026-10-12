@@ -18,6 +18,7 @@ sys.path.insert(0, str(QAMQOR))
 
 import engine as E  # noqa: E402  (qamqor/engine.py)
 import tools as T  # noqa: E402   (qamqor/tools.py)
+import household_rules as HR  # noqa: E402
 
 T.load(str(QAMQOR / "out" / "households.csv"))
 
@@ -37,9 +38,17 @@ REGION_CODE = {name: code for code, name in E.REGION_NAMES.items()}
 class InputError(ValueError):
     """Некорректный ввод. code — ключ сообщения, текст подставляет интерфейс."""
 
-    def __init__(self, code: str) -> None:
-        super().__init__(code)
-        self.code = code
+    def __init__(self, code: str, field: str | None = None, message: str | None = None) -> None:
+        super().__init__(message or code)
+        self.code, self.field, self.message = code, field, message or code
+
+
+def check_composition(hh_size: int, n_child: int, n_child_u7: int = 0, n_elderly: int = 0, n_employed: int | None = None) -> None:
+    """Правила состава семьи (qamqor/household_rules.py) — одни для расчёта по доходу и для оценки без дохода."""
+    try:
+        HR.check(hh_size, n_child, n_child_u7, n_elderly, n_employed)
+    except HR.CompositionError as e:
+        raise InputError("err_" + e.code, e.field, e.message) from e
 
 
 def regions() -> list[dict]:
@@ -74,9 +83,7 @@ def risk_screen(hh_size: int, n_child: int, region: int, n_child_u7: int = 0, n_
     """Оценка без данных о доходе: инструмент ядра risk_screen. Доход сюда не передаётся вообще."""
     if str(region) not in E.REGION_NAMES:
         raise InputError("err_region")
-    if (hh_size < 1 or min(n_child, n_child_u7, n_elderly) < 0 or n_child_u7 > n_child
-            or n_child + n_elderly > hh_size):
-        raise InputError("err_risk_members")
+    check_composition(hh_size, n_child, n_child_u7, n_elderly)
     r = T.call("risk_screen", {"size": hh_size, "n_child": n_child, "n_child_u7": n_child_u7, "n_elderly": n_elderly,
                                "region": E.REGION_NAMES[str(region)], "urban": urban})["result"]
     return {"rank_pct": r["risk_rank_pct"], "level": r["level"], "factors": r["factors"], "inputs": r["inputs"],
@@ -166,6 +173,8 @@ def classify_household(
     earner_self_employed: bool = False,
     transfers: float | None = None,
     housing_cost: float | None = None,
+    n_child_u7: int = 0,   # только для проверки состава: расчёт по доходу их не использует
+    n_elderly: int = 0,
     months_without_wage: float = 3,
     cost_of_living_pct: float = 10,
     housing_rise_pct: float = 30,
@@ -174,10 +183,9 @@ def classify_household(
 ) -> dict:
     if str(region) not in E.REGION_NAMES:
         raise InputError("err_region")
-    if hh_size < 1 or income_monthly < 0:
+    check_composition(hh_size, n_child, n_child_u7, n_elderly, n_employed)
+    if income_monthly < 0:
         raise InputError("err_values")
-    if n_child < 0 or n_employed < 0 or n_child > hh_size or n_employed > hh_size:
-        raise InputError("err_members")
     if any(v is not None and v < 0 for v in (earner_wage, transfers, housing_cost)):
         raise InputError("err_values")
     if (earner_wage or 0) + (transfers or 0) > income_monthly:
