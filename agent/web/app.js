@@ -30,11 +30,16 @@ const panels = {
 
 tabs.forEach((btn) => {
   btn.addEventListener("click", () => {
-    tabs.forEach((b) => b.classList.remove("active"));
-    btn.classList.add("active");
+    tabs.forEach((b) => {
+      b.classList.toggle("active", b === btn);
+      // aria-current сообщает программам чтения с экрана, какой раздел открыт
+      if (b === btn) b.setAttribute("aria-current", "page");
+      else b.removeAttribute("aria-current");
+    });
     Object.values(panels).forEach((p) => p.classList.remove("active"));
     const panel = panels[btn.dataset.tab];
     panel.classList.add("active");
+    document.getElementById("main").scrollTop = 0;
     if (btn.dataset.tab === "overview") loadOverview();
   });
 });
@@ -130,12 +135,18 @@ async function calculate() {
 
 familyForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const btn = familyForm.querySelector("button");
+  // свои сообщения об ошибках вместо всплывающих подсказок браузера: они на языке интерфейса
+  familyForm.classList.add("was-submitted");
+  const btn = familyForm.querySelector('button[type="submit"]');
   btn.disabled = true;
-  btn.textContent = t("calculating");
+  btn.setAttribute("aria-busy", "true");
   await calculate();
   btn.disabled = false;
-  btn.textContent = t("calc");
+  btn.removeAttribute("aria-busy");
+  if (familyErrorKey) {
+    const invalid = familyForm.querySelector(":invalid:not(fieldset)");
+    if (invalid) invalid.focus();
+  }
 });
 
 // после первого расчёта любое изменение пересчитывает результат без кнопки
@@ -160,6 +171,7 @@ function showFamilyError(key) {
   familyData = null;
   familyErrorKey = key;
   familyResult.classList.add("hidden");
+  $("family-empty").classList.remove("hidden");
   familyError.classList.remove("hidden");
   familyError.textContent = t(key);
 }
@@ -202,11 +214,15 @@ function renderFamilyResult() {
   const d = familyData;
   if (!d) return;
   familyError.classList.add("hidden");
+  $("family-empty").classList.add("hidden");
   familyResult.classList.remove("hidden");
 
-  // статус и вывод
+  // статус, ключевые числа и вывод
   setStatus("r-dot", "r-label", d.status, d.group);
   $("r-sub").textContent = t("result_sub", { v: fmt(d.income_pc), p: fmtPct(d.pct_of_sm) });
+  $("st-income").textContent = kzt(d.income_pc);
+  $("st-sm").textContent = kzt(d.sm);
+  $("st-asp").textContent = kzt(d.asp);
   drawMeter(d);
   $("r-outcome").textContent = outcomeText(d);
   $("r-link").classList.toggle("hidden", d.group !== "A");
@@ -317,10 +333,9 @@ let overviewStatus = null; // "calculating" | "overview_error" — пока пл
 
 function showOverviewStatus(key) {
   overviewStatus = key;
-  const cls = key === "overview_error" ? "error-text" : "hint";
-  $("overview-tiles").innerHTML = `<p class="${cls}">${escapeHtml(t(key))}</p>`;
+  const cls = key === "overview_error" ? "form-error" : "card-lead";
+  $("overview-status").innerHTML = `<p class="${cls}" role="status">${escapeHtml(t(key))}</p>`;
 }
-
 async function loadOverview() {
   if (overviewData || overviewStatus === "calculating") return;
   showOverviewStatus("calculating");
@@ -346,36 +361,53 @@ function renderOverview() {
   $("overview-note").textContent = t("overview_note", { rel: fmt(data.relative_poverty_line) });
 
   const order = ["A", "B", "C", "D"]; // по возрастанию дохода
+  $("overview-status").replaceChildren();
+
+  // полоса долей; подписи и точные числа — в плитках под ней, они же служат легендой
+  $("overview-dist").innerHTML = order
+    .map((g) => `<div class="dist-seg" style="flex:${data.groups[g].pct} 1 0;background:${STATUS_COLOR[data.groups[g].status]}"></div>`)
+    .join("");
+  $("overview-dist").setAttribute(
+    "aria-label",
+    order.map((g) => `${t("group_" + g)}: ${fmtPct(data.groups[g].pct)}%`).join("; ")
+  );
   $("overview-tiles").innerHTML = order
     .map((g) => {
       const grp = data.groups[g];
       return `
         <div class="tile">
           <div class="tile-label">
-            <span class="status-dot" style="width:10px;height:10px;background:${STATUS_COLOR[grp.status]}"></span>
-            ${escapeHtml(t("group_" + g))}
+            <span class="status-dot" style="background:${STATUS_COLOR[grp.status]}"></span>
+            <span>${escapeHtml(t("group_" + g))}</span>
           </div>
           <div class="tile-value">${fmtPct(grp.pct)}%</div>
           <div class="tile-sub">${fmt(grp.count)} ${escapeHtml(t("households"))}</div>
         </div>`;
     })
     .join("");
+  $("overview-dist-card").classList.remove("hidden");
 
   // по регионам: у каждого свой минимум, итог по стране — сумма этих строк
-  const head = ["ov_region", "ov_sm", "ov_n", "ov_below"].map((k) => `<th>${escapeHtml(t(k))}</th>`).join("");
+  const head = ["ov_region", "ov_sm", "ov_n", "ov_below"]
+    .map((k) => `<th scope="col">${escapeHtml(t(k))}</th>`)
+    .join("");
+  const maxPct = Math.max(...data.by_region.map((r) => r.pct_below_sm), 1);
   const rows = [...data.by_region]
     .sort((a, b) => b.pct_below_sm - a.pct_below_sm)
     .map(
-      (r) =>
-        `<tr><td>${escapeHtml(regionName(r.code, r.name))}</td><td>${fmt(r.sm)}</td><td>${fmt(r.n)}</td><td>${fmtPct(
+      (r) => `<tr>
+        <td>${escapeHtml(regionName(r.code, r.name))}</td>
+        <td>${fmt(r.sm)}</td>
+        <td>${fmt(r.n)}</td>
+        <td class="bar-cell"><div class="cell-bar"><i style="width:${(70 * r.pct_below_sm) / maxPct}%"></i><span>${fmtPct(
           r.pct_below_sm
-        )}%</td></tr>`
+        )}%</span></div></td>
+      </tr>`
     )
     .join("");
-  $("overview-region-table").innerHTML = `<tr>${head}</tr>${rows}`;
+  $("overview-region-table").innerHTML = `<thead><tr>${head}</tr></thead><tbody>${rows}</tbody>`;
   $("overview-regions").classList.remove("hidden");
 }
-
 // ---------- Чат (режим "Для анализа") ----------
 
 const chat = document.getElementById("chat");
