@@ -72,7 +72,7 @@ def main():
     E.set_line_mode("regional")
     d = prepare(pd.read_csv(src, dtype={"hh_id": str, "region": str}))
     d24 = d[d.year == 2024]
-    R = {"version": "0.3.3", "note": "Household-level, robust standard errors (HC1). Associations, not causes. Synthetic data.",
+    R = {"version": "0.3.4", "note": "Household-level, robust standard errors (HC1). Associations, not causes. Synthetic data.",
          "households_2024": int(len(d24))}
 
     m1 = smf.ols(f"log_ratio ~ {RHS}", d24).fit(cov_type="HC1")

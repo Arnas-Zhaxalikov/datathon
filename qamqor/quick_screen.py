@@ -97,7 +97,7 @@ def main():
     tr = d[d.year.isin(TRAIN_YEARS)].reset_index(drop=True)
     te = d[d.year == TEST_YEAR].reset_index(drop=True)
     wtr, wte = tr["size"].to_numpy(float), te["size"].to_numpy(float)
-    R = {"version": "0.3.3", "train_years": list(TRAIN_YEARS), "test_year": TEST_YEAR,
+    R = {"version": "0.3.4", "train_years": list(TRAIN_YEARS), "test_year": TEST_YEAR,
          "train_households": int(len(tr)), "test_households": int(len(te)),
          "near_poverty_threshold": NEAR, "targets": {}, "models": [], "rules": {}}
     scores = {}

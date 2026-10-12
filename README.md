@@ -20,13 +20,13 @@ Qamqor AI показывает, кого не видит официальное 
 
 | Уровень | Условие |
 |---|---|
-| A | выше ПМ, семья проходит все четыре стресс-теста |
+| A | выше ПМ, семья проходит все три стресс-теста |
 | B | выше ПМ, не проходит один тест |
 | C | выше ПМ, не проходит два и более |
 | D | ниже ПМ, но не ниже черты АСП (70% ПМ) |
 | E | ниже черты АСП |
 
-Стресс-тесты: главный кормилец 3 месяца без заработка (наёмный сохраняет 45%, самозанятый ничего), стоимость жизни +10%, жильё и коммунальные +30%, ещё один иждивенец. Есть слабая, базовая и сильная версии.
+Стресс-тесты: главный кормилец 3 месяца без заработка (наёмный сохраняет 45%, самозанятый ничего), стоимость жизни +10%, жильё и коммунальные +30%. Есть слабая, базовая и сильная версии.
 
 ### Веб-приложение
 
@@ -34,7 +34,7 @@ Qamqor AI показывает, кого не видит официальное 
 
 - **Моя семья.** Калькулятор для гражданина, работает без ключа API. Вводятся состав семьи, доход и регион; по желанию — заработок и тип занятости главного кормильца, пенсии и пособия, расходы на жильё. Экран показывает:
   - уровень A–E и положение дохода относительно черты АСП и ПМ региона;
-  - четыре стресс-теста с ползунками: силу каждого можно менять и сразу видеть доход на человека после теста;
+  - три стресс-теста с ползунками: силу каждого можно менять и сразу видеть доход на человека после теста;
   - блок «А что, если»: прибавка к заработку или детское пособие;
   - сравнение с семьями выборки с тем же числом детей в том же регионе (при 30 и более семьях);
   - допущения, принятые для незаполненных полей.
@@ -49,7 +49,7 @@ Qamqor AI показывает, кого не видит официальное 
 | `simulate` | «Что, если»: шок (заработки, потеря кормильца, коммунальные, цены) и/или мера поддержки (АСП с другой чертой, правило 2025 года, детское пособие, неполный охват); сравнение с базой по бедности, неравенству, стоимости и получателям |
 | `compare_policies` | Несколько мер рядом при равном бюджете, в том числе после шока и отдельно для уровней B и C |
 | `check_household` | Одна семья по описанию: уровень, доплата АСП, запас над ПМ, какие тесты она не проходит |
-| `explain` | Откуда взята цифра и каким правилом получена: источник (форма данных, ключ в `results.json`, проверка), связанные правила и оговорки. Читает граф из 129 узлов и 339 связей, ничего не считает |
+| `explain` | Откуда взята цифра и каким правилом получена: источник (форма данных, ключ в `results.json`, проверка), связанные правила и оговорки. Читает граф из 128 узлов и 336 связей, ничего не считает |
 
 ### Аналитика ядра
 
@@ -90,13 +90,13 @@ A household's monthly income per person is compared with the subsistence minimum
 
 | Level | Condition |
 |---|---|
-| A | above the SM, passes all four stress tests |
+| A | above the SM, passes all three stress tests |
 | B | above the SM, fails one test |
 | C | above the SM, fails two or more |
 | D | below the SM but not below the TSA line (70% of the SM) |
 | E | below the TSA line |
 
-TSA is targeted social assistance. Stress tests: the main earner goes 3 months without earnings (an employee keeps 45%, a self-employed person nothing), cost of living +10%, housing and utilities +30%, one more dependant. Weak, base and strong versions exist.
+TSA is targeted social assistance. Stress tests: the main earner goes 3 months without earnings (an employee keeps 45%, a self-employed person nothing), cost of living +10%, housing and utilities +30%. Weak, base and strong versions exist.
 
 ### Web application
 
@@ -104,7 +104,7 @@ Three sections, three languages (English, Kazakh, Russian), light and dark theme
 
 - **My family.** A calculator for citizens; works without an API key. Inputs are household composition, income and region; optionally the main earner's earnings and employment type, pensions and benefits, and housing costs. The screen shows:
   - the A–E level and where income stands against the TSA line and the regional SM;
-  - four stress tests with sliders: change the strength of each and see income per person after the test;
+  - three stress tests with sliders: change the strength of each and see income per person after the test;
   - a "what if" block: extra earnings or a child allowance;
   - a comparison with sample households with the same number of children in the same region (30 or more households);
   - the assumptions used for fields left empty.
@@ -119,7 +119,7 @@ Three sections, three languages (English, Kazakh, Russian), light and dark theme
 | `simulate` | What-if: a shock (wages, loss of the main earner, utilities, prices) and/or a support measure (TSA with another line, the 2025 rule, a child allowance, partial take-up); comparison with the baseline on poverty, inequality, cost and beneficiaries |
 | `compare_policies` | Several measures side by side at an equal budget, also after a shock and separately for levels B and C |
 | `check_household` | One household from a description: level, TSA top-up, margin above the SM, which tests it fails |
-| `explain` | Where a figure comes from and which rule produced it: the source (data form, `results.json` key, check), related rules and caveats. Reads a graph of 129 nodes and 339 edges; computes nothing |
+| `explain` | Where a figure comes from and which rule produced it: the source (data form, `results.json` key, check), related rules and caveats. Reads a graph of 128 nodes and 336 edges; computes nothing |
 
 ### Engine analytics
 

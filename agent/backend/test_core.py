@@ -19,14 +19,14 @@ def test_lines_come_from_the_engine():
     assert r["income_pc"] == 50_000 and r["level"] == "D"
 
 
-def test_four_stress_tests_base_version():
+def test_three_stress_tests_base_version():
     # наёмный кормилец с заработком 200 000 сохраняет 45% на 3 месяца
     r = core.classify_household(**BASE, earner_wage=200_000, housing_cost=25_000)
     t = tests_by_key(r)
     assert t["fail_earner_loss"]["income_pc"] == round((200_000 * 12 - 200_000 * 3 * 0.55) / 12 / 4)  # 43 125
     assert t["fail_cost_of_living"]["income_pc"] == round(200_000 / 1.1 / 4)                         # 45 455
     assert t["fail_utilities"]["income_pc"] == round((200_000 - 25_000 * 0.3) / 4)                    # 48 125
-    assert t["fail_extra_dependant"]["income_pc"] == 40_000
+    assert set(t) == {"fail_earner_loss", "fail_cost_of_living", "fail_utilities"}
     assert r["earner_keeps_pct"] == 45 and r["assumptions"] == []
 
 
@@ -47,16 +47,16 @@ def test_five_levels():
     assert level(120_000) == "E"   # 30 000 на человека — ниже черты АСП
     assert level(200_000) == "D"   # 50 000 — между чертой АСП и ПМ
     assert level(240_000) == "C"   # 60 000 — выше ПМ, не проходит два и более теста
-    assert level(260_000) == "B"   # 65 000 — не проходит только тест с иждивенцем
+    assert level(240_000, earner_wage=100_000) == "B"   # при меньшем заработке кормильца — только рост стоимости жизни
     assert level(480_000) == "A"
 
 
 def test_warning_only_when_a_test_crosses_the_minimum():
     below = core.classify_household(**BASE)
     assert not any(t["crosses"] for t in below["tests"])
-    above = core.classify_household(**{**BASE, "income_monthly": 260_000})
-    assert [t["key"] for t in above["tests"] if t["crosses"]] == ["fail_extra_dependant"]
-    assert above["outcome"]["failing"] == ["fail_extra_dependant"]
+    above = core.classify_household(**{**BASE, "income_monthly": 240_000, "earner_wage": 100_000})
+    assert [t["key"] for t in above["tests"] if t["crosses"]] == ["fail_cost_of_living"]
+    assert above["outcome"]["failing"] == ["fail_cost_of_living"]
 
 
 def test_what_if_and_peers():

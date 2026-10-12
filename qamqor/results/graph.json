@@ -1307,7 +1307,7 @@
    "id": "tier:A_resilient",
    "type": "tier",
    "label": "Level A: above the regional subsistence minimum, passes all stress tests",
-   "value": 83.45,
+   "value": 87.35,
    "unit": "% of people in the sample",
    "year": 2024,
    "note": "results.json: gap_by_year_regional_line[year=2024].tiers_pct.A_resilient",
@@ -1321,7 +1321,7 @@
    "id": "tier:B_fails_one_test",
    "type": "tier",
    "label": "Level B: above the regional subsistence minimum, fails one stress test",
-   "value": 3.9,
+   "value": 1.23,
    "unit": "% of people in the sample",
    "year": 2024,
    "note": "results.json: gap_by_year_regional_line[year=2024].tiers_pct.B_fails_one_test",
@@ -1335,7 +1335,7 @@
    "id": "tier:C_fails_two_or_more",
    "type": "tier",
    "label": "Level C: above the regional subsistence minimum, fails two or more stress tests",
-   "value": 3.57,
+   "value": 2.34,
    "unit": "% of people in the sample",
    "year": 2024,
    "note": "results.json: gap_by_year_regional_line[year=2024].tiers_pct.C_fails_two_or_more",
@@ -1410,19 +1410,6 @@
    "source": {
     "file": "results/results.json",
     "key": "levels_by_stress_version_2024[version=base].above_sm_and_failing_pct.fail_utilities"
-   }
-  },
-  {
-   "id": "stress:extra_dependant",
-   "type": "stress_test",
-   "label": "Stress test: 1 more dependant(s)",
-   "value": 7.48,
-   "unit": "% of people in the sample above the subsistence minimum who fail this test",
-   "year": 2024,
-   "note": "results.json: levels_by_stress_version_2024[version=base].above_sm_and_failing_pct.fail_extra_dependant. base version; parameters in results.json: stress_tests.base",
-   "source": {
-    "file": "results/results.json",
-    "key": "levels_by_stress_version_2024[version=base].above_sm_and_failing_pct.fail_extra_dependant"
    }
   },
   {
@@ -1525,7 +1512,7 @@
    "id": "metric:at_risk_b_c_2024",
    "type": "metric",
    "label": "Levels B and C together: above the subsistence minimum but failing a stress test, 2024, base tests",
-   "value": 7.48,
+   "value": 3.57,
    "unit": "% of people in the sample",
    "year": 2024,
    "note": "results.json: gap_by_year_regional_line[year=2024].at_risk_pct",
@@ -1539,7 +1526,7 @@
    "id": "metric:at_risk_b_c_2024_weak",
    "type": "metric",
    "label": "Levels B and C together, 2024, weak stress tests",
-   "value": 3.22,
+   "value": 1.87,
    "unit": "% of people in the sample",
    "year": 2024,
    "note": "results.json: levels_by_stress_version_2024[version=weak].at_risk_pct",
@@ -1552,7 +1539,7 @@
    "id": "metric:at_risk_b_c_2024_strong",
    "type": "metric",
    "label": "Levels B and C together, 2024, strong stress tests",
-   "value": 18.25,
+   "value": 7.09,
    "unit": "% of people in the sample",
    "year": 2024,
    "note": "results.json: levels_by_stress_version_2024[version=strong].at_risk_pct",
@@ -2649,23 +2636,6 @@
    "relation": "limited_by"
   },
   {
-   "from": "stress:extra_dependant",
-   "to": "tier:B_fails_one_test",
-   "relation": "moves",
-   "note": "a household above the minimum that fails one test is level B, two or more level C"
-  },
-  {
-   "from": "stress:extra_dependant",
-   "to": "tier:C_fails_two_or_more",
-   "relation": "moves",
-   "note": "a household above the minimum that fails one test is level B, two or more level C"
-  },
-  {
-   "from": "stress:extra_dependant",
-   "to": "caveat:static_model",
-   "relation": "limited_by"
-  },
-  {
    "from": "stress:earner_loss",
    "to": "caveat:earner_type_approximated",
    "relation": "limited_by"
@@ -3452,10 +3422,10 @@
   }
  ],
  "meta": {
-  "engine_version": "0.3.3",
+  "engine_version": "0.3.4",
   "year": 2024,
-  "nodes": 129,
-  "edges": 339,
+  "nodes": 128,
+  "edges": 336,
   "sources": [
    "results/quick_screen.json",
    "results/results.json",

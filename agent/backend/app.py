@@ -76,11 +76,10 @@ class ClassifyRequest(BaseModel):
     earner_self_employed: bool = False
     transfers: Optional[float] = None
     housing_cost: Optional[float] = None
-    # параметры четырёх стресс-тестов (по умолчанию — базовая версия ядра)
+    # параметры трёх стресс-тестов (по умолчанию — базовая версия ядра)
     months_without_wage: float = core.E.StressTests().main_earner_months_lost
     cost_of_living_pct: float = core.E.StressTests().cost_of_living_rise * 100
     housing_rise_pct: float = core.E.StressTests().utilities_rise * 100
-    extra_dependants: float = core.E.StressTests().extra_dependants
     # «а что, если»
     whatif_extra_wage: float = 0
     whatif_child_allowance: float = 0

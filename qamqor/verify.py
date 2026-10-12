@@ -5,13 +5,13 @@ RU: Часть 1 пересчитывает главные цифры прямо
     используя engine.py, и сравнивает с results.json. Черты берутся из
     ref/regional_sm_annual_2022_2024.csv, а не из кода ядра, поэтому заодно проверяется, что в
     ядро они перенесены без ошибок.
-    Часть 2 вызывает четыре инструмента из tools.py и проверяет, что они возвращают те же
+    Часть 2 вызывает расчётные инструменты из tools.py и проверяет, что они возвращают те же
     числа, что записаны в results.json: итоговый файл и ассистент не могут разойтись.
 EN: Part 1 recomputes the headline figures straight from the household table with plain pandas,
     without engine.py, and compares them with results.json. The lines are read from
     ref/regional_sm_annual_2022_2024.csv, not from the engine code, so this also checks that they
     were copied into the engine without errors.
-    Part 2 calls the four tools in tools.py and checks that they return the same numbers as
+    Part 2 calls the calculation tools in tools.py and checks that they return the same numbers as
     results.json: the final file and the assistant cannot drift apart.
 
 Запуск / Run:
@@ -46,8 +46,8 @@ def same(name, a, b):
 # ---- Часть 1: независимый пересчёт / Part 1: independent recomputation -------------------
 BUDGET = {2022: (3 * 36018 + 9 * 37389) / 12, 2023: 40567, 2024: 43407}
 CITY = {"Astana city": "71", "Almaty city": "75", "Shymkent city": "79"}
-# RU: базовый набор из четырёх стресс-тестов. EN: the base set of four stress tests.
-MONTHS, KEEP, PRICES, UTIL, DEP = 3, 0.45, 0.10, 0.30, 1
+# RU: базовый набор из трёх стресс-тестов. EN: the base set of three stress tests.
+MONTHS, KEEP, PRICES, UTIL = 3, 0.45, 0.10, 0.30
 
 for y in (2022, 2023, 2024):
     d = hh[hh.year == y].copy()
@@ -67,7 +67,7 @@ for y in (2022, 2023, 2024):
     wage_share = (d.inc_wage / d.inc_labor.replace(0, np.nan)).fillna(0).clip(0, 1)
     lost = d.main_earner_labor * MONTHS / 12 * (1 - KEEP * wage_share)
     fails = ((d.income - lost) / n < line).astype(int) + (d.income / (1 + PRICES) / n < line).astype(int) \
-        + ((d.income - d.utilities * UTIL) / n < line).astype(int) + (d.income / ((d["size"] + DEP) * 12) < line).astype(int)
+        + ((d.income - d.utilities * UTIL) / n < line).astype(int)
     above = pc >= line
     chk(f"{y} level E", f(pc < 0.7 * line), g["tiers_pct"]["E_below_tsa_line"])
     chk(f"{y} level D", f((pc >= 0.7 * line) & (pc < line)), g["tiers_pct"]["D_below_sm"])

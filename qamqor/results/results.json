@@ -1,5 +1,5 @@
 {
-  "version": "0.3.3",
+  "version": "0.3.4",
   "gap_by_year_budget_line": [
     {
       "year": 2022,
@@ -14,13 +14,13 @@
       "gini": 0.2601,
       "gap_to_sm_per_capita_year": 9349,
       "tiers_pct": {
-        "A_resilient": 83.79,
-        "B_fails_one_test": 3.39,
-        "C_fails_two_or_more": 3.62,
+        "A_resilient": 87.18,
+        "B_fails_one_test": 1.24,
+        "C_fails_two_or_more": 2.39,
         "D_below_sm": 6.54,
         "E_below_tsa_line": 2.66
       },
-      "at_risk_pct": 7.01
+      "at_risk_pct": 3.63
     },
     {
       "year": 2023,
@@ -35,13 +35,13 @@
       "gini": 0.2612,
       "gap_to_sm_per_capita_year": 7951,
       "tiers_pct": {
-        "A_resilient": 86.77,
-        "B_fails_one_test": 2.97,
-        "C_fails_two_or_more": 2.94,
+        "A_resilient": 89.73,
+        "B_fails_one_test": 1.08,
+        "C_fails_two_or_more": 1.87,
         "D_below_sm": 5.33,
         "E_below_tsa_line": 1.99
       },
-      "at_risk_pct": 5.91
+      "at_risk_pct": 2.95
     },
     {
       "year": 2024,
@@ -56,13 +56,13 @@
       "gini": 0.257,
       "gap_to_sm_per_capita_year": 6303,
       "tiers_pct": {
-        "A_resilient": 89.61,
-        "B_fails_one_test": 2.36,
-        "C_fails_two_or_more": 2.51,
+        "A_resilient": 91.97,
+        "B_fails_one_test": 0.74,
+        "C_fails_two_or_more": 1.78,
         "D_below_sm": 4.04,
         "E_below_tsa_line": 1.47
       },
-      "at_risk_pct": 4.87
+      "at_risk_pct": 2.51
     }
   ],
   "gap_by_year_regional_line": [
@@ -79,13 +79,13 @@
       "gini": 0.2601,
       "gap_to_sm_per_capita_year": 17572,
       "tiers_pct": {
-        "A_resilient": 75.67,
-        "B_fails_one_test": 4.93,
-        "C_fails_two_or_more": 4.98,
+        "A_resilient": 80.59,
+        "B_fails_one_test": 1.45,
+        "C_fails_two_or_more": 3.54,
         "D_below_sm": 9.84,
         "E_below_tsa_line": 4.58
       },
-      "at_risk_pct": 9.91
+      "at_risk_pct": 4.98
     },
     {
       "year": 2023,
@@ -100,13 +100,13 @@
       "gini": 0.2612,
       "gap_to_sm_per_capita_year": 17114,
       "tiers_pct": {
-        "A_resilient": 78.05,
-        "B_fails_one_test": 4.71,
-        "C_fails_two_or_more": 4.64,
+        "A_resilient": 82.74,
+        "B_fails_one_test": 1.35,
+        "C_fails_two_or_more": 3.3,
         "D_below_sm": 8.99,
         "E_below_tsa_line": 3.62
       },
-      "at_risk_pct": 9.35
+      "at_risk_pct": 4.65
     },
     {
       "year": 2024,
@@ -121,13 +121,13 @@
       "gini": 0.257,
       "gap_to_sm_per_capita_year": 12253,
       "tiers_pct": {
-        "A_resilient": 83.45,
-        "B_fails_one_test": 3.9,
-        "C_fails_two_or_more": 3.57,
+        "A_resilient": 87.35,
+        "B_fails_one_test": 1.23,
+        "C_fails_two_or_more": 2.34,
         "D_below_sm": 6.61,
         "E_below_tsa_line": 2.47
       },
-      "at_risk_pct": 7.48
+      "at_risk_pct": 3.57
     }
   ],
   "three_lines_by_year": [
@@ -383,13 +383,13 @@
       "gini": 0.257,
       "gap_to_sm_per_capita_year": 6303,
       "tiers_pct": {
-        "A_resilient": 89.61,
-        "B_fails_one_test": 2.36,
-        "C_fails_two_or_more": 2.51,
+        "A_resilient": 91.97,
+        "B_fails_one_test": 0.74,
+        "C_fails_two_or_more": 1.78,
         "D_below_sm": 4.04,
         "E_below_tsa_line": 1.47
       },
-      "at_risk_pct": 4.87
+      "at_risk_pct": 2.51
     },
     "actual": {
       "year": 2024,
@@ -404,13 +404,13 @@
       "gini": 0.257,
       "gap_to_sm_per_capita_year": 13239,
       "tiers_pct": {
-        "A_resilient": 82.14,
-        "B_fails_one_test": 4.1,
-        "C_fails_two_or_more": 4.03,
+        "A_resilient": 86.22,
+        "B_fails_one_test": 1.27,
+        "C_fails_two_or_more": 2.79,
         "D_below_sm": 6.92,
         "E_below_tsa_line": 2.81
       },
-      "at_risk_pct": 8.13
+      "at_risk_pct": 4.05
     },
     "regional": {
       "year": 2024,
@@ -425,13 +425,13 @@
       "gini": 0.257,
       "gap_to_sm_per_capita_year": 12253,
       "tiers_pct": {
-        "A_resilient": 83.45,
-        "B_fails_one_test": 3.9,
-        "C_fails_two_or_more": 3.57,
+        "A_resilient": 87.35,
+        "B_fails_one_test": 1.23,
+        "C_fails_two_or_more": 2.34,
         "D_below_sm": 6.61,
         "E_below_tsa_line": 2.47
       },
-      "at_risk_pct": 7.48
+      "at_risk_pct": 3.57
     }
   },
   "regional_sm_2024": {
@@ -460,45 +460,45 @@
     {
       "n_child": "0",
       "persons_pct_of_sample": 24.2,
-      "A_resilient": 96.0,
-      "B_fails_one_test": 2.9,
-      "C_fails_two_or_more": 0.3,
+      "A_resilient": 98.8,
+      "B_fails_one_test": 0.1,
+      "C_fails_two_or_more": 0.2,
       "D_below_sm": 0.4,
       "E_below_tsa_line": 0.5
     },
     {
       "n_child": "1",
       "persons_pct_of_sample": 21.9,
-      "A_resilient": 89.8,
-      "B_fails_one_test": 4.9,
-      "C_fails_two_or_more": 1.8,
+      "A_resilient": 94.7,
+      "B_fails_one_test": 0.5,
+      "C_fails_two_or_more": 1.3,
       "D_below_sm": 2.6,
       "E_below_tsa_line": 0.8
     },
     {
       "n_child": "2",
       "persons_pct_of_sample": 21.0,
-      "A_resilient": 84.2,
-      "B_fails_one_test": 3.6,
-      "C_fails_two_or_more": 3.7,
+      "A_resilient": 87.8,
+      "B_fails_one_test": 1.4,
+      "C_fails_two_or_more": 2.3,
       "D_below_sm": 6.2,
       "E_below_tsa_line": 2.3
     },
     {
       "n_child": "3",
       "persons_pct_of_sample": 18.2,
-      "A_resilient": 77.6,
-      "B_fails_one_test": 4.2,
-      "C_fails_two_or_more": 6.0,
+      "A_resilient": 81.8,
+      "B_fails_one_test": 2.0,
+      "C_fails_two_or_more": 4.1,
       "D_below_sm": 9.3,
       "E_below_tsa_line": 2.9
     },
     {
       "n_child": "4+",
       "persons_pct_of_sample": 14.6,
-      "A_resilient": 59.4,
-      "B_fails_one_test": 4.2,
-      "C_fails_two_or_more": 8.4,
+      "A_resilient": 63.6,
+      "B_fails_one_test": 3.0,
+      "C_fails_two_or_more": 5.3,
       "D_below_sm": 20.1,
       "E_below_tsa_line": 7.9
     }
@@ -507,82 +507,79 @@
     {
       "hh_type": "children_1_3",
       "persons_pct_of_sample": 58.4,
-      "A_resilient": 85.9,
-      "B_fails_one_test": 3.6,
-      "C_fails_two_or_more": 3.5,
+      "A_resilient": 89.5,
+      "B_fails_one_test": 1.2,
+      "C_fails_two_or_more": 2.4,
       "D_below_sm": 5.3,
       "E_below_tsa_line": 1.7
     },
     {
       "hh_type": "children_4plus",
       "persons_pct_of_sample": 14.4,
-      "A_resilient": 60.1,
-      "B_fails_one_test": 4.2,
-      "C_fails_two_or_more": 8.5,
+      "A_resilient": 64.4,
+      "B_fails_one_test": 3.1,
+      "C_fails_two_or_more": 5.4,
       "D_below_sm": 19.9,
       "E_below_tsa_line": 7.3
     },
     {
       "hh_type": "pensioners_only",
       "persons_pct_of_sample": 3.5,
-      "A_resilient": 95.1,
-      "B_fails_one_test": 4.1,
-      "C_fails_two_or_more": 0.2,
+      "A_resilient": 99.2,
+      "B_fails_one_test": 0.1,
+      "C_fails_two_or_more": 0.1,
       "D_below_sm": 0.1,
       "E_below_tsa_line": 0.5
     },
     {
       "hh_type": "single_adult_with_children",
       "persons_pct_of_sample": 2.9,
-      "A_resilient": 47.1,
-      "B_fails_one_test": 16.0,
-      "C_fails_two_or_more": 7.1,
+      "A_resilient": 63.1,
+      "B_fails_one_test": 2.8,
+      "C_fails_two_or_more": 4.2,
       "D_below_sm": 18.5,
       "E_below_tsa_line": 11.3
     },
     {
       "hh_type": "working_age_no_children",
       "persons_pct_of_sample": 20.8,
-      "A_resilient": 96.1,
-      "B_fails_one_test": 2.7,
-      "C_fails_two_or_more": 0.3,
+      "A_resilient": 98.8,
+      "B_fails_one_test": 0.1,
+      "C_fails_two_or_more": 0.2,
       "D_below_sm": 0.4,
       "E_below_tsa_line": 0.5
     }
   ],
   "levels_b_c_reasons_2024": {
     "B": {
-      "main earner 3 months without earnings (employees keep 45%, self-employed nothing)": 0.0,
-      "cost of living +10%": 0.0,
-      "housing and utility costs +30%": 0.0,
-      "1 more dependant(s)": 100.0,
-      "drv_many_children": 35.2,
-      "drv_no_earner": 13.4,
-      "drv_one_earner_many_dependents": 12.6,
-      "drv_transfer_dependent": 21.7,
-      "drv_high_housing_burden": 26.7
+      "main earner 3 months without earnings (employees keep 45%, self-employed nothing)": 19.8,
+      "cost of living +10%": 79.6,
+      "housing and utility costs +30%": 0.6,
+      "drv_many_children": 65.2,
+      "drv_no_earner": 5.8,
+      "drv_one_earner_many_dependents": 34.8,
+      "drv_transfer_dependent": 30.5,
+      "drv_high_housing_burden": 13.4
     },
     "C": {
+      "main earner 3 months without earnings (employees keep 45%, self-employed nothing)": 97.9,
+      "cost of living +10%": 99.8,
+      "housing and utility costs +30%": 27.7,
+      "drv_many_children": 64.9,
+      "drv_no_earner": 1.9,
+      "drv_one_earner_many_dependents": 26.9,
+      "drv_transfer_dependent": 10.5,
+      "drv_high_housing_burden": 15.0
+    },
+    "B_and_C": {
       "main earner 3 months without earnings (employees keep 45%, self-employed nothing)": 71.0,
       "cost of living +10%": 92.8,
       "housing and utility costs +30%": 18.4,
-      "1 more dependant(s)": 100.0,
       "drv_many_children": 65.0,
       "drv_no_earner": 3.3,
       "drv_one_earner_many_dependents": 29.6,
       "drv_transfer_dependent": 17.4,
       "drv_high_housing_burden": 14.5
-    },
-    "B_and_C": {
-      "main earner 3 months without earnings (employees keep 45%, self-employed nothing)": 33.9,
-      "cost of living +10%": 44.3,
-      "housing and utility costs +30%": 8.8,
-      "1 more dependant(s)": 100.0,
-      "drv_many_children": 49.4,
-      "drv_no_earner": 8.6,
-      "drv_one_earner_many_dependents": 20.7,
-      "drv_transfer_dependent": 19.6,
-      "drv_high_housing_burden": 20.9
     }
   },
   "stress_tests": {
@@ -591,12 +588,10 @@
       "wage_replacement": 0.45,
       "cost_of_living_rise": 0.05,
       "utilities_rise": 0.15,
-      "extra_dependants": 0.5,
       "labels": {
         "fail_earner_loss": "main earner 2 months without earnings (employees keep 45%, self-employed nothing)",
         "fail_cost_of_living": "cost of living +5%",
-        "fail_utilities": "housing and utility costs +15%",
-        "fail_extra_dependant": "one more dependant for 6 months"
+        "fail_utilities": "housing and utility costs +15%"
       }
     },
     "base": {
@@ -604,12 +599,10 @@
       "wage_replacement": 0.45,
       "cost_of_living_rise": 0.1,
       "utilities_rise": 0.3,
-      "extra_dependants": 1.0,
       "labels": {
         "fail_earner_loss": "main earner 3 months without earnings (employees keep 45%, self-employed nothing)",
         "fail_cost_of_living": "cost of living +10%",
-        "fail_utilities": "housing and utility costs +30%",
-        "fail_extra_dependant": "1 more dependant(s)"
+        "fail_utilities": "housing and utility costs +30%"
       }
     },
     "strong": {
@@ -617,12 +610,10 @@
       "wage_replacement": 0.45,
       "cost_of_living_rise": 0.15,
       "utilities_rise": 0.5,
-      "extra_dependants": 2,
       "labels": {
         "fail_earner_loss": "main earner 6 months without earnings (employees keep 45%, self-employed nothing)",
         "fail_cost_of_living": "cost of living +15%",
-        "fail_utilities": "housing and utility costs +50%",
-        "fail_extra_dependant": "2 more dependant(s)"
+        "fail_utilities": "housing and utility costs +50%"
       }
     }
   },
@@ -630,52 +621,49 @@
     {
       "version": "weak",
       "tiers_pct": {
-        "A_resilient": 87.71,
-        "B_fails_one_test": 1.36,
-        "C_fails_two_or_more": 1.86,
+        "A_resilient": 89.05,
+        "B_fails_one_test": 0.46,
+        "C_fails_two_or_more": 1.41,
         "D_below_sm": 6.61,
         "E_below_tsa_line": 2.47
       },
-      "at_risk_pct": 3.22,
+      "at_risk_pct": 1.87,
       "above_sm_and_failing_pct": {
         "fail_earner_loss": 1.66,
         "fail_cost_of_living": 1.59,
-        "fail_utilities": 0.19,
-        "fail_extra_dependant": 3.2
+        "fail_utilities": 0.19
       }
     },
     {
       "version": "base",
       "tiers_pct": {
-        "A_resilient": 83.45,
-        "B_fails_one_test": 3.9,
-        "C_fails_two_or_more": 3.57,
+        "A_resilient": 87.35,
+        "B_fails_one_test": 1.23,
+        "C_fails_two_or_more": 2.34,
         "D_below_sm": 6.61,
         "E_below_tsa_line": 2.47
       },
-      "at_risk_pct": 7.48,
+      "at_risk_pct": 3.57,
       "above_sm_and_failing_pct": {
         "fail_earner_loss": 2.53,
         "fail_cost_of_living": 3.32,
-        "fail_utilities": 0.66,
-        "fail_extra_dependant": 7.48
+        "fail_utilities": 0.66
       }
     },
     {
       "version": "strong",
       "tiers_pct": {
-        "A_resilient": 72.67,
-        "B_fails_one_test": 11.2,
-        "C_fails_two_or_more": 7.05,
+        "A_resilient": 83.84,
+        "B_fails_one_test": 2.67,
+        "C_fails_two_or_more": 4.42,
         "D_below_sm": 6.61,
         "E_below_tsa_line": 2.47
       },
-      "at_risk_pct": 18.25,
+      "at_risk_pct": 7.09,
       "above_sm_and_failing_pct": {
         "fail_earner_loss": 6.26,
         "fail_cost_of_living": 5.15,
-        "fail_utilities": 1.1,
-        "fail_extra_dependant": 18.21
+        "fail_utilities": 1.1
       }
     }
   ],
@@ -687,9 +675,9 @@
       "median_income_per_capita": 91336,
       "below_sm_one_national_line_pct": 11.5,
       "below_sm_regional_line_pct": 23.5,
-      "A_resilient": 66.0,
-      "B_fails_one_test": 3.8,
-      "C_fails_two_or_more": 6.7,
+      "A_resilient": 69.8,
+      "B_fails_one_test": 2.6,
+      "C_fails_two_or_more": 4.1,
       "D_below_sm": 15.4,
       "E_below_tsa_line": 8.1
     },
@@ -700,9 +688,9 @@
       "median_income_per_capita": 75609,
       "below_sm_one_national_line_pct": 19.8,
       "below_sm_regional_line_pct": 19.2,
-      "A_resilient": 67.6,
-      "B_fails_one_test": 6.9,
-      "C_fails_two_or_more": 6.3,
+      "A_resilient": 74.5,
+      "B_fails_one_test": 1.5,
+      "C_fails_two_or_more": 4.8,
       "D_below_sm": 12.8,
       "E_below_tsa_line": 6.3
     },
@@ -713,9 +701,9 @@
       "median_income_per_capita": 79908,
       "below_sm_one_national_line_pct": 19.0,
       "below_sm_regional_line_pct": 15.9,
-      "A_resilient": 71.0,
-      "B_fails_one_test": 6.4,
-      "C_fails_two_or_more": 6.7,
+      "A_resilient": 77.4,
+      "B_fails_one_test": 2.9,
+      "C_fails_two_or_more": 3.8,
       "D_below_sm": 11.8,
       "E_below_tsa_line": 4.1
     },
@@ -726,9 +714,9 @@
       "median_income_per_capita": 82894,
       "below_sm_one_national_line_pct": 15.7,
       "below_sm_regional_line_pct": 14.3,
-      "A_resilient": 74.9,
-      "B_fails_one_test": 5.4,
-      "C_fails_two_or_more": 5.4,
+      "A_resilient": 80.3,
+      "B_fails_one_test": 1.6,
+      "C_fails_two_or_more": 3.8,
       "D_below_sm": 9.0,
       "E_below_tsa_line": 5.3
     },
@@ -739,9 +727,9 @@
       "median_income_per_capita": 73824,
       "below_sm_one_national_line_pct": 20.6,
       "below_sm_regional_line_pct": 14.2,
-      "A_resilient": 77.8,
-      "B_fails_one_test": 2.8,
-      "C_fails_two_or_more": 5.3,
+      "A_resilient": 80.5,
+      "B_fails_one_test": 1.7,
+      "C_fails_two_or_more": 3.6,
       "D_below_sm": 10.3,
       "E_below_tsa_line": 3.9
     },
@@ -752,9 +740,9 @@
       "median_income_per_capita": 100533,
       "below_sm_one_national_line_pct": 10.6,
       "below_sm_regional_line_pct": 10.6,
-      "A_resilient": 82.5,
-      "B_fails_one_test": 3.8,
-      "C_fails_two_or_more": 3.1,
+      "A_resilient": 86.4,
+      "B_fails_one_test": 1.1,
+      "C_fails_two_or_more": 2.0,
       "D_below_sm": 7.2,
       "E_below_tsa_line": 3.4
     },
@@ -765,9 +753,9 @@
       "median_income_per_capita": 93192,
       "below_sm_one_national_line_pct": 12.9,
       "below_sm_regional_line_pct": 10.1,
-      "A_resilient": 84.1,
-      "B_fails_one_test": 2.8,
-      "C_fails_two_or_more": 2.9,
+      "A_resilient": 87.0,
+      "B_fails_one_test": 0.6,
+      "C_fails_two_or_more": 2.3,
       "D_below_sm": 7.6,
       "E_below_tsa_line": 2.5
     },
@@ -778,9 +766,9 @@
       "median_income_per_capita": 89500,
       "below_sm_one_national_line_pct": 8.9,
       "below_sm_regional_line_pct": 8.9,
-      "A_resilient": 83.4,
-      "B_fails_one_test": 3.5,
-      "C_fails_two_or_more": 4.2,
+      "A_resilient": 86.9,
+      "B_fails_one_test": 2.3,
+      "C_fails_two_or_more": 1.8,
       "D_below_sm": 7.9,
       "E_below_tsa_line": 1.1
     },
@@ -791,9 +779,9 @@
       "median_income_per_capita": 80493,
       "below_sm_one_national_line_pct": 11.3,
       "below_sm_regional_line_pct": 8.8,
-      "A_resilient": 86.0,
-      "B_fails_one_test": 3.5,
-      "C_fails_two_or_more": 1.8,
+      "A_resilient": 89.4,
+      "B_fails_one_test": 1.1,
+      "C_fails_two_or_more": 0.8,
       "D_below_sm": 7.0,
       "E_below_tsa_line": 1.8
     },
@@ -804,9 +792,9 @@
       "median_income_per_capita": 116378,
       "below_sm_one_national_line_pct": 4.3,
       "below_sm_regional_line_pct": 6.9,
-      "A_resilient": 84.0,
-      "B_fails_one_test": 6.0,
-      "C_fails_two_or_more": 3.1,
+      "A_resilient": 90.0,
+      "B_fails_one_test": 0.9,
+      "C_fails_two_or_more": 2.2,
       "D_below_sm": 6.0,
       "E_below_tsa_line": 0.8
     },
@@ -817,9 +805,9 @@
       "median_income_per_capita": 91319,
       "below_sm_one_national_line_pct": 8.7,
       "below_sm_regional_line_pct": 6.0,
-      "A_resilient": 86.1,
-      "B_fails_one_test": 2.5,
-      "C_fails_two_or_more": 5.4,
+      "A_resilient": 88.6,
+      "B_fails_one_test": 2.3,
+      "C_fails_two_or_more": 3.1,
       "D_below_sm": 5.1,
       "E_below_tsa_line": 0.9
     },
@@ -830,9 +818,9 @@
       "median_income_per_capita": 112796,
       "below_sm_one_national_line_pct": 4.7,
       "below_sm_regional_line_pct": 5.9,
-      "A_resilient": 85.3,
-      "B_fails_one_test": 6.0,
-      "C_fails_two_or_more": 2.7,
+      "A_resilient": 91.4,
+      "B_fails_one_test": 0.5,
+      "C_fails_two_or_more": 2.3,
       "D_below_sm": 4.8,
       "E_below_tsa_line": 1.1
     },
@@ -843,8 +831,8 @@
       "median_income_per_capita": 112936,
       "below_sm_one_national_line_pct": 6.4,
       "below_sm_regional_line_pct": 5.7,
-      "A_resilient": 89.9,
-      "B_fails_one_test": 2.5,
+      "A_resilient": 92.4,
+      "B_fails_one_test": 0.0,
       "C_fails_two_or_more": 1.9,
       "D_below_sm": 4.5,
       "E_below_tsa_line": 1.2
@@ -856,9 +844,9 @@
       "median_income_per_capita": 109970,
       "below_sm_one_national_line_pct": 5.6,
       "below_sm_regional_line_pct": 5.6,
-      "A_resilient": 86.6,
-      "B_fails_one_test": 4.7,
-      "C_fails_two_or_more": 3.2,
+      "A_resilient": 91.3,
+      "B_fails_one_test": 0.8,
+      "C_fails_two_or_more": 2.4,
       "D_below_sm": 4.3,
       "E_below_tsa_line": 1.3
     },
@@ -869,9 +857,9 @@
       "median_income_per_capita": 94683,
       "below_sm_one_national_line_pct": 7.4,
       "below_sm_regional_line_pct": 5.2,
-      "A_resilient": 89.1,
-      "B_fails_one_test": 3.4,
-      "C_fails_two_or_more": 2.3,
+      "A_resilient": 92.5,
+      "B_fails_one_test": 1.0,
+      "C_fails_two_or_more": 1.3,
       "D_below_sm": 3.2,
       "E_below_tsa_line": 2.0
     },
@@ -882,9 +870,9 @@
       "median_income_per_capita": 110705,
       "below_sm_one_national_line_pct": 5.6,
       "below_sm_regional_line_pct": 4.5,
-      "A_resilient": 88.8,
-      "B_fails_one_test": 3.7,
-      "C_fails_two_or_more": 3.0,
+      "A_resilient": 92.5,
+      "B_fails_one_test": 0.8,
+      "C_fails_two_or_more": 2.2,
       "D_below_sm": 3.6,
       "E_below_tsa_line": 0.9
     },
@@ -895,9 +883,9 @@
       "median_income_per_capita": 114752,
       "below_sm_one_national_line_pct": 4.3,
       "below_sm_regional_line_pct": 3.9,
-      "A_resilient": 88.5,
-      "B_fails_one_test": 5.3,
-      "C_fails_two_or_more": 2.3,
+      "A_resilient": 93.8,
+      "B_fails_one_test": 0.6,
+      "C_fails_two_or_more": 1.7,
       "D_below_sm": 3.5,
       "E_below_tsa_line": 0.4
     },
@@ -908,9 +896,9 @@
       "median_income_per_capita": 122857,
       "below_sm_one_national_line_pct": 1.8,
       "below_sm_regional_line_pct": 3.0,
-      "A_resilient": 90.7,
-      "B_fails_one_test": 4.0,
-      "C_fails_two_or_more": 2.2,
+      "A_resilient": 94.7,
+      "B_fails_one_test": 1.0,
+      "C_fails_two_or_more": 1.2,
       "D_below_sm": 2.2,
       "E_below_tsa_line": 0.8
     },
@@ -921,9 +909,9 @@
       "median_income_per_capita": 117022,
       "below_sm_one_national_line_pct": 2.7,
       "below_sm_regional_line_pct": 2.7,
-      "A_resilient": 94.6,
-      "B_fails_one_test": 2.0,
-      "C_fails_two_or_more": 0.7,
+      "A_resilient": 96.5,
+      "B_fails_one_test": 0.7,
+      "C_fails_two_or_more": 0.0,
       "D_below_sm": 1.7,
       "E_below_tsa_line": 1.0
     },
@@ -934,9 +922,9 @@
       "median_income_per_capita": 122240,
       "below_sm_one_national_line_pct": 3.1,
       "below_sm_regional_line_pct": 2.4,
-      "A_resilient": 94.8,
-      "B_fails_one_test": 1.4,
-      "C_fails_two_or_more": 1.4,
+      "A_resilient": 96.2,
+      "B_fails_one_test": 0.2,
+      "C_fails_two_or_more": 1.2,
       "D_below_sm": 1.0,
       "E_below_tsa_line": 1.3
     }
@@ -947,9 +935,9 @@
       "persons_pct_of_sample": 48.7,
       "below_sm_one_national_line_pct": 10.4,
       "below_sm_regional_line_pct": 9.1,
-      "A_resilient": 84.0,
-      "B_fails_one_test": 3.0,
-      "C_fails_two_or_more": 3.8,
+      "A_resilient": 87.0,
+      "B_fails_one_test": 1.4,
+      "C_fails_two_or_more": 2.4,
       "D_below_sm": 7.0,
       "E_below_tsa_line": 2.1
     },
@@ -958,9 +946,9 @@
       "persons_pct_of_sample": 51.3,
       "below_sm_one_national_line_pct": 9.1,
       "below_sm_regional_line_pct": 9.0,
-      "A_resilient": 82.9,
-      "B_fails_one_test": 4.8,
-      "C_fails_two_or_more": 3.3,
+      "A_resilient": 87.7,
+      "B_fails_one_test": 1.1,
+      "C_fails_two_or_more": 2.3,
       "D_below_sm": 6.2,
       "E_below_tsa_line": 2.8
     }
@@ -992,24 +980,24 @@
       ]
     },
     "C_fails_two_or_more_pct": {
+      "value": 2.34,
+      "ci95": [
+        2.018,
+        2.7
+      ]
+    },
+    "B_fails_one_test_pct": {
+      "value": 1.23,
+      "ci95": [
+        0.96,
+        1.501
+      ]
+    },
+    "at_risk_b_and_c_pct": {
       "value": 3.57,
       "ci95": [
         3.149,
         4.08
-      ]
-    },
-    "B_fails_one_test_pct": {
-      "value": 3.9,
-      "ci95": [
-        3.539,
-        4.25
-      ]
-    },
-    "at_risk_b_and_c_pct": {
-      "value": 7.48,
-      "ci95": [
-        6.96,
-        8.06
       ]
     }
   },
@@ -1404,13 +1392,13 @@
         "gini": 0.257,
         "gap_to_sm_per_capita_year": 12253,
         "tiers_pct": {
-          "A_resilient": 83.45,
-          "B_fails_one_test": 3.9,
-          "C_fails_two_or_more": 3.57,
+          "A_resilient": 87.35,
+          "B_fails_one_test": 1.23,
+          "C_fails_two_or_more": 2.34,
           "D_below_sm": 6.61,
           "E_below_tsa_line": 2.47
         },
-        "at_risk_pct": 7.48
+        "at_risk_pct": 3.57
       },
       "after_shock": {
         "year": 2024,
@@ -1425,13 +1413,13 @@
         "gini": 0.257,
         "gap_to_sm_per_capita_year": 12253,
         "tiers_pct": {
-          "A_resilient": 83.45,
-          "B_fails_one_test": 3.9,
-          "C_fails_two_or_more": 3.57,
+          "A_resilient": 87.35,
+          "B_fails_one_test": 1.23,
+          "C_fails_two_or_more": 2.34,
           "D_below_sm": 6.61,
           "E_below_tsa_line": 2.47
         },
-        "at_risk_pct": 7.48
+        "at_risk_pct": 3.57
       },
       "after_policy": {
         "year": 2024,
@@ -1446,13 +1434,13 @@
         "gini": 0.2545,
         "gap_to_sm_per_capita_year": 9687,
         "tiers_pct": {
-          "A_resilient": 83.45,
-          "B_fails_one_test": 3.9,
-          "C_fails_two_or_more": 3.57,
+          "A_resilient": 87.35,
+          "B_fails_one_test": 1.23,
+          "C_fails_two_or_more": 2.34,
           "D_below_sm": 9.07,
           "E_below_tsa_line": 0.0
         },
-        "at_risk_pct": 7.48
+        "at_risk_pct": 3.57
       },
       "cost": {
         "sample_tenge_year": 107113391,
@@ -1474,7 +1462,7 @@
           "poor_baseline_pct": 7.0,
           "poor_after_shock_pct": 7.0,
           "poor_after_policy_pct": 7.0,
-          "at_risk_after_policy_pct": 7.2,
+          "at_risk_after_policy_pct": 3.5,
           "receives_payment_pct": 1.7,
           "share_of_spending_pct": 35.8
         },
@@ -1485,7 +1473,7 @@
           "poor_baseline_pct": 27.1,
           "poor_after_shock_pct": 27.1,
           "poor_after_policy_pct": 27.1,
-          "at_risk_after_policy_pct": 12.7,
+          "at_risk_after_policy_pct": 8.5,
           "receives_payment_pct": 7.3,
           "share_of_spending_pct": 38.9
         },
@@ -1496,7 +1484,7 @@
           "poor_baseline_pct": 0.6,
           "poor_after_shock_pct": 0.6,
           "poor_after_policy_pct": 0.6,
-          "at_risk_after_policy_pct": 4.3,
+          "at_risk_after_policy_pct": 0.2,
           "receives_payment_pct": 0.5,
           "share_of_spending_pct": 1.5
         },
@@ -1507,7 +1495,7 @@
           "poor_baseline_pct": 29.8,
           "poor_after_shock_pct": 29.8,
           "poor_after_policy_pct": 29.8,
-          "at_risk_after_policy_pct": 23.1,
+          "at_risk_after_policy_pct": 7.1,
           "receives_payment_pct": 11.3,
           "share_of_spending_pct": 15.9
         },
@@ -1518,7 +1506,7 @@
           "poor_baseline_pct": 0.9,
           "poor_after_shock_pct": 0.9,
           "poor_after_policy_pct": 0.9,
-          "at_risk_after_policy_pct": 3.0,
+          "at_risk_after_policy_pct": 0.3,
           "receives_payment_pct": 0.5,
           "share_of_spending_pct": 7.9
         }
@@ -1542,13 +1530,13 @@
         "gini": 0.257,
         "gap_to_sm_per_capita_year": 12253,
         "tiers_pct": {
-          "A_resilient": 83.45,
-          "B_fails_one_test": 3.9,
-          "C_fails_two_or_more": 3.57,
+          "A_resilient": 87.35,
+          "B_fails_one_test": 1.23,
+          "C_fails_two_or_more": 2.34,
           "D_below_sm": 6.61,
           "E_below_tsa_line": 2.47
         },
-        "at_risk_pct": 7.48
+        "at_risk_pct": 3.57
       },
       "after_shock": {
         "year": 2024,
@@ -1563,13 +1551,13 @@
         "gini": 0.257,
         "gap_to_sm_per_capita_year": 12253,
         "tiers_pct": {
-          "A_resilient": 83.45,
-          "B_fails_one_test": 3.9,
-          "C_fails_two_or_more": 3.57,
+          "A_resilient": 87.35,
+          "B_fails_one_test": 1.23,
+          "C_fails_two_or_more": 2.34,
           "D_below_sm": 6.61,
           "E_below_tsa_line": 2.47
         },
-        "at_risk_pct": 7.48
+        "at_risk_pct": 3.57
       },
       "after_policy": {
         "year": 2024,
@@ -1584,13 +1572,13 @@
         "gini": 0.2544,
         "gap_to_sm_per_capita_year": 9584,
         "tiers_pct": {
-          "A_resilient": 83.45,
-          "B_fails_one_test": 3.9,
-          "C_fails_two_or_more": 3.57,
+          "A_resilient": 87.35,
+          "B_fails_one_test": 1.23,
+          "C_fails_two_or_more": 2.34,
           "D_below_sm": 9.07,
           "E_below_tsa_line": 0.0
         },
-        "at_risk_pct": 7.48
+        "at_risk_pct": 3.57
       },
       "cost": {
         "sample_tenge_year": 111414766,
@@ -1612,7 +1600,7 @@
           "poor_baseline_pct": 7.0,
           "poor_after_shock_pct": 7.0,
           "poor_after_policy_pct": 7.0,
-          "at_risk_after_policy_pct": 7.2,
+          "at_risk_after_policy_pct": 3.5,
           "receives_payment_pct": 1.7,
           "share_of_spending_pct": 35.3
         },
@@ -1623,7 +1611,7 @@
           "poor_baseline_pct": 27.1,
           "poor_after_shock_pct": 27.1,
           "poor_after_policy_pct": 27.1,
-          "at_risk_after_policy_pct": 12.7,
+          "at_risk_after_policy_pct": 8.5,
           "receives_payment_pct": 7.6,
           "share_of_spending_pct": 40.1
         },
@@ -1634,7 +1622,7 @@
           "poor_baseline_pct": 0.6,
           "poor_after_shock_pct": 0.6,
           "poor_after_policy_pct": 0.6,
-          "at_risk_after_policy_pct": 4.3,
+          "at_risk_after_policy_pct": 0.2,
           "receives_payment_pct": 0.5,
           "share_of_spending_pct": 1.4
         },
@@ -1645,7 +1633,7 @@
           "poor_baseline_pct": 29.8,
           "poor_after_shock_pct": 29.8,
           "poor_after_policy_pct": 29.8,
-          "at_risk_after_policy_pct": 23.1,
+          "at_risk_after_policy_pct": 7.1,
           "receives_payment_pct": 11.6,
           "share_of_spending_pct": 15.5
         },
@@ -1656,7 +1644,7 @@
           "poor_baseline_pct": 0.9,
           "poor_after_shock_pct": 0.9,
           "poor_after_policy_pct": 0.9,
-          "at_risk_after_policy_pct": 3.0,
+          "at_risk_after_policy_pct": 0.3,
           "receives_payment_pct": 0.5,
           "share_of_spending_pct": 7.7
         }
@@ -1680,13 +1668,13 @@
         "gini": 0.257,
         "gap_to_sm_per_capita_year": 12253,
         "tiers_pct": {
-          "A_resilient": 83.45,
-          "B_fails_one_test": 3.9,
-          "C_fails_two_or_more": 3.57,
+          "A_resilient": 87.35,
+          "B_fails_one_test": 1.23,
+          "C_fails_two_or_more": 2.34,
           "D_below_sm": 6.61,
           "E_below_tsa_line": 2.47
         },
-        "at_risk_pct": 7.48
+        "at_risk_pct": 3.57
       },
       "after_shock": {
         "year": 2024,
@@ -1701,13 +1689,13 @@
         "gini": 0.257,
         "gap_to_sm_per_capita_year": 12253,
         "tiers_pct": {
-          "A_resilient": 83.45,
-          "B_fails_one_test": 3.9,
-          "C_fails_two_or_more": 3.57,
+          "A_resilient": 87.35,
+          "B_fails_one_test": 1.23,
+          "C_fails_two_or_more": 2.34,
           "D_below_sm": 6.61,
           "E_below_tsa_line": 2.47
         },
-        "at_risk_pct": 7.48
+        "at_risk_pct": 3.57
       },
       "after_policy": {
         "year": 2024,
@@ -1722,13 +1710,13 @@
         "gini": 0.2458,
         "gap_to_sm_per_capita_year": 0,
         "tiers_pct": {
-          "A_resilient": 83.45,
-          "B_fails_one_test": 3.9,
-          "C_fails_two_or_more": 12.65,
+          "A_resilient": 87.35,
+          "B_fails_one_test": 1.23,
+          "C_fails_two_or_more": 11.41,
           "D_below_sm": 0.0,
           "E_below_tsa_line": 0.0
         },
-        "at_risk_pct": 16.55
+        "at_risk_pct": 12.65
       },
       "cost": {
         "sample_tenge_year": 511510721,
@@ -1750,7 +1738,7 @@
           "poor_baseline_pct": 7.0,
           "poor_after_shock_pct": 7.0,
           "poor_after_policy_pct": 0.0,
-          "at_risk_after_policy_pct": 14.1,
+          "at_risk_after_policy_pct": 10.5,
           "receives_payment_pct": 7.0,
           "share_of_spending_pct": 41.9
         },
@@ -1761,7 +1749,7 @@
           "poor_baseline_pct": 27.1,
           "poor_after_shock_pct": 27.1,
           "poor_after_policy_pct": 0.0,
-          "at_risk_after_policy_pct": 39.9,
+          "at_risk_after_policy_pct": 35.6,
           "receives_payment_pct": 27.1,
           "share_of_spending_pct": 42.0
         },
@@ -1772,7 +1760,7 @@
           "poor_baseline_pct": 0.6,
           "poor_after_shock_pct": 0.6,
           "poor_after_policy_pct": 0.0,
-          "at_risk_after_policy_pct": 4.9,
+          "at_risk_after_policy_pct": 0.8,
           "receives_payment_pct": 0.6,
           "share_of_spending_pct": 0.6
         },
@@ -1783,7 +1771,7 @@
           "poor_baseline_pct": 29.8,
           "poor_after_shock_pct": 29.8,
           "poor_after_policy_pct": 0.0,
-          "at_risk_after_policy_pct": 52.9,
+          "at_risk_after_policy_pct": 36.9,
           "receives_payment_pct": 29.8,
           "share_of_spending_pct": 11.9
         },
@@ -1794,7 +1782,7 @@
           "poor_baseline_pct": 0.9,
           "poor_after_shock_pct": 0.9,
           "poor_after_policy_pct": 0.0,
-          "at_risk_after_policy_pct": 3.9,
+          "at_risk_after_policy_pct": 1.2,
           "receives_payment_pct": 0.9,
           "share_of_spending_pct": 3.6
         }
@@ -1820,13 +1808,13 @@
         "gini": 0.257,
         "gap_to_sm_per_capita_year": 12253,
         "tiers_pct": {
-          "A_resilient": 83.45,
-          "B_fails_one_test": 3.9,
-          "C_fails_two_or_more": 3.57,
+          "A_resilient": 87.35,
+          "B_fails_one_test": 1.23,
+          "C_fails_two_or_more": 2.34,
           "D_below_sm": 6.61,
           "E_below_tsa_line": 2.47
         },
-        "at_risk_pct": 7.48
+        "at_risk_pct": 3.57
       },
       "after_shock": {
         "year": 2024,
@@ -1841,13 +1829,13 @@
         "gini": 0.2568,
         "gap_to_sm_per_capita_year": 15676,
         "tiers_pct": {
-          "A_resilient": 79.69,
-          "B_fails_one_test": 4.33,
-          "C_fails_two_or_more": 4.64,
+          "A_resilient": 83.99,
+          "B_fails_one_test": 1.37,
+          "C_fails_two_or_more": 3.3,
           "D_below_sm": 8.21,
           "E_below_tsa_line": 3.12
         },
-        "at_risk_pct": 8.97
+        "at_risk_pct": 4.67
       },
       "after_policy": {
         "year": 2024,
@@ -1862,13 +1850,13 @@
         "gini": 0.2568,
         "gap_to_sm_per_capita_year": 15676,
         "tiers_pct": {
-          "A_resilient": 79.69,
-          "B_fails_one_test": 4.33,
-          "C_fails_two_or_more": 4.64,
+          "A_resilient": 83.99,
+          "B_fails_one_test": 1.37,
+          "C_fails_two_or_more": 3.3,
           "D_below_sm": 8.21,
           "E_below_tsa_line": 3.12
         },
-        "at_risk_pct": 8.97
+        "at_risk_pct": 4.67
       },
       "cost": {
         "sample_tenge_year": 0,
@@ -1890,7 +1878,7 @@
           "poor_baseline_pct": 7.0,
           "poor_after_shock_pct": 9.3,
           "poor_after_policy_pct": 9.3,
-          "at_risk_after_policy_pct": 8.8,
+          "at_risk_after_policy_pct": 4.7,
           "receives_payment_pct": 0.0,
           "share_of_spending_pct": 0.0
         },
@@ -1901,7 +1889,7 @@
           "poor_baseline_pct": 27.1,
           "poor_after_shock_pct": 32.4,
           "poor_after_policy_pct": 32.4,
-          "at_risk_after_policy_pct": 14.6,
+          "at_risk_after_policy_pct": 11.0,
           "receives_payment_pct": 0.0,
           "share_of_spending_pct": 0.0
         },
@@ -1912,7 +1900,7 @@
           "poor_baseline_pct": 0.6,
           "poor_after_shock_pct": 0.6,
           "poor_after_policy_pct": 0.6,
-          "at_risk_after_policy_pct": 4.3,
+          "at_risk_after_policy_pct": 0.2,
           "receives_payment_pct": 0.0,
           "share_of_spending_pct": 0.0
         },
@@ -1923,7 +1911,7 @@
           "poor_baseline_pct": 29.8,
           "poor_after_shock_pct": 33.0,
           "poor_after_policy_pct": 33.0,
-          "at_risk_after_policy_pct": 27.1,
+          "at_risk_after_policy_pct": 8.7,
           "receives_payment_pct": 0.0,
           "share_of_spending_pct": 0.0
         },
@@ -1934,7 +1922,7 @@
           "poor_baseline_pct": 0.9,
           "poor_after_shock_pct": 1.0,
           "poor_after_policy_pct": 1.0,
-          "at_risk_after_policy_pct": 3.8,
+          "at_risk_after_policy_pct": 0.4,
           "receives_payment_pct": 0.0,
           "share_of_spending_pct": 0.0
         }
@@ -1958,13 +1946,13 @@
         "gini": 0.257,
         "gap_to_sm_per_capita_year": 12253,
         "tiers_pct": {
-          "A_resilient": 83.45,
-          "B_fails_one_test": 3.9,
-          "C_fails_two_or_more": 3.57,
+          "A_resilient": 87.35,
+          "B_fails_one_test": 1.23,
+          "C_fails_two_or_more": 2.34,
           "D_below_sm": 6.61,
           "E_below_tsa_line": 2.47
         },
-        "at_risk_pct": 7.48
+        "at_risk_pct": 3.57
       },
       "after_shock": {
         "year": 2024,
@@ -1979,13 +1967,13 @@
         "gini": 0.2577,
         "gap_to_sm_per_capita_year": 16507,
         "tiers_pct": {
-          "A_resilient": 79.44,
-          "B_fails_one_test": 4.3,
-          "C_fails_two_or_more": 4.65,
+          "A_resilient": 83.72,
+          "B_fails_one_test": 1.54,
+          "C_fails_two_or_more": 3.14,
           "D_below_sm": 8.21,
           "E_below_tsa_line": 3.39
         },
-        "at_risk_pct": 8.95
+        "at_risk_pct": 4.68
       },
       "after_policy": {
         "year": 2024,
@@ -2000,13 +1988,13 @@
         "gini": 0.2577,
         "gap_to_sm_per_capita_year": 16507,
         "tiers_pct": {
-          "A_resilient": 79.44,
-          "B_fails_one_test": 4.3,
-          "C_fails_two_or_more": 4.65,
+          "A_resilient": 83.72,
+          "B_fails_one_test": 1.54,
+          "C_fails_two_or_more": 3.14,
           "D_below_sm": 8.21,
           "E_below_tsa_line": 3.39
         },
-        "at_risk_pct": 8.95
+        "at_risk_pct": 4.68
       },
       "cost": {
         "sample_tenge_year": 0,
@@ -2028,7 +2016,7 @@
           "poor_baseline_pct": 7.0,
           "poor_after_shock_pct": 9.5,
           "poor_after_policy_pct": 9.5,
-          "at_risk_after_policy_pct": 8.7,
+          "at_risk_after_policy_pct": 4.6,
           "receives_payment_pct": 0.0,
           "share_of_spending_pct": 0.0
         },
@@ -2039,7 +2027,7 @@
           "poor_baseline_pct": 27.1,
           "poor_after_shock_pct": 32.8,
           "poor_after_policy_pct": 32.8,
-          "at_risk_after_policy_pct": 14.1,
+          "at_risk_after_policy_pct": 10.8,
           "receives_payment_pct": 0.0,
           "share_of_spending_pct": 0.0
         },
@@ -2050,7 +2038,7 @@
           "poor_baseline_pct": 0.6,
           "poor_after_shock_pct": 0.6,
           "poor_after_policy_pct": 0.6,
-          "at_risk_after_policy_pct": 4.4,
+          "at_risk_after_policy_pct": 0.2,
           "receives_payment_pct": 0.0,
           "share_of_spending_pct": 0.0
         },
@@ -2061,7 +2049,7 @@
           "poor_baseline_pct": 29.8,
           "poor_after_shock_pct": 35.4,
           "poor_after_policy_pct": 35.4,
-          "at_risk_after_policy_pct": 28.5,
+          "at_risk_after_policy_pct": 9.6,
           "receives_payment_pct": 0.0,
           "share_of_spending_pct": 0.0
         },
@@ -2072,7 +2060,7 @@
           "poor_baseline_pct": 0.9,
           "poor_after_shock_pct": 1.1,
           "poor_after_policy_pct": 1.1,
-          "at_risk_after_policy_pct": 4.0,
+          "at_risk_after_policy_pct": 0.6,
           "receives_payment_pct": 0.0,
           "share_of_spending_pct": 0.0
         }
@@ -2096,13 +2084,13 @@
         "gini": 0.257,
         "gap_to_sm_per_capita_year": 12253,
         "tiers_pct": {
-          "A_resilient": 83.45,
-          "B_fails_one_test": 3.9,
-          "C_fails_two_or_more": 3.57,
+          "A_resilient": 87.35,
+          "B_fails_one_test": 1.23,
+          "C_fails_two_or_more": 2.34,
           "D_below_sm": 6.61,
           "E_below_tsa_line": 2.47
         },
-        "at_risk_pct": 7.48
+        "at_risk_pct": 3.57
       },
       "after_shock": {
         "year": 2024,
@@ -2117,13 +2105,13 @@
         "gini": 0.258,
         "gap_to_sm_per_capita_year": 13409,
         "tiers_pct": {
-          "A_resilient": 82.61,
-          "B_fails_one_test": 3.9,
-          "C_fails_two_or_more": 3.76,
+          "A_resilient": 86.51,
+          "B_fails_one_test": 1.25,
+          "C_fails_two_or_more": 2.51,
           "D_below_sm": 7.01,
           "E_below_tsa_line": 2.72
         },
-        "at_risk_pct": 7.66
+        "at_risk_pct": 3.76
       },
       "after_policy": {
         "year": 2024,
@@ -2138,13 +2126,13 @@
         "gini": 0.258,
         "gap_to_sm_per_capita_year": 13409,
         "tiers_pct": {
-          "A_resilient": 82.61,
-          "B_fails_one_test": 3.9,
-          "C_fails_two_or_more": 3.76,
+          "A_resilient": 86.51,
+          "B_fails_one_test": 1.25,
+          "C_fails_two_or_more": 2.51,
           "D_below_sm": 7.01,
           "E_below_tsa_line": 2.72
         },
-        "at_risk_pct": 7.66
+        "at_risk_pct": 3.76
       },
       "cost": {
         "sample_tenge_year": 0,
@@ -2166,7 +2154,7 @@
           "poor_baseline_pct": 7.0,
           "poor_after_shock_pct": 7.7,
           "poor_after_policy_pct": 7.7,
-          "at_risk_after_policy_pct": 7.3,
+          "at_risk_after_policy_pct": 3.5,
           "receives_payment_pct": 0.0,
           "share_of_spending_pct": 0.0
         },
@@ -2177,7 +2165,7 @@
           "poor_baseline_pct": 27.1,
           "poor_after_shock_pct": 28.2,
           "poor_after_policy_pct": 28.2,
-          "at_risk_after_policy_pct": 12.6,
+          "at_risk_after_policy_pct": 9.7,
           "receives_payment_pct": 0.0,
           "share_of_spending_pct": 0.0
         },
@@ -2188,7 +2176,7 @@
           "poor_baseline_pct": 0.6,
           "poor_after_shock_pct": 0.8,
           "poor_after_policy_pct": 0.8,
-          "at_risk_after_policy_pct": 6.0,
+          "at_risk_after_policy_pct": 0.1,
           "receives_payment_pct": 0.0,
           "share_of_spending_pct": 0.0
         },
@@ -2199,7 +2187,7 @@
           "poor_baseline_pct": 29.8,
           "poor_after_shock_pct": 31.3,
           "poor_after_policy_pct": 31.3,
-          "at_risk_after_policy_pct": 24.3,
+          "at_risk_after_policy_pct": 7.5,
           "receives_payment_pct": 0.0,
           "share_of_spending_pct": 0.0
         },
@@ -2210,7 +2198,7 @@
           "poor_baseline_pct": 0.9,
           "poor_after_shock_pct": 1.1,
           "poor_after_policy_pct": 1.1,
-          "at_risk_after_policy_pct": 3.2,
+          "at_risk_after_policy_pct": 0.3,
           "receives_payment_pct": 0.0,
           "share_of_spending_pct": 0.0
         }
@@ -2234,13 +2222,13 @@
         "gini": 0.257,
         "gap_to_sm_per_capita_year": 12253,
         "tiers_pct": {
-          "A_resilient": 83.45,
-          "B_fails_one_test": 3.9,
-          "C_fails_two_or_more": 3.57,
+          "A_resilient": 87.35,
+          "B_fails_one_test": 1.23,
+          "C_fails_two_or_more": 2.34,
           "D_below_sm": 6.61,
           "E_below_tsa_line": 2.47
         },
-        "at_risk_pct": 7.48
+        "at_risk_pct": 3.57
       },
       "after_shock": {
         "year": 2024,
@@ -2255,13 +2243,13 @@
         "gini": 0.257,
         "gap_to_sm_per_capita_year": 17052,
         "tiers_pct": {
-          "A_resilient": 78.15,
-          "B_fails_one_test": 4.78,
-          "C_fails_two_or_more": 4.68,
+          "A_resilient": 82.9,
+          "B_fails_one_test": 1.35,
+          "C_fails_two_or_more": 3.36,
           "D_below_sm": 8.8,
           "E_below_tsa_line": 3.59
         },
-        "at_risk_pct": 9.46
+        "at_risk_pct": 4.71
       },
       "after_policy": {
         "year": 2024,
@@ -2276,13 +2264,13 @@
         "gini": 0.257,
         "gap_to_sm_per_capita_year": 17052,
         "tiers_pct": {
-          "A_resilient": 78.15,
-          "B_fails_one_test": 4.78,
-          "C_fails_two_or_more": 4.68,
+          "A_resilient": 82.9,
+          "B_fails_one_test": 1.35,
+          "C_fails_two_or_more": 3.36,
           "D_below_sm": 8.8,
           "E_below_tsa_line": 3.59
         },
-        "at_risk_pct": 9.46
+        "at_risk_pct": 4.71
       },
       "cost": {
         "sample_tenge_year": 0,
@@ -2304,7 +2292,7 @@
           "poor_baseline_pct": 7.0,
           "poor_after_shock_pct": 10.3,
           "poor_after_policy_pct": 10.3,
-          "at_risk_after_policy_pct": 9.1,
+          "at_risk_after_policy_pct": 4.7,
           "receives_payment_pct": 0.0,
           "share_of_spending_pct": 0.0
         },
@@ -2315,7 +2303,7 @@
           "poor_baseline_pct": 27.1,
           "poor_after_shock_pct": 35.4,
           "poor_after_policy_pct": 35.4,
-          "at_risk_after_policy_pct": 15.1,
+          "at_risk_after_policy_pct": 10.8,
           "receives_payment_pct": 0.0,
           "share_of_spending_pct": 0.0
         },
@@ -2326,7 +2314,7 @@
           "poor_baseline_pct": 0.6,
           "poor_after_shock_pct": 0.8,
           "poor_after_policy_pct": 0.8,
-          "at_risk_after_policy_pct": 8.9,
+          "at_risk_after_policy_pct": 0.1,
           "receives_payment_pct": 0.0,
           "share_of_spending_pct": 0.0
         },
@@ -2337,7 +2325,7 @@
           "poor_baseline_pct": 29.8,
           "poor_after_shock_pct": 34.6,
           "poor_after_policy_pct": 34.6,
-          "at_risk_after_policy_pct": 27.0,
+          "at_risk_after_policy_pct": 9.1,
           "receives_payment_pct": 0.0,
           "share_of_spending_pct": 0.0
         },
@@ -2348,7 +2336,7 @@
           "poor_baseline_pct": 0.9,
           "poor_after_shock_pct": 1.1,
           "poor_after_policy_pct": 1.1,
-          "at_risk_after_policy_pct": 4.1,
+          "at_risk_after_policy_pct": 0.6,
           "receives_payment_pct": 0.0,
           "share_of_spending_pct": 0.0
         }
@@ -2378,13 +2366,13 @@
           "gini": 0.257,
           "gap_to_sm_per_capita_year": 12253,
           "tiers_pct": {
-            "A_resilient": 83.45,
-            "B_fails_one_test": 3.9,
-            "C_fails_two_or_more": 3.57,
+            "A_resilient": 87.35,
+            "B_fails_one_test": 1.23,
+            "C_fails_two_or_more": 2.34,
             "D_below_sm": 6.61,
             "E_below_tsa_line": 2.47
           },
-          "at_risk_pct": 7.48
+          "at_risk_pct": 3.57
         },
         "after_shock": {
           "year": 2024,
@@ -2399,13 +2387,13 @@
           "gini": 0.257,
           "gap_to_sm_per_capita_year": 12253,
           "tiers_pct": {
-            "A_resilient": 83.45,
-            "B_fails_one_test": 3.9,
-            "C_fails_two_or_more": 3.57,
+            "A_resilient": 87.35,
+            "B_fails_one_test": 1.23,
+            "C_fails_two_or_more": 2.34,
             "D_below_sm": 6.61,
             "E_below_tsa_line": 2.47
           },
-          "at_risk_pct": 7.48
+          "at_risk_pct": 3.57
         },
         "after_policy": {
           "year": 2024,
@@ -2420,13 +2408,13 @@
           "gini": 0.2457,
           "gap_to_sm_per_capita_year": 0,
           "tiers_pct": {
-            "A_resilient": 83.45,
-            "B_fails_one_test": 3.9,
-            "C_fails_two_or_more": 12.65,
+            "A_resilient": 87.35,
+            "B_fails_one_test": 1.23,
+            "C_fails_two_or_more": 11.41,
             "D_below_sm": 0.0,
             "E_below_tsa_line": 0.0
           },
-          "at_risk_pct": 16.55
+          "at_risk_pct": 12.65
         },
         "cost": {
           "sample_tenge_year": 511563693,
@@ -2448,7 +2436,7 @@
             "poor_baseline_pct": 7.0,
             "poor_after_shock_pct": 7.0,
             "poor_after_policy_pct": 0.0,
-            "at_risk_after_policy_pct": 14.1,
+            "at_risk_after_policy_pct": 10.5,
             "receives_payment_pct": 7.0,
             "share_of_spending_pct": 41.9
           },
@@ -2459,7 +2447,7 @@
             "poor_baseline_pct": 27.1,
             "poor_after_shock_pct": 27.1,
             "poor_after_policy_pct": 0.0,
-            "at_risk_after_policy_pct": 39.9,
+            "at_risk_after_policy_pct": 35.6,
             "receives_payment_pct": 27.1,
             "share_of_spending_pct": 42.0
           },
@@ -2470,7 +2458,7 @@
             "poor_baseline_pct": 0.6,
             "poor_after_shock_pct": 0.6,
             "poor_after_policy_pct": 0.0,
-            "at_risk_after_policy_pct": 4.9,
+            "at_risk_after_policy_pct": 0.8,
             "receives_payment_pct": 0.6,
             "share_of_spending_pct": 0.6
           },
@@ -2481,7 +2469,7 @@
             "poor_baseline_pct": 29.8,
             "poor_after_shock_pct": 29.8,
             "poor_after_policy_pct": 0.0,
-            "at_risk_after_policy_pct": 52.9,
+            "at_risk_after_policy_pct": 36.9,
             "receives_payment_pct": 29.8,
             "share_of_spending_pct": 11.9
           },
@@ -2492,7 +2480,7 @@
             "poor_baseline_pct": 0.9,
             "poor_after_shock_pct": 0.9,
             "poor_after_policy_pct": 0.0,
-            "at_risk_after_policy_pct": 3.9,
+            "at_risk_after_policy_pct": 1.2,
             "receives_payment_pct": 0.9,
             "share_of_spending_pct": 3.6
           }
@@ -2516,13 +2504,13 @@
           "gini": 0.257,
           "gap_to_sm_per_capita_year": 12253,
           "tiers_pct": {
-            "A_resilient": 83.45,
-            "B_fails_one_test": 3.9,
-            "C_fails_two_or_more": 3.57,
+            "A_resilient": 87.35,
+            "B_fails_one_test": 1.23,
+            "C_fails_two_or_more": 2.34,
             "D_below_sm": 6.61,
             "E_below_tsa_line": 2.47
           },
-          "at_risk_pct": 7.48
+          "at_risk_pct": 3.57
         },
         "after_shock": {
           "year": 2024,
@@ -2537,13 +2525,13 @@
           "gini": 0.257,
           "gap_to_sm_per_capita_year": 12253,
           "tiers_pct": {
-            "A_resilient": 83.45,
-            "B_fails_one_test": 3.9,
-            "C_fails_two_or_more": 3.57,
+            "A_resilient": 87.35,
+            "B_fails_one_test": 1.23,
+            "C_fails_two_or_more": 2.34,
             "D_below_sm": 6.61,
             "E_below_tsa_line": 2.47
           },
-          "at_risk_pct": 7.48
+          "at_risk_pct": 3.57
         },
         "after_policy": {
           "year": 2024,
@@ -2558,13 +2546,13 @@
           "gini": 0.2462,
           "gap_to_sm_per_capita_year": 4515,
           "tiers_pct": {
-            "A_resilient": 83.75,
-            "B_fails_one_test": 10.23,
-            "C_fails_two_or_more": 2.59,
+            "A_resilient": 93.99,
+            "B_fails_one_test": 1.62,
+            "C_fails_two_or_more": 0.97,
             "D_below_sm": 2.47,
             "E_below_tsa_line": 0.95
           },
-          "at_risk_pct": 12.82
+          "at_risk_pct": 2.59
         },
         "cost": {
           "sample_tenge_year": 511462145,
@@ -2586,7 +2574,7 @@
             "poor_baseline_pct": 7.0,
             "poor_after_shock_pct": 7.0,
             "poor_after_policy_pct": 2.5,
-            "at_risk_after_policy_pct": 11.6,
+            "at_risk_after_policy_pct": 2.7,
             "receives_payment_pct": 6.4,
             "share_of_spending_pct": 43.6
           },
@@ -2597,7 +2585,7 @@
             "poor_baseline_pct": 27.1,
             "poor_after_shock_pct": 27.1,
             "poor_after_policy_pct": 10.6,
-            "at_risk_after_policy_pct": 27.2,
+            "at_risk_after_policy_pct": 3.9,
             "receives_payment_pct": 22.6,
             "share_of_spending_pct": 42.4
           },
@@ -2608,7 +2596,7 @@
             "poor_baseline_pct": 0.6,
             "poor_after_shock_pct": 0.6,
             "poor_after_policy_pct": 0.2,
-            "at_risk_after_policy_pct": 4.7,
+            "at_risk_after_policy_pct": 0.2,
             "receives_payment_pct": 0.4,
             "share_of_spending_pct": 0.4
           },
@@ -2619,7 +2607,7 @@
             "poor_baseline_pct": 29.8,
             "poor_after_shock_pct": 29.8,
             "poor_after_policy_pct": 11.4,
-            "at_risk_after_policy_pct": 41.5,
+            "at_risk_after_policy_pct": 11.8,
             "receives_payment_pct": 21.7,
             "share_of_spending_pct": 10.4
           },
@@ -2630,7 +2618,7 @@
             "poor_baseline_pct": 0.9,
             "poor_after_shock_pct": 0.9,
             "poor_after_policy_pct": 0.4,
-            "at_risk_after_policy_pct": 3.5,
+            "at_risk_after_policy_pct": 0.4,
             "receives_payment_pct": 0.6,
             "share_of_spending_pct": 3.1
           }
@@ -2654,13 +2642,13 @@
           "gini": 0.257,
           "gap_to_sm_per_capita_year": 12253,
           "tiers_pct": {
-            "A_resilient": 83.45,
-            "B_fails_one_test": 3.9,
-            "C_fails_two_or_more": 3.57,
+            "A_resilient": 87.35,
+            "B_fails_one_test": 1.23,
+            "C_fails_two_or_more": 2.34,
             "D_below_sm": 6.61,
             "E_below_tsa_line": 2.47
           },
-          "at_risk_pct": 7.48
+          "at_risk_pct": 3.57
         },
         "after_shock": {
           "year": 2024,
@@ -2675,13 +2663,13 @@
           "gini": 0.257,
           "gap_to_sm_per_capita_year": 12253,
           "tiers_pct": {
-            "A_resilient": 83.45,
-            "B_fails_one_test": 3.9,
-            "C_fails_two_or_more": 3.57,
+            "A_resilient": 87.35,
+            "B_fails_one_test": 1.23,
+            "C_fails_two_or_more": 2.34,
             "D_below_sm": 6.61,
             "E_below_tsa_line": 2.47
           },
-          "at_risk_pct": 7.48
+          "at_risk_pct": 3.57
         },
         "after_policy": {
           "year": 2024,
@@ -2696,13 +2684,13 @@
           "gini": 0.252,
           "gap_to_sm_per_capita_year": 10538,
           "tiers_pct": {
-            "A_resilient": 84.77,
-            "B_fails_one_test": 3.72,
-            "C_fails_two_or_more": 3.43,
+            "A_resilient": 88.49,
+            "B_fails_one_test": 1.18,
+            "C_fails_two_or_more": 2.25,
             "D_below_sm": 5.98,
             "E_below_tsa_line": 2.1
           },
-          "at_risk_pct": 7.15
+          "at_risk_pct": 3.43
         },
         "cost": {
           "sample_tenge_year": 511494962,
@@ -2724,7 +2712,7 @@
             "poor_baseline_pct": 7.0,
             "poor_after_shock_pct": 7.0,
             "poor_after_policy_pct": 6.3,
-            "at_risk_after_policy_pct": 6.5,
+            "at_risk_after_policy_pct": 3.3,
             "receives_payment_pct": 100.0,
             "share_of_spending_pct": 68.6
           },
@@ -2735,7 +2723,7 @@
             "poor_baseline_pct": 27.1,
             "poor_after_shock_pct": 27.1,
             "poor_after_policy_pct": 23.7,
-            "at_risk_after_policy_pct": 12.8,
+            "at_risk_after_policy_pct": 8.3,
             "receives_payment_pct": 100.0,
             "share_of_spending_pct": 26.1
           },
@@ -2746,7 +2734,7 @@
             "poor_baseline_pct": 0.6,
             "poor_after_shock_pct": 0.6,
             "poor_after_policy_pct": 0.6,
-            "at_risk_after_policy_pct": 4.3,
+            "at_risk_after_policy_pct": 0.2,
             "receives_payment_pct": 0.0,
             "share_of_spending_pct": 0.0
           },
@@ -2757,7 +2745,7 @@
             "poor_baseline_pct": 29.8,
             "poor_after_shock_pct": 29.8,
             "poor_after_policy_pct": 26.4,
-            "at_risk_after_policy_pct": 24.5,
+            "at_risk_after_policy_pct": 8.4,
             "receives_payment_pct": 100.0,
             "share_of_spending_pct": 5.3
           },
@@ -2768,7 +2756,7 @@
             "poor_baseline_pct": 0.9,
             "poor_after_shock_pct": 0.9,
             "poor_after_policy_pct": 0.9,
-            "at_risk_after_policy_pct": 3.0,
+            "at_risk_after_policy_pct": 0.3,
             "receives_payment_pct": 0.0,
             "share_of_spending_pct": 0.0
           }
@@ -2792,13 +2780,13 @@
           "gini": 0.257,
           "gap_to_sm_per_capita_year": 12253,
           "tiers_pct": {
-            "A_resilient": 83.45,
-            "B_fails_one_test": 3.9,
-            "C_fails_two_or_more": 3.57,
+            "A_resilient": 87.35,
+            "B_fails_one_test": 1.23,
+            "C_fails_two_or_more": 2.34,
             "D_below_sm": 6.61,
             "E_below_tsa_line": 2.47
           },
-          "at_risk_pct": 7.48
+          "at_risk_pct": 3.57
         },
         "after_shock": {
           "year": 2024,
@@ -2813,13 +2801,13 @@
           "gini": 0.257,
           "gap_to_sm_per_capita_year": 12253,
           "tiers_pct": {
-            "A_resilient": 83.45,
-            "B_fails_one_test": 3.9,
-            "C_fails_two_or_more": 3.57,
+            "A_resilient": 87.35,
+            "B_fails_one_test": 1.23,
+            "C_fails_two_or_more": 2.34,
             "D_below_sm": 6.61,
             "E_below_tsa_line": 2.47
           },
-          "at_risk_pct": 7.48
+          "at_risk_pct": 3.57
         },
         "after_policy": {
           "year": 2024,
@@ -2834,13 +2822,13 @@
           "gini": 0.2493,
           "gap_to_sm_per_capita_year": 9490,
           "tiers_pct": {
-            "A_resilient": 85.4,
-            "B_fails_one_test": 3.75,
-            "C_fails_two_or_more": 3.42,
+            "A_resilient": 89.16,
+            "B_fails_one_test": 1.17,
+            "C_fails_two_or_more": 2.25,
             "D_below_sm": 5.51,
             "E_below_tsa_line": 1.91
           },
-          "at_risk_pct": 7.17
+          "at_risk_pct": 3.42
         },
         "cost": {
           "sample_tenge_year": 511539020,
@@ -2862,7 +2850,7 @@
             "poor_baseline_pct": 7.0,
             "poor_after_shock_pct": 7.0,
             "poor_after_policy_pct": 7.0,
-            "at_risk_after_policy_pct": 7.2,
+            "at_risk_after_policy_pct": 3.5,
             "receives_payment_pct": 0.0,
             "share_of_spending_pct": 0.0
           },
@@ -2873,7 +2861,7 @@
             "poor_baseline_pct": 27.1,
             "poor_after_shock_pct": 27.1,
             "poor_after_policy_pct": 16.3,
-            "at_risk_after_policy_pct": 10.0,
+            "at_risk_after_policy_pct": 6.9,
             "receives_payment_pct": 100.0,
             "share_of_spending_pct": 98.2
           },
@@ -2884,7 +2872,7 @@
             "poor_baseline_pct": 0.6,
             "poor_after_shock_pct": 0.6,
             "poor_after_policy_pct": 0.6,
-            "at_risk_after_policy_pct": 4.3,
+            "at_risk_after_policy_pct": 0.2,
             "receives_payment_pct": 0.0,
             "share_of_spending_pct": 0.0
           },
@@ -2895,7 +2883,7 @@
             "poor_baseline_pct": 29.8,
             "poor_after_shock_pct": 29.8,
             "poor_after_policy_pct": 27.2,
-            "at_risk_after_policy_pct": 25.8,
+            "at_risk_after_policy_pct": 9.8,
             "receives_payment_pct": 6.7,
             "share_of_spending_pct": 1.8
           },
@@ -2906,7 +2894,7 @@
             "poor_baseline_pct": 0.9,
             "poor_after_shock_pct": 0.9,
             "poor_after_policy_pct": 0.9,
-            "at_risk_after_policy_pct": 3.0,
+            "at_risk_after_policy_pct": 0.3,
             "receives_payment_pct": 0.0,
             "share_of_spending_pct": 0.0
           }
@@ -2937,13 +2925,13 @@
           "gini": 0.257,
           "gap_to_sm_per_capita_year": 12253,
           "tiers_pct": {
-            "A_resilient": 83.45,
-            "B_fails_one_test": 3.9,
-            "C_fails_two_or_more": 3.57,
+            "A_resilient": 87.35,
+            "B_fails_one_test": 1.23,
+            "C_fails_two_or_more": 2.34,
             "D_below_sm": 6.61,
             "E_below_tsa_line": 2.47
           },
-          "at_risk_pct": 7.48
+          "at_risk_pct": 3.57
         },
         "after_shock": {
           "year": 2024,
@@ -2958,13 +2946,13 @@
           "gini": 0.2568,
           "gap_to_sm_per_capita_year": 15676,
           "tiers_pct": {
-            "A_resilient": 79.69,
-            "B_fails_one_test": 4.33,
-            "C_fails_two_or_more": 4.64,
+            "A_resilient": 83.99,
+            "B_fails_one_test": 1.37,
+            "C_fails_two_or_more": 3.3,
             "D_below_sm": 8.21,
             "E_below_tsa_line": 3.12
           },
-          "at_risk_pct": 8.97
+          "at_risk_pct": 4.67
         },
         "after_policy": {
           "year": 2024,
@@ -2979,13 +2967,13 @@
           "gini": 0.2447,
           "gap_to_sm_per_capita_year": 3419,
           "tiers_pct": {
-            "A_resilient": 79.69,
-            "B_fails_one_test": 4.33,
-            "C_fails_two_or_more": 4.64,
+            "A_resilient": 83.99,
+            "B_fails_one_test": 1.37,
+            "C_fails_two_or_more": 3.3,
             "D_below_sm": 11.34,
             "E_below_tsa_line": 0.0
           },
-          "at_risk_pct": 8.97
+          "at_risk_pct": 4.67
         },
         "cost": {
           "sample_tenge_year": 511679952,
@@ -3007,7 +2995,7 @@
             "poor_baseline_pct": 7.0,
             "poor_after_shock_pct": 9.3,
             "poor_after_policy_pct": 9.3,
-            "at_risk_after_policy_pct": 8.8,
+            "at_risk_after_policy_pct": 4.7,
             "receives_payment_pct": 7.7,
             "share_of_spending_pct": 42.8
           },
@@ -3018,7 +3006,7 @@
             "poor_baseline_pct": 27.1,
             "poor_after_shock_pct": 32.4,
             "poor_after_policy_pct": 32.4,
-            "at_risk_after_policy_pct": 14.6,
+            "at_risk_after_policy_pct": 11.0,
             "receives_payment_pct": 28.3,
             "share_of_spending_pct": 41.5
           },
@@ -3029,7 +3017,7 @@
             "poor_baseline_pct": 0.6,
             "poor_after_shock_pct": 0.6,
             "poor_after_policy_pct": 0.6,
-            "at_risk_after_policy_pct": 4.3,
+            "at_risk_after_policy_pct": 0.2,
             "receives_payment_pct": 0.6,
             "share_of_spending_pct": 0.5
           },
@@ -3040,7 +3028,7 @@
             "poor_baseline_pct": 29.8,
             "poor_after_shock_pct": 33.0,
             "poor_after_policy_pct": 33.0,
-            "at_risk_after_policy_pct": 27.1,
+            "at_risk_after_policy_pct": 8.7,
             "receives_payment_pct": 30.0,
             "share_of_spending_pct": 11.7
           },
@@ -3051,7 +3039,7 @@
             "poor_baseline_pct": 0.9,
             "poor_after_shock_pct": 1.0,
             "poor_after_policy_pct": 1.0,
-            "at_risk_after_policy_pct": 3.8,
+            "at_risk_after_policy_pct": 0.4,
             "receives_payment_pct": 0.9,
             "share_of_spending_pct": 3.5
           }
@@ -3075,13 +3063,13 @@
           "gini": 0.257,
           "gap_to_sm_per_capita_year": 12253,
           "tiers_pct": {
-            "A_resilient": 83.45,
-            "B_fails_one_test": 3.9,
-            "C_fails_two_or_more": 3.57,
+            "A_resilient": 87.35,
+            "B_fails_one_test": 1.23,
+            "C_fails_two_or_more": 2.34,
             "D_below_sm": 6.61,
             "E_below_tsa_line": 2.47
           },
-          "at_risk_pct": 7.48
+          "at_risk_pct": 3.57
         },
         "after_shock": {
           "year": 2024,
@@ -3096,13 +3084,13 @@
           "gini": 0.2568,
           "gap_to_sm_per_capita_year": 15676,
           "tiers_pct": {
-            "A_resilient": 79.69,
-            "B_fails_one_test": 4.33,
-            "C_fails_two_or_more": 4.64,
+            "A_resilient": 83.99,
+            "B_fails_one_test": 1.37,
+            "C_fails_two_or_more": 3.3,
             "D_below_sm": 8.21,
             "E_below_tsa_line": 3.12
           },
-          "at_risk_pct": 8.97
+          "at_risk_pct": 4.67
         },
         "after_policy": {
           "year": 2024,
@@ -3117,13 +3105,13 @@
           "gini": 0.2453,
           "gap_to_sm_per_capita_year": 5804,
           "tiers_pct": {
-            "A_resilient": 79.69,
-            "B_fails_one_test": 4.33,
-            "C_fails_two_or_more": 11.59,
+            "A_resilient": 83.99,
+            "B_fails_one_test": 3.7,
+            "C_fails_two_or_more": 7.91,
             "D_below_sm": 3.25,
             "E_below_tsa_line": 1.14
           },
-          "at_risk_pct": 15.92
+          "at_risk_pct": 11.62
         },
         "cost": {
           "sample_tenge_year": 511467797,
@@ -3145,7 +3133,7 @@
             "poor_baseline_pct": 7.0,
             "poor_after_shock_pct": 9.3,
             "poor_after_policy_pct": 3.6,
-            "at_risk_after_policy_pct": 14.5,
+            "at_risk_after_policy_pct": 10.4,
             "receives_payment_pct": 6.8,
             "share_of_spending_pct": 44.6
           },
@@ -3156,7 +3144,7 @@
             "poor_baseline_pct": 27.1,
             "poor_after_shock_pct": 32.4,
             "poor_after_policy_pct": 12.3,
-            "at_risk_after_policy_pct": 34.6,
+            "at_risk_after_policy_pct": 31.0,
             "receives_payment_pct": 23.6,
             "share_of_spending_pct": 41.8
           },
@@ -3167,7 +3155,7 @@
             "poor_baseline_pct": 0.6,
             "poor_after_shock_pct": 0.6,
             "poor_after_policy_pct": 0.2,
-            "at_risk_after_policy_pct": 4.7,
+            "at_risk_after_policy_pct": 0.6,
             "receives_payment_pct": 0.4,
             "share_of_spending_pct": 0.4
           },
@@ -3178,7 +3166,7 @@
             "poor_baseline_pct": 29.8,
             "poor_after_shock_pct": 33.0,
             "poor_after_policy_pct": 12.9,
-            "at_risk_after_policy_pct": 47.2,
+            "at_risk_after_policy_pct": 28.8,
             "receives_payment_pct": 22.4,
             "share_of_spending_pct": 10.1
           },
@@ -3189,7 +3177,7 @@
             "poor_baseline_pct": 0.9,
             "poor_after_shock_pct": 1.0,
             "poor_after_policy_pct": 0.5,
-            "at_risk_after_policy_pct": 4.3,
+            "at_risk_after_policy_pct": 0.9,
             "receives_payment_pct": 0.6,
             "share_of_spending_pct": 3.0
           }
@@ -3213,13 +3201,13 @@
           "gini": 0.257,
           "gap_to_sm_per_capita_year": 12253,
           "tiers_pct": {
-            "A_resilient": 83.45,
-            "B_fails_one_test": 3.9,
-            "C_fails_two_or_more": 3.57,
+            "A_resilient": 87.35,
+            "B_fails_one_test": 1.23,
+            "C_fails_two_or_more": 2.34,
             "D_below_sm": 6.61,
             "E_below_tsa_line": 2.47
           },
-          "at_risk_pct": 7.48
+          "at_risk_pct": 3.57
         },
         "after_shock": {
           "year": 2024,
@@ -3234,13 +3222,13 @@
           "gini": 0.2568,
           "gap_to_sm_per_capita_year": 15676,
           "tiers_pct": {
-            "A_resilient": 79.69,
-            "B_fails_one_test": 4.33,
-            "C_fails_two_or_more": 4.64,
+            "A_resilient": 83.99,
+            "B_fails_one_test": 1.37,
+            "C_fails_two_or_more": 3.3,
             "D_below_sm": 8.21,
             "E_below_tsa_line": 3.12
           },
-          "at_risk_pct": 8.97
+          "at_risk_pct": 4.67
         },
         "after_policy": {
           "year": 2024,
@@ -3255,13 +3243,13 @@
           "gini": 0.2514,
           "gap_to_sm_per_capita_year": 13555,
           "tiers_pct": {
-            "A_resilient": 81.0,
-            "B_fails_one_test": 4.45,
-            "C_fails_two_or_more": 4.27,
+            "A_resilient": 85.44,
+            "B_fails_one_test": 1.37,
+            "C_fails_two_or_more": 2.9,
             "D_below_sm": 7.69,
             "E_below_tsa_line": 2.59
           },
-          "at_risk_pct": 8.71
+          "at_risk_pct": 4.28
         },
         "cost": {
           "sample_tenge_year": 511494962,
@@ -3283,7 +3271,7 @@
             "poor_baseline_pct": 7.0,
             "poor_after_shock_pct": 9.3,
             "poor_after_policy_pct": 8.4,
-            "at_risk_after_policy_pct": 8.7,
+            "at_risk_after_policy_pct": 4.2,
             "receives_payment_pct": 100.0,
             "share_of_spending_pct": 68.6
           },
@@ -3294,7 +3282,7 @@
             "poor_baseline_pct": 27.1,
             "poor_after_shock_pct": 32.4,
             "poor_after_policy_pct": 29.6,
-            "at_risk_after_policy_pct": 13.0,
+            "at_risk_after_policy_pct": 10.0,
             "receives_payment_pct": 100.0,
             "share_of_spending_pct": 26.1
           },
@@ -3305,7 +3293,7 @@
             "poor_baseline_pct": 0.6,
             "poor_after_shock_pct": 0.6,
             "poor_after_policy_pct": 0.6,
-            "at_risk_after_policy_pct": 4.3,
+            "at_risk_after_policy_pct": 0.2,
             "receives_payment_pct": 0.0,
             "share_of_spending_pct": 0.0
           },
@@ -3316,7 +3304,7 @@
             "poor_baseline_pct": 29.8,
             "poor_after_shock_pct": 33.0,
             "poor_after_policy_pct": 30.4,
-            "at_risk_after_policy_pct": 28.0,
+            "at_risk_after_policy_pct": 8.9,
             "receives_payment_pct": 100.0,
             "share_of_spending_pct": 5.3
           },
@@ -3327,7 +3315,7 @@
             "poor_baseline_pct": 0.9,
             "poor_after_shock_pct": 1.0,
             "poor_after_policy_pct": 1.0,
-            "at_risk_after_policy_pct": 3.8,
+            "at_risk_after_policy_pct": 0.4,
             "receives_payment_pct": 0.0,
             "share_of_spending_pct": 0.0
           }
@@ -3351,13 +3339,13 @@
           "gini": 0.257,
           "gap_to_sm_per_capita_year": 12253,
           "tiers_pct": {
-            "A_resilient": 83.45,
-            "B_fails_one_test": 3.9,
-            "C_fails_two_or_more": 3.57,
+            "A_resilient": 87.35,
+            "B_fails_one_test": 1.23,
+            "C_fails_two_or_more": 2.34,
             "D_below_sm": 6.61,
             "E_below_tsa_line": 2.47
           },
-          "at_risk_pct": 7.48
+          "at_risk_pct": 3.57
         },
         "after_shock": {
           "year": 2024,
@@ -3372,13 +3360,13 @@
           "gini": 0.2568,
           "gap_to_sm_per_capita_year": 15676,
           "tiers_pct": {
-            "A_resilient": 79.69,
-            "B_fails_one_test": 4.33,
-            "C_fails_two_or_more": 4.64,
+            "A_resilient": 83.99,
+            "B_fails_one_test": 1.37,
+            "C_fails_two_or_more": 3.3,
             "D_below_sm": 8.21,
             "E_below_tsa_line": 3.12
           },
-          "at_risk_pct": 8.97
+          "at_risk_pct": 4.67
         },
         "after_policy": {
           "year": 2024,
@@ -3393,13 +3381,13 @@
           "gini": 0.2485,
           "gap_to_sm_per_capita_year": 12162,
           "tiers_pct": {
-            "A_resilient": 81.87,
-            "B_fails_one_test": 4.25,
-            "C_fails_two_or_more": 4.32,
+            "A_resilient": 86.11,
+            "B_fails_one_test": 1.29,
+            "C_fails_two_or_more": 3.04,
             "D_below_sm": 7.17,
             "E_below_tsa_line": 2.38
           },
-          "at_risk_pct": 8.57
+          "at_risk_pct": 4.33
         },
         "cost": {
           "sample_tenge_year": 511539020,
@@ -3421,7 +3409,7 @@
             "poor_baseline_pct": 7.0,
             "poor_after_shock_pct": 9.3,
             "poor_after_policy_pct": 9.3,
-            "at_risk_after_policy_pct": 8.8,
+            "at_risk_after_policy_pct": 4.7,
             "receives_payment_pct": 0.0,
             "share_of_spending_pct": 0.0
           },
@@ -3432,7 +3420,7 @@
             "poor_baseline_pct": 27.1,
             "poor_after_shock_pct": 32.4,
             "poor_after_policy_pct": 20.2,
-            "at_risk_after_policy_pct": 11.7,
+            "at_risk_after_policy_pct": 8.5,
             "receives_payment_pct": 100.0,
             "share_of_spending_pct": 98.2
           },
@@ -3443,7 +3431,7 @@
             "poor_baseline_pct": 0.6,
             "poor_after_shock_pct": 0.6,
             "poor_after_policy_pct": 0.6,
-            "at_risk_after_policy_pct": 4.3,
+            "at_risk_after_policy_pct": 0.2,
             "receives_payment_pct": 0.0,
             "share_of_spending_pct": 0.0
           },
@@ -3454,7 +3442,7 @@
             "poor_baseline_pct": 29.8,
             "poor_after_shock_pct": 33.0,
             "poor_after_policy_pct": 32.1,
-            "at_risk_after_policy_pct": 27.6,
+            "at_risk_after_policy_pct": 9.2,
             "receives_payment_pct": 6.7,
             "share_of_spending_pct": 1.8
           },
@@ -3465,7 +3453,7 @@
             "poor_baseline_pct": 0.9,
             "poor_after_shock_pct": 1.0,
             "poor_after_policy_pct": 1.0,
-            "at_risk_after_policy_pct": 3.8,
+            "at_risk_after_policy_pct": 0.4,
             "receives_payment_pct": 0.0,
             "share_of_spending_pct": 0.0
           }
@@ -3478,43 +3466,72 @@
     "stress_tests": {
       "fail_earner_loss": "main earner 3 months without earnings (employees keep 45%, self-employed nothing)",
       "fail_cost_of_living": "cost of living +10%",
-      "fail_utilities": "housing and utility costs +30%",
-      "fail_extra_dependant": "1 more dependant(s)"
+      "fail_utilities": "housing and utility costs +30%"
     },
     "groups": {
       "B": {
-        "persons_pct_of_sample": 3.9,
-        "households_in_sample": 519,
-        "median_income_per_capita": 59612,
-        "median_margin_above_sm_pct": 18.0,
+        "persons_pct_of_sample": 1.23,
+        "households_in_sample": 103,
+        "median_income_per_capita": 53130,
+        "median_margin_above_sm_pct": 8.8,
         "by_children_pct": {
-          "0": 17.9,
-          "1": 27.7,
-          "2": 19.3,
-          "3": 19.5,
-          "4+": 15.6
+          "0": 1.8,
+          "1": 9.7,
+          "2": 23.3,
+          "3": 29.2,
+          "4+": 36.0
         },
         "by_earners_pct": {
-          "0": 13.4,
-          "1": 33.4,
-          "2+": 53.2
+          "0": 5.8,
+          "1": 41.8,
+          "2+": 52.3
         },
-        "one_earner_pct": 33.4,
-        "urban_pct": 62.6,
+        "one_earner_pct": 41.8,
+        "urban_pct": 44.0,
         "tests_failed_pct": {
-          "main earner 3 months without earnings (employees keep 45%, self-employed nothing)": 0.0,
-          "cost of living +10%": 0.0,
-          "housing and utility costs +30%": 0.0,
-          "1 more dependant(s)": 100.0
+          "main earner 3 months without earnings (employees keep 45%, self-employed nothing)": 19.8,
+          "cost of living +10%": 79.6,
+          "housing and utility costs +30%": 0.6
         },
         "below_sm_after_shock_pct": {
-          "Labour income -10%": 0.3,
-          "Main earner 3 months without earnings (employees keep 45%)": 0.0,
-          "Housing and utility costs +30%": 0.0,
-          "Prices +10%": 0.0
+          "Labour income -10%": 16.5,
+          "Main earner 3 months without earnings (employees keep 45%)": 19.8,
+          "Housing and utility costs +30%": 0.6,
+          "Prices +10%": 79.6
         }
       },
       "C": {
+        "persons_pct_of_sample": 2.34,
+        "households_in_sample": 192,
+        "median_income_per_capita": 51553,
+        "median_margin_above_sm_pct": 3.8,
+        "by_children_pct": {
+          "0": 2.4,
+          "1": 12.1,
+          "2": 20.7,
+          "3": 31.5,
+          "4+": 33.4
+        },
+        "by_earners_pct": {
+          "0": 1.9,
+          "1": 33.9,
+          "2+": 64.2
+        },
+        "one_earner_pct": 33.9,
+        "urban_pct": 49.5,
+        "tests_failed_pct": {
+          "main earner 3 months without earnings (employees keep 45%, self-employed nothing)": 97.9,
+          "cost of living +10%": 99.8,
+          "housing and utility costs +30%": 27.7
+        },
+        "below_sm_after_shock_pct": {
+          "Labour income -10%": 87.4,
+          "Main earner 3 months without earnings (employees keep 45%)": 97.9,
+          "Housing and utility costs +30%": 27.7,
+          "Prices +10%": 99.8
+        }
+      },
+      "B_and_C": {
         "persons_pct_of_sample": 3.57,
         "households_in_sample": 295,
         "median_income_per_capita": 52294,
@@ -3536,8 +3553,7 @@
         "tests_failed_pct": {
           "main earner 3 months without earnings (employees keep 45%, self-employed nothing)": 71.0,
           "cost of living +10%": 92.8,
-          "housing and utility costs +30%": 18.4,
-          "1 more dependant(s)": 100.0
+          "housing and utility costs +30%": 18.4
         },
         "below_sm_after_shock_pct": {
           "Labour income -10%": 63.0,
@@ -3546,62 +3562,29 @@
           "Prices +10%": 92.8
         }
       },
-      "B_and_C": {
-        "persons_pct_of_sample": 7.48,
-        "households_in_sample": 814,
-        "median_income_per_capita": 55521,
-        "median_margin_above_sm_pct": 11.2,
-        "by_children_pct": {
-          "0": 10.4,
-          "1": 19.8,
-          "2": 20.4,
-          "3": 24.9,
-          "4+": 24.5
-        },
-        "by_earners_pct": {
-          "0": 8.6,
-          "1": 34.9,
-          "2+": 56.5
-        },
-        "one_earner_pct": 34.9,
-        "urban_pct": 55.4,
-        "tests_failed_pct": {
-          "main earner 3 months without earnings (employees keep 45%, self-employed nothing)": 33.9,
-          "cost of living +10%": 44.3,
-          "housing and utility costs +30%": 8.8,
-          "1 more dependant(s)": 100.0
-        },
-        "below_sm_after_shock_pct": {
-          "Labour income -10%": 30.2,
-          "Main earner 3 months without earnings (employees keep 45%)": 33.9,
-          "Housing and utility costs +30%": 8.8,
-          "Prices +10%": 44.3
-        }
-      },
       "A": {
-        "persons_pct_of_sample": 83.45,
-        "households_in_sample": 10406,
-        "median_income_per_capita": 106327,
-        "median_margin_above_sm_pct": 112.1,
+        "persons_pct_of_sample": 87.35,
+        "households_in_sample": 10925,
+        "median_income_per_capita": 103677,
+        "median_margin_above_sm_pct": 107.1,
         "by_children_pct": {
-          "0": 27.8,
-          "1": 23.6,
-          "2": 21.2,
-          "3": 16.9,
-          "4+": 10.4
+          "0": 27.4,
+          "1": 23.8,
+          "2": 21.1,
+          "3": 17.0,
+          "4+": 10.7
         },
         "by_earners_pct": {
-          "0": 2.9,
-          "1": 16.6,
-          "2+": 80.5
+          "0": 3.3,
+          "1": 17.4,
+          "2+": 79.3
         },
-        "one_earner_pct": 16.6,
-        "urban_pct": 51.0,
+        "one_earner_pct": 17.4,
+        "urban_pct": 51.5,
         "tests_failed_pct": {
           "main earner 3 months without earnings (employees keep 45%, self-employed nothing)": 0.0,
           "cost of living +10%": 0.0,
-          "housing and utility costs +30%": 0.0,
-          "1 more dependant(s)": 0.0
+          "housing and utility costs +30%": 0.0
         },
         "below_sm_after_shock_pct": {
           "Labour income -10%": 0.0,
@@ -3632,8 +3615,7 @@
         "tests_failed_pct": {
           "main earner 3 months without earnings (employees keep 45%, self-employed nothing)": 11.6,
           "cost of living +10%": 12.4,
-          "housing and utility costs +30%": 9.7,
-          "1 more dependant(s)": 16.6
+          "housing and utility costs +30%": 9.7
         },
         "below_sm_after_shock_pct": {
           "Labour income -10%": 11.3,
@@ -3645,144 +3627,144 @@
     },
     "by_region": [
       {
-        "region": "Shymkent city",
-        "persons_pct_of_sample": 4.1,
-        "B_pct": 6.9,
-        "C_pct": 6.3,
-        "B_and_C_pct": 13.2
-      },
-      {
         "region": "Zhambyl",
         "persons_pct_of_sample": 6.0,
-        "B_pct": 6.4,
-        "C_pct": 6.7,
-        "B_and_C_pct": 13.1
-      },
-      {
-        "region": "Zhetisu",
-        "persons_pct_of_sample": 3.8,
-        "B_pct": 5.4,
-        "C_pct": 5.4,
-        "B_and_C_pct": 10.8
+        "B_pct": 2.9,
+        "C_pct": 3.8,
+        "B_and_C_pct": 6.7
       },
       {
         "region": "Mangystau",
         "persons_pct_of_sample": 5.5,
-        "B_pct": 3.8,
-        "C_pct": 6.7,
-        "B_and_C_pct": 10.5
+        "B_pct": 2.6,
+        "C_pct": 4.1,
+        "B_and_C_pct": 6.7
       },
       {
-        "region": "Astana city",
-        "persons_pct_of_sample": 3.8,
-        "B_pct": 6.0,
-        "C_pct": 3.1,
-        "B_and_C_pct": 9.2
-      },
-      {
-        "region": "Almaty city",
-        "persons_pct_of_sample": 5.1,
-        "B_pct": 6.0,
-        "C_pct": 2.7,
-        "B_and_C_pct": 8.8
-      },
-      {
-        "region": "Turkestan",
-        "persons_pct_of_sample": 7.5,
-        "B_pct": 2.8,
-        "C_pct": 5.3,
-        "B_and_C_pct": 8.0
+        "region": "Shymkent city",
+        "persons_pct_of_sample": 4.1,
+        "B_pct": 1.5,
+        "C_pct": 4.8,
+        "B_and_C_pct": 6.3
       },
       {
         "region": "Atyrau",
         "persons_pct_of_sample": 5.5,
-        "B_pct": 2.5,
-        "C_pct": 5.4,
-        "B_and_C_pct": 7.9
+        "B_pct": 2.3,
+        "C_pct": 3.1,
+        "B_and_C_pct": 5.4
       },
       {
-        "region": "Abai",
-        "persons_pct_of_sample": 3.5,
-        "B_pct": 4.7,
-        "C_pct": 3.2,
-        "B_and_C_pct": 7.8
+        "region": "Zhetisu",
+        "persons_pct_of_sample": 3.8,
+        "B_pct": 1.6,
+        "C_pct": 3.8,
+        "B_and_C_pct": 5.4
+      },
+      {
+        "region": "Turkestan",
+        "persons_pct_of_sample": 7.5,
+        "B_pct": 1.7,
+        "C_pct": 3.6,
+        "B_and_C_pct": 5.3
       },
       {
         "region": "Ulytau",
         "persons_pct_of_sample": 4.1,
-        "B_pct": 3.5,
-        "C_pct": 4.2,
-        "B_and_C_pct": 7.6
+        "B_pct": 2.3,
+        "C_pct": 1.8,
+        "B_and_C_pct": 4.2
       },
       {
-        "region": "North Kazakhstan",
-        "persons_pct_of_sample": 4.5,
-        "B_pct": 5.3,
-        "C_pct": 2.3,
-        "B_and_C_pct": 7.5
+        "region": "Abai",
+        "persons_pct_of_sample": 3.5,
+        "B_pct": 0.8,
+        "C_pct": 2.4,
+        "B_and_C_pct": 3.2
       },
       {
         "region": "Almaty region",
         "persons_pct_of_sample": 3.9,
-        "B_pct": 3.8,
-        "C_pct": 3.1,
-        "B_and_C_pct": 6.9
+        "B_pct": 1.1,
+        "C_pct": 2.0,
+        "B_and_C_pct": 3.1
+      },
+      {
+        "region": "Astana city",
+        "persons_pct_of_sample": 3.8,
+        "B_pct": 0.9,
+        "C_pct": 2.2,
+        "B_and_C_pct": 3.1
       },
       {
         "region": "Pavlodar",
         "persons_pct_of_sample": 5.8,
-        "B_pct": 3.7,
-        "C_pct": 3.0,
-        "B_and_C_pct": 6.7
-      },
-      {
-        "region": "East Kazakhstan",
-        "persons_pct_of_sample": 3.3,
-        "B_pct": 4.0,
+        "B_pct": 0.8,
         "C_pct": 2.2,
-        "B_and_C_pct": 6.3
+        "B_and_C_pct": 3.0
       },
       {
         "region": "West Kazakhstan",
         "persons_pct_of_sample": 5.7,
-        "B_pct": 2.8,
-        "C_pct": 2.9,
-        "B_and_C_pct": 5.8
+        "B_pct": 0.6,
+        "C_pct": 2.3,
+        "B_and_C_pct": 2.9
+      },
+      {
+        "region": "Almaty city",
+        "persons_pct_of_sample": 5.1,
+        "B_pct": 0.5,
+        "C_pct": 2.3,
+        "B_and_C_pct": 2.7
       },
       {
         "region": "Aktobe",
         "persons_pct_of_sample": 6.5,
-        "B_pct": 3.4,
-        "C_pct": 2.3,
-        "B_and_C_pct": 5.7
+        "B_pct": 1.0,
+        "C_pct": 1.3,
+        "B_and_C_pct": 2.3
       },
       {
-        "region": "Kyzylorda",
-        "persons_pct_of_sample": 6.4,
-        "B_pct": 3.5,
-        "C_pct": 1.8,
-        "B_and_C_pct": 5.3
+        "region": "North Kazakhstan",
+        "persons_pct_of_sample": 4.5,
+        "B_pct": 0.6,
+        "C_pct": 1.7,
+        "B_and_C_pct": 2.3
+      },
+      {
+        "region": "East Kazakhstan",
+        "persons_pct_of_sample": 3.3,
+        "B_pct": 1.0,
+        "C_pct": 1.2,
+        "B_and_C_pct": 2.2
       },
       {
         "region": "Akmola",
         "persons_pct_of_sample": 5.3,
-        "B_pct": 2.5,
+        "B_pct": 0.0,
         "C_pct": 1.9,
-        "B_and_C_pct": 4.4
+        "B_and_C_pct": 1.9
+      },
+      {
+        "region": "Kyzylorda",
+        "persons_pct_of_sample": 6.4,
+        "B_pct": 1.1,
+        "C_pct": 0.8,
+        "B_and_C_pct": 1.8
       },
       {
         "region": "Kostanay",
         "persons_pct_of_sample": 5.3,
-        "B_pct": 1.4,
-        "C_pct": 1.4,
-        "B_and_C_pct": 2.8
+        "B_pct": 0.2,
+        "C_pct": 1.2,
+        "B_and_C_pct": 1.4
       },
       {
         "region": "Karaganda",
         "persons_pct_of_sample": 4.3,
-        "B_pct": 2.0,
-        "C_pct": 0.7,
-        "B_and_C_pct": 2.7
+        "B_pct": 0.7,
+        "C_pct": 0.0,
+        "B_and_C_pct": 0.7
       }
     ]
   },
@@ -3791,45 +3773,45 @@
       "year": 2024,
       "group": "levels B and C before the shock",
       "shock": "Labour income -10%",
-      "group_persons_pct_of_sample": 7.48,
-      "group_below_sm_after_shock_no_policy_pct": 30.2,
+      "group_persons_pct_of_sample": 3.57,
+      "group_below_sm_after_shock_no_policy_pct": 63.0,
       "all_below_sm_after_shock_no_policy_pct": 11.34,
       "equal_cost_per_capita": 12253,
       "results": [
         {
           "policy": "TSA top-up to 95% SM",
           "cost_per_capita_tenge_year": 12257,
-          "group_below_sm_after_shock_and_policy_pct": 30.2,
+          "group_below_sm_after_shock_and_policy_pct": 63.0,
           "group_kept_above_sm_pct_points": 0.0,
-          "group_receives_payment_pct": 9.2,
+          "group_receives_payment_pct": 19.2,
           "share_of_spending_to_group_pct": 0.6,
           "all_below_sm_after_shock_and_policy_pct": 11.34
         },
         {
           "policy": "TSA top-up to 105% SM, take-up 60%",
           "cost_per_capita_tenge_year": 12252,
-          "group_below_sm_after_shock_and_policy_pct": 12.9,
-          "group_kept_above_sm_pct_points": 17.3,
-          "group_receives_payment_pct": 33.0,
-          "share_of_spending_to_group_pct": 7.4,
+          "group_below_sm_after_shock_and_policy_pct": 27.1,
+          "group_kept_above_sm_pct_points": 35.9,
+          "group_receives_payment_pct": 54.2,
+          "share_of_spending_to_group_pct": 6.8,
           "all_below_sm_after_shock_and_policy_pct": 4.39
         },
         {
           "policy": "Child allowance 3,041 tg/mo per child, families with 1+ children",
           "cost_per_capita_tenge_year": 12253,
-          "group_below_sm_after_shock_and_policy_pct": 16.6,
-          "group_kept_above_sm_pct_points": 13.6,
-          "group_receives_payment_pct": 89.6,
-          "share_of_spending_to_group_pct": 10.0,
+          "group_below_sm_after_shock_and_policy_pct": 34.8,
+          "group_kept_above_sm_pct_points": 28.2,
+          "group_receives_payment_pct": 97.9,
+          "share_of_spending_to_group_pct": 5.4,
           "all_below_sm_after_shock_and_policy_pct": 10.29
         },
         {
           "policy": "Child allowance 11,450 tg/mo per child, families with 4+ children",
           "cost_per_capita_tenge_year": 12254,
-          "group_below_sm_after_shock_and_policy_pct": 20.1,
-          "group_kept_above_sm_pct_points": 10.1,
-          "group_receives_payment_pct": 24.5,
-          "share_of_spending_to_group_pct": 12.8,
+          "group_below_sm_after_shock_and_policy_pct": 41.8,
+          "group_kept_above_sm_pct_points": 21.2,
+          "group_receives_payment_pct": 34.3,
+          "share_of_spending_to_group_pct": 8.6,
           "all_below_sm_after_shock_and_policy_pct": 9.56
         }
       ]
@@ -3838,45 +3820,45 @@
       "year": 2024,
       "group": "levels B and C before the shock",
       "shock": "Main earner 3 months without earnings (employees keep 45%)",
-      "group_persons_pct_of_sample": 7.48,
-      "group_below_sm_after_shock_no_policy_pct": 33.9,
+      "group_persons_pct_of_sample": 3.57,
+      "group_below_sm_after_shock_no_policy_pct": 71.0,
       "all_below_sm_after_shock_no_policy_pct": 11.61,
       "equal_cost_per_capita": 12253,
       "results": [
         {
           "policy": "TSA top-up to 93% SM",
           "cost_per_capita_tenge_year": 12257,
-          "group_below_sm_after_shock_and_policy_pct": 33.9,
+          "group_below_sm_after_shock_and_policy_pct": 71.0,
           "group_kept_above_sm_pct_points": 0.0,
-          "group_receives_payment_pct": 9.4,
+          "group_receives_payment_pct": 19.6,
           "share_of_spending_to_group_pct": 1.0,
           "all_below_sm_after_shock_and_policy_pct": 11.61
         },
         {
           "policy": "TSA top-up to 104% SM, take-up 60%",
           "cost_per_capita_tenge_year": 12252,
-          "group_below_sm_after_shock_and_policy_pct": 14.2,
-          "group_kept_above_sm_pct_points": 19.7,
-          "group_receives_payment_pct": 31.2,
-          "share_of_spending_to_group_pct": 7.4,
+          "group_below_sm_after_shock_and_policy_pct": 29.6,
+          "group_kept_above_sm_pct_points": 41.3,
+          "group_receives_payment_pct": 53.7,
+          "share_of_spending_to_group_pct": 7.1,
           "all_below_sm_after_shock_and_policy_pct": 4.48
         },
         {
           "policy": "Child allowance 3,041 tg/mo per child, families with 1+ children",
           "cost_per_capita_tenge_year": 12253,
-          "group_below_sm_after_shock_and_policy_pct": 20.4,
-          "group_kept_above_sm_pct_points": 13.5,
-          "group_receives_payment_pct": 89.6,
-          "share_of_spending_to_group_pct": 10.0,
+          "group_below_sm_after_shock_and_policy_pct": 42.8,
+          "group_kept_above_sm_pct_points": 28.2,
+          "group_receives_payment_pct": 97.9,
+          "share_of_spending_to_group_pct": 5.4,
           "all_below_sm_after_shock_and_policy_pct": 10.56
         },
         {
           "policy": "Child allowance 11,450 tg/mo per child, families with 4+ children",
           "cost_per_capita_tenge_year": 12254,
-          "group_below_sm_after_shock_and_policy_pct": 23.0,
-          "group_kept_above_sm_pct_points": 10.9,
-          "group_receives_payment_pct": 24.5,
-          "share_of_spending_to_group_pct": 12.8,
+          "group_below_sm_after_shock_and_policy_pct": 48.2,
+          "group_kept_above_sm_pct_points": 22.7,
+          "group_receives_payment_pct": 34.3,
+          "share_of_spending_to_group_pct": 8.6,
           "all_below_sm_after_shock_and_policy_pct": 9.85
         }
       ]
@@ -3885,45 +3867,45 @@
       "year": 2024,
       "group": "levels B and C before the shock",
       "shock": "Housing and utility costs +30%",
-      "group_persons_pct_of_sample": 7.48,
-      "group_below_sm_after_shock_no_policy_pct": 8.8,
+      "group_persons_pct_of_sample": 3.57,
+      "group_below_sm_after_shock_no_policy_pct": 18.4,
       "all_below_sm_after_shock_no_policy_pct": 9.73,
       "equal_cost_per_capita": 12253,
       "results": [
         {
           "policy": "TSA top-up to 98% SM",
           "cost_per_capita_tenge_year": 12254,
-          "group_below_sm_after_shock_and_policy_pct": 8.8,
+          "group_below_sm_after_shock_and_policy_pct": 18.4,
           "group_kept_above_sm_pct_points": 0.0,
-          "group_receives_payment_pct": 1.8,
+          "group_receives_payment_pct": 3.8,
           "share_of_spending_to_group_pct": 0.2,
           "all_below_sm_after_shock_and_policy_pct": 9.73
         },
         {
           "policy": "TSA top-up to 109% SM, take-up 60%",
           "cost_per_capita_tenge_year": 12254,
-          "group_below_sm_after_shock_and_policy_pct": 3.2,
-          "group_kept_above_sm_pct_points": 5.6,
-          "group_receives_payment_pct": 28.5,
-          "share_of_spending_to_group_pct": 6.0,
+          "group_below_sm_after_shock_and_policy_pct": 6.7,
+          "group_kept_above_sm_pct_points": 11.7,
+          "group_receives_payment_pct": 54.4,
+          "share_of_spending_to_group_pct": 5.9,
           "all_below_sm_after_shock_and_policy_pct": 3.66
         },
         {
           "policy": "Child allowance 3,041 tg/mo per child, families with 1+ children",
           "cost_per_capita_tenge_year": 12253,
-          "group_below_sm_after_shock_and_policy_pct": 1.4,
-          "group_kept_above_sm_pct_points": 7.4,
-          "group_receives_payment_pct": 89.6,
-          "share_of_spending_to_group_pct": 10.0,
+          "group_below_sm_after_shock_and_policy_pct": 3.0,
+          "group_kept_above_sm_pct_points": 15.4,
+          "group_receives_payment_pct": 97.9,
+          "share_of_spending_to_group_pct": 5.4,
           "all_below_sm_after_shock_and_policy_pct": 8.7
         },
         {
           "policy": "Child allowance 11,450 tg/mo per child, families with 4+ children",
           "cost_per_capita_tenge_year": 12254,
-          "group_below_sm_after_shock_and_policy_pct": 6.6,
-          "group_kept_above_sm_pct_points": 2.1,
-          "group_receives_payment_pct": 24.5,
-          "share_of_spending_to_group_pct": 12.8,
+          "group_below_sm_after_shock_and_policy_pct": 13.9,
+          "group_kept_above_sm_pct_points": 4.5,
+          "group_receives_payment_pct": 34.3,
+          "share_of_spending_to_group_pct": 8.6,
           "all_below_sm_after_shock_and_policy_pct": 7.97
         }
       ]
@@ -3932,45 +3914,45 @@
       "year": 2024,
       "group": "levels B and C before the shock",
       "shock": "Prices +10%",
-      "group_persons_pct_of_sample": 7.48,
-      "group_below_sm_after_shock_no_policy_pct": 44.3,
+      "group_persons_pct_of_sample": 3.57,
+      "group_below_sm_after_shock_no_policy_pct": 92.8,
       "all_below_sm_after_shock_no_policy_pct": 12.39,
       "equal_cost_per_capita": 12253,
       "results": [
         {
           "policy": "TSA top-up to 93% SM",
           "cost_per_capita_tenge_year": 12252,
-          "group_below_sm_after_shock_and_policy_pct": 44.3,
+          "group_below_sm_after_shock_and_policy_pct": 92.8,
           "group_kept_above_sm_pct_points": 0.0,
-          "group_receives_payment_pct": 7.7,
+          "group_receives_payment_pct": 16.2,
           "share_of_spending_to_group_pct": 0.2,
           "all_below_sm_after_shock_and_policy_pct": 12.39
         },
         {
           "policy": "TSA top-up to 103% SM, take-up 60%",
           "cost_per_capita_tenge_year": 12257,
-          "group_below_sm_after_shock_and_policy_pct": 18.6,
-          "group_kept_above_sm_pct_points": 25.7,
-          "group_receives_payment_pct": 33.5,
-          "share_of_spending_to_group_pct": 7.9,
+          "group_below_sm_after_shock_and_policy_pct": 39.0,
+          "group_kept_above_sm_pct_points": 53.8,
+          "group_receives_payment_pct": 55.7,
+          "share_of_spending_to_group_pct": 7.5,
           "all_below_sm_after_shock_and_policy_pct": 4.82
         },
         {
           "policy": "Child allowance 3,041 tg/mo per child, families with 1+ children",
           "cost_per_capita_tenge_year": 12253,
-          "group_below_sm_after_shock_and_policy_pct": 27.8,
-          "group_kept_above_sm_pct_points": 16.6,
-          "group_receives_payment_pct": 89.6,
-          "share_of_spending_to_group_pct": 10.0,
+          "group_below_sm_after_shock_and_policy_pct": 58.1,
+          "group_kept_above_sm_pct_points": 34.7,
+          "group_receives_payment_pct": 97.9,
+          "share_of_spending_to_group_pct": 5.4,
           "all_below_sm_after_shock_and_policy_pct": 11.15
         },
         {
           "policy": "Child allowance 11,450 tg/mo per child, families with 4+ children",
           "cost_per_capita_tenge_year": 12254,
-          "group_below_sm_after_shock_and_policy_pct": 28.4,
-          "group_kept_above_sm_pct_points": 16.0,
-          "group_receives_payment_pct": 24.5,
-          "share_of_spending_to_group_pct": 12.8,
+          "group_below_sm_after_shock_and_policy_pct": 59.4,
+          "group_kept_above_sm_pct_points": 33.4,
+          "group_receives_payment_pct": 34.3,
+          "share_of_spending_to_group_pct": 8.6,
           "all_below_sm_after_shock_and_policy_pct": 10.39
         }
       ]

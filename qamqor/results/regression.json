@@ -1,5 +1,5 @@
 {
-  "version": "0.3.3",
+  "version": "0.3.4",
   "note": "Household-level, robust standard errors (HC1). Associations, not causes. Synthetic data.",
   "households_2024": 11948,
   "ols_income_per_person_2024": {
@@ -120,53 +120,53 @@
     }
   },
   "logit_levels_b_c_among_nonpoor_2024": {
-    "pseudo_r2": 0.215,
+    "pseudo_r2": 0.264,
     "households": 11220,
     "effects": {
       "n_child": {
-        "odds_ratio": 2.25,
+        "odds_ratio": 2.89,
         "ci95": [
-          2.11,
-          2.41
+          2.63,
+          3.18
         ],
-        "avg_effect_points": 4.63,
-        "p": 1.02e-123
+        "avg_effect_points": 2.32,
+        "p": 1.15e-105
       },
       "n_elderly": {
-        "odds_ratio": 0.51,
+        "odds_ratio": 0.66,
         "ci95": [
-          0.43,
-          0.61
+          0.5,
+          0.87
         ],
-        "avg_effect_points": -3.83,
-        "p": 1.01e-13
+        "avg_effect_points": -0.91,
+        "p": 0.00372
       },
       "n_working_age": {
-        "odds_ratio": 2.14,
+        "odds_ratio": 2.58,
         "ci95": [
-          1.85,
-          2.47
+          2.11,
+          3.16
         ],
-        "avg_effect_points": 4.33,
-        "p": 5.09e-25
+        "avg_effect_points": 2.08,
+        "p": 2.45e-20
       },
       "n_earners": {
-        "odds_ratio": 0.09,
+        "odds_ratio": 0.1,
         "ci95": [
           0.08,
-          0.12
+          0.14
         ],
-        "avg_effect_points": -13.42,
-        "p": 4.1e-105
+        "avg_effect_points": -4.96,
+        "p": 2.87e-45
       },
       "urban": {
-        "odds_ratio": 1.12,
+        "odds_ratio": 0.93,
         "ci95": [
-          0.93,
-          1.34
+          0.69,
+          1.25
         ],
-        "avg_effect_points": 0.62,
-        "p": 0.237
+        "avg_effect_points": -0.17,
+        "p": 0.612
       }
     }
   },

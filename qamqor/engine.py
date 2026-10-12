@@ -164,41 +164,36 @@ REGION_NAMES = {
 @dataclass
 class StressTests:
     """
-    RU: Четыре стресс-теста (v0.3). Семья выше ПМ «не проходит» тест, если после него доход на
+    RU: Три стресс-теста (v0.3.4; тест «ещё один иждивенец» убран). Семья выше ПМ «не проходит» тест, если после него доход на
         человека оказывается ниже ПМ своего региона.
         1) Главный кормилец N месяцев без заработка. Наёмный работник сохраняет долю
            wage_replacement своего заработка (социальная выплата по потере работы, 45%),
            самозанятый не сохраняет ничего.
         2) Стоимость жизни растёт: доходы те же, цены выше, реальный доход = доход / (1 + рост).
         3) Жильё и коммунальные услуги дорожают: из дохода вычитается прирост этих расходов.
-        4) В семье появляется ещё один иждивенец без дохода: тот же доход делится на большее
-           число людей. Дробное значение (0,5) означает «на полгода».
-    EN: Four stress tests (v0.3). A household above the SM "fails" a test if its per-capita income
+    EN: Three stress tests (v0.3.4; the "one more dependant" test is removed). A household above the SM "fails" a test if its per-capita income
         after it is below its own region's SM.
         1) The main earner goes N months without earnings. An employee keeps the wage_replacement
            share of earnings (the job-loss social payment, 45%); a self-employed person keeps nothing.
         2) The cost of living rises: incomes unchanged, prices higher, real income = income / (1 + rise).
         3) Housing and utilities cost more: the increase is subtracted from income.
-        4) One more dependant without income joins the household: the same income is shared by
-           more people. A fractional value (0.5) means "for half a year".
     """
     main_earner_months_lost: float = 3.0
     wage_replacement: float = 0.45
     cost_of_living_rise: float = 0.10
     utilities_rise: float = 0.30
-    extra_dependants: float = 1.0
 
 
 # RU: три версии набора: слабая, базовая (по умолчанию) и сильная.
 # EN: three versions of the set: weak, base (the default) and strong.
 STRESS_VERSIONS = {
-    "weak": StressTests(main_earner_months_lost=2, cost_of_living_rise=0.05, utilities_rise=0.15, extra_dependants=0.5),
+    "weak": StressTests(main_earner_months_lost=2, cost_of_living_rise=0.05, utilities_rise=0.15),
     "base": StressTests(),
-    "strong": StressTests(main_earner_months_lost=6, cost_of_living_rise=0.15, utilities_rise=0.50, extra_dependants=2),
+    "strong": StressTests(main_earner_months_lost=6, cost_of_living_rise=0.15, utilities_rise=0.50),
 }
 
 # RU: колонки с итогом каждого теста. EN: the per-test result columns.
-TESTS = ["fail_earner_loss", "fail_cost_of_living", "fail_utilities", "fail_extra_dependant"]
+TESTS = ["fail_earner_loss", "fail_cost_of_living", "fail_utilities"]
 
 
 def stress_tests(version: str = "base") -> StressTests:
@@ -209,14 +204,11 @@ def stress_tests(version: str = "base") -> StressTests:
 
 def test_labels(st: StressTests) -> dict:
     """RU: понятные названия тестов с их параметрами. EN: readable test names with their parameters."""
-    dep = (f"{st.extra_dependants:g} more dependant(s)" if st.extra_dependants >= 1
-           else f"one more dependant for {12 * st.extra_dependants:g} months")
     return {
         "fail_earner_loss": f"main earner {st.main_earner_months_lost:g} months without earnings "
                             f"(employees keep {st.wage_replacement:.0%}, self-employed nothing)",
         "fail_cost_of_living": f"cost of living +{st.cost_of_living_rise:.0%}",
         "fail_utilities": f"housing and utility costs +{st.utilities_rise:.0%}",
-        "fail_extra_dependant": dep,
     }
 
 
@@ -299,7 +291,6 @@ def stress_incomes(df: pd.DataFrame, st: StressTests, income=None) -> pd.DataFra
         "fail_earner_loss": (inc - lost) / n,
         "fail_cost_of_living": inc / (1 + st.cost_of_living_rise) / n,
         "fail_utilities": (inc - df["utilities"] * st.utilities_rise) / n,
-        "fail_extra_dependant": inc / ((df["size"] + st.extra_dependants) * 12.0),
     }, index=df.index)
 
 

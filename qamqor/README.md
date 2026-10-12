@@ -1,4 +1,4 @@
-# Qamqor AI — расчётное ядро / calculation engine (v0.3.3)
+# Qamqor AI — расчётное ядро / calculation engine (v0.3.4)
 
 **RU.** Калькулятор социальной политики на синтетических микроданных STAT.DATATHON-2026.
 Находит семьи, которые не считаются бедными, но не выдерживают обычного удара по доходу, и
@@ -17,7 +17,7 @@ what a given support measure would change.
 | 3 | `engine.three_lines`: три черты рядом и «непокрытая полоса» | `engine.three_lines`: three lines side by side and the "uncovered band" |
 | 4 | `engine.equivalence_test`: проверка шкалой эквивалентности БНС | `engine.equivalence_test`: a test with the BNS equivalence scale |
 | 5 | `gap_overview` возвращает `three_lines` и, по запросу, `equivalence_scale` | `gap_overview` returns `three_lines` and, on request, `equivalence_scale` |
-| 6 | Четыре стресс-теста вместо трёх, в трёх версиях: слабая, базовая, сильная | Four stress tests instead of three, in three versions: weak, base, strong |
+| 6 | Три стресс-теста в трёх версиях: слабая, базовая, сильная (тест «ещё один иждивенец» убран в v0.3.4) | Three stress tests in three versions: weak, base, strong (the "one more dependant" test was removed in v0.3.4) |
 | 7 | Карта доходов A–E вместо групп A–D; **буквы идут в обратную сторону** | The A–E income map replaces tiers A–D; **the letters run the other way** |
 | 8 | `check_household` возвращает уровень и список непройденных тестов | `check_household` returns the level and the list of failed tests |
 | 9 | `engine.at_risk_profile` и `engine.compare_for_group`: профиль уровней B и C и меры при равном бюджете для них | `engine.at_risk_profile` and `engine.compare_for_group`: the profile of levels B and C and measures at equal budget for them |
@@ -82,7 +82,7 @@ income per person is compared with the subsistence minimum (SM) of the household
 **EN.** Before v0.3 the letters ran the other way: A — below the TSA line, D — resilient. Old
 labels with letters must not be reused.
 
-## Четыре стресс-теста / Four stress tests
+## Три стресс-теста / Three stress tests
 
 `engine.StressTests`, версии / versions `engine.STRESS_VERSIONS`:
 
@@ -91,14 +91,13 @@ labels with letters must not be reused.
 | Главный кормилец без заработка; наёмный сохраняет 45%, самозанятый — ничего / main earner without earnings; an employee keeps 45%, a self-employed person nothing | 2 мес. / months | 3 | 6 |
 | Стоимость жизни / cost of living | +5% | +10% | +15% |
 | Жильё и коммунальные / housing and utilities | +15% | +30% | +50% |
-| Ещё один иждивенец / one more dependant | на полгода / for half a year | 1 | 2 |
 
-**RU.** Тест не пройден, если после него доход на человека ниже ПМ. Тест с иждивенцем строже
-остальных почти для всех семей (один человек — это больше 10% для любой семьи меньше десяти
-человек), поэтому уровень B в базовой версии — это семьи, не проходящие только его.
-**EN.** A test is failed if per-capita income after it is below the SM. The dependant test is
-stricter than the others for almost every household (one person is more than 10% for any
-household of fewer than ten), so in the base version level B is the households failing only it.
+**RU.** Тест не пройден, если после него доход на человека ниже ПМ. До v0.3.4 был четвёртый
+тест, «ещё один иждивенец». Он убран: он был строже остальных почти для всех семей и один
+определял уровень B.
+**EN.** A test is failed if per-capita income after it is below the SM. Before v0.3.4 there was a
+fourth test, "one more dependant". It was removed: it was stricter than the others for almost
+every household and alone defined level B.
 
 ## Региональные черты / Regional lines
 

@@ -77,12 +77,11 @@ _REGION = {"type": "string", "enum": sorted(E.REGION_NAMES.values()),
            "description": "Region or city where the household lives. Sets the regional subsistence minimum."}
 
 _STRESS = {"type": "string", "enum": ["weak", "base", "strong"],
-           "description": "Strength of the four stress tests. base (default): main earner 3 months without earnings "
-                          "(employees keep 45%, self-employed nothing), cost of living +10%, housing and utilities +30%, "
-                          "one more dependant. weak: 2 months, +5%, +15%, a dependant for half a year. "
-                          "strong: 6 months, +15%, +50%, two more dependants."}
+           "description": "Strength of the three stress tests. base (default): main earner 3 months without earnings "
+                          "(employees keep 45%, self-employed nothing), cost of living +10%, housing and utilities +30%. "
+                          "weak: 2 months, +5%, +15%. strong: 6 months, +15%, +50%."}
 
-_LEVELS = ("the A-E income map: A above the subsistence minimum and passing all four stress tests, B failing one test, "
+_LEVELS = ("the A-E income map: A above the subsistence minimum and passing all three stress tests, B failing one test, "
            "C failing two or more, D below the subsistence minimum but not below the TSA line, E below the TSA line "
            "(income-eligible for TSA). A is the most resilient level, E the lowest income")
 

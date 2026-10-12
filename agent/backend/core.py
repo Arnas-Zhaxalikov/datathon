@@ -1,7 +1,7 @@
 """Мост между веб-приложением и расчётным ядром Qamqor (папка qamqor/ в корне репозитория).
 
 Здесь нет ни одной формулы статуса или стресс-теста: всё считают qamqor/engine.py и
-четыре инструмента qamqor/tools.py. Этот модуль только
+инструменты qamqor/tools.py. Этот модуль только
   - переводит анкету из формы «Моя семья» в описание семьи, которое понимает
     engine.check_household (и показывает, какие допущения для этого понадобились);
   - раскладывает ответы ядра в тот вид, который рисует интерфейс.
@@ -132,7 +132,6 @@ def classify_household(
     months_without_wage: float = 3,
     cost_of_living_pct: float = 10,
     housing_rise_pct: float = 30,
-    extra_dependants: float = 1,
     whatif_extra_wage: float = 0,
     whatif_child_allowance: float = 0,
 ) -> dict:
@@ -147,7 +146,7 @@ def classify_household(
     if (earner_wage or 0) + (transfers or 0) > income_monthly:
         raise InputError("err_amounts")
     if not (0 <= months_without_wage <= 12 and 0 <= cost_of_living_pct <= 100 and housing_rise_pct >= 0
-            and 0 < extra_dependants <= 5 and whatif_extra_wage >= 0 and whatif_child_allowance >= 0):
+            and whatif_extra_wage >= 0 and whatif_child_allowance >= 0):
         raise InputError("err_values")
 
     # ---- допущения для пустых полей -------------------------------------------------------
@@ -176,7 +175,6 @@ def classify_household(
         main_earner_months_lost=months_without_wage,
         cost_of_living_rise=cost_of_living_pct / 100.0,
         utilities_rise=housing_rise_pct / 100.0,
-        extra_dependants=extra_dependants,
     )
     family = dict(hh_size=hh_size, n_child=n_child, n_employed=max(n_employed, 1 if wage > 0 else 0),
                   income=income_monthly, wage=wage, labor_total=max(labor_total, wage),
@@ -227,7 +225,7 @@ def classify_household(
         "housing_cost": res["inputs"]["utilities_month"],
         "assumptions": assumptions,
         "stress": {"months": months_without_wage, "cost_of_living_pct": cost_of_living_pct,
-                   "housing_rise_pct": housing_rise_pct, "extra_dependants": extra_dependants},
+                   "housing_rise_pct": housing_rise_pct},
         "tests": tests,
         "worst": {"key": worst["key"], "income_pc": worst["income_pc"]},
         "outcome": outcome,

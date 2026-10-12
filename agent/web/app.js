@@ -89,12 +89,11 @@ function renderRegions() {
   select.value = current;
 }
 
-// ползунки четырёх стресс-тестов: id → поле запроса и подпись
+// ползунки трёх стресс-тестов: id → поле запроса и подпись
 const SLIDERS = [
   { id: "s-months", field: "months_without_wage", label: "sc_earner_param", v: "n" },
   { id: "s-col", field: "cost_of_living_pct", label: "sc_col_param", v: "x" },
   { id: "s-rise", field: "housing_rise_pct", label: "sc_housing_param", v: "y" },
-  { id: "s-dep", field: "extra_dependants", label: "sc_dep_param", v: "d" },
 ];
 
 function familyPayload() {
@@ -202,8 +201,7 @@ function testShort(key, d) {
   const s = d.stress;
   if (key === "fail_earner_loss") return t("sc_earner_short", { n: fmtPct(s.months) });
   if (key === "fail_cost_of_living") return t("sc_col_short", { x: fmtPct(s.cost_of_living_pct) });
-  if (key === "fail_utilities") return t("sc_housing_short", { y: fmtPct(s.housing_rise_pct) });
-  return t("sc_dep_short", { d: fmtPct(s.extra_dependants) });
+  return t("sc_housing_short", { y: fmtPct(s.housing_rise_pct) });
 }
 
 function outcomeText(d) {
@@ -247,7 +245,7 @@ function testDetails(key, d) {
       formula: `${I} / (100% + ${fmtPct(s.cost_of_living_pct)}%) / ${S} = ${r}`,
     };
   }
-  if (key === "fail_utilities") {
+  {
     const H = d.housing_cost;
     return {
       assume: t("sc_housing_assume", {
@@ -258,10 +256,6 @@ function testDetails(key, d) {
       formula: `(${I} − ${fmt(H)} × ${fmtPct(s.housing_rise_pct)}%) / ${S} = ${r}`,
     };
   }
-  return {
-    assume: t("sc_dep_assume", { d: fmtPct(s.extra_dependants) }),
-    formula: `${I} / (${S} + ${fmtPct(s.extra_dependants)}) = ${r}`,
-  };
 }
 
 function renderFamilyResult() {
@@ -300,7 +294,7 @@ function renderFamilyResult() {
     })
   );
 
-  // четыре стресс-теста
+  // три стресс-теста
   renderSliderLabels();
   familyResult.querySelectorAll(".scenario").forEach((el) => {
     const test = d.tests.find((x) => x.key === el.dataset.scenario);
