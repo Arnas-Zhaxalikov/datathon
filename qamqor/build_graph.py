@@ -28,6 +28,7 @@ import engine as E
 YEARS = (2022, 2023, 2024)
 YEAR = 2024
 RESULTS, SCREEN, SM_CSV = "results/results.json", "results/quick_screen.json", "ref/regional_sm_annual_2022_2024.csv"
+CHALLENGE = "results/poverty_challenge/summary.json"
 PCT = "% of people in the sample"
 TSA_ID = f"threshold:tsa_line_{round(100 * E.TSA_SHARE)}pct"
 LEGAL = "legal check needed: TSA also has non-income conditions and its rule changed in 2025"
@@ -82,6 +83,9 @@ def build(results_path: str, sm_path: str) -> dict:
     screen_path = Path(results_path).with_name("quick_screen.json")
     if screen_path.exists():
         files[SCREEN] = json.load(open(screen_path, encoding="utf-8"))
+    challenge_path = Path(results_path).parent / "poverty_challenge" / "summary.json"
+    if challenge_path.exists():
+        files[CHALLENGE] = json.load(open(challenge_path, encoding="utf-8"))
     R = files[RESULTS]
     g = Graph(files)
     y = f"[year={YEAR}]"
@@ -282,6 +286,29 @@ def build(results_path: str, sm_path: str) -> dict:
                 for c in ("synthetic_data", "no_weights", "repeated_cross_sections"):
                     g.edge(mid, f"caveat:{c}", "limited_by")
                 g.edge(rate, mid, "has_metric")
+
+    # ---- эксперимент H4: прогноз без данных о доходе / the H4 experiment: prediction without income
+    if CHALLENGE in files:
+        a = "feature_sets.A"
+        g.node("caveat:h4_income_free", "caveat", "The prediction model sees household composition and region only; the number of "
+               "earners comes from income records and is used only in a separate sensitivity run")
+        for key, field, label, unit in [
+            ("h4_simple_auc_2024", "simple_metrics.auc", "H4: AUC of the best simple income-free model, test year 2024", "AUC, 0..1"),
+            ("h4_complex_auc_2024", "complex_metrics.auc", "H4: AUC of the best complex income-free model, test year 2024", "AUC, 0..1"),
+            ("h4_auc_diff_2024", "complex_minus_simple.auc_diff", "H4: complex minus simple AUC, test year 2024", "AUC points"),
+            ("h4_auc_diff_2024_ci_low", "complex_minus_simple.auc_diff_ci95[0]", "H4: complex minus simple AUC, lower bound of the 95% interval", "AUC points"),
+            ("h4_auc_diff_2024_ci_high", "complex_minus_simple.auc_diff_ci95[1]", "H4: complex minus simple AUC, upper bound of the 95% interval", "AUC points"),
+            ("h4_recall_top20_2024", "simple_metrics.recall_at_20_pct",
+             "H4: share of people below the minimum found among the 20% with the highest predicted risk, simple model, 2024",
+             "% of people below the regional subsistence minimum"),
+        ]:
+            mid = g.figure(f"metric:{key}", "metric", label, CHALLENGE, f"{a}.{field}", unit,
+                           note="poverty_challenge.py: train 2022-2023, test 2024, feature set A")
+            for code in ("D-008", "D-004"):
+                g.edge(mid, f"form:{code}", "computed_from")
+            for c in ("synthetic_data", "no_weights", "income_not_consumption", "repeated_cross_sections", "h4_income_free"):
+                g.edge(mid, f"caveat:{c}", "limited_by")
+            g.edge(rate, mid, "has_metric")
 
     return {"nodes": list(g.nodes.values()), "edges": g.edges,
             "meta": {"engine_version": R.get("version"), "year": YEAR, "nodes": len(g.nodes), "edges": len(g.edges),

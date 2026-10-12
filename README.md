@@ -38,7 +38,7 @@ Qamqor AI показывает, кого не видит официальное 
   - блок «А что, если»: прибавка к заработку или детское пособие;
   - сравнение с семьями выборки с тем же числом детей в том же регионе (при 30 и более семьях);
   - допущения, принятые для незаполненных полей.
-- **Обзор по стране.** Доли людей по уровням A–E и таблица 20 регионов. Без ключа API.
+- **Обзор по стране.** Доли людей по уровням A–E, таблица 20 регионов и результат эксперимента «можно ли предсказать бедность без данных о доходе» (гипотеза H4). Без ключа API.
 - **Для анализа (ИИ).** Чат с ассистентом (Claude Sonnet 5.5, нужен ключ API). Отвечает на вопросы о бедности, регионах, мерах и шоках, строит графики (линии, столбцы, точки) и показывает под ответом, какие расчёты ядра были вызваны.
 
 ### Пять инструментов ассистента
@@ -49,14 +49,14 @@ Qamqor AI показывает, кого не видит официальное 
 | `simulate` | «Что, если»: шок (заработки, потеря кормильца, коммунальные, цены) и/или мера поддержки (АСП с другой чертой, правило 2025 года, детское пособие, неполный охват); сравнение с базой по бедности, неравенству, стоимости и получателям |
 | `compare_policies` | Несколько мер рядом при равном бюджете, в том числе после шока и отдельно для уровней B и C |
 | `check_household` | Одна семья по описанию: уровень, доплата АСП, запас над ПМ, какие тесты она не проходит |
-| `explain` | Откуда взята цифра и каким правилом получена: источник (форма данных, ключ в `results.json`, проверка), связанные правила и оговорки. Читает граф из 128 узлов и 336 связей, ничего не считает |
+| `explain` | Откуда взята цифра и каким правилом получена: источник (форма данных, ключ в `results.json`, проверка), связанные правила и оговорки. Читает граф из 135 узлов и 384 связей, ничего не считает |
 
 ### Аналитика ядра
 
 - Доли по годам, регионам, типам семей и город/село; доверительные интервалы.
 - Чувствительность к силе стресс-тестов и к выбору черты.
 - Три регрессии и разложение связи «ребёнок — доход» (`regression.py`).
-- Скрининг без данных о доходе: насколько состав семьи и регион предсказывают доход ниже ПМ (`quick_screen.py`).
+- Прогноз без данных о доходе по образцу Pover-T Tests: простая модель против сложной, сравнение с правилами, проверка по регионам (`poverty_challenge.py`; первая версия — `quick_screen.py`).
 - Итоговые таблицы и график трёх черт (`results/final_tables.md`, `results/three_lines.svg`).
 
 ### Проверка
@@ -108,7 +108,7 @@ Three sections, three languages (English, Kazakh, Russian), light and dark theme
   - a "what if" block: extra earnings or a child allowance;
   - a comparison with sample households with the same number of children in the same region (30 or more households);
   - the assumptions used for fields left empty.
-- **Country overview.** Shares of people on levels A–E and a table of 20 regions. No API key needed.
+- **Country overview.** Shares of people on levels A–E, a table of 20 regions and the result of the experiment "can poverty be predicted without income data" (hypothesis H4). No API key needed.
 - **For analysis (AI).** A chat with the assistant (Claude Sonnet 5.5, API key required). It answers questions on poverty, regions, measures and shocks, draws charts (line, bar, scatter) and lists under each answer which engine calculations were called.
 
 ### The assistant's five tools
@@ -119,14 +119,14 @@ Three sections, three languages (English, Kazakh, Russian), light and dark theme
 | `simulate` | What-if: a shock (wages, loss of the main earner, utilities, prices) and/or a support measure (TSA with another line, the 2025 rule, a child allowance, partial take-up); comparison with the baseline on poverty, inequality, cost and beneficiaries |
 | `compare_policies` | Several measures side by side at an equal budget, also after a shock and separately for levels B and C |
 | `check_household` | One household from a description: level, TSA top-up, margin above the SM, which tests it fails |
-| `explain` | Where a figure comes from and which rule produced it: the source (data form, `results.json` key, check), related rules and caveats. Reads a graph of 128 nodes and 336 edges; computes nothing |
+| `explain` | Where a figure comes from and which rule produced it: the source (data form, `results.json` key, check), related rules and caveats. Reads a graph of 135 nodes and 384 edges; computes nothing |
 
 ### Engine analytics
 
 - Shares by year, region, household type and urban/rural; confidence intervals.
 - Sensitivity to the strength of the stress tests and to the choice of line.
 - Three regressions and a decomposition of the child–income link (`regression.py`).
-- A screen without income data: how well household composition and region predict income below the SM (`quick_screen.py`).
+- Prediction without income data, modelled on the Pover-T Tests: a simple model against a complex one, comparison with rules, a check by region (`poverty_challenge.py`; the first version is `quick_screen.py`).
 - Final tables and the three-lines chart (`results/final_tables.md`, `results/three_lines.svg`).
 
 ### Verification

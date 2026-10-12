@@ -446,6 +446,46 @@ function renderOverview() {
     .join("");
   $("overview-region-table").innerHTML = `<thead><tr>${head}</tr></thead><tbody>${rows}</tbody>`;
   $("overview-regions").classList.remove("hidden");
+  renderPrediction(data.prediction);
+}
+
+// эксперимент H4: прогноз без данных о доходе; числа — из summary.json эксперимента
+function renderPrediction(p) {
+  $("overview-pred").classList.toggle("hidden", !p);
+  if (!p) return;
+  const dec = (v) => Number(v).toLocaleString(LOCALES[currentLang], { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+  $("pred-lead").textContent = t("pred_lead", { a: p.train_years[0], b: p.train_years[p.train_years.length - 1], y: p.test_year });
+  const tiles = [
+    ["pred_auc", dec(p.auc_simple), "pred_auc_sub"],
+    ["pred_top20", `${fmtPct(p.recall_top20)}%`, "pred_top20_sub"],
+    ["pred_gain", `+${dec(p.auc_diff)}`, "pred_gain_sub"],
+  ];
+  $("pred-tiles").innerHTML = tiles
+    .map(
+      ([label, value, sub]) => `
+        <div class="tile">
+          <div class="tile-label"><span>${escapeHtml(t(label))}</span></div>
+          <div class="tile-value">${value}</div>
+          <div class="tile-sub">${escapeHtml(t(sub, { lo: dec(p.auc_diff_ci95[0]), hi: dec(p.auc_diff_ci95[1]) }))}</div>
+        </div>`
+    )
+    .join("");
+  const head = ["pred_rule", "pred_flagged", "pred_rule_finds", "pred_model_finds"]
+    .map((k) => `<th scope="col">${escapeHtml(t(k))}</th>`)
+    .join("");
+  const rows = p.rules
+    .map(
+      (r) => `<tr>
+        <td>${escapeHtml(t("pred_rule_n", { n: r.min_children }))}</td>
+        <td>${fmtPct(r.flagged_pct)}%</td>
+        <td>${fmtPct(r.rule_recall_pct)}%</td>
+        <td><b>${fmtPct(r.model_recall_pct)}%</b></td>
+      </tr>`
+    )
+    .join("");
+  $("pred-table").innerHTML = `<thead><tr>${head}</tr></thead><tbody>${rows}</tbody>`;
+  const word = (v) => t("pred_s_" + String(v).replace(/ /g, "_"));
+  $("pred-verdict").textContent = t("pred_verdict", { a: word(p.h4a), b: word(p.h4b) });
 }
 
 // ---------- Чат (режим "Для анализа") ----------

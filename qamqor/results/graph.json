@@ -1691,6 +1691,93 @@
     "file": "results/quick_screen.json",
     "key": "models[0].flag_top_20pct.found_pct"
    }
+  },
+  {
+   "id": "caveat:h4_income_free",
+   "type": "caveat",
+   "label": "The prediction model sees household composition and region only; the number of earners comes from income records and is used only in a separate sensitivity run",
+   "value": null,
+   "unit": null,
+   "year": null,
+   "note": ""
+  },
+  {
+   "id": "metric:h4_simple_auc_2024",
+   "type": "metric",
+   "label": "H4: AUC of the best simple income-free model, test year 2024",
+   "value": 0.8491,
+   "unit": "AUC, 0..1",
+   "year": 2024,
+   "note": "summary.json: feature_sets.A.simple_metrics.auc. poverty_challenge.py: train 2022-2023, test 2024, feature set A",
+   "source": {
+    "file": "results/poverty_challenge/summary.json",
+    "key": "feature_sets.A.simple_metrics.auc"
+   }
+  },
+  {
+   "id": "metric:h4_complex_auc_2024",
+   "type": "metric",
+   "label": "H4: AUC of the best complex income-free model, test year 2024",
+   "value": 0.8535,
+   "unit": "AUC, 0..1",
+   "year": 2024,
+   "note": "summary.json: feature_sets.A.complex_metrics.auc. poverty_challenge.py: train 2022-2023, test 2024, feature set A",
+   "source": {
+    "file": "results/poverty_challenge/summary.json",
+    "key": "feature_sets.A.complex_metrics.auc"
+   }
+  },
+  {
+   "id": "metric:h4_auc_diff_2024",
+   "type": "metric",
+   "label": "H4: complex minus simple AUC, test year 2024",
+   "value": 0.0044,
+   "unit": "AUC points",
+   "year": 2024,
+   "note": "summary.json: feature_sets.A.complex_minus_simple.auc_diff. poverty_challenge.py: train 2022-2023, test 2024, feature set A",
+   "source": {
+    "file": "results/poverty_challenge/summary.json",
+    "key": "feature_sets.A.complex_minus_simple.auc_diff"
+   }
+  },
+  {
+   "id": "metric:h4_auc_diff_2024_ci_low",
+   "type": "metric",
+   "label": "H4: complex minus simple AUC, lower bound of the 95% interval",
+   "value": 0.0022,
+   "unit": "AUC points",
+   "year": 2024,
+   "note": "summary.json: feature_sets.A.complex_minus_simple.auc_diff_ci95[0]. poverty_challenge.py: train 2022-2023, test 2024, feature set A",
+   "source": {
+    "file": "results/poverty_challenge/summary.json",
+    "key": "feature_sets.A.complex_minus_simple.auc_diff_ci95[0]"
+   }
+  },
+  {
+   "id": "metric:h4_auc_diff_2024_ci_high",
+   "type": "metric",
+   "label": "H4: complex minus simple AUC, upper bound of the 95% interval",
+   "value": 0.0065,
+   "unit": "AUC points",
+   "year": 2024,
+   "note": "summary.json: feature_sets.A.complex_minus_simple.auc_diff_ci95[1]. poverty_challenge.py: train 2022-2023, test 2024, feature set A",
+   "source": {
+    "file": "results/poverty_challenge/summary.json",
+    "key": "feature_sets.A.complex_minus_simple.auc_diff_ci95[1]"
+   }
+  },
+  {
+   "id": "metric:h4_recall_top20_2024",
+   "type": "metric",
+   "label": "H4: share of people below the minimum found among the 20% with the highest predicted risk, simple model, 2024",
+   "value": 62.3,
+   "unit": "% of people below the regional subsistence minimum",
+   "year": 2024,
+   "note": "summary.json: feature_sets.A.simple_metrics.recall_at_20_pct. poverty_challenge.py: train 2022-2023, test 2024, feature set A",
+   "source": {
+    "file": "results/poverty_challenge/summary.json",
+    "key": "feature_sets.A.simple_metrics.recall_at_20_pct"
+   }
   }
  ],
  "edges": [
@@ -3419,14 +3506,255 @@
    "from": "metric:poverty_rate_sm_2024",
    "to": "metric:quick_screen_top20_found_2024",
    "relation": "has_metric"
+  },
+  {
+   "from": "metric:h4_simple_auc_2024",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:h4_simple_auc_2024",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:h4_simple_auc_2024",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:h4_simple_auc_2024",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:h4_simple_auc_2024",
+   "to": "caveat:income_not_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:h4_simple_auc_2024",
+   "to": "caveat:repeated_cross_sections",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:h4_simple_auc_2024",
+   "to": "caveat:h4_income_free",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024",
+   "to": "metric:h4_simple_auc_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "metric:h4_complex_auc_2024",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:h4_complex_auc_2024",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:h4_complex_auc_2024",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:h4_complex_auc_2024",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:h4_complex_auc_2024",
+   "to": "caveat:income_not_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:h4_complex_auc_2024",
+   "to": "caveat:repeated_cross_sections",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:h4_complex_auc_2024",
+   "to": "caveat:h4_income_free",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024",
+   "to": "metric:h4_complex_auc_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "metric:h4_auc_diff_2024",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:h4_auc_diff_2024",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:h4_auc_diff_2024",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:h4_auc_diff_2024",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:h4_auc_diff_2024",
+   "to": "caveat:income_not_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:h4_auc_diff_2024",
+   "to": "caveat:repeated_cross_sections",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:h4_auc_diff_2024",
+   "to": "caveat:h4_income_free",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024",
+   "to": "metric:h4_auc_diff_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "metric:h4_auc_diff_2024_ci_low",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:h4_auc_diff_2024_ci_low",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:h4_auc_diff_2024_ci_low",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:h4_auc_diff_2024_ci_low",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:h4_auc_diff_2024_ci_low",
+   "to": "caveat:income_not_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:h4_auc_diff_2024_ci_low",
+   "to": "caveat:repeated_cross_sections",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:h4_auc_diff_2024_ci_low",
+   "to": "caveat:h4_income_free",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024",
+   "to": "metric:h4_auc_diff_2024_ci_low",
+   "relation": "has_metric"
+  },
+  {
+   "from": "metric:h4_auc_diff_2024_ci_high",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:h4_auc_diff_2024_ci_high",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:h4_auc_diff_2024_ci_high",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:h4_auc_diff_2024_ci_high",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:h4_auc_diff_2024_ci_high",
+   "to": "caveat:income_not_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:h4_auc_diff_2024_ci_high",
+   "to": "caveat:repeated_cross_sections",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:h4_auc_diff_2024_ci_high",
+   "to": "caveat:h4_income_free",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024",
+   "to": "metric:h4_auc_diff_2024_ci_high",
+   "relation": "has_metric"
+  },
+  {
+   "from": "metric:h4_recall_top20_2024",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:h4_recall_top20_2024",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:h4_recall_top20_2024",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:h4_recall_top20_2024",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:h4_recall_top20_2024",
+   "to": "caveat:income_not_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:h4_recall_top20_2024",
+   "to": "caveat:repeated_cross_sections",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:h4_recall_top20_2024",
+   "to": "caveat:h4_income_free",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024",
+   "to": "metric:h4_recall_top20_2024",
+   "relation": "has_metric"
   }
  ],
  "meta": {
   "engine_version": "0.3.4",
   "year": 2024,
-  "nodes": 128,
-  "edges": 336,
+  "nodes": 135,
+  "edges": 384,
   "sources": [
+   "results/poverty_challenge/summary.json",
    "results/quick_screen.json",
    "results/results.json",
    "ref/regional_sm_annual_2022_2024.csv"

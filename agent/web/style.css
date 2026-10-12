@@ -463,6 +463,8 @@ legend + * { clear: both; }
 .dist-bar { display: flex; gap: 2px; height: 16px; margin: var(--s4) 0; border-radius: 4px; overflow: hidden; }
 .dist-seg { height: 100%; min-width: 3px; }
 
+#pred-lead { margin-bottom: var(--s4); }
+#pred-verdict { margin-top: var(--s3); }
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(148px, 1fr)); gap: var(--s3); }
 /* число прижато к низу плитки: у длинных и коротких подписей значения стоят на одной линии */
 .tile { display: flex; flex-direction: column; padding: var(--s3) var(--s4); border-radius: var(--radius); background: var(--bg); }

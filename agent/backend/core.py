@@ -8,6 +8,7 @@
 """
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -49,6 +50,25 @@ def regions() -> list[dict]:
     ]
 
 
+def prediction() -> dict | None:
+    """Эксперимент H4 (qamqor/poverty_challenge.py): готовые числа из его summary.json, без пересчёта."""
+    path = QAMQOR / "results" / "poverty_challenge" / "summary.json"
+    if not path.exists():
+        return None
+    s = json.loads(path.read_text(encoding="utf-8"))
+    a = s["feature_sets"]["A"]
+    return {
+        "test_year": s["test_year"], "train_years": s["train_years"],
+        "simple": a["best_simple"], "complex": a["best_complex"],
+        "auc_simple": a["simple_metrics"]["auc"], "auc_complex": a["complex_metrics"]["auc"],
+        "recall_top20": a["simple_metrics"]["recall_at_20_pct"],
+        "auc_diff": a["complex_minus_simple"]["auc_diff"], "auc_diff_ci95": a["complex_minus_simple"]["auc_diff_ci95"],
+        "rules": [{"min_children": int(name[0]), "flagged_pct": r["people_flagged_pct"], "rule_recall_pct": r["rule_recall_pct"],
+                   "model_recall_pct": r["model_recall_pct"]} for name, r in a["model_vs_rules_same_share"].items()],
+        "h4a": a["H4a"], "h4b": a["H4b"], "h4": a["H4"],
+    }
+
+
 def summary() -> dict:
     """Обзор по стране: инструмент gap_overview с разбивкой по регионам."""
     g = T.call("gap_overview", {"year": YEAR, "group_by": "region"})
@@ -81,6 +101,7 @@ def summary() -> dict:
         "three_lines": r["three_lines"],
         "stress_tests": r["stress_tests"],
         "by_region": by_region,
+        "prediction": prediction(),
     }
 
 

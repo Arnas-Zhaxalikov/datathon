@@ -237,6 +237,27 @@ if (out / "quick_screen.json").exists():
           [[r["method"], r["people_receiving_pct"], r["spending_reaching_the_poor_pct"], r["shortfall_closed_pct"],
             r["below_sm_after_pct"]] for r in c["results"]])
 
+# ---- 10. Прогноз без данных о доходе (poverty_challenge.py) ---------------------------------
+if (out / "poverty_challenge" / "summary.json").exists():
+    C = json.loads((out / "poverty_challenge" / "summary.json").read_text(encoding="utf-8"))
+    a = C["feature_sets"]["A"]
+    d = a["complex_minus_simple"]
+    h("10. Прогноз без данных о доходе: гипотеза H4 (обучение 2022–2023, проверка 2024)")
+    p("Эксперимент по образцу Pover-T Tests (`poverty_challenge.py`). Модель видит только состав семьи и регион; "
+      "признаков из дохода нет. Подробности и остальные модели — в `poverty_challenge/summary.md`.")
+    table(["Модель", "AUC", "Log loss", "Найдено людей ниже ПМ среди 20% с наибольшим риском, %"],
+          [[f"Простая ({a['best_simple']})", num(a["simple_metrics"]["auc"], 3), num(a["simple_metrics"]["log_loss"], 3), a["simple_metrics"]["recall_at_20_pct"]],
+           [f"Сложная ({a['best_complex']})", num(a["complex_metrics"]["auc"], 3), num(a["complex_metrics"]["log_loss"], 3), a["complex_metrics"]["recall_at_20_pct"]]])
+    p(f"Разница AUC (сложная минус простая): {num(d['auc_diff'], 4)}, 95% интервал {num(d['auc_diff_ci95'][0], 4)}–{num(d['auc_diff_ci95'][1], 4)}; "
+      f"порог не-хуже — {num(C['thresholds']['h4b_margin_auc'], 2)}.")
+    table(["Правило", "Отмечено людей, %", "Правило находит, %", "Модель находит при той же доле, %"],
+          [[k.replace("children", "детей"), r["people_flagged_pct"], r["rule_recall_pct"], r["model_recall_pct"]]
+           for k, r in a["model_vs_rules_same_share"].items()])
+    RU_V = {"supported": "подтверждена", "not supported": "не подтверждена", "rejected": "отвергнута", "inconclusive": "вывод сделать нельзя"}
+    p(f"**Вердикты.** H4a (бедность предсказуема без дохода): {RU_V[a['H4a']]}. H4b (простая модель не хуже сложной): "
+      f"{RU_V[a['H4b']]}. Число работающих берётся из записей о доходах и в эти вердикты не входит; с ним AUC выше, "
+      "но это отдельный прогон чувствительности.")
+
 (out / "final_tables.md").write_text("\n".join(L).rstrip() + "\n", encoding="utf-8", newline="\n")
 
 # ---- График трёх черт / the three-lines chart ------------------------------------------------

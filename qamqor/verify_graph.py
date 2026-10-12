@@ -31,6 +31,9 @@ screen = Path(sys.argv[2]).with_name("quick_screen.json")
 FILES = {"results/results.json": R}
 if screen.exists():
     FILES["results/quick_screen.json"] = json.load(open(screen, encoding="utf-8"))
+challenge = Path(sys.argv[2]).parent / "poverty_challenge" / "summary.json"
+if challenge.exists():
+    FILES["results/poverty_challenge/summary.json"] = json.load(open(challenge, encoding="utf-8"))
 ok, n_checks = True, 0
 
 
@@ -84,7 +87,7 @@ chk(f"every numeric node names its source ({len(numeric)} nodes)", not bad, bad)
 from_json = [n for n in numeric if n["source"]["file"] in FILES]
 bad = [(n["id"], n["value"], at(FILES[n["source"]["file"]], n["source"]["key"])) for n in from_json
        if n["value"] != at(FILES[n["source"]["file"]], n["source"]["key"])]
-chk(f"numeric nodes equal the value at their key in results.json / quick_screen.json, tolerance 0 ({len(from_json)} nodes)", not bad, bad)
+chk(f"numeric nodes equal the value at their key in the results files, tolerance 0 ({len(from_json)} nodes)", not bad, bad)
 from_csv = [n for n in numeric if n["source"]["file"] not in FILES]
 chk("the other numeric nodes are subsistence minimums from the CSV", all(n["id"].startswith("sm:") for n in from_csv))
 rows = sm[sm.region_code.isin(E.REGION_NAMES)]
