@@ -55,6 +55,12 @@ def _require_llm():
 # ---------------------------------------------------------------------------
 
 
+@app.get("/health")
+def health() -> dict:
+    """Проверка живости для хостинга: ядро и таблица домохозяйств загружены, раз модуль импортировался."""
+    return {"status": "ok", "engine": core.T.E.__name__, "regions": len(core.E.REGION_NAMES)}
+
+
 @app.get("/api/regions")
 def regions() -> list[dict]:
     return core.regions()

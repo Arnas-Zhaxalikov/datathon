@@ -72,6 +72,13 @@ def test_summary_matches_the_tool():
     assert s["pct_below_sm"] == g["poverty_rate_sm_pct"] and len(s["by_region"]) == 20
 
 
+def test_health_endpoint():
+    from fastapi.testclient import TestClient
+    import app
+    r = TestClient(app.app).get("/health")
+    assert r.status_code == 200 and r.json()["status"] == "ok" and r.json()["regions"] == 20
+
+
 def test_invalid_input():
     for bad, code in [(dict(region=99), "err_region"), (dict(n_child=5), "err_no_adult"),
                       (dict(earner_wage=150_000, transfers=100_000), "err_amounts"), (dict(hh_size=0), "err_size")]:
