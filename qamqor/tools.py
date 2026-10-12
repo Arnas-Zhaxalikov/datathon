@@ -12,14 +12,31 @@ EN: The language model computes nothing itself. It picks a tool from TOOLS, pass
     import tools
     tools.load("out/households.csv")
     tools.call("simulate", {"year": 2024, "policy": {"kind": "tsa", "line_share": 1.0}})
+
+RU: Пятый инструмент, explain, ничего не считает: он читает граф правил и происхождения цифр
+    (results/graph.json, собирается скриптом build_graph.py) и отвечает, откуда взято число,
+    по какому правилу оно получено и какие у него оговорки.
+EN: The fifth tool, explain, computes nothing: it reads the graph of rules and provenance
+    (results/graph.json, built by build_graph.py) and answers where a number comes from, by
+    which rule it was obtained and which caveats apply.
+
+    tools.call("explain", {"node": "threshold:tsa_line_70pct"})
+    tools.call("explain", {"node": "sm:2024:Astana city", "depth": 2})
+    tools.call("explain", {"node": "Astana", "year": 2023})   # часть названия / part of a name
 """
 from __future__ import annotations
+
+import difflib
+import json
+from pathlib import Path
 
 import pandas as pd
 
 import engine as E
 
 _DATA: pd.DataFrame | None = None
+_GRAPH: dict | None = None
+GRAPH_PATH = Path(__file__).resolve().parent / "results" / "graph.json"
 
 _POLICY = {
     "type": "object",
@@ -120,6 +137,25 @@ TOOLS = [
             "utilities_month": {"type": "number", "description": "Housing and utility costs, tenge per month."}},
             "required": ["members"]},
     },
+    {
+        "name": "explain",
+        "description": "Where a number comes from and which rule produced it. Reads the graph of rules and provenance; "
+                       "computes nothing. Returns the node (label, value, unit, year), its neighbours by relation "
+                       "(has_sm, defines, decides, moves, has_metric, computed_from, limited_by, changes), the path to "
+                       "the data forms, the sources (data form, results.json key, verify.py check) and the caveats. "
+                       "Node ids: 'metric:poverty_rate_sm_2024', 'threshold:tsa_line_70pct', 'threshold:regional_sm', "
+                       "'threshold:budget_sm', 'sm:2024:Astana city', 'region:Turkestan', 'tier:E_below_tsa_line', "
+                       "'stress:earner_loss', 'policy:tsa_topup', 'policy:child_allowance', 'form:D-004', "
+                       "'caveat:no_weights'. A part of a name also works; if nothing matches, close ids are suggested. "
+                       "Use for 'where does this figure come from' and, after check_household, for 'why is this "
+                       "household not eligible': explain the TSA line and the subsistence minimum of its region.",
+        "input_schema": {"type": "object", "properties": {
+            "node": {"type": "string", "description": "Node id or a part of its id or label, case-insensitive."},
+            "depth": {"type": "integer", "enum": [1, 2], "description": "1 (default): direct neighbours; 2: also their neighbours."},
+            "year": {"type": "integer", "enum": [2022, 2023, 2024],
+                     "description": "Optional. Prefers nodes of this year and hides neighbours of other years."}},
+            "required": ["node"]},
+    },
 ]
 
 CAVEATS = [
@@ -143,6 +179,117 @@ def load(path: str = "out/households.csv") -> None:
     """RU: загрузить таблицу домохозяйств один раз. EN: load the household table once."""
     global _DATA
     _DATA = pd.read_csv(path, dtype={"hh_id": str, "region": str})
+
+
+def load_graph(path: str | Path | None = None) -> None:
+    """RU: загрузить граф один раз. EN: load the graph once."""
+    global _GRAPH
+    path = Path(path) if path else GRAPH_PATH
+    if not path.exists():
+        raise FileNotFoundError("graph.json not built, run build_graph.py")
+    raw = json.loads(path.read_text(encoding="utf-8"))
+    nodes = {n["id"]: n for n in raw["nodes"]}
+    out, into = {i: [] for i in nodes}, {i: [] for i in nodes}
+    for e in raw["edges"]:
+        out[e["from"]].append(e)
+        into[e["to"]].append(e)
+    _GRAPH = {"nodes": nodes, "out": out, "in": into}
+
+
+# RU: связи, по которым идём от узла к формам данных. EN: the relations followed from a node to the data forms.
+_TO_SOURCES = ("has_metric", "computed_from", "changes", "moves", "decides")
+
+
+def _find(nodes: dict, query: str, year: int | None) -> tuple[dict | None, list[str]]:
+    """RU: узел по id или части названия; иначе до 5 похожих id. EN: a node by id or part of a name; else up to 5 close ids."""
+    q = " ".join(str(query).lower().split())
+    by_id = {i.lower(): n for i, n in nodes.items()}
+    if q in by_id:
+        return by_id[q], []
+    hits = [n for n in nodes.values() if q and (q in n["id"].lower() or q in n["label"].lower())]
+    if year is not None and any(n["year"] == year for n in hits):
+        hits = [n for n in hits if n["year"] == year]
+    if hits:
+        # RU: сначала совпадение по id, потом самый короткий id. EN: id matches first, then the shortest id.
+        hits.sort(key=lambda n: (q not in n["id"].lower(), len(n["id"]), n["id"]))
+        return hits[0], [n["id"] for n in hits[1:6]]
+    names = {**{n["label"].lower(): i for i, n in nodes.items()}, **{i.lower(): i for i in nodes},
+             **{i.lower().split(":", 1)[1]: i for i in nodes}}
+    close = difflib.get_close_matches(q, list(names), n=10, cutoff=0.4)
+    return None, list(dict.fromkeys(names[c] for c in close))[:5]
+
+
+def _explain(a: dict) -> dict:
+    if _GRAPH is None:
+        try:
+            load_graph()
+        except FileNotFoundError as e:
+            return {"error": str(e)}
+    nodes, out, into = _GRAPH["nodes"], _GRAPH["out"], _GRAPH["in"]
+    year = int(a["year"]) if a.get("year") else None
+    depth = 2 if int(a.get("depth") or 1) >= 2 else 1
+    node, other = _find(nodes, a.get("node", ""), year)
+    if node is None:
+        return {"error": f"node not found: {a.get('node')!r}", "suggestions": other,
+                "hint": "Call explain again with one of the suggested ids, or with a type prefix such as "
+                        "metric:, threshold:, sm:, region:, tier:, stress:, policy:, form:, caveat:."}
+    brief = lambda n: {k: n[k] for k in ("id", "type", "label", "value") if k in n}
+    shown = lambda n: year is None or n["year"] in (None, year)
+
+    def around(i):
+        return [(e, "out", nodes[e["to"]]) for e in out[i]] + [(e, "in", nodes[e["from"]]) for e in into[i]]
+
+    neighbors, seen = [], {node["id"]}
+    layer = [node["id"]]
+    for dist in range(1, depth + 1):
+        nxt = []
+        for i in layer:
+            for e, direction, n in around(i):
+                if n["id"] in seen or not shown(n):
+                    continue
+                seen.add(n["id"])
+                nxt.append(n["id"])
+                row = {"relation": e["relation"], "direction": direction, "node": brief(n)}
+                if e.get("note"):
+                    row["note"] = e["note"]
+                if dist == 2:
+                    row.update(distance=2, via=i)
+                neighbors.append(row)
+        layer = nxt
+    # RU: кратчайший путь к формам данных по связям «откуда взято». EN: the shortest path to the data forms along provenance edges.
+    parent, queue, forms = {node["id"]: None}, [node["id"]], []
+    while queue:
+        i = queue.pop(0)
+        if nodes[i]["type"] == "data_form":
+            forms.append(i)
+            continue
+        for e in out[i]:
+            if e["relation"] in _TO_SOURCES and e["to"] not in parent:
+                parent[e["to"]] = (i, e["relation"])
+                queue.append(e["to"])
+    paths = []
+    for f in forms:
+        steps, i = [f], f
+        while parent[i]:
+            i, rel = parent[i]
+            steps[:0] = [i, f"-{rel}->"]
+        paths.append(steps)
+    on_path = [i for i in dict.fromkeys(s for p in paths for s in p[::2])] or [node["id"]]
+    sources = []
+    for i in on_path:
+        n = nodes[i]
+        if n["type"] == "data_form":
+            sources.append({"data_form": n["id"], "label": n["label"], "note": n["note"]})
+        elif n.get("source"):
+            sources.append({"node": n["id"], **n["source"], **({"verified_by": n["verified_by"]} if n.get("verified_by") else {})})
+    reach = list(dict.fromkeys([node["id"]] + on_path + [r["node"]["id"] for r in neighbors if "distance" not in r]))
+    caveats = list(dict.fromkeys(nodes[e["to"]]["label"] for i in reach for e in out[i] if e["relation"] == "limited_by"))
+    if node["type"] == "caveat":
+        caveats.insert(0, node["label"])
+    result = {"node": node, "neighbors": neighbors, "path_to_sources": paths, "sources": sources, "caveats": caveats}
+    if other:
+        result["other_matches"] = other
+    return result
 
 
 def _year_df(year: int) -> pd.DataFrame:
@@ -186,6 +333,8 @@ def call(name: str, args: dict | None = None) -> dict:
 
 
 def _run(name: str, a: dict, year: int) -> dict:
+    if name == "explain":
+        return {"result": _explain(a), "caveats": CAVEATS}
     st = E.stress_tests(a.get("stress_version", "base"))
     if name == "check_household":
         out = E.check_household(a["members"], a.get("utilities_month", 0.0), year, st=st, region=a.get("region"))

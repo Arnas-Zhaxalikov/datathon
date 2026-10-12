@@ -37,7 +37,10 @@ longer be used is in `CHANGES.md`. All final tables are in `results/final_tables
 |---|---|---|
 | `build.py` | Собирает таблицу «семья-год» из D-008 и D-004 | Builds the household-year table from D-008 and D-004 |
 | `engine.py` | Все расчёты: группы, меры, шоки, сравнение | All calculations: tiers, measures, shocks, comparison |
-| `tools.py` | Четыре инструмента для языковой модели | Four tools for the language model |
+| `tools.py` | Пять инструментов для языковой модели | Five tools for the language model |
+| `build_graph.py` | Собирает граф правил и происхождения цифр из `results.json` и CSV | Builds the graph of rules and provenance from `results.json` and the CSV |
+| `results/graph.json` | Граф: узлы, связи, источник каждой цифры | The graph: nodes, edges, the source of every figure |
+| `verify_graph.py` | Проверка графа и инструмента `explain` | A check of the graph and the `explain` tool |
 | `run_baseline.py` | Первый прогон всех модулей | First run of all modules |
 | `results/results.json` | Результаты прогона | Results of the run |
 | `verify.py` | Независимая проверка итогов без `engine.py` и сверка инструментов с `results.json` | An independent check of the results without `engine.py`, plus a tools-versus-`results.json` check |
@@ -57,6 +60,8 @@ python regression.py  out/households.csv  results
 python quick_screen.py  out/households.csv  results
 python make_tables.py  results
 python verify.py  out/households.csv  ref/regional_sm_annual_2022_2024.csv  results/results.json
+python build_graph.py  results/results.json  ref/regional_sm_annual_2022_2024.csv  results/graph.json
+python verify_graph.py  results/graph.json  results/results.json  ref/regional_sm_annual_2022_2024.csv
 ```
 
 `<data folder>` — папка, где лежат `d004/`, `d008/` и т.д. / the folder holding `d004/`, `d008/` etc.
@@ -196,6 +201,43 @@ Results are in `results/regression.json`. These are associations, not causes.
 **EN.** Pass `tools.TOOLS` to the model as its tool list. When the model asks for a tool call,
 run `tools.call(name, args)` and return the result. The model does not decide who is poor:
 it only picks the calculation and explains the numbers.
+
+## Инструменты / Tools
+
+| Инструмент / Tool | RU | EN |
+|---|---|---|
+| `gap_overview` | Доли людей по уровням A–E, три черты, разбивки | Shares of people on levels A–E, the three lines, breakdowns |
+| `simulate` | «Что, если»: шок и/или мера | What-if: a shock and/or a measure |
+| `compare_policies` | Несколько мер рядом, при равном бюджете | Several measures side by side, at an equal budget |
+| `check_household` | Одна семья по описанию | One household from a description |
+| `explain` | Откуда цифра и по какому правилу она получена | Where a figure comes from and which rule produced it |
+
+**RU.** `explain` ничего не считает. Он читает `results/graph.json` — граф, который
+`build_graph.py` собирает из `results.json`, `quick_screen.json` и CSV прожиточных минимумов без
+участия языковой модели. В графе нет ни одной цифры, которой нет в этих файлах; `verify_graph.py`
+проверяет это с допуском 0. Узлы: регионы, прожиточные минимумы и черты, уровни A–E, стресс-тесты,
+меры, метрики, формы данных, оговорки. Связи: `has_sm`, `defines`, `decides`, `moves`,
+`has_metric`, `computed_from`, `limited_by`, `changes`, `refers_to`. В граф входят только АСП и
+детские пособия из ядра: правила других программ нужно сверять с законом. У узлов, где это важно,
+в `note` стоит `legal check needed`.
+
+**EN.** `explain` computes nothing. It reads `results/graph.json`, the graph that `build_graph.py`
+builds from `results.json`, `quick_screen.json` and the subsistence minimum CSV with no language
+model involved. The graph holds no figure that is absent from those files; `verify_graph.py` checks
+this with zero tolerance. Only TSA and the engine's child allowances are in the graph: the rules of
+other programmes need a legal check.
+
+```python
+tools.call("explain", {"node": "threshold:tsa_line_70pct"})         # черта АСП / the TSA line
+tools.call("explain", {"node": "sm:2024:Astana city"})              # ПМ региона / a regional minimum
+tools.call("explain", {"node": "metric:poverty_rate_sm_2024"})      # откуда цифра / where a figure comes from
+tools.call("explain", {"node": "Turkestan", "year": 2023, "depth": 2})  # часть названия / part of a name
+```
+
+Ответ / the answer: `node`, `neighbors` (`relation`, `direction`, `node`), `path_to_sources`,
+`sources` (форма данных, ключ в `results.json`, проверка `verify.py` / data form, `results.json`
+key, `verify.py` check), `caveats`. Если узел не найден, возвращаются до пяти похожих id / if the
+node is not found, up to five close ids are returned.
 
 ## Допущения / Assumptions
 

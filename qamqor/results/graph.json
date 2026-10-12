@@ -1,0 +1,3474 @@
+{
+ "nodes": [
+  {
+   "id": "form:D-008",
+   "type": "data_form",
+   "label": "Form D-008: household roster (members, age)",
+   "value": null,
+   "unit": null,
+   "year": null,
+   "note": "feeds the household-year table (build.py)"
+  },
+  {
+   "id": "form:D-004",
+   "type": "data_form",
+   "label": "Form D-004: income of each person, housing and utility spending",
+   "value": null,
+   "unit": null,
+   "year": null,
+   "note": "feeds the household-year table (build.py)"
+  },
+  {
+   "id": "form:D-002",
+   "type": "data_form",
+   "label": "Form D-002",
+   "value": null,
+   "unit": null,
+   "year": null,
+   "note": "not used by the engine"
+  },
+  {
+   "id": "form:D-006",
+   "type": "data_form",
+   "label": "Form D-006: housing conditions",
+   "value": null,
+   "unit": null,
+   "year": null,
+   "note": "not used by the engine"
+  },
+  {
+   "id": "form:T-001",
+   "type": "data_form",
+   "label": "Form T-001: labour force survey",
+   "value": null,
+   "unit": null,
+   "year": null,
+   "note": "not used by the engine"
+  },
+  {
+   "id": "form:D-003",
+   "type": "data_form",
+   "label": "Form D-003: food spending",
+   "value": null,
+   "unit": null,
+   "year": null,
+   "note": "absent from the data set"
+  },
+  {
+   "id": "caveat:synthetic_data",
+   "type": "caveat",
+   "label": "Synthetic data: figures are illustrative",
+   "value": null,
+   "unit": null,
+   "year": null,
+   "note": ""
+  },
+  {
+   "id": "caveat:no_weights",
+   "type": "caveat",
+   "label": "No survey weights: shares are shares of the sample; no national counts or sums",
+   "value": null,
+   "unit": null,
+   "year": null,
+   "note": ""
+  },
+  {
+   "id": "caveat:no_food_spending",
+   "type": "caveat",
+   "label": "No food spending (form D-003): no food price shock and no consumption-based poverty",
+   "value": null,
+   "unit": null,
+   "year": null,
+   "note": ""
+  },
+  {
+   "id": "caveat:income_not_consumption",
+   "type": "caveat",
+   "label": "Poverty here is measured by money income, not by consumption",
+   "value": null,
+   "unit": null,
+   "year": null,
+   "note": ""
+  },
+  {
+   "id": "caveat:official_poverty_consumption",
+   "type": "caveat",
+   "label": "Official poverty statistics are based on consumption, so levels are not comparable",
+   "value": null,
+   "unit": null,
+   "year": null,
+   "note": ""
+  },
+  {
+   "id": "caveat:repeated_cross_sections",
+   "type": "caveat",
+   "label": "Repeated cross-sections without a panel: households differ between years",
+   "value": null,
+   "unit": null,
+   "year": null,
+   "note": ""
+  },
+  {
+   "id": "caveat:unused_forms",
+   "type": "caveat",
+   "label": "Only forms D-008 and D-004 feed the calculations; D-002, D-006 and T-001 are not linked",
+   "value": null,
+   "unit": null,
+   "year": null,
+   "note": ""
+  },
+  {
+   "id": "caveat:static_model",
+   "type": "caveat",
+   "label": "Static model: no behavioural response; full take-up unless stated",
+   "value": null,
+   "unit": null,
+   "year": null,
+   "note": ""
+  },
+  {
+   "id": "caveat:earner_type_approximated",
+   "type": "caveat",
+   "label": "The main earner's employment type is approximated by the wage share of the household's labour income",
+   "value": null,
+   "unit": null,
+   "year": null,
+   "note": ""
+  },
+  {
+   "id": "caveat:regional_sm_source",
+   "type": "caveat",
+   "label": "Regional subsistence minimums are Bureau of National Statistics annual values; the 2022 regional values are rebuilt from monthly data with the Bureau's method",
+   "value": null,
+   "unit": null,
+   "year": null,
+   "note": ""
+  },
+  {
+   "id": "region:Abai",
+   "type": "region",
+   "label": "Abai",
+   "value": 5.6,
+   "unit": "% of people in the region's sample below its subsistence minimum",
+   "year": 2024,
+   "note": "results.json: gap_by_region_2024[region=Abai].below_sm_regional_line_pct. region code 10",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_region_2024[region=Abai].below_sm_regional_line_pct"
+   },
+   "verified_by": "verify.py: 2024 Abai"
+  },
+  {
+   "id": "sm:2022:Abai",
+   "type": "threshold",
+   "label": "Subsistence minimum, Abai, 2022",
+   "value": 43273,
+   "unit": "tenge per person per month",
+   "year": 2022,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 10, column sm_2022",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=10, column sm_2022"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2023:Abai",
+   "type": "threshold",
+   "label": "Subsistence minimum, Abai, 2023",
+   "value": 47828,
+   "unit": "tenge per person per month",
+   "year": 2023,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 10, column sm_2023",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=10, column sm_2023"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2024:Abai",
+   "type": "threshold",
+   "label": "Subsistence minimum, Abai, 2024",
+   "value": 50728,
+   "unit": "tenge per person per month",
+   "year": 2024,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 10, column sm_2024",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=10, column sm_2024"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "region:Akmola",
+   "type": "region",
+   "label": "Akmola",
+   "value": 5.7,
+   "unit": "% of people in the region's sample below its subsistence minimum",
+   "year": 2024,
+   "note": "results.json: gap_by_region_2024[region=Akmola].below_sm_regional_line_pct. region code 11",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_region_2024[region=Akmola].below_sm_regional_line_pct"
+   },
+   "verified_by": "verify.py: 2024 Akmola"
+  },
+  {
+   "id": "sm:2022:Akmola",
+   "type": "threshold",
+   "label": "Subsistence minimum, Akmola, 2022",
+   "value": 43821,
+   "unit": "tenge per person per month",
+   "year": 2022,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 11, column sm_2022",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=11, column sm_2022"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2023:Akmola",
+   "type": "threshold",
+   "label": "Subsistence minimum, Akmola, 2023",
+   "value": 48174,
+   "unit": "tenge per person per month",
+   "year": 2023,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 11, column sm_2023",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=11, column sm_2023"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2024:Akmola",
+   "type": "threshold",
+   "label": "Subsistence minimum, Akmola, 2024",
+   "value": 50136,
+   "unit": "tenge per person per month",
+   "year": 2024,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 11, column sm_2024",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=11, column sm_2024"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "region:Aktobe",
+   "type": "region",
+   "label": "Aktobe",
+   "value": 5.2,
+   "unit": "% of people in the region's sample below its subsistence minimum",
+   "year": 2024,
+   "note": "results.json: gap_by_region_2024[region=Aktobe].below_sm_regional_line_pct. region code 15",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_region_2024[region=Aktobe].below_sm_regional_line_pct"
+   },
+   "verified_by": "verify.py: 2024 Aktobe"
+  },
+  {
+   "id": "sm:2022:Aktobe",
+   "type": "threshold",
+   "label": "Subsistence minimum, Aktobe, 2022",
+   "value": 40629,
+   "unit": "tenge per person per month",
+   "year": 2022,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 15, column sm_2022",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=15, column sm_2022"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2023:Aktobe",
+   "type": "threshold",
+   "label": "Subsistence minimum, Aktobe, 2023",
+   "value": 44463,
+   "unit": "tenge per person per month",
+   "year": 2023,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 15, column sm_2023",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=15, column sm_2023"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2024:Aktobe",
+   "type": "threshold",
+   "label": "Subsistence minimum, Aktobe, 2024",
+   "value": 46358,
+   "unit": "tenge per person per month",
+   "year": 2024,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 15, column sm_2024",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=15, column sm_2024"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "region:Almaty region",
+   "type": "region",
+   "label": "Almaty region",
+   "value": 10.6,
+   "unit": "% of people in the region's sample below its subsistence minimum",
+   "year": 2024,
+   "note": "results.json: gap_by_region_2024[region=Almaty region].below_sm_regional_line_pct. region code 19",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_region_2024[region=Almaty region].below_sm_regional_line_pct"
+   },
+   "verified_by": "verify.py: 2024 Almaty region"
+  },
+  {
+   "id": "sm:2022:Almaty region",
+   "type": "threshold",
+   "label": "Subsistence minimum, Almaty region, 2022",
+   "value": 43721,
+   "unit": "tenge per person per month",
+   "year": 2022,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 19, column sm_2022",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=19, column sm_2022"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2023:Almaty region",
+   "type": "threshold",
+   "label": "Subsistence minimum, Almaty region, 2023",
+   "value": 48836,
+   "unit": "tenge per person per month",
+   "year": 2023,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 19, column sm_2023",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=19, column sm_2023"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2024:Almaty region",
+   "type": "threshold",
+   "label": "Subsistence minimum, Almaty region, 2024",
+   "value": 52152,
+   "unit": "tenge per person per month",
+   "year": 2024,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 19, column sm_2024",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=19, column sm_2024"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "region:Atyrau",
+   "type": "region",
+   "label": "Atyrau",
+   "value": 6.0,
+   "unit": "% of people in the region's sample below its subsistence minimum",
+   "year": 2024,
+   "note": "results.json: gap_by_region_2024[region=Atyrau].below_sm_regional_line_pct. region code 23",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_region_2024[region=Atyrau].below_sm_regional_line_pct"
+   },
+   "verified_by": "verify.py: 2024 Atyrau"
+  },
+  {
+   "id": "sm:2022:Atyrau",
+   "type": "threshold",
+   "label": "Subsistence minimum, Atyrau, 2022",
+   "value": 42666,
+   "unit": "tenge per person per month",
+   "year": 2022,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 23, column sm_2022",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=23, column sm_2022"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2023:Atyrau",
+   "type": "threshold",
+   "label": "Subsistence minimum, Atyrau, 2023",
+   "value": 47060,
+   "unit": "tenge per person per month",
+   "year": 2023,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 23, column sm_2023",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=23, column sm_2023"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2024:Atyrau",
+   "type": "threshold",
+   "label": "Subsistence minimum, Atyrau, 2024",
+   "value": 48292,
+   "unit": "tenge per person per month",
+   "year": 2024,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 23, column sm_2024",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=23, column sm_2024"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "region:West Kazakhstan",
+   "type": "region",
+   "label": "West Kazakhstan",
+   "value": 10.1,
+   "unit": "% of people in the region's sample below its subsistence minimum",
+   "year": 2024,
+   "note": "results.json: gap_by_region_2024[region=West Kazakhstan].below_sm_regional_line_pct. region code 27",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_region_2024[region=West Kazakhstan].below_sm_regional_line_pct"
+   },
+   "verified_by": "verify.py: 2024 West Kazakhstan"
+  },
+  {
+   "id": "sm:2022:West Kazakhstan",
+   "type": "threshold",
+   "label": "Subsistence minimum, West Kazakhstan, 2022",
+   "value": 40448,
+   "unit": "tenge per person per month",
+   "year": 2022,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 27, column sm_2022",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=27, column sm_2022"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2023:West Kazakhstan",
+   "type": "threshold",
+   "label": "Subsistence minimum, West Kazakhstan, 2023",
+   "value": 44605,
+   "unit": "tenge per person per month",
+   "year": 2023,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 27, column sm_2023",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=27, column sm_2023"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2024:West Kazakhstan",
+   "type": "threshold",
+   "label": "Subsistence minimum, West Kazakhstan, 2024",
+   "value": 47161,
+   "unit": "tenge per person per month",
+   "year": 2024,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 27, column sm_2024",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=27, column sm_2024"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "region:Zhambyl",
+   "type": "region",
+   "label": "Zhambyl",
+   "value": 15.9,
+   "unit": "% of people in the region's sample below its subsistence minimum",
+   "year": 2024,
+   "note": "results.json: gap_by_region_2024[region=Zhambyl].below_sm_regional_line_pct. region code 31",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_region_2024[region=Zhambyl].below_sm_regional_line_pct"
+   },
+   "verified_by": "verify.py: 2024 Zhambyl"
+  },
+  {
+   "id": "sm:2022:Zhambyl",
+   "type": "threshold",
+   "label": "Subsistence minimum, Zhambyl, 2022",
+   "value": 41170,
+   "unit": "tenge per person per month",
+   "year": 2022,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 31, column sm_2022",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=31, column sm_2022"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2023:Zhambyl",
+   "type": "threshold",
+   "label": "Subsistence minimum, Zhambyl, 2023",
+   "value": 46601,
+   "unit": "tenge per person per month",
+   "year": 2023,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 31, column sm_2023",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=31, column sm_2023"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2024:Zhambyl",
+   "type": "threshold",
+   "label": "Subsistence minimum, Zhambyl, 2024",
+   "value": 48135,
+   "unit": "tenge per person per month",
+   "year": 2024,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 31, column sm_2024",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=31, column sm_2024"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "region:Zhetisu",
+   "type": "region",
+   "label": "Zhetisu",
+   "value": 14.3,
+   "unit": "% of people in the region's sample below its subsistence minimum",
+   "year": 2024,
+   "note": "results.json: gap_by_region_2024[region=Zhetisu].below_sm_regional_line_pct. region code 33",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_region_2024[region=Zhetisu].below_sm_regional_line_pct"
+   },
+   "verified_by": "verify.py: 2024 Zhetisu"
+  },
+  {
+   "id": "sm:2022:Zhetisu",
+   "type": "threshold",
+   "label": "Subsistence minimum, Zhetisu, 2022",
+   "value": 42776,
+   "unit": "tenge per person per month",
+   "year": 2022,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 33, column sm_2022",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=33, column sm_2022"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2023:Zhetisu",
+   "type": "threshold",
+   "label": "Subsistence minimum, Zhetisu, 2023",
+   "value": 47609,
+   "unit": "tenge per person per month",
+   "year": 2023,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 33, column sm_2023",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=33, column sm_2023"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2024:Zhetisu",
+   "type": "threshold",
+   "label": "Subsistence minimum, Zhetisu, 2024",
+   "value": 49284,
+   "unit": "tenge per person per month",
+   "year": 2024,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 33, column sm_2024",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=33, column sm_2024"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "region:Karaganda",
+   "type": "region",
+   "label": "Karaganda",
+   "value": 2.7,
+   "unit": "% of people in the region's sample below its subsistence minimum",
+   "year": 2024,
+   "note": "results.json: gap_by_region_2024[region=Karaganda].below_sm_regional_line_pct. region code 35",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_region_2024[region=Karaganda].below_sm_regional_line_pct"
+   },
+   "verified_by": "verify.py: 2024 Karaganda"
+  },
+  {
+   "id": "sm:2022:Karaganda",
+   "type": "threshold",
+   "label": "Subsistence minimum, Karaganda, 2022",
+   "value": 41421,
+   "unit": "tenge per person per month",
+   "year": 2022,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 35, column sm_2022",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=35, column sm_2022"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2023:Karaganda",
+   "type": "threshold",
+   "label": "Subsistence minimum, Karaganda, 2023",
+   "value": 46728,
+   "unit": "tenge per person per month",
+   "year": 2023,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 35, column sm_2023",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=35, column sm_2023"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2024:Karaganda",
+   "type": "threshold",
+   "label": "Subsistence minimum, Karaganda, 2024",
+   "value": 49063,
+   "unit": "tenge per person per month",
+   "year": 2024,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 35, column sm_2024",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=35, column sm_2024"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "region:Kostanay",
+   "type": "region",
+   "label": "Kostanay",
+   "value": 2.4,
+   "unit": "% of people in the region's sample below its subsistence minimum",
+   "year": 2024,
+   "note": "results.json: gap_by_region_2024[region=Kostanay].below_sm_regional_line_pct. region code 39",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_region_2024[region=Kostanay].below_sm_regional_line_pct"
+   },
+   "verified_by": "verify.py: 2024 Kostanay"
+  },
+  {
+   "id": "sm:2022:Kostanay",
+   "type": "threshold",
+   "label": "Subsistence minimum, Kostanay, 2022",
+   "value": 42610,
+   "unit": "tenge per person per month",
+   "year": 2022,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 39, column sm_2022",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=39, column sm_2022"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2023:Kostanay",
+   "type": "threshold",
+   "label": "Subsistence minimum, Kostanay, 2023",
+   "value": 46440,
+   "unit": "tenge per person per month",
+   "year": 2023,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 39, column sm_2023",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=39, column sm_2023"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2024:Kostanay",
+   "type": "threshold",
+   "label": "Subsistence minimum, Kostanay, 2024",
+   "value": 48952,
+   "unit": "tenge per person per month",
+   "year": 2024,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 39, column sm_2024",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=39, column sm_2024"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "region:Kyzylorda",
+   "type": "region",
+   "label": "Kyzylorda",
+   "value": 8.8,
+   "unit": "% of people in the region's sample below its subsistence minimum",
+   "year": 2024,
+   "note": "results.json: gap_by_region_2024[region=Kyzylorda].below_sm_regional_line_pct. region code 43",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_region_2024[region=Kyzylorda].below_sm_regional_line_pct"
+   },
+   "verified_by": "verify.py: 2024 Kyzylorda"
+  },
+  {
+   "id": "sm:2022:Kyzylorda",
+   "type": "threshold",
+   "label": "Subsistence minimum, Kyzylorda, 2022",
+   "value": 39446,
+   "unit": "tenge per person per month",
+   "year": 2022,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 43, column sm_2022",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=43, column sm_2022"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2023:Kyzylorda",
+   "type": "threshold",
+   "label": "Subsistence minimum, Kyzylorda, 2023",
+   "value": 44211,
+   "unit": "tenge per person per month",
+   "year": 2023,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 43, column sm_2023",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=43, column sm_2023"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2024:Kyzylorda",
+   "type": "threshold",
+   "label": "Subsistence minimum, Kyzylorda, 2024",
+   "value": 45858,
+   "unit": "tenge per person per month",
+   "year": 2024,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 43, column sm_2024",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=43, column sm_2024"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "region:Mangystau",
+   "type": "region",
+   "label": "Mangystau",
+   "value": 23.5,
+   "unit": "% of people in the region's sample below its subsistence minimum",
+   "year": 2024,
+   "note": "results.json: gap_by_region_2024[region=Mangystau].below_sm_regional_line_pct. region code 47",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_region_2024[region=Mangystau].below_sm_regional_line_pct"
+   },
+   "verified_by": "verify.py: 2024 Mangystau"
+  },
+  {
+   "id": "sm:2022:Mangystau",
+   "type": "threshold",
+   "label": "Subsistence minimum, Mangystau, 2022",
+   "value": 52366,
+   "unit": "tenge per person per month",
+   "year": 2022,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 47, column sm_2022",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=47, column sm_2022"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2023:Mangystau",
+   "type": "threshold",
+   "label": "Subsistence minimum, Mangystau, 2023",
+   "value": 61520,
+   "unit": "tenge per person per month",
+   "year": 2023,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 47, column sm_2023",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=47, column sm_2023"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2024:Mangystau",
+   "type": "threshold",
+   "label": "Subsistence minimum, Mangystau, 2024",
+   "value": 62592,
+   "unit": "tenge per person per month",
+   "year": 2024,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 47, column sm_2024",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=47, column sm_2024"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "region:Pavlodar",
+   "type": "region",
+   "label": "Pavlodar",
+   "value": 4.5,
+   "unit": "% of people in the region's sample below its subsistence minimum",
+   "year": 2024,
+   "note": "results.json: gap_by_region_2024[region=Pavlodar].below_sm_regional_line_pct. region code 55",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_region_2024[region=Pavlodar].below_sm_regional_line_pct"
+   },
+   "verified_by": "verify.py: 2024 Pavlodar"
+  },
+  {
+   "id": "sm:2022:Pavlodar",
+   "type": "threshold",
+   "label": "Subsistence minimum, Pavlodar, 2022",
+   "value": 43315,
+   "unit": "tenge per person per month",
+   "year": 2022,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 55, column sm_2022",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=55, column sm_2022"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2023:Pavlodar",
+   "type": "threshold",
+   "label": "Subsistence minimum, Pavlodar, 2023",
+   "value": 47774,
+   "unit": "tenge per person per month",
+   "year": 2023,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 55, column sm_2023",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=55, column sm_2023"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2024:Pavlodar",
+   "type": "threshold",
+   "label": "Subsistence minimum, Pavlodar, 2024",
+   "value": 49322,
+   "unit": "tenge per person per month",
+   "year": 2024,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 55, column sm_2024",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=55, column sm_2024"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "region:North Kazakhstan",
+   "type": "region",
+   "label": "North Kazakhstan",
+   "value": 3.9,
+   "unit": "% of people in the region's sample below its subsistence minimum",
+   "year": 2024,
+   "note": "results.json: gap_by_region_2024[region=North Kazakhstan].below_sm_regional_line_pct. region code 59",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_region_2024[region=North Kazakhstan].below_sm_regional_line_pct"
+   },
+   "verified_by": "verify.py: 2024 North Kazakhstan"
+  },
+  {
+   "id": "sm:2022:North Kazakhstan",
+   "type": "threshold",
+   "label": "Subsistence minimum, North Kazakhstan, 2022",
+   "value": 42821,
+   "unit": "tenge per person per month",
+   "year": 2022,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 59, column sm_2022",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=59, column sm_2022"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2023:North Kazakhstan",
+   "type": "threshold",
+   "label": "Subsistence minimum, North Kazakhstan, 2023",
+   "value": 47845,
+   "unit": "tenge per person per month",
+   "year": 2023,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 59, column sm_2023",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=59, column sm_2023"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2024:North Kazakhstan",
+   "type": "threshold",
+   "label": "Subsistence minimum, North Kazakhstan, 2024",
+   "value": 50010,
+   "unit": "tenge per person per month",
+   "year": 2024,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 59, column sm_2024",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=59, column sm_2024"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "region:Turkestan",
+   "type": "region",
+   "label": "Turkestan",
+   "value": 14.2,
+   "unit": "% of people in the region's sample below its subsistence minimum",
+   "year": 2024,
+   "note": "results.json: gap_by_region_2024[region=Turkestan].below_sm_regional_line_pct. region code 61",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_region_2024[region=Turkestan].below_sm_regional_line_pct"
+   },
+   "verified_by": "verify.py: 2024 Turkestan"
+  },
+  {
+   "id": "sm:2022:Turkestan",
+   "type": "threshold",
+   "label": "Subsistence minimum, Turkestan, 2022",
+   "value": 41099,
+   "unit": "tenge per person per month",
+   "year": 2022,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 61, column sm_2022",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=61, column sm_2022"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2023:Turkestan",
+   "type": "threshold",
+   "label": "Subsistence minimum, Turkestan, 2023",
+   "value": 44555,
+   "unit": "tenge per person per month",
+   "year": 2023,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 61, column sm_2023",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=61, column sm_2023"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2024:Turkestan",
+   "type": "threshold",
+   "label": "Subsistence minimum, Turkestan, 2024",
+   "value": 45778,
+   "unit": "tenge per person per month",
+   "year": 2024,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 61, column sm_2024",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=61, column sm_2024"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "region:Ulytau",
+   "type": "region",
+   "label": "Ulytau",
+   "value": 8.9,
+   "unit": "% of people in the region's sample below its subsistence minimum",
+   "year": 2024,
+   "note": "results.json: gap_by_region_2024[region=Ulytau].below_sm_regional_line_pct. region code 62",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_region_2024[region=Ulytau].below_sm_regional_line_pct"
+   },
+   "verified_by": "verify.py: 2024 Ulytau"
+  },
+  {
+   "id": "sm:2022:Ulytau",
+   "type": "threshold",
+   "label": "Subsistence minimum, Ulytau, 2022",
+   "value": 41652,
+   "unit": "tenge per person per month",
+   "year": 2022,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 62, column sm_2022",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=62, column sm_2022"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2023:Ulytau",
+   "type": "threshold",
+   "label": "Subsistence minimum, Ulytau, 2023",
+   "value": 48448,
+   "unit": "tenge per person per month",
+   "year": 2023,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 62, column sm_2023",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=62, column sm_2023"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2024:Ulytau",
+   "type": "threshold",
+   "label": "Subsistence minimum, Ulytau, 2024",
+   "value": 51569,
+   "unit": "tenge per person per month",
+   "year": 2024,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 62, column sm_2024",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=62, column sm_2024"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "region:East Kazakhstan",
+   "type": "region",
+   "label": "East Kazakhstan",
+   "value": 3.0,
+   "unit": "% of people in the region's sample below its subsistence minimum",
+   "year": 2024,
+   "note": "results.json: gap_by_region_2024[region=East Kazakhstan].below_sm_regional_line_pct. region code 63",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_region_2024[region=East Kazakhstan].below_sm_regional_line_pct"
+   },
+   "verified_by": "verify.py: 2024 East Kazakhstan"
+  },
+  {
+   "id": "sm:2022:East Kazakhstan",
+   "type": "threshold",
+   "label": "Subsistence minimum, East Kazakhstan, 2022",
+   "value": 44982,
+   "unit": "tenge per person per month",
+   "year": 2022,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 63, column sm_2022",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=63, column sm_2022"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2023:East Kazakhstan",
+   "type": "threshold",
+   "label": "Subsistence minimum, East Kazakhstan, 2023",
+   "value": 50894,
+   "unit": "tenge per person per month",
+   "year": 2023,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 63, column sm_2023",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=63, column sm_2023"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2024:East Kazakhstan",
+   "type": "threshold",
+   "label": "Subsistence minimum, East Kazakhstan, 2024",
+   "value": 53792,
+   "unit": "tenge per person per month",
+   "year": 2024,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 63, column sm_2024",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=63, column sm_2024"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "region:Astana city",
+   "type": "region",
+   "label": "Astana city",
+   "value": 6.9,
+   "unit": "% of people in the region's sample below its subsistence minimum",
+   "year": 2024,
+   "note": "results.json: gap_by_region_2024[region=Astana city].below_sm_regional_line_pct. region code 71",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_region_2024[region=Astana city].below_sm_regional_line_pct"
+   },
+   "verified_by": "verify.py: 2024 Astana city"
+  },
+  {
+   "id": "sm:2022:Astana city",
+   "type": "threshold",
+   "label": "Subsistence minimum, Astana city, 2022",
+   "value": 47811,
+   "unit": "tenge per person per month",
+   "year": 2022,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 71, column sm_2022",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=71, column sm_2022"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2023:Astana city",
+   "type": "threshold",
+   "label": "Subsistence minimum, Astana city, 2023",
+   "value": 54415,
+   "unit": "tenge per person per month",
+   "year": 2023,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 71, column sm_2023",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=71, column sm_2023"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2024:Astana city",
+   "type": "threshold",
+   "label": "Subsistence minimum, Astana city, 2024",
+   "value": 55386,
+   "unit": "tenge per person per month",
+   "year": 2024,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 71, column sm_2024",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=71, column sm_2024"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "region:Almaty city",
+   "type": "region",
+   "label": "Almaty city",
+   "value": 5.9,
+   "unit": "% of people in the region's sample below its subsistence minimum",
+   "year": 2024,
+   "note": "results.json: gap_by_region_2024[region=Almaty city].below_sm_regional_line_pct. region code 75",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_region_2024[region=Almaty city].below_sm_regional_line_pct"
+   },
+   "verified_by": "verify.py: 2024 Almaty city"
+  },
+  {
+   "id": "sm:2022:Almaty city",
+   "type": "threshold",
+   "label": "Subsistence minimum, Almaty city, 2022",
+   "value": 46060,
+   "unit": "tenge per person per month",
+   "year": 2022,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 75, column sm_2022",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=75, column sm_2022"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2023:Almaty city",
+   "type": "threshold",
+   "label": "Subsistence minimum, Almaty city, 2023",
+   "value": 51048,
+   "unit": "tenge per person per month",
+   "year": 2023,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 75, column sm_2023",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=75, column sm_2023"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2024:Almaty city",
+   "type": "threshold",
+   "label": "Subsistence minimum, Almaty city, 2024",
+   "value": 54495,
+   "unit": "tenge per person per month",
+   "year": 2024,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 75, column sm_2024",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=75, column sm_2024"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "region:Shymkent city",
+   "type": "region",
+   "label": "Shymkent city",
+   "value": 19.2,
+   "unit": "% of people in the region's sample below its subsistence minimum",
+   "year": 2024,
+   "note": "results.json: gap_by_region_2024[region=Shymkent city].below_sm_regional_line_pct. region code 79",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_region_2024[region=Shymkent city].below_sm_regional_line_pct"
+   },
+   "verified_by": "verify.py: 2024 Shymkent city"
+  },
+  {
+   "id": "sm:2022:Shymkent city",
+   "type": "threshold",
+   "label": "Subsistence minimum, Shymkent city, 2022",
+   "value": 41426,
+   "unit": "tenge per person per month",
+   "year": 2022,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 79, column sm_2022",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=79, column sm_2022"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2023:Shymkent city",
+   "type": "threshold",
+   "label": "Subsistence minimum, Shymkent city, 2023",
+   "value": 47768,
+   "unit": "tenge per person per month",
+   "year": 2023,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 79, column sm_2023",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=79, column sm_2023"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "sm:2024:Shymkent city",
+   "type": "threshold",
+   "label": "Subsistence minimum, Shymkent city, 2024",
+   "value": 50146,
+   "unit": "tenge per person per month",
+   "year": 2024,
+   "note": "regional_sm_annual_2022_2024.csv: region_code 79, column sm_2024",
+   "source": {
+    "file": "ref/regional_sm_annual_2022_2024.csv",
+    "key": "region_code=79, column sm_2024"
+   },
+   "verified_by": "verify.py reads the lines from this CSV; verify_graph.py: equals results.json regional_sm_by_year"
+  },
+  {
+   "id": "threshold:tsa_line_70pct",
+   "type": "threshold",
+   "label": "TSA line: 70% of the subsistence minimum of the household's region",
+   "value": 35060,
+   "unit": "tenge per person per month, average over people in the sample",
+   "year": 2024,
+   "note": "results.json: three_lines_by_year[year=2024].tsa_line_tenge. rule: income per person below 0.7 x regional subsistence minimum (engine.TSA_SHARE). legal check needed: TSA also has non-income conditions and its rule changed in 2025",
+   "source": {
+    "file": "results/results.json",
+    "key": "three_lines_by_year[year=2024].tsa_line_tenge"
+   }
+  },
+  {
+   "id": "threshold:regional_sm",
+   "type": "threshold",
+   "label": "Regional subsistence minimum: the poverty line of the household's own region",
+   "value": 50086,
+   "unit": "tenge per person per month, average over people in the sample",
+   "year": 2024,
+   "note": "results.json: three_lines_by_year[year=2024].regional_sm_tenge",
+   "source": {
+    "file": "results/results.json",
+    "key": "three_lines_by_year[year=2024].regional_sm_tenge"
+   }
+  },
+  {
+   "id": "threshold:budget_sm",
+   "type": "threshold",
+   "label": "Budget-law subsistence minimum: one national value",
+   "value": 43407,
+   "unit": "tenge per person per month",
+   "year": 2024,
+   "note": "results.json: national_sm_by_year.2024.budget_law",
+   "source": {
+    "file": "results/results.json",
+    "key": "national_sm_by_year.2024.budget_law"
+   }
+  },
+  {
+   "id": "tier:A_resilient",
+   "type": "tier",
+   "label": "Level A: above the regional subsistence minimum, passes all stress tests",
+   "value": 83.45,
+   "unit": "% of people in the sample",
+   "year": 2024,
+   "note": "results.json: gap_by_year_regional_line[year=2024].tiers_pct.A_resilient",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_year_regional_line[year=2024].tiers_pct.A_resilient"
+   },
+   "verified_by": "verify.py: 2024 level A"
+  },
+  {
+   "id": "tier:B_fails_one_test",
+   "type": "tier",
+   "label": "Level B: above the regional subsistence minimum, fails one stress test",
+   "value": 3.9,
+   "unit": "% of people in the sample",
+   "year": 2024,
+   "note": "results.json: gap_by_year_regional_line[year=2024].tiers_pct.B_fails_one_test",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_year_regional_line[year=2024].tiers_pct.B_fails_one_test"
+   },
+   "verified_by": "verify.py: 2024 level B"
+  },
+  {
+   "id": "tier:C_fails_two_or_more",
+   "type": "tier",
+   "label": "Level C: above the regional subsistence minimum, fails two or more stress tests",
+   "value": 3.57,
+   "unit": "% of people in the sample",
+   "year": 2024,
+   "note": "results.json: gap_by_year_regional_line[year=2024].tiers_pct.C_fails_two_or_more",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_year_regional_line[year=2024].tiers_pct.C_fails_two_or_more"
+   },
+   "verified_by": "verify.py: 2024 level C"
+  },
+  {
+   "id": "tier:D_below_sm",
+   "type": "tier",
+   "label": "Level D: below the regional subsistence minimum but not below the TSA line (70% of it)",
+   "value": 6.61,
+   "unit": "% of people in the sample",
+   "year": 2024,
+   "note": "results.json: gap_by_year_regional_line[year=2024].tiers_pct.D_below_sm",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_year_regional_line[year=2024].tiers_pct.D_below_sm"
+   },
+   "verified_by": "verify.py: 2024 level D"
+  },
+  {
+   "id": "tier:E_below_tsa_line",
+   "type": "tier",
+   "label": "Level E: below the TSA line (70% of the regional subsistence minimum): income-eligible for TSA",
+   "value": 2.47,
+   "unit": "% of people in the sample",
+   "year": 2024,
+   "note": "results.json: gap_by_year_regional_line[year=2024].tiers_pct.E_below_tsa_line",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_year_regional_line[year=2024].tiers_pct.E_below_tsa_line"
+   },
+   "verified_by": "verify.py: 2024 level E"
+  },
+  {
+   "id": "stress:earner_loss",
+   "type": "stress_test",
+   "label": "Stress test: main earner 3 months without earnings (employees keep 45%, self-employed nothing)",
+   "value": 2.53,
+   "unit": "% of people in the sample above the subsistence minimum who fail this test",
+   "year": 2024,
+   "note": "results.json: levels_by_stress_version_2024[version=base].above_sm_and_failing_pct.fail_earner_loss. base version; parameters in results.json: stress_tests.base",
+   "source": {
+    "file": "results/results.json",
+    "key": "levels_by_stress_version_2024[version=base].above_sm_and_failing_pct.fail_earner_loss"
+   }
+  },
+  {
+   "id": "stress:cost_of_living",
+   "type": "stress_test",
+   "label": "Stress test: cost of living +10%",
+   "value": 3.32,
+   "unit": "% of people in the sample above the subsistence minimum who fail this test",
+   "year": 2024,
+   "note": "results.json: levels_by_stress_version_2024[version=base].above_sm_and_failing_pct.fail_cost_of_living. base version; parameters in results.json: stress_tests.base",
+   "source": {
+    "file": "results/results.json",
+    "key": "levels_by_stress_version_2024[version=base].above_sm_and_failing_pct.fail_cost_of_living"
+   }
+  },
+  {
+   "id": "stress:utilities",
+   "type": "stress_test",
+   "label": "Stress test: housing and utility costs +30%",
+   "value": 0.66,
+   "unit": "% of people in the sample above the subsistence minimum who fail this test",
+   "year": 2024,
+   "note": "results.json: levels_by_stress_version_2024[version=base].above_sm_and_failing_pct.fail_utilities. base version; parameters in results.json: stress_tests.base",
+   "source": {
+    "file": "results/results.json",
+    "key": "levels_by_stress_version_2024[version=base].above_sm_and_failing_pct.fail_utilities"
+   }
+  },
+  {
+   "id": "stress:extra_dependant",
+   "type": "stress_test",
+   "label": "Stress test: 1 more dependant(s)",
+   "value": 7.48,
+   "unit": "% of people in the sample above the subsistence minimum who fail this test",
+   "year": 2024,
+   "note": "results.json: levels_by_stress_version_2024[version=base].above_sm_and_failing_pct.fail_extra_dependant. base version; parameters in results.json: stress_tests.base",
+   "source": {
+    "file": "results/results.json",
+    "key": "levels_by_stress_version_2024[version=base].above_sm_and_failing_pct.fail_extra_dependant"
+   }
+  },
+  {
+   "id": "metric:poverty_rate_sm_2024",
+   "type": "metric",
+   "label": "Share of people below the regional subsistence minimum, 2024",
+   "value": 9.07,
+   "unit": "% of people in the sample",
+   "year": 2024,
+   "note": "results.json: gap_by_year_regional_line[year=2024].poverty_rate_sm_pct",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_year_regional_line[year=2024].poverty_rate_sm_pct"
+   },
+   "verified_by": "verify.py: 2024 below regional SM"
+  },
+  {
+   "id": "metric:poverty_rate_sm_2024_ci_low",
+   "type": "metric",
+   "label": "Share below the regional subsistence minimum, 2024: lower bound of the 95% interval",
+   "value": 8.4,
+   "unit": "% of people in the sample",
+   "year": 2024,
+   "note": "results.json: uncertainty_2024.poverty_rate_sm_pct.ci95[0]",
+   "source": {
+    "file": "results/results.json",
+    "key": "uncertainty_2024.poverty_rate_sm_pct.ci95[0]"
+   }
+  },
+  {
+   "id": "metric:poverty_rate_sm_2024_ci_high",
+   "type": "metric",
+   "label": "Share below the regional subsistence minimum, 2024: upper bound of the 95% interval",
+   "value": 9.7,
+   "unit": "% of people in the sample",
+   "year": 2024,
+   "note": "results.json: uncertainty_2024.poverty_rate_sm_pct.ci95[1]",
+   "source": {
+    "file": "results/results.json",
+    "key": "uncertainty_2024.poverty_rate_sm_pct.ci95[1]"
+   }
+  },
+  {
+   "id": "metric:below_tsa_line_2024",
+   "type": "metric",
+   "label": "Share of people below the TSA line, 2024",
+   "value": 2.47,
+   "unit": "% of people in the sample",
+   "year": 2024,
+   "note": "results.json: three_lines_by_year[year=2024].below_tsa_line_pct",
+   "source": {
+    "file": "results/results.json",
+    "key": "three_lines_by_year[year=2024].below_tsa_line_pct"
+   },
+   "verified_by": "verify.py: 2024 below TSA line"
+  },
+  {
+   "id": "metric:below_budget_sm_2024",
+   "type": "metric",
+   "label": "Share of people below the budget-law subsistence minimum, 2024",
+   "value": 5.52,
+   "unit": "% of people in the sample",
+   "year": 2024,
+   "note": "results.json: three_lines_by_year[year=2024].below_budget_sm_pct",
+   "source": {
+    "file": "results/results.json",
+    "key": "three_lines_by_year[year=2024].below_budget_sm_pct"
+   },
+   "verified_by": "verify.py: 2024 below budget-law SM"
+  },
+  {
+   "id": "metric:uncovered_band_2024",
+   "type": "metric",
+   "label": "Uncovered band: below the regional subsistence minimum but not below the TSA line, 2024",
+   "value": 6.61,
+   "unit": "% of people in the sample",
+   "year": 2024,
+   "note": "results.json: three_lines_by_year[year=2024].uncovered_band_pct",
+   "source": {
+    "file": "results/results.json",
+    "key": "three_lines_by_year[year=2024].uncovered_band_pct"
+   },
+   "verified_by": "verify.py: tools gap_overview 2024: three_lines"
+  },
+  {
+   "id": "metric:poor_not_eligible_2024",
+   "type": "metric",
+   "label": "Share of people below the subsistence minimum who are not income-eligible for TSA, 2024",
+   "value": 72.8,
+   "unit": "% of people below the regional subsistence minimum",
+   "year": 2024,
+   "note": "results.json: three_lines_by_year[year=2024].share_of_poor_not_eligible_pct",
+   "source": {
+    "file": "results/results.json",
+    "key": "three_lines_by_year[year=2024].share_of_poor_not_eligible_pct"
+   },
+   "verified_by": "verify.py: tools gap_overview 2024: three_lines"
+  },
+  {
+   "id": "metric:at_risk_b_c_2024",
+   "type": "metric",
+   "label": "Levels B and C together: above the subsistence minimum but failing a stress test, 2024, base tests",
+   "value": 7.48,
+   "unit": "% of people in the sample",
+   "year": 2024,
+   "note": "results.json: gap_by_year_regional_line[year=2024].at_risk_pct",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_year_regional_line[year=2024].at_risk_pct"
+   },
+   "verified_by": "verify.py: 2024 levels B and C, share of people"
+  },
+  {
+   "id": "metric:at_risk_b_c_2024_weak",
+   "type": "metric",
+   "label": "Levels B and C together, 2024, weak stress tests",
+   "value": 3.22,
+   "unit": "% of people in the sample",
+   "year": 2024,
+   "note": "results.json: levels_by_stress_version_2024[version=weak].at_risk_pct",
+   "source": {
+    "file": "results/results.json",
+    "key": "levels_by_stress_version_2024[version=weak].at_risk_pct"
+   }
+  },
+  {
+   "id": "metric:at_risk_b_c_2024_strong",
+   "type": "metric",
+   "label": "Levels B and C together, 2024, strong stress tests",
+   "value": 18.25,
+   "unit": "% of people in the sample",
+   "year": 2024,
+   "note": "results.json: levels_by_stress_version_2024[version=strong].at_risk_pct",
+   "source": {
+    "file": "results/results.json",
+    "key": "levels_by_stress_version_2024[version=strong].at_risk_pct"
+   }
+  },
+  {
+   "id": "metric:median_income_per_capita_2024",
+   "type": "metric",
+   "label": "Median income per person, 2024",
+   "value": 95839,
+   "unit": "tenge per person per month",
+   "year": 2024,
+   "note": "results.json: gap_by_year_regional_line[year=2024].median_income_per_capita",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_year_regional_line[year=2024].median_income_per_capita"
+   }
+  },
+  {
+   "id": "metric:gap_to_sm_per_capita_2024",
+   "type": "metric",
+   "label": "Shortfall to the subsistence minimum per person of the sample, 2024",
+   "value": 12253,
+   "unit": "tenge per person of the sample per year",
+   "year": 2024,
+   "note": "results.json: gap_by_year_regional_line[year=2024].gap_to_sm_per_capita_year",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_year_regional_line[year=2024].gap_to_sm_per_capita_year"
+   }
+  },
+  {
+   "id": "metric:equivalised_below_sm_2024",
+   "type": "metric",
+   "label": "Share below the subsistence minimum with the Bureau's equivalence scale, same line, 2024",
+   "value": 4.73,
+   "unit": "% of people in the sample",
+   "year": 2024,
+   "note": "results.json: equivalence_2024.below_sm_equivalised_same_line_pct",
+   "source": {
+    "file": "results/results.json",
+    "key": "equivalence_2024.below_sm_equivalised_same_line_pct"
+   },
+   "verified_by": "verify.py: 2024 equivalised income, same line"
+  },
+  {
+   "id": "metric:equal_budget_per_capita_2024",
+   "type": "metric",
+   "label": "Equal budget used to compare the measures, 2024",
+   "value": 12253,
+   "unit": "tenge per person of the sample per year",
+   "year": 2024,
+   "note": "results.json: compare_equal_budget_2024.equal_cost_per_capita",
+   "source": {
+    "file": "results/results.json",
+    "key": "compare_equal_budget_2024.equal_cost_per_capita"
+   }
+  },
+  {
+   "id": "metric:poverty_rate_sm_by_region_2024",
+   "type": "metric",
+   "label": "Share of people below the regional subsistence minimum by region, 2024",
+   "value": null,
+   "unit": "% of people in the region's sample",
+   "year": 2024,
+   "note": "results.json: gap_by_region_2024; the values are on the region nodes",
+   "source": {
+    "file": "results/results.json",
+    "key": "gap_by_region_2024"
+   }
+  },
+  {
+   "id": "policy:tsa_topup",
+   "type": "policy",
+   "label": "Measure: TSA top-up to 100% SM",
+   "value": 0.0,
+   "unit": "% of people in the sample below the regional subsistence minimum after the measure",
+   "year": 2024,
+   "note": "results.json: compare_equal_budget_2024.results[0].after_policy.poverty_rate_sm_pct. measure tuned to the equal budget; cost in the same record: cost.per_capita_tenge_year. legal check needed: TSA also has non-income conditions and its rule changed in 2025",
+   "source": {
+    "file": "results/results.json",
+    "key": "compare_equal_budget_2024.results[0].after_policy.poverty_rate_sm_pct"
+   }
+  },
+  {
+   "id": "policy:tsa_topup_2",
+   "type": "policy",
+   "label": "Measure: TSA top-up to 111% SM, take-up 60%",
+   "value": 3.42,
+   "unit": "% of people in the sample below the regional subsistence minimum after the measure",
+   "year": 2024,
+   "note": "results.json: compare_equal_budget_2024.results[1].after_policy.poverty_rate_sm_pct. measure tuned to the equal budget; cost in the same record: cost.per_capita_tenge_year. legal check needed: TSA also has non-income conditions and its rule changed in 2025",
+   "source": {
+    "file": "results/results.json",
+    "key": "compare_equal_budget_2024.results[1].after_policy.poverty_rate_sm_pct"
+   }
+  },
+  {
+   "id": "policy:child_allowance",
+   "type": "policy",
+   "label": "Measure: Child allowance 3,041 tg/mo per child, families with 1+ children",
+   "value": 8.08,
+   "unit": "% of people in the sample below the regional subsistence minimum after the measure",
+   "year": 2024,
+   "note": "results.json: compare_equal_budget_2024.results[2].after_policy.poverty_rate_sm_pct. measure tuned to the equal budget; cost in the same record: cost.per_capita_tenge_year",
+   "source": {
+    "file": "results/results.json",
+    "key": "compare_equal_budget_2024.results[2].after_policy.poverty_rate_sm_pct"
+   }
+  },
+  {
+   "id": "policy:child_allowance_2",
+   "type": "policy",
+   "label": "Measure: Child allowance 11,450 tg/mo per child, families with 4+ children",
+   "value": 7.43,
+   "unit": "% of people in the sample below the regional subsistence minimum after the measure",
+   "year": 2024,
+   "note": "results.json: compare_equal_budget_2024.results[3].after_policy.poverty_rate_sm_pct. measure tuned to the equal budget; cost in the same record: cost.per_capita_tenge_year",
+   "source": {
+    "file": "results/results.json",
+    "key": "compare_equal_budget_2024.results[3].after_policy.poverty_rate_sm_pct"
+   }
+  },
+  {
+   "id": "metric:quick_screen_auc_2024",
+   "type": "metric",
+   "label": "No-income screen (logistic, composition and region): AUC on 2024",
+   "value": 0.829,
+   "unit": "AUC, 0..1",
+   "year": 2024,
+   "note": "quick_screen.json: models[0].auc",
+   "source": {
+    "file": "results/quick_screen.json",
+    "key": "models[0].auc"
+   }
+  },
+  {
+   "id": "metric:quick_screen_top20_found_2024",
+   "type": "metric",
+   "label": "No-income screen: share of people below the minimum found among the 20% with the highest risk, 2024",
+   "value": 62.8,
+   "unit": "% of people below the regional subsistence minimum",
+   "year": 2024,
+   "note": "quick_screen.json: models[0].flag_top_20pct.found_pct",
+   "source": {
+    "file": "results/quick_screen.json",
+    "key": "models[0].flag_top_20pct.found_pct"
+   }
+  }
+ ],
+ "edges": [
+  {
+   "from": "caveat:no_food_spending",
+   "to": "form:D-003",
+   "relation": "refers_to"
+  },
+  {
+   "from": "caveat:unused_forms",
+   "to": "form:D-002",
+   "relation": "refers_to"
+  },
+  {
+   "from": "caveat:unused_forms",
+   "to": "form:D-006",
+   "relation": "refers_to"
+  },
+  {
+   "from": "caveat:unused_forms",
+   "to": "form:T-001",
+   "relation": "refers_to"
+  },
+  {
+   "from": "region:Abai",
+   "to": "sm:2022:Abai",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2022:Abai",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Abai",
+   "to": "sm:2023:Abai",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2023:Abai",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Abai",
+   "to": "sm:2024:Abai",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2024:Abai",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Akmola",
+   "to": "sm:2022:Akmola",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2022:Akmola",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Akmola",
+   "to": "sm:2023:Akmola",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2023:Akmola",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Akmola",
+   "to": "sm:2024:Akmola",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2024:Akmola",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Aktobe",
+   "to": "sm:2022:Aktobe",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2022:Aktobe",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Aktobe",
+   "to": "sm:2023:Aktobe",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2023:Aktobe",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Aktobe",
+   "to": "sm:2024:Aktobe",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2024:Aktobe",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Almaty region",
+   "to": "sm:2022:Almaty region",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2022:Almaty region",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Almaty region",
+   "to": "sm:2023:Almaty region",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2023:Almaty region",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Almaty region",
+   "to": "sm:2024:Almaty region",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2024:Almaty region",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Atyrau",
+   "to": "sm:2022:Atyrau",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2022:Atyrau",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Atyrau",
+   "to": "sm:2023:Atyrau",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2023:Atyrau",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Atyrau",
+   "to": "sm:2024:Atyrau",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2024:Atyrau",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:West Kazakhstan",
+   "to": "sm:2022:West Kazakhstan",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2022:West Kazakhstan",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:West Kazakhstan",
+   "to": "sm:2023:West Kazakhstan",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2023:West Kazakhstan",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:West Kazakhstan",
+   "to": "sm:2024:West Kazakhstan",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2024:West Kazakhstan",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Zhambyl",
+   "to": "sm:2022:Zhambyl",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2022:Zhambyl",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Zhambyl",
+   "to": "sm:2023:Zhambyl",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2023:Zhambyl",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Zhambyl",
+   "to": "sm:2024:Zhambyl",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2024:Zhambyl",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Zhetisu",
+   "to": "sm:2022:Zhetisu",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2022:Zhetisu",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Zhetisu",
+   "to": "sm:2023:Zhetisu",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2023:Zhetisu",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Zhetisu",
+   "to": "sm:2024:Zhetisu",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2024:Zhetisu",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Karaganda",
+   "to": "sm:2022:Karaganda",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2022:Karaganda",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Karaganda",
+   "to": "sm:2023:Karaganda",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2023:Karaganda",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Karaganda",
+   "to": "sm:2024:Karaganda",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2024:Karaganda",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Kostanay",
+   "to": "sm:2022:Kostanay",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2022:Kostanay",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Kostanay",
+   "to": "sm:2023:Kostanay",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2023:Kostanay",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Kostanay",
+   "to": "sm:2024:Kostanay",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2024:Kostanay",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Kyzylorda",
+   "to": "sm:2022:Kyzylorda",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2022:Kyzylorda",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Kyzylorda",
+   "to": "sm:2023:Kyzylorda",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2023:Kyzylorda",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Kyzylorda",
+   "to": "sm:2024:Kyzylorda",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2024:Kyzylorda",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Mangystau",
+   "to": "sm:2022:Mangystau",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2022:Mangystau",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Mangystau",
+   "to": "sm:2023:Mangystau",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2023:Mangystau",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Mangystau",
+   "to": "sm:2024:Mangystau",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2024:Mangystau",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Pavlodar",
+   "to": "sm:2022:Pavlodar",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2022:Pavlodar",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Pavlodar",
+   "to": "sm:2023:Pavlodar",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2023:Pavlodar",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Pavlodar",
+   "to": "sm:2024:Pavlodar",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2024:Pavlodar",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:North Kazakhstan",
+   "to": "sm:2022:North Kazakhstan",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2022:North Kazakhstan",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:North Kazakhstan",
+   "to": "sm:2023:North Kazakhstan",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2023:North Kazakhstan",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:North Kazakhstan",
+   "to": "sm:2024:North Kazakhstan",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2024:North Kazakhstan",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Turkestan",
+   "to": "sm:2022:Turkestan",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2022:Turkestan",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Turkestan",
+   "to": "sm:2023:Turkestan",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2023:Turkestan",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Turkestan",
+   "to": "sm:2024:Turkestan",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2024:Turkestan",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Ulytau",
+   "to": "sm:2022:Ulytau",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2022:Ulytau",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Ulytau",
+   "to": "sm:2023:Ulytau",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2023:Ulytau",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Ulytau",
+   "to": "sm:2024:Ulytau",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2024:Ulytau",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:East Kazakhstan",
+   "to": "sm:2022:East Kazakhstan",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2022:East Kazakhstan",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:East Kazakhstan",
+   "to": "sm:2023:East Kazakhstan",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2023:East Kazakhstan",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:East Kazakhstan",
+   "to": "sm:2024:East Kazakhstan",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2024:East Kazakhstan",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Astana city",
+   "to": "sm:2022:Astana city",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2022:Astana city",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Astana city",
+   "to": "sm:2023:Astana city",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2023:Astana city",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Astana city",
+   "to": "sm:2024:Astana city",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2024:Astana city",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Almaty city",
+   "to": "sm:2022:Almaty city",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2022:Almaty city",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Almaty city",
+   "to": "sm:2023:Almaty city",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2023:Almaty city",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Almaty city",
+   "to": "sm:2024:Almaty city",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2024:Almaty city",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Shymkent city",
+   "to": "sm:2022:Shymkent city",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2022:Shymkent city",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Shymkent city",
+   "to": "sm:2023:Shymkent city",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2023:Shymkent city",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Shymkent city",
+   "to": "sm:2024:Shymkent city",
+   "relation": "has_sm"
+  },
+  {
+   "from": "sm:2024:Shymkent city",
+   "to": "caveat:regional_sm_source",
+   "relation": "limited_by"
+  },
+  {
+   "from": "sm:2024:Abai",
+   "to": "threshold:tsa_line_70pct",
+   "relation": "defines",
+   "note": "coefficient 0.7"
+  },
+  {
+   "from": "sm:2024:Abai",
+   "to": "threshold:regional_sm",
+   "relation": "defines",
+   "note": "coefficient 1"
+  },
+  {
+   "from": "sm:2024:Akmola",
+   "to": "threshold:tsa_line_70pct",
+   "relation": "defines",
+   "note": "coefficient 0.7"
+  },
+  {
+   "from": "sm:2024:Akmola",
+   "to": "threshold:regional_sm",
+   "relation": "defines",
+   "note": "coefficient 1"
+  },
+  {
+   "from": "sm:2024:Aktobe",
+   "to": "threshold:tsa_line_70pct",
+   "relation": "defines",
+   "note": "coefficient 0.7"
+  },
+  {
+   "from": "sm:2024:Aktobe",
+   "to": "threshold:regional_sm",
+   "relation": "defines",
+   "note": "coefficient 1"
+  },
+  {
+   "from": "sm:2024:Almaty region",
+   "to": "threshold:tsa_line_70pct",
+   "relation": "defines",
+   "note": "coefficient 0.7"
+  },
+  {
+   "from": "sm:2024:Almaty region",
+   "to": "threshold:regional_sm",
+   "relation": "defines",
+   "note": "coefficient 1"
+  },
+  {
+   "from": "sm:2024:Atyrau",
+   "to": "threshold:tsa_line_70pct",
+   "relation": "defines",
+   "note": "coefficient 0.7"
+  },
+  {
+   "from": "sm:2024:Atyrau",
+   "to": "threshold:regional_sm",
+   "relation": "defines",
+   "note": "coefficient 1"
+  },
+  {
+   "from": "sm:2024:West Kazakhstan",
+   "to": "threshold:tsa_line_70pct",
+   "relation": "defines",
+   "note": "coefficient 0.7"
+  },
+  {
+   "from": "sm:2024:West Kazakhstan",
+   "to": "threshold:regional_sm",
+   "relation": "defines",
+   "note": "coefficient 1"
+  },
+  {
+   "from": "sm:2024:Zhambyl",
+   "to": "threshold:tsa_line_70pct",
+   "relation": "defines",
+   "note": "coefficient 0.7"
+  },
+  {
+   "from": "sm:2024:Zhambyl",
+   "to": "threshold:regional_sm",
+   "relation": "defines",
+   "note": "coefficient 1"
+  },
+  {
+   "from": "sm:2024:Zhetisu",
+   "to": "threshold:tsa_line_70pct",
+   "relation": "defines",
+   "note": "coefficient 0.7"
+  },
+  {
+   "from": "sm:2024:Zhetisu",
+   "to": "threshold:regional_sm",
+   "relation": "defines",
+   "note": "coefficient 1"
+  },
+  {
+   "from": "sm:2024:Karaganda",
+   "to": "threshold:tsa_line_70pct",
+   "relation": "defines",
+   "note": "coefficient 0.7"
+  },
+  {
+   "from": "sm:2024:Karaganda",
+   "to": "threshold:regional_sm",
+   "relation": "defines",
+   "note": "coefficient 1"
+  },
+  {
+   "from": "sm:2024:Kostanay",
+   "to": "threshold:tsa_line_70pct",
+   "relation": "defines",
+   "note": "coefficient 0.7"
+  },
+  {
+   "from": "sm:2024:Kostanay",
+   "to": "threshold:regional_sm",
+   "relation": "defines",
+   "note": "coefficient 1"
+  },
+  {
+   "from": "sm:2024:Kyzylorda",
+   "to": "threshold:tsa_line_70pct",
+   "relation": "defines",
+   "note": "coefficient 0.7"
+  },
+  {
+   "from": "sm:2024:Kyzylorda",
+   "to": "threshold:regional_sm",
+   "relation": "defines",
+   "note": "coefficient 1"
+  },
+  {
+   "from": "sm:2024:Mangystau",
+   "to": "threshold:tsa_line_70pct",
+   "relation": "defines",
+   "note": "coefficient 0.7"
+  },
+  {
+   "from": "sm:2024:Mangystau",
+   "to": "threshold:regional_sm",
+   "relation": "defines",
+   "note": "coefficient 1"
+  },
+  {
+   "from": "sm:2024:Pavlodar",
+   "to": "threshold:tsa_line_70pct",
+   "relation": "defines",
+   "note": "coefficient 0.7"
+  },
+  {
+   "from": "sm:2024:Pavlodar",
+   "to": "threshold:regional_sm",
+   "relation": "defines",
+   "note": "coefficient 1"
+  },
+  {
+   "from": "sm:2024:North Kazakhstan",
+   "to": "threshold:tsa_line_70pct",
+   "relation": "defines",
+   "note": "coefficient 0.7"
+  },
+  {
+   "from": "sm:2024:North Kazakhstan",
+   "to": "threshold:regional_sm",
+   "relation": "defines",
+   "note": "coefficient 1"
+  },
+  {
+   "from": "sm:2024:Turkestan",
+   "to": "threshold:tsa_line_70pct",
+   "relation": "defines",
+   "note": "coefficient 0.7"
+  },
+  {
+   "from": "sm:2024:Turkestan",
+   "to": "threshold:regional_sm",
+   "relation": "defines",
+   "note": "coefficient 1"
+  },
+  {
+   "from": "sm:2024:Ulytau",
+   "to": "threshold:tsa_line_70pct",
+   "relation": "defines",
+   "note": "coefficient 0.7"
+  },
+  {
+   "from": "sm:2024:Ulytau",
+   "to": "threshold:regional_sm",
+   "relation": "defines",
+   "note": "coefficient 1"
+  },
+  {
+   "from": "sm:2024:East Kazakhstan",
+   "to": "threshold:tsa_line_70pct",
+   "relation": "defines",
+   "note": "coefficient 0.7"
+  },
+  {
+   "from": "sm:2024:East Kazakhstan",
+   "to": "threshold:regional_sm",
+   "relation": "defines",
+   "note": "coefficient 1"
+  },
+  {
+   "from": "sm:2024:Astana city",
+   "to": "threshold:tsa_line_70pct",
+   "relation": "defines",
+   "note": "coefficient 0.7"
+  },
+  {
+   "from": "sm:2024:Astana city",
+   "to": "threshold:regional_sm",
+   "relation": "defines",
+   "note": "coefficient 1"
+  },
+  {
+   "from": "sm:2024:Almaty city",
+   "to": "threshold:tsa_line_70pct",
+   "relation": "defines",
+   "note": "coefficient 0.7"
+  },
+  {
+   "from": "sm:2024:Almaty city",
+   "to": "threshold:regional_sm",
+   "relation": "defines",
+   "note": "coefficient 1"
+  },
+  {
+   "from": "sm:2024:Shymkent city",
+   "to": "threshold:tsa_line_70pct",
+   "relation": "defines",
+   "note": "coefficient 0.7"
+  },
+  {
+   "from": "sm:2024:Shymkent city",
+   "to": "threshold:regional_sm",
+   "relation": "defines",
+   "note": "coefficient 1"
+  },
+  {
+   "from": "threshold:regional_sm",
+   "to": "tier:A_resilient",
+   "relation": "decides"
+  },
+  {
+   "from": "threshold:regional_sm",
+   "to": "tier:B_fails_one_test",
+   "relation": "decides"
+  },
+  {
+   "from": "threshold:regional_sm",
+   "to": "tier:C_fails_two_or_more",
+   "relation": "decides"
+  },
+  {
+   "from": "threshold:tsa_line_70pct",
+   "to": "tier:D_below_sm",
+   "relation": "decides"
+  },
+  {
+   "from": "threshold:regional_sm",
+   "to": "tier:D_below_sm",
+   "relation": "decides"
+  },
+  {
+   "from": "threshold:tsa_line_70pct",
+   "to": "tier:E_below_tsa_line",
+   "relation": "decides"
+  },
+  {
+   "from": "stress:earner_loss",
+   "to": "tier:B_fails_one_test",
+   "relation": "moves",
+   "note": "a household above the minimum that fails one test is level B, two or more level C"
+  },
+  {
+   "from": "stress:earner_loss",
+   "to": "tier:C_fails_two_or_more",
+   "relation": "moves",
+   "note": "a household above the minimum that fails one test is level B, two or more level C"
+  },
+  {
+   "from": "stress:earner_loss",
+   "to": "caveat:static_model",
+   "relation": "limited_by"
+  },
+  {
+   "from": "stress:cost_of_living",
+   "to": "tier:B_fails_one_test",
+   "relation": "moves",
+   "note": "a household above the minimum that fails one test is level B, two or more level C"
+  },
+  {
+   "from": "stress:cost_of_living",
+   "to": "tier:C_fails_two_or_more",
+   "relation": "moves",
+   "note": "a household above the minimum that fails one test is level B, two or more level C"
+  },
+  {
+   "from": "stress:cost_of_living",
+   "to": "caveat:static_model",
+   "relation": "limited_by"
+  },
+  {
+   "from": "stress:utilities",
+   "to": "tier:B_fails_one_test",
+   "relation": "moves",
+   "note": "a household above the minimum that fails one test is level B, two or more level C"
+  },
+  {
+   "from": "stress:utilities",
+   "to": "tier:C_fails_two_or_more",
+   "relation": "moves",
+   "note": "a household above the minimum that fails one test is level B, two or more level C"
+  },
+  {
+   "from": "stress:utilities",
+   "to": "caveat:static_model",
+   "relation": "limited_by"
+  },
+  {
+   "from": "stress:extra_dependant",
+   "to": "tier:B_fails_one_test",
+   "relation": "moves",
+   "note": "a household above the minimum that fails one test is level B, two or more level C"
+  },
+  {
+   "from": "stress:extra_dependant",
+   "to": "tier:C_fails_two_or_more",
+   "relation": "moves",
+   "note": "a household above the minimum that fails one test is level B, two or more level C"
+  },
+  {
+   "from": "stress:extra_dependant",
+   "to": "caveat:static_model",
+   "relation": "limited_by"
+  },
+  {
+   "from": "stress:earner_loss",
+   "to": "caveat:earner_type_approximated",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024",
+   "to": "caveat:income_not_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024",
+   "to": "caveat:official_poverty_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024_ci_low",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024_ci_low",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024_ci_low",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024_ci_low",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024_ci_low",
+   "to": "caveat:income_not_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024_ci_low",
+   "to": "caveat:official_poverty_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024_ci_high",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024_ci_high",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024_ci_high",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024_ci_high",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024_ci_high",
+   "to": "caveat:income_not_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024_ci_high",
+   "to": "caveat:official_poverty_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:below_tsa_line_2024",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:below_tsa_line_2024",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:below_tsa_line_2024",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:below_tsa_line_2024",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:below_tsa_line_2024",
+   "to": "caveat:income_not_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:below_tsa_line_2024",
+   "to": "caveat:official_poverty_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:below_budget_sm_2024",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:below_budget_sm_2024",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:below_budget_sm_2024",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:below_budget_sm_2024",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:below_budget_sm_2024",
+   "to": "caveat:income_not_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:below_budget_sm_2024",
+   "to": "caveat:official_poverty_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:uncovered_band_2024",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:uncovered_band_2024",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:uncovered_band_2024",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:uncovered_band_2024",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:uncovered_band_2024",
+   "to": "caveat:income_not_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:uncovered_band_2024",
+   "to": "caveat:official_poverty_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poor_not_eligible_2024",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:poor_not_eligible_2024",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:poor_not_eligible_2024",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poor_not_eligible_2024",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poor_not_eligible_2024",
+   "to": "caveat:income_not_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poor_not_eligible_2024",
+   "to": "caveat:official_poverty_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:at_risk_b_c_2024",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:at_risk_b_c_2024",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:at_risk_b_c_2024",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:at_risk_b_c_2024",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:at_risk_b_c_2024",
+   "to": "caveat:income_not_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:at_risk_b_c_2024",
+   "to": "caveat:official_poverty_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:at_risk_b_c_2024_weak",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:at_risk_b_c_2024_weak",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:at_risk_b_c_2024_weak",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:at_risk_b_c_2024_weak",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:at_risk_b_c_2024_weak",
+   "to": "caveat:income_not_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:at_risk_b_c_2024_weak",
+   "to": "caveat:official_poverty_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:at_risk_b_c_2024_strong",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:at_risk_b_c_2024_strong",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:at_risk_b_c_2024_strong",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:at_risk_b_c_2024_strong",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:at_risk_b_c_2024_strong",
+   "to": "caveat:income_not_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:at_risk_b_c_2024_strong",
+   "to": "caveat:official_poverty_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:median_income_per_capita_2024",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:median_income_per_capita_2024",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:median_income_per_capita_2024",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:median_income_per_capita_2024",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:median_income_per_capita_2024",
+   "to": "caveat:income_not_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:median_income_per_capita_2024",
+   "to": "caveat:official_poverty_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:gap_to_sm_per_capita_2024",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:gap_to_sm_per_capita_2024",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:gap_to_sm_per_capita_2024",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:gap_to_sm_per_capita_2024",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:gap_to_sm_per_capita_2024",
+   "to": "caveat:income_not_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:gap_to_sm_per_capita_2024",
+   "to": "caveat:official_poverty_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:equivalised_below_sm_2024",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:equivalised_below_sm_2024",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:equivalised_below_sm_2024",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:equivalised_below_sm_2024",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:equivalised_below_sm_2024",
+   "to": "caveat:income_not_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:equivalised_below_sm_2024",
+   "to": "caveat:official_poverty_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:equal_budget_per_capita_2024",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:equal_budget_per_capita_2024",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:equal_budget_per_capita_2024",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:equal_budget_per_capita_2024",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:equal_budget_per_capita_2024",
+   "to": "caveat:income_not_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:equal_budget_per_capita_2024",
+   "to": "caveat:official_poverty_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_by_region_2024",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:poverty_rate_sm_by_region_2024",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:poverty_rate_sm_by_region_2024",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_by_region_2024",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_by_region_2024",
+   "to": "caveat:income_not_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_by_region_2024",
+   "to": "caveat:official_poverty_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_by_region_2024",
+   "to": "caveat:repeated_cross_sections",
+   "relation": "limited_by"
+  },
+  {
+   "from": "region:Abai",
+   "to": "metric:poverty_rate_sm_by_region_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "region:Akmola",
+   "to": "metric:poverty_rate_sm_by_region_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "region:Aktobe",
+   "to": "metric:poverty_rate_sm_by_region_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "region:Almaty region",
+   "to": "metric:poverty_rate_sm_by_region_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "region:Atyrau",
+   "to": "metric:poverty_rate_sm_by_region_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "region:West Kazakhstan",
+   "to": "metric:poverty_rate_sm_by_region_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "region:Zhambyl",
+   "to": "metric:poverty_rate_sm_by_region_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "region:Zhetisu",
+   "to": "metric:poverty_rate_sm_by_region_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "region:Karaganda",
+   "to": "metric:poverty_rate_sm_by_region_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "region:Kostanay",
+   "to": "metric:poverty_rate_sm_by_region_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "region:Kyzylorda",
+   "to": "metric:poverty_rate_sm_by_region_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "region:Mangystau",
+   "to": "metric:poverty_rate_sm_by_region_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "region:Pavlodar",
+   "to": "metric:poverty_rate_sm_by_region_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "region:North Kazakhstan",
+   "to": "metric:poverty_rate_sm_by_region_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "region:Turkestan",
+   "to": "metric:poverty_rate_sm_by_region_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "region:Ulytau",
+   "to": "metric:poverty_rate_sm_by_region_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "region:East Kazakhstan",
+   "to": "metric:poverty_rate_sm_by_region_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "region:Astana city",
+   "to": "metric:poverty_rate_sm_by_region_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "region:Almaty city",
+   "to": "metric:poverty_rate_sm_by_region_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "region:Shymkent city",
+   "to": "metric:poverty_rate_sm_by_region_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024",
+   "to": "caveat:repeated_cross_sections",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024",
+   "to": "caveat:unused_forms",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024",
+   "to": "caveat:no_food_spending",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:equivalised_below_sm_2024",
+   "to": "caveat:static_model",
+   "relation": "limited_by"
+  },
+  {
+   "from": "threshold:tsa_line_70pct",
+   "to": "metric:below_tsa_line_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "threshold:regional_sm",
+   "to": "metric:poverty_rate_sm_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "threshold:budget_sm",
+   "to": "metric:below_budget_sm_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "tier:E_below_tsa_line",
+   "to": "metric:below_tsa_line_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "tier:E_below_tsa_line",
+   "to": "metric:poverty_rate_sm_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "tier:D_below_sm",
+   "to": "metric:poverty_rate_sm_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "tier:D_below_sm",
+   "to": "metric:uncovered_band_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "tier:D_below_sm",
+   "to": "metric:poor_not_eligible_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "tier:C_fails_two_or_more",
+   "to": "metric:at_risk_b_c_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "tier:B_fails_one_test",
+   "to": "metric:at_risk_b_c_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "tier:A_resilient",
+   "to": "metric:median_income_per_capita_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024",
+   "to": "metric:poverty_rate_sm_2024_ci_low",
+   "relation": "has_metric"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024",
+   "to": "metric:poverty_rate_sm_2024_ci_high",
+   "relation": "has_metric"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024",
+   "to": "metric:equivalised_below_sm_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024",
+   "to": "metric:gap_to_sm_per_capita_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "metric:at_risk_b_c_2024",
+   "to": "metric:at_risk_b_c_2024_weak",
+   "relation": "has_metric"
+  },
+  {
+   "from": "metric:at_risk_b_c_2024",
+   "to": "metric:at_risk_b_c_2024_strong",
+   "relation": "has_metric"
+  },
+  {
+   "from": "policy:tsa_topup",
+   "to": "metric:poverty_rate_sm_2024",
+   "relation": "changes"
+  },
+  {
+   "from": "policy:tsa_topup",
+   "to": "metric:equal_budget_per_capita_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "policy:tsa_topup",
+   "to": "caveat:static_model",
+   "relation": "limited_by"
+  },
+  {
+   "from": "policy:tsa_topup_2",
+   "to": "metric:poverty_rate_sm_2024",
+   "relation": "changes"
+  },
+  {
+   "from": "policy:tsa_topup_2",
+   "to": "metric:equal_budget_per_capita_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "policy:tsa_topup_2",
+   "to": "caveat:static_model",
+   "relation": "limited_by"
+  },
+  {
+   "from": "policy:child_allowance",
+   "to": "metric:poverty_rate_sm_2024",
+   "relation": "changes"
+  },
+  {
+   "from": "policy:child_allowance",
+   "to": "metric:equal_budget_per_capita_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "policy:child_allowance",
+   "to": "caveat:static_model",
+   "relation": "limited_by"
+  },
+  {
+   "from": "policy:child_allowance_2",
+   "to": "metric:poverty_rate_sm_2024",
+   "relation": "changes"
+  },
+  {
+   "from": "policy:child_allowance_2",
+   "to": "metric:equal_budget_per_capita_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "policy:child_allowance_2",
+   "to": "caveat:static_model",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:quick_screen_auc_2024",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:quick_screen_auc_2024",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:quick_screen_auc_2024",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:quick_screen_auc_2024",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:quick_screen_auc_2024",
+   "to": "caveat:repeated_cross_sections",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024",
+   "to": "metric:quick_screen_auc_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "metric:quick_screen_top20_found_2024",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:quick_screen_top20_found_2024",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:quick_screen_top20_found_2024",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:quick_screen_top20_found_2024",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:quick_screen_top20_found_2024",
+   "to": "caveat:repeated_cross_sections",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024",
+   "to": "metric:quick_screen_top20_found_2024",
+   "relation": "has_metric"
+  }
+ ],
+ "meta": {
+  "engine_version": "0.3.3",
+  "year": 2024,
+  "nodes": 129,
+  "edges": 339,
+  "sources": [
+   "results/quick_screen.json",
+   "results/results.json",
+   "ref/regional_sm_annual_2022_2024.csv"
+  ],
+  "tiers": [
+   "A_resilient",
+   "B_fails_one_test",
+   "C_fails_two_or_more",
+   "D_below_sm",
+   "E_below_tsa_line"
+  ],
+  "tsa_share": 0.7,
+  "built_by": "build_graph.py, without a language model"
+ }
+}
