@@ -3,7 +3,7 @@
     uvicorn app:app --reload --port 8000
 
 Все числа приходят из расчётного ядра qamqor/ (см. core.py). Эндпоинты /api/regions,
-/api/summary и /api/classify работают без ключа. /api/chat — ассистент: Claude вызывает
+/api/summary, /api/classify и /api/risk_screen работают без ключа. /api/chat — ассистент: Claude вызывает
 инструменты ядра и объясняет результат; ему нужен ANTHROPIC_API_KEY в
 agent/backend/.env — без него отвечает понятной ошибкой, а не падает весь сервер.
 """
@@ -91,6 +91,26 @@ def classify(req: ClassifyRequest) -> dict:
         return core.classify_household(**req.model_dump())
     except core.InputError as e:
         # ошибка ввода уходит кодом — текст на нужном языке подставляет интерфейс
+        raise HTTPException(status_code=400, detail={"code": e.code}) from e
+
+
+class RiskScreenRequest(BaseModel):
+    """Состав семьи и регион. Поля дохода здесь нет намеренно: модель его не видит."""
+    model_config = {"extra": "forbid"}
+
+    hh_size: int
+    n_child: int = 0
+    n_child_u7: int = 0
+    n_elderly: int = 0
+    region: int
+    urban: Optional[bool] = None
+
+
+@app.post("/api/risk_screen")
+def risk_screen(req: RiskScreenRequest) -> dict:
+    try:
+        return core.risk_screen(**req.model_dump())
+    except core.InputError as e:
         raise HTTPException(status_code=400, detail={"code": e.code}) from e
 
 

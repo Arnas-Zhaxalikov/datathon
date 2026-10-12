@@ -115,6 +115,24 @@
                 </div>
               </fieldset>
 
+              <fieldset>
+                <legend data-i18n="f_risk_title"></legend>
+                <div class="form-grid">
+                  <label class="field"><span data-i18n="f_child_u7"></span>
+                    <input type="number" id="f-child-u7" min="0" max="30" step="1" value="0" inputmode="numeric">
+                  </label>
+                  <label class="field"><span data-i18n="f_elderly"></span>
+                    <input type="number" id="f-elderly" min="0" max="30" step="1" value="0" inputmode="numeric">
+                  </label>
+                  <label class="field span-2"><span data-i18n="f_urban"></span>
+                    <select id="f-urban">
+                      <option value="1" data-i18n="f_urban_city"></option>
+                      <option value="0" data-i18n="f_urban_village"></option>
+                    </select>
+                  </label>
+                </div>
+              </fieldset>
+
               <p id="family-error" class="form-error hidden" role="alert"></p>
               <button type="submit" class="btn btn-primary" data-i18n="calc">Calculate</button>
             </form>
@@ -175,6 +193,30 @@
                     <h3 class="assumptions-title" data-i18n="as_title"></h3>
                     <ul id="r-assumptions"></ul>
                   </div>
+                </section>
+
+                <!-- оценка без данных о доходе: отдельная модель, дохода не видит -->
+                <section class="card hidden" id="risk-card">
+                  <h2 class="card-title" data-i18n="risk_title"></h2>
+                  <p class="card-lead" data-i18n="risk_lead"></p>
+                  <div class="status-banner risk-banner">
+                    <span class="status-dot" id="risk-dot"></span>
+                    <div>
+                      <h3 class="result-label" id="risk-label"></h3>
+                      <p class="result-sub" id="risk-rank"></p>
+                    </div>
+                  </div>
+                  <div class="assumptions">
+                    <h3 class="assumptions-title" data-i18n="risk_factors_title"></h3>
+                    <ul id="risk-factors"></ul>
+                  </div>
+                  <p class="risk-diverge hidden" id="risk-diverge"></p>
+                  <p class="risk-filter" data-i18n="risk_filter"></p>
+                  <ul class="risk-caveats">
+                    <li id="risk-caveat-recall"></li>
+                    <li data-i18n="risk_caveat_synthetic"></li>
+                  </ul>
+                  <p class="form-error hidden" id="risk-error" role="alert"></p>
                 </section>
 
                 <!-- три стресс-теста -->

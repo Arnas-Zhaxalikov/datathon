@@ -141,6 +141,10 @@ Each region is scored by a model trained on the other 19. Pooled AUC of logistic
 | Aktobe | 0.7715 | 49.3 | 4.32 |
 | Zhambyl | 0.7905 | 41.5 | 12.04 |
 
+## The saved screen model
+
+`model_logit.joblib`: logistic regression on household size, children, children under 7, elderly, working-age adults, urban or rural and region. No income and no number of earners. Trained on 2022–2023, version risk-screen 1.0. On 2024: AUC 0.8433; it finds 60.2% of people below the minimum among the 20% with the highest risk and 40.7% among the top 10%. `scores_2024.csv` holds its risk for every 2024 household; the app turns a risk into a place in that ranking.
+
 ## Not run
 
 - Feature set B (member aggregates, the household head): out/persons.csv is missing; build it with `python build.py <RAW_DATA_DIR> out` and pass --persons out/persons.csv.

@@ -37,7 +37,8 @@ longer be used is in `CHANGES.md`. All final tables are in `results/final_tables
 |---|---|---|
 | `build.py` | Собирает таблицу «семья-год» из D-008 и D-004 | Builds the household-year table from D-008 and D-004 |
 | `engine.py` | Все расчёты: группы, меры, шоки, сравнение | All calculations: tiers, measures, shocks, comparison |
-| `tools.py` | Пять инструментов для языковой модели | Five tools for the language model |
+| `tools.py` | Шесть инструментов для языковой модели | Six tools for the language model |
+| `risk_screen.py` | Оценка риска одной семьи без данных о доходе по сохранённой модели | Income-free risk screen for one household with the saved model |
 | `build_graph.py` | Собирает граф правил и происхождения цифр из `results.json` и CSV | Builds the graph of rules and provenance from `results.json` and the CSV |
 | `results/graph.json` | Граф: узлы, связи, источник каждой цифры | The graph: nodes, edges, the source of every figure |
 | `verify_graph.py` | Проверка графа и инструмента `explain` | A check of the graph and the `explain` tool |
@@ -227,6 +228,29 @@ The second form adds feature set B (member aggregates and the household head, fr
 (`summary.md`, `summary.json`, `leaderboard.csv`, `scores_2024.csv`, four charts). The run takes
 about two minutes.
 
+## Оценка без данных о доходе / The income-free risk screen
+
+**RU.** `poverty_challenge.py` сохраняет логистическую регрессию в
+`results/poverty_challenge/model_logit.joblib` вместе со списком признаков, версией и датой
+обучения. Признаки: размер семьи, дети, дети до 7 лет, пожилые, взрослые трудоспособного возраста,
+город или село, регион. Дохода, числа работающих и ничего, посчитанного из дохода, среди них нет.
+`scores_2024.csv` хранит риск каждой семьи 2024 года: по нему вероятность переводится в место в
+рейтинге («риск выше, чем у X% людей выборки»). `risk_screen.py` применяет модель к одной семье.
+Это фильтр, а не решение: на 2024 году модель находит около 60% людей ниже минимума среди 20% с
+наибольшим риском и остальных пропускает.
+
+**EN.** `poverty_challenge.py` saves a logistic regression to
+`results/poverty_challenge/model_logit.joblib` with its feature list, version and training date.
+Features: household size, children, children under 7, elderly, working-age adults, urban or rural,
+region. No income, no number of earners, nothing derived from income. `scores_2024.csv` holds the
+risk of every 2024 household and turns a probability into a place in the ranking. `risk_screen.py`
+applies the model to one household. It is a filter, not a decision: on 2024 it finds about 60% of
+people below the minimum among the 20% with the highest risk and misses the rest.
+
+```python
+tools.call("risk_screen", {"size": 6, "n_child": 4, "region": "Shymkent city"})
+```
+
 ## Инструменты / Tools
 
 | Инструмент / Tool | RU | EN |
@@ -236,6 +260,7 @@ about two minutes.
 | `compare_policies` | Несколько мер рядом, при равном бюджете | Several measures side by side, at an equal budget |
 | `check_household` | Одна семья по описанию | One household from a description |
 | `explain` | Откуда цифра и по какому правилу она получена | Where a figure comes from and which rule produced it |
+| `risk_screen` | Оценка риска одной семьи без данных о доходе: место в рейтинге, уровень, факторы | Income-free risk screen for one household: rank, level, factors |
 
 **RU.** `explain` ничего не считает. Он читает `results/graph.json` — граф, который
 `build_graph.py` собирает из `results.json`, `quick_screen.json` и CSV прожиточных минимумов без

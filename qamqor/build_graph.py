@@ -310,6 +310,28 @@ def build(results_path: str, sm_path: str) -> dict:
                 g.edge(mid, f"caveat:{c}", "limited_by")
             g.edge(rate, mid, "has_metric")
 
+    # ---- оценка без данных о доходе: сохранённая модель / the saved income-free screen model -------
+    if CHALLENGE in files and "screen_model" in files[CHALLENGE]:
+        g.node("caveat:risk_screen_filter", "caveat", "The risk screen is a filter, not a decision: it says whom to check and "
+               "misses part of the people below the minimum; eligibility is decided on income")
+        for key, field, label, unit in [
+            ("risk_screen_auc_2024", "test_auc", "Risk screen (saved logistic regression, no income): AUC on 2024", "AUC, 0..1"),
+            ("risk_screen_recall_top20_2024", "recall_top20_pct",
+             "Risk screen: share of people below the minimum found among the 20% with the highest risk, 2024",
+             "% of people below the regional subsistence minimum"),
+            ("risk_screen_recall_top10_2024", "recall_top10_pct",
+             "Risk screen: share of people below the minimum found among the 10% with the highest risk, 2024",
+             "% of people below the regional subsistence minimum"),
+        ]:
+            mid = g.figure(f"metric:{key}", "metric", label, CHALLENGE, f"screen_model.{field}", unit,
+                           note="poverty_challenge.py saves the model as model_logit.joblib; features: household size, children, "
+                                "children under 7, elderly, working-age adults, urban or rural, region; train 2022-2023, test 2024")
+            for code in ("D-008", "D-004"):
+                g.edge(mid, f"form:{code}", "computed_from")
+            for c in ("risk_screen_filter", "h4_income_free", "synthetic_data", "no_weights", "income_not_consumption"):
+                g.edge(mid, f"caveat:{c}", "limited_by")
+            g.edge(rate, mid, "has_metric")
+
     return {"nodes": list(g.nodes.values()), "edges": g.edges,
             "meta": {"engine_version": R.get("version"), "year": YEAR, "nodes": len(g.nodes), "edges": len(g.edges),
                      "sources": sorted(files) + [SM_CSV], "tiers": E.TIERS, "tsa_share": E.TSA_SHARE,

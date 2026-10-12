@@ -23,6 +23,13 @@ EN: The fifth tool, explain, computes nothing: it reads the graph of rules and p
     tools.call("explain", {"node": "threshold:tsa_line_70pct"})
     tools.call("explain", {"node": "sm:2024:Astana city", "depth": 2})
     tools.call("explain", {"node": "Astana", "year": 2023})   # часть названия / part of a name
+
+RU: Шестой инструмент, risk_screen, оценивает риск одной семьи без данных о доходе по сохранённой
+    логистической регрессии (risk_screen.py). Это фильтр, а не решение.
+EN: The sixth tool, risk_screen, screens one household without income data with the saved
+    logistic regression (risk_screen.py). It is a filter, not a decision.
+
+    tools.call("risk_screen", {"size": 6, "n_child": 4, "region": "Shymkent city"})
 """
 from __future__ import annotations
 
@@ -33,6 +40,7 @@ from pathlib import Path
 import pandas as pd
 
 import engine as E
+import risk_screen as RS
 
 _DATA: pd.DataFrame | None = None
 _GRAPH: dict | None = None
@@ -155,6 +163,24 @@ TOOLS = [
                      "description": "Optional. Prefers nodes of this year and hides neighbours of other years."}},
             "required": ["node"]},
     },
+    {
+        "name": "risk_screen",
+        "description": "Income-free risk screen for one household. A saved logistic regression sees only household "
+                       "composition, region and urban or rural; income is NOT an input and must not be asked for. "
+                       "Returns the place in the ranking of 2024 sample households ('risk higher than X% of people in "
+                       "the sample'), a level (high: top 10%, elevated: top 10-20%, usual: the rest) and the main "
+                       "factors from the regression coefficients, against the average household. It is a filter that "
+                       "says whom to check, not a decision: eligibility is decided on income (check_household). To "
+                       "answer 'where does this figure come from', call explain with the ids in explain_nodes.",
+        "input_schema": {"type": "object", "properties": {
+            "size": {"type": "integer", "description": "Number of people in the household."},
+            "n_child": {"type": "integer", "description": "Children under 18. Default 0."},
+            "n_child_u7": {"type": "integer", "description": "Of them, children under 7. Default 0."},
+            "n_elderly": {"type": "integer", "description": "Members aged 63 or over. Default 0."},
+            "region": _REGION,
+            "urban": {"type": "boolean", "description": "True for a town, false for a village. Omit if unknown: urban is assumed."}},
+            "required": ["size", "region"]},
+    },
 ]
 
 CAVEATS = [
@@ -165,6 +191,12 @@ CAVEATS = [
     "The main earner's employment type is not in the household table: the wage share of the household's labour income is used to apply the 45% replacement.",
     "Static model: no behavioural response; full take-up unless stated.",
     "Income-based poverty; official statistics use consumption.",
+]
+RISK_CAVEATS = [
+    "A filter, not a decision: it says whom to check. Eligibility for assistance is decided on income.",
+    "The model misses part of the people below the minimum: see recall_top20_pct in the result (share found among the 20% with the highest risk).",
+    "Synthetic data without survey weights: the estimate is illustrative. The rank is a place among the 2024 sample households.",
+    "No income is used: the model sees household composition, region and urban or rural only.",
 ]
 # RU: оговорки для check_household: про выборку там говорить нечего. EN: caveats for check_household: nothing about the sample applies.
 HOUSEHOLD_CAVEATS = [
@@ -334,6 +366,9 @@ def call(name: str, args: dict | None = None) -> dict:
 def _run(name: str, a: dict, year: int) -> dict:
     if name == "explain":
         return {"result": _explain(a), "caveats": CAVEATS}
+    if name == "risk_screen":
+        out = RS.screen(a["size"], a.get("n_child", 0), a.get("n_child_u7", 0), a.get("n_elderly", 0), a["region"], a.get("urban"))
+        return {"result": _clean(out), "caveats": RISK_CAVEATS}
     st = E.stress_tests(a.get("stress_version", "base"))
     if name == "check_household":
         out = E.check_household(a["members"], a.get("utilities_month", 0.0), year, st=st, region=a.get("region"))

@@ -37,11 +37,12 @@ Qamqor AI показывает, кого не видит официальное 
   - три стресс-теста с ползунками: силу каждого можно менять и сразу видеть доход на человека после теста;
   - блок «А что, если»: прибавка к заработку или детское пособие;
   - сравнение с семьями выборки с тем же числом детей в том же регионе (при 30 и более семьях);
-  - допущения, принятые для незаполненных полей.
+  - допущения, принятые для незаполненных полей;
+  - оценку без данных о доходе: отдельная модель видит только состав семьи и регион и показывает место семьи в рейтинге риска. Если она расходится с расчётом по доходу, показываются оба результата.
 - **Обзор по стране.** Доли людей по уровням A–E, таблица 20 регионов и результат эксперимента «можно ли предсказать бедность без данных о доходе» (гипотеза H4). Без ключа API.
 - **Для анализа (ИИ).** Чат с ассистентом (Claude Sonnet 5.5, нужен ключ API). Отвечает на вопросы о бедности, регионах, мерах и шоках, строит графики (линии, столбцы, точки) и показывает под ответом, какие расчёты ядра были вызваны.
 
-### Пять инструментов ассистента
+### Шесть инструментов ассистента
 
 | Инструмент | Что делает |
 |---|---|
@@ -49,7 +50,8 @@ Qamqor AI показывает, кого не видит официальное 
 | `simulate` | «Что, если»: шок (заработки, потеря кормильца, коммунальные, цены) и/или мера поддержки (АСП с другой чертой, правило 2025 года, детское пособие, неполный охват); сравнение с базой по бедности, неравенству, стоимости и получателям |
 | `compare_policies` | Несколько мер рядом при равном бюджете, в том числе после шока и отдельно для уровней B и C |
 | `check_household` | Одна семья по описанию: уровень, доплата АСП, запас над ПМ, какие тесты она не проходит |
-| `explain` | Откуда взята цифра и каким правилом получена: источник (форма данных, ключ в `results.json`, проверка), связанные правила и оговорки. Читает граф из 135 узлов и 384 связей, ничего не считает |
+| `risk_screen` | Оценка риска одной семьи без данных о доходе: место в рейтинге семей выборки, уровень и главные факторы. Фильтр, а не решение |
+| `explain` | Откуда взята цифра и каким правилом получена: источник (форма данных, ключ в `results.json`, проверка), связанные правила и оговорки. Читает граф из 139 узлов и 408 связей, ничего не считает |
 
 ### Аналитика ядра
 
@@ -107,11 +109,12 @@ Three sections, three languages (English, Kazakh, Russian), light and dark theme
   - three stress tests with sliders: change the strength of each and see income per person after the test;
   - a "what if" block: extra earnings or a child allowance;
   - a comparison with sample households with the same number of children in the same region (30 or more households);
-  - the assumptions used for fields left empty.
+  - the assumptions used for fields left empty;
+  - an estimate without income data: a separate model sees only household composition and region and shows the family's place in the risk ranking. If it differs from the income-based result, both are shown.
 - **Country overview.** Shares of people on levels A–E, a table of 20 regions and the result of the experiment "can poverty be predicted without income data" (hypothesis H4). No API key needed.
 - **For analysis (AI).** A chat with the assistant (Claude Sonnet 5.5, API key required). It answers questions on poverty, regions, measures and shocks, draws charts (line, bar, scatter) and lists under each answer which engine calculations were called.
 
-### The assistant's five tools
+### The assistant's six tools
 
 | Tool | What it does |
 |---|---|
@@ -119,7 +122,8 @@ Three sections, three languages (English, Kazakh, Russian), light and dark theme
 | `simulate` | What-if: a shock (wages, loss of the main earner, utilities, prices) and/or a support measure (TSA with another line, the 2025 rule, a child allowance, partial take-up); comparison with the baseline on poverty, inequality, cost and beneficiaries |
 | `compare_policies` | Several measures side by side at an equal budget, also after a shock and separately for levels B and C |
 | `check_household` | One household from a description: level, TSA top-up, margin above the SM, which tests it fails |
-| `explain` | Where a figure comes from and which rule produced it: the source (data form, `results.json` key, check), related rules and caveats. Reads a graph of 135 nodes and 384 edges; computes nothing |
+| `risk_screen` | Income-free risk screen for one household: place in the ranking of sample households, level and main factors. A filter, not a decision |
+| `explain` | Where a figure comes from and which rule produced it: the source (data form, `results.json` key, check), related rules and caveats. Reads a graph of 139 nodes and 408 edges; computes nothing |
 
 ### Engine analytics
 

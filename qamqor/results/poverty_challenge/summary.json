@@ -464,6 +464,63 @@
    }
   ]
  },
+ "screen_model": {
+  "version": "risk-screen 1.0",
+  "trained_at": "2026-10-12",
+  "train_years": [
+   2022,
+   2023
+  ],
+  "test_year": 2024,
+  "features": [
+   "size",
+   "n_child",
+   "n_child_u7",
+   "n_elderly",
+   "n_working_age",
+   "urban",
+   "region_Abai",
+   "region_Akmola",
+   "region_Aktobe",
+   "region_Almaty city",
+   "region_Almaty region",
+   "region_Astana city",
+   "region_Atyrau",
+   "region_East Kazakhstan",
+   "region_Karaganda",
+   "region_Kostanay",
+   "region_Kyzylorda",
+   "region_Mangystau",
+   "region_North Kazakhstan",
+   "region_Pavlodar",
+   "region_Shymkent city",
+   "region_Turkestan",
+   "region_Ulytau",
+   "region_West Kazakhstan",
+   "region_Zhambyl",
+   "region_Zhetisu"
+  ],
+  "test_auc": 0.8433,
+  "recall_top20_pct": 60.2,
+  "recall_top10_pct": 40.7,
+  "sklearn_version": "1.9.1",
+  "metrics": {
+   "log_loss": 0.1895,
+   "auc": 0.8433,
+   "average_precision": 0.3099,
+   "brier": 0.0524,
+   "mean_predicted_pct": 9.26,
+   "actual_pct": 6.19,
+   "recall_at_10_pct": 40.7,
+   "precision_at_10_pct": 36.9,
+   "recall_at_20_pct": 60.2,
+   "precision_at_20_pct": 27.3,
+   "recall_at_30_pct": 74.7,
+   "precision_at_30_pct": 22.6
+  },
+  "model_file": "model_logit.joblib",
+  "scores_file": "scores_2024.csv"
+ },
  "secondary_label_poor_or_near_logistic_set_A": {
   "log_loss": 0.2883,
   "auc": 0.8529,

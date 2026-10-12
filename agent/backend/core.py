@@ -69,6 +69,21 @@ def prediction() -> dict | None:
     }
 
 
+def risk_screen(hh_size: int, n_child: int, region: int, n_child_u7: int = 0, n_elderly: int = 0,
+                urban: bool | None = None) -> dict:
+    """Оценка без данных о доходе: инструмент ядра risk_screen. Доход сюда не передаётся вообще."""
+    if str(region) not in E.REGION_NAMES:
+        raise InputError("err_region")
+    if (hh_size < 1 or min(n_child, n_child_u7, n_elderly) < 0 or n_child_u7 > n_child
+            or n_child + n_elderly > hh_size):
+        raise InputError("err_risk_members")
+    r = T.call("risk_screen", {"size": hh_size, "n_child": n_child, "n_child_u7": n_child_u7, "n_elderly": n_elderly,
+                               "region": E.REGION_NAMES[str(region)], "urban": urban})["result"]
+    return {"rank_pct": r["risk_rank_pct"], "level": r["level"], "factors": r["factors"], "inputs": r["inputs"],
+            "test_year": r["model"]["test_year"], "recall_top20_pct": r["model"]["recall_top20_pct"],
+            "model_version": r["model"]["version"], "trained_at": r["model"]["trained_at"]}
+
+
 def summary() -> dict:
     """Обзор по стране: инструмент gap_overview с разбивкой по регионам."""
     g = T.call("gap_overview", {"year": YEAR, "group_by": "region"})

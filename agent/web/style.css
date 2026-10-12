@@ -463,6 +463,10 @@ legend + * { clear: both; }
 .dist-bar { display: flex; gap: 2px; height: 16px; margin: var(--s4) 0; border-radius: 4px; overflow: hidden; }
 .dist-seg { height: 100%; min-width: 3px; }
 
+.risk-banner { margin-top: var(--s4); }
+.risk-diverge { margin-top: var(--s4); padding: var(--s3) var(--s4); border-radius: var(--radius); background: var(--bg); border-left: 3px solid var(--text-muted); font-size: var(--fs-sm); line-height: 1.5; }
+.risk-filter { margin-top: var(--s4); font-size: var(--fs-sm); font-weight: 600; line-height: 1.5; }
+.risk-caveats { margin-top: var(--s2); padding-left: var(--s5); color: var(--text-muted); font-size: var(--fs-xs); line-height: 1.55; }
 #pred-lead { margin-bottom: var(--s4); }
 #pred-verdict { margin-top: var(--s3); }
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(148px, 1fr)); gap: var(--s3); }

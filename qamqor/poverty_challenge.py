@@ -32,6 +32,7 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
 import engine as E
+import risk_screen
 
 warnings.filterwarnings("ignore")
 SEED = 20261012
@@ -499,6 +500,34 @@ def near_label_check(hh: pd.DataFrame, X: pd.DataFrame) -> dict:
 
 
 # ---------------------------------------------------------------------------------------------
+# The saved screen model (used by the app and the risk_screen tool)
+# ---------------------------------------------------------------------------------------------
+def save_screen_model(hh: pd.DataFrame, out: Path, board: list) -> dict:
+    """Logistic regression on income-free features, trained on the training years and saved with joblib.
+    scores_2024.csv holds its risk for every 2024 household: the distribution used to turn a risk into a rank."""
+    import datetime
+    import joblib
+    import sklearn
+    X = risk_screen.design(hh)
+    features = list(X.columns)
+    assert not [f for f in features if any(bad in f.lower() for bad in risk_screen.FORBIDDEN)], "an income-derived feature"
+    tr, te = hh["year"].isin(TRAIN_YEARS).to_numpy(), (hh["year"] == TEST_YEAR).to_numpy()
+    model = make_model("logistic_l2", False).fit(X[tr].to_numpy(float), hh.loc[tr, "poor"].to_numpy())
+    risk = np.round(model.predict_proba(X[te].to_numpy(float))[:, 1], 6)
+    y, w = hh.loc[te, "poor"].to_numpy(), hh.loc[te, "size"].to_numpy(float)
+    m = metrics(risk, y, w)
+    info = {"version": "risk-screen 1.0", "trained_at": datetime.date.today().isoformat(), "train_years": list(TRAIN_YEARS),
+            "test_year": TEST_YEAR, "features": features, "test_auc": m["auc"], "recall_top20_pct": m["recall_at_20_pct"],
+            "recall_top10_pct": m["recall_at_10_pct"], "sklearn_version": sklearn.__version__}
+    joblib.dump({"model": model, **info}, out / "model_logit.joblib")
+    hh.loc[te, ["hh_id", "region", "size"]].assign(region_name=hh.loc[te, "region"].map(E.REGION_NAMES), risk=risk, label=y).to_csv(
+        out / "scores_2024.csv", index=False)
+    board.append({"feature_set": "screen model (saved, income-free)", "scheme": "temporal", "model": "logistic_l2",
+                  "calibrated": False, "class_weights": False, **m})
+    return {**info, "metrics": m, "model_file": "model_logit.joblib", "scores_file": "scores_2024.csv"}
+
+
+# ---------------------------------------------------------------------------------------------
 # Report
 # ---------------------------------------------------------------------------------------------
 def md_table(head: list[str], rows: list[list]) -> list[str]:
@@ -564,6 +593,13 @@ def write_summary(out: Path, S: dict, board: pd.DataFrame) -> None:
           f"of {H['best_complex']}: {H['loro_pooled_auc_complex']}. Regions where {H['best_simple']} does worst:", ""]
     L += md_table(["Region", "AUC", "Poor people found in the region's top 20%, %", "Actual rate, households, %"],
                   [[r["region"], r["auc"], r["recall_at_20_pct"], r["actual_pct"]] for r in H["loro_worst_regions"]])
+    M = S["screen_model"]
+    L += ["## The saved screen model", "",
+          f"`{M['model_file']}`: logistic regression on household size, children, children under 7, elderly, working-age adults, "
+          f"urban or rural and region. No income and no number of earners. Trained on {M['train_years'][0]}–{M['train_years'][-1]}, "
+          f"version {M['version']}. On {M['test_year']}: AUC {M['test_auc']}; it finds {M['recall_top20_pct']}% of people below the "
+          f"minimum among the 20% with the highest risk and {M['recall_top10_pct']}% among the top 10%. `{M['scores_file']}` holds its "
+          "risk for every 2024 household; the app turns a risk into a place in that ranking.", ""]
     L += ["## Not run", ""] + [f"- {x}" for x in S["not_run"]] + [""] if S["not_run"] else []
     L += ["## Caveats", "", "- Synthetic data: results show directions, not national estimates.",
           "- Poverty is income-based; official statistics use consumption.", "- No survey weights.",
@@ -642,16 +678,15 @@ def main() -> None:
                 "loro_worst_regions": reg.head(5)[["region", "auc", "recall_at_20_pct", "actual_pct"]].to_dict("records")}
 
     # ---- outputs -------------------------------------------------------------------------------
+    say("saving the screen model (logistic regression, income-free features)")
+    screen = save_screen_model(hh, out, board)
     lb = pd.DataFrame(board)
     lb.to_csv(out / "leaderboard.csv", index=False)
-    scores = T["test"][["hh_id", "region"]].assign(region=T["test"]["region"].map(E.REGION_NAMES), risk=np.round(lad[simple]["cal"], 4),
-                                                  label=T["yte"])
-    scores.to_csv(out / "scores_2024.csv", index=False)
     strip = lambda r: {k: v for k, v in r.items() if k not in ("T", "loro")}
     S = {"version": "poverty_challenge 1.0", "seed": SEED, "train_years": list(TRAIN_YEARS), "test_year": TEST_YEAR,
          "thresholds": {"h4a_min_auc": AUC_MIN, "h4b_margin_auc": MARGIN, "bootstrap_resamples": N_BOOT},
          "class_balance": balance, "feature_sets": {**{k: strip(v) for k, v in results.items()}, sens_tag: strip(sens)},
-         "headline": headline, "secondary_label_poor_or_near_logistic_set_A": near_label_check(hh, sets["A"]), "not_run": not_run}
+         "headline": headline, "screen_model": screen, "secondary_label_poor_or_near_logistic_set_A": near_label_check(hh, sets["A"]), "not_run": not_run}
     (out / "summary.json").write_text(json.dumps(S, ensure_ascii=False, indent=1, default=float), encoding="utf-8")
     write_summary(out, S, lb)
     charts(out, T, simple, cx, R["rules"], loro)

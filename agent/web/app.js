@@ -114,6 +114,95 @@ function familyPayload() {
   return payload;
 }
 
+// оценка без данных о доходе: в запросе нет ни одного поля дохода
+function riskPayload() {
+  const region = Number($("f-region").value);
+  return {
+    hh_size: Number($("f-hh-size").value),
+    n_child: Number($("f-n-child").value),
+    n_child_u7: Number($("f-child-u7").value || 0),
+    n_elderly: Number($("f-elderly").value || 0),
+    region,
+    urban: CITY_REGIONS.includes(region) ? true : $("f-urban").value === "1",
+  };
+}
+
+const CITY_REGIONS = [71, 75, 79]; // Астана, Алматы, Шымкент целиком городские
+const RISK_STATUS = { high: "serious", elevated: "warning", usual: "good" };
+let riskData = null;
+let riskErrorKey = null;
+let riskSeq = 0;
+
+async function calculateRisk() {
+  const seq = ++riskSeq;
+  try {
+    const res = await fetch("/api/risk_screen", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(riskPayload()),
+    });
+    const data = await res.json();
+    if (seq !== riskSeq) return;
+    if (res.ok) {
+      riskData = data;
+      riskErrorKey = null;
+    } else {
+      const code = data.detail && data.detail.code;
+      riskData = null;
+      riskErrorKey = code && I18N[DEFAULT_LANG][code] ? code : "risk_error";
+    }
+  } catch (err) {
+    if (seq !== riskSeq) return;
+    riskData = null;
+    riskErrorKey = "risk_error";
+  }
+  renderRisk();
+}
+
+function syncUrbanField() {
+  const city = CITY_REGIONS.includes(Number($("f-region").value));
+  if (city) $("f-urban").value = "1";
+  $("f-urban").disabled = city;
+}
+
+function renderRisk() {
+  const card = $("risk-card");
+  card.classList.toggle("hidden", !riskData && !riskErrorKey);
+  const err = $("risk-error");
+  err.classList.toggle("hidden", !riskErrorKey);
+  if (riskErrorKey) err.textContent = t(riskErrorKey);
+  card.querySelectorAll(".risk-banner, .assumptions, .risk-filter, .risk-caveats").forEach((el) => el.classList.toggle("hidden", !riskData));
+  if (!riskData) {
+    $("risk-diverge").classList.add("hidden");
+    return;
+  }
+  const r = riskData;
+  $("risk-dot").style.background = STATUS_COLOR[RISK_STATUS[r.level]];
+  $("risk-label").textContent = t("risk_level_" + r.level);
+  $("risk-rank").textContent = t("risk_rank", { p: fmtPct(r.rank_pct), y: r.test_year });
+  const shown = r.factors.filter((f) => f.direction !== "neutral").slice(0, 3);
+  $("risk-factors").replaceChildren(
+    ...(shown.length ? shown : [null]).map((f) => {
+      const li = document.createElement("li");
+      const key = f && f.key === "elderly" ? (r.inputs.n_elderly > 0 ? "elderly_some" : "elderly_none") : f && f.key;
+      li.textContent = f ? `${f.direction === "raises" ? "↑" : "↓"} ${t("risk_f_" + key)} — ${t("risk_" + f.direction)}` : t("risk_f_none");
+      return li;
+    })
+  );
+  $("risk-caveat-recall").textContent = t("risk_caveat_recall", { p: fmtPct(Math.round(r.recall_top20_pct)) });
+  // расхождение с расчётом по доходу: показываются оба результата, «правильного» нет
+  const below = familyData && (familyData.level === "D" || familyData.level === "E");
+  const flagged = r.level !== "usual";
+  const diverge = familyData && below !== flagged;
+  $("risk-diverge").classList.toggle("hidden", !diverge);
+  if (diverge) {
+    $("risk-diverge").textContent = t(below ? "risk_div_below" : "risk_div_above", {
+      l: t("level_" + familyData.level),
+      r: t("risk_level_" + r.level),
+    });
+  }
+}
+
 let calcSeq = 0;
 
 async function calculate() {
@@ -143,6 +232,7 @@ async function calculate() {
   familyErrorKey = null;
   try {
     renderFamilyResult();
+    renderRisk();
   } catch (err) {
     console.error(err);
     showFamilyError("calc_error");
@@ -156,7 +246,8 @@ familyForm.addEventListener("submit", async (e) => {
   const btn = familyForm.querySelector('button[type="submit"]');
   btn.disabled = true;
   btn.setAttribute("aria-busy", "true");
-  await calculate();
+  syncUrbanField();
+  await Promise.all([calculate(), calculateRisk()]);
   btn.disabled = false;
   btn.removeAttribute("aria-busy");
   if (familyErrorKey) {
@@ -171,10 +262,16 @@ function scheduleRecalc(delay) {
   if (!familyData && !familyErrorKey) return;
   clearTimeout(recalcTimer);
   recalcTimer = setTimeout(() => {
-    if (familyForm.checkValidity()) calculate();
+    if (familyForm.checkValidity()) {
+      calculate();
+      calculateRisk();
+    }
   }, delay);
 }
-familyForm.addEventListener("change", () => scheduleRecalc(0));
+familyForm.addEventListener("change", () => {
+  syncUrbanField();
+  scheduleRecalc(0);
+});
 SLIDERS.forEach((s) =>
   $(s.id).addEventListener("input", () => {
     renderSliderLabels();
@@ -709,6 +806,7 @@ document.addEventListener("langchange", () => {
   renderSliderLabels();
   if (familyData) renderFamilyResult();
   else if (familyErrorKey) showFamilyError(familyErrorKey);
+  renderRisk();
 
   if (overviewData) renderOverview();
   else if (overviewStatus) showOverviewStatus(overviewStatus);

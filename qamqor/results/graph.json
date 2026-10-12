@@ -1778,6 +1778,54 @@
     "file": "results/poverty_challenge/summary.json",
     "key": "feature_sets.A.simple_metrics.recall_at_20_pct"
    }
+  },
+  {
+   "id": "caveat:risk_screen_filter",
+   "type": "caveat",
+   "label": "The risk screen is a filter, not a decision: it says whom to check and misses part of the people below the minimum; eligibility is decided on income",
+   "value": null,
+   "unit": null,
+   "year": null,
+   "note": ""
+  },
+  {
+   "id": "metric:risk_screen_auc_2024",
+   "type": "metric",
+   "label": "Risk screen (saved logistic regression, no income): AUC on 2024",
+   "value": 0.8433,
+   "unit": "AUC, 0..1",
+   "year": 2024,
+   "note": "summary.json: screen_model.test_auc. poverty_challenge.py saves the model as model_logit.joblib; features: household size, children, children under 7, elderly, working-age adults, urban or rural, region; train 2022-2023, test 2024",
+   "source": {
+    "file": "results/poverty_challenge/summary.json",
+    "key": "screen_model.test_auc"
+   }
+  },
+  {
+   "id": "metric:risk_screen_recall_top20_2024",
+   "type": "metric",
+   "label": "Risk screen: share of people below the minimum found among the 20% with the highest risk, 2024",
+   "value": 60.2,
+   "unit": "% of people below the regional subsistence minimum",
+   "year": 2024,
+   "note": "summary.json: screen_model.recall_top20_pct. poverty_challenge.py saves the model as model_logit.joblib; features: household size, children, children under 7, elderly, working-age adults, urban or rural, region; train 2022-2023, test 2024",
+   "source": {
+    "file": "results/poverty_challenge/summary.json",
+    "key": "screen_model.recall_top20_pct"
+   }
+  },
+  {
+   "id": "metric:risk_screen_recall_top10_2024",
+   "type": "metric",
+   "label": "Risk screen: share of people below the minimum found among the 10% with the highest risk, 2024",
+   "value": 40.7,
+   "unit": "% of people below the regional subsistence minimum",
+   "year": 2024,
+   "note": "summary.json: screen_model.recall_top10_pct. poverty_challenge.py saves the model as model_logit.joblib; features: household size, children, children under 7, elderly, working-age adults, urban or rural, region; train 2022-2023, test 2024",
+   "source": {
+    "file": "results/poverty_challenge/summary.json",
+    "key": "screen_model.recall_top10_pct"
+   }
   }
  ],
  "edges": [
@@ -3746,13 +3794,133 @@
    "from": "metric:poverty_rate_sm_2024",
    "to": "metric:h4_recall_top20_2024",
    "relation": "has_metric"
+  },
+  {
+   "from": "metric:risk_screen_auc_2024",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:risk_screen_auc_2024",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:risk_screen_auc_2024",
+   "to": "caveat:risk_screen_filter",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:risk_screen_auc_2024",
+   "to": "caveat:h4_income_free",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:risk_screen_auc_2024",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:risk_screen_auc_2024",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:risk_screen_auc_2024",
+   "to": "caveat:income_not_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024",
+   "to": "metric:risk_screen_auc_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "metric:risk_screen_recall_top20_2024",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:risk_screen_recall_top20_2024",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:risk_screen_recall_top20_2024",
+   "to": "caveat:risk_screen_filter",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:risk_screen_recall_top20_2024",
+   "to": "caveat:h4_income_free",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:risk_screen_recall_top20_2024",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:risk_screen_recall_top20_2024",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:risk_screen_recall_top20_2024",
+   "to": "caveat:income_not_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024",
+   "to": "metric:risk_screen_recall_top20_2024",
+   "relation": "has_metric"
+  },
+  {
+   "from": "metric:risk_screen_recall_top10_2024",
+   "to": "form:D-008",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:risk_screen_recall_top10_2024",
+   "to": "form:D-004",
+   "relation": "computed_from"
+  },
+  {
+   "from": "metric:risk_screen_recall_top10_2024",
+   "to": "caveat:risk_screen_filter",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:risk_screen_recall_top10_2024",
+   "to": "caveat:h4_income_free",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:risk_screen_recall_top10_2024",
+   "to": "caveat:synthetic_data",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:risk_screen_recall_top10_2024",
+   "to": "caveat:no_weights",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:risk_screen_recall_top10_2024",
+   "to": "caveat:income_not_consumption",
+   "relation": "limited_by"
+  },
+  {
+   "from": "metric:poverty_rate_sm_2024",
+   "to": "metric:risk_screen_recall_top10_2024",
+   "relation": "has_metric"
   }
  ],
  "meta": {
   "engine_version": "0.3.4",
   "year": 2024,
-  "nodes": 135,
-  "edges": 384,
+  "nodes": 139,
+  "edges": 408,
   "sources": [
    "results/poverty_challenge/summary.json",
    "results/quick_screen.json",
