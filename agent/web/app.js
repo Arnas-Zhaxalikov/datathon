@@ -119,25 +119,34 @@ let calcSeq = 0;
 
 async function calculate() {
   const seq = ++calcSeq; // ответы на устаревшие запросы (ползунок уже сдвинут дальше) отбрасываются
+  let res;
+  let data;
   try {
-    const res = await fetch("/api/classify", {
+    res = await fetch("/api/classify", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(familyPayload()),
     });
-    const data = await res.json();
-    if (seq !== calcSeq) return;
-    if (!res.ok) {
-      // сервер присылает код ошибки, текст на нужном языке — из словаря
-      const code = data.detail && data.detail.code;
-      showFamilyError(code && I18N[DEFAULT_LANG][code] ? code : res.status < 500 ? "calc_invalid" : "calc_error");
-      return;
-    }
-    familyData = data;
-    familyErrorKey = null;
+    data = await res.json();
+  } catch (err) {
+    // сюда попадает только сбой запроса; ошибка отрисовки ниже не должна выглядеть как «нет связи»
+    if (seq === calcSeq) showFamilyError(res ? "calc_error" : "no_connection");
+    return;
+  }
+  if (seq !== calcSeq) return;
+  if (!res.ok) {
+    // сервер присылает код ошибки, текст на нужном языке — из словаря
+    const code = data.detail && data.detail.code;
+    showFamilyError(code && I18N[DEFAULT_LANG][code] ? code : res.status < 500 ? "calc_invalid" : "calc_error");
+    return;
+  }
+  familyData = data;
+  familyErrorKey = null;
+  try {
     renderFamilyResult();
   } catch (err) {
-    if (seq === calcSeq) showFamilyError("no_connection");
+    console.error(err);
+    showFamilyError("calc_error");
   }
 }
 

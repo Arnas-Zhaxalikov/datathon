@@ -134,5 +134,16 @@ def reset(session_id: str) -> dict:
     return {"ok": True}
 
 
+class FreshStaticFiles(StaticFiles):
+    """Файлы интерфейса с заголовком no-cache: браузер каждый раз сверяет их с сервером.
+    Без этого после обновления он показывает старые скрипты из кэша, а они не понимают
+    ответы нового сервера."""
+
+    async def get_response(self, path, scope):
+        response = await super().get_response(path, scope)
+        response.headers["Cache-Control"] = "no-cache"
+        return response
+
+
 WEB_DIR = Path(__file__).resolve().parent.parent / "web"
-app.mount("/", StaticFiles(directory=str(WEB_DIR), html=True), name="web")
+app.mount("/", FreshStaticFiles(directory=str(WEB_DIR), html=True), name="web")
