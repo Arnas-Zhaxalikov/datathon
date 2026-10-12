@@ -157,6 +157,7 @@
                   <h2 class="card-title" data-i18n="prio_title"></h2>
                   <p class="card-lead" data-i18n="risk_lead"></p>
                   <div id="risk-slot-screen"></div>
+                  <p class="prio-switch"><button type="button" class="link-btn" id="to-income" data-i18n="prio_to_income"></button></p>
                 </section>
               </div>
 
@@ -304,21 +305,17 @@
 
               <!-- оценка без дохода: один блок, переносится в нужное место в зависимости от режима -->
               <div id="risk-block" class="hidden">
+                <p class="prio-summary" id="risk-summary"></p>
                 <div class="prio-head"><span class="prio-dot" id="risk-dot"></span><h3 class="prio-label" id="risk-label"></h3></div>
                 <div class="prio-scale" id="risk-scale" role="img">
                   <div class="prio-track">
-                    <div class="prio-zone prio-usual"></div>
-                    <div class="prio-zone prio-elevated"></div>
-                    <div class="prio-zone prio-high"></div>
+                    <div class="prio-zone prio-usual"><span data-i18n="prio_zone_usual"></span></div>
+                    <div class="prio-zone prio-elevated"><span data-i18n="prio_zone_elevated"></span></div>
+                    <div class="prio-zone prio-high"><span data-i18n="prio_zone_high"></span></div>
                     <div class="prio-marker" id="risk-marker"></div>
                   </div>
-                  <div class="prio-pin" id="risk-pin"><span id="risk-rank"></span></div>
                   <div class="prio-axis"><span>0%</span><span class="ax-80">80%</span><span class="ax-90">90%</span><span>100%</span></div>
-                  <div class="prio-legend">
-                    <span><i class="sw prio-usual"></i><span data-i18n="prio_zone_usual"></span></span>
-                    <span><i class="sw prio-elevated"></i><span data-i18n="prio_zone_elevated"></span></span>
-                    <span><i class="sw prio-high"></i><span data-i18n="prio_zone_high"></span></span>
-                  </div>
+                  <div class="prio-pin" id="risk-pin"><span id="risk-rank"></span></div>
                 </div>
                 <div class="assumptions">
                   <h3 class="assumptions-title" data-i18n="risk_factors_title"></h3>
@@ -395,7 +392,8 @@
     </main>
   </div>
   <script src="i18n.js"></script>
-  <script src="charts.js"></script>
+  <script src="compare.js"></script>
+<script src="charts.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

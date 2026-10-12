@@ -164,8 +164,45 @@ function setMode(mode) {
     if (el.matches("fieldset")) el.disabled = mode !== "income";
   });
   $(mode === "screen" ? "risk-slot-screen" : "risk-slot-income").appendChild($("risk-block"));
-  if (familyData || riskData || familyErrorKey) runCalculation();
+  // расчёт по доходу сам не запускается: доход должен ввести человек, а не остаться от значения по умолчанию
+  if (mode === "screen" ? familyData || riskData || familyErrorKey : familyData) runCalculation();
   else renderAll();
+}
+
+// «Есть данные о доходе? Рассчитать точно»: режим меняется, состав семьи и регион остаются
+$("to-income").addEventListener("click", () => {
+  document.querySelector('input[name="family-mode"][value="income"]').checked = true;
+  familyData = null;
+  familyErrorKey = null;
+  setMode("income");
+  $("f-income").focus();
+  $("f-income").select();
+});
+
+// сводка введённого состава: «Семья из 4 человек, 2 детей (1 до 7 лет), Туркестанская область, город»
+function familySummary(r) {
+  const i = r.inputs;
+  const one = (n) => n % 10 === 1 && n % 100 !== 11;
+  let s = t(one(i.size) ? "sum_people_one" : "sum_people", { n: i.size });
+  s += ", " + (i.n_child === 0 ? t("sum_children_none") : t(one(i.n_child) ? "sum_children_one" : "sum_children", { n: i.n_child }));
+  if (i.n_child_u7 > 0) s += " " + t("sum_u7", { n: i.n_child_u7 });
+  if (i.n_elderly > 0) s += ", " + t("sum_elderly", { n: i.n_elderly });
+  return `${s}, ${riskRegionName(r)}, ${t(i.urban ? "sum_city" : "sum_village")}`;
+}
+
+function riskRegionName(r) {
+  const region = regionsList.find((x) => x.name === r.inputs.region);
+  return region ? regionName(region.code, region.name) : r.inputs.region;
+}
+
+// фактор с выбранным значением: «Город (а не село)», «Детей: 5»
+function factorLabel(f, r) {
+  const i = r.inputs;
+  if (f.key === "urban") return t(i.urban ? "risk_fv_city" : "risk_fv_village");
+  if (f.key === "region") return t("risk_fv_region", { r: riskRegionName(r) });
+  if (f.key === "children") return t("risk_fv_children", { n: i.n_child });
+  if (f.key === "elderly") return t("risk_fv_elderly", { n: i.n_elderly });
+  return t("risk_fv_household_size", { s: i.size, w: i.n_working_age });
 }
 
 document.querySelectorAll('input[name="family-mode"]').forEach((radio) =>
@@ -452,6 +489,7 @@ function renderRisk() {
   const color = PRIO_COLOR[r.level];
   $("risk-dot").style.background = color;
   $("risk-label").textContent = t("prio_" + r.level);
+  $("risk-summary").textContent = familySummary(r);
 
   // шкала 0–100%: место семьи среди людей выборки; число — мелко под маркером
   const p = Math.max(0, Math.min(100, r.rank_pct));
@@ -468,7 +506,7 @@ function renderRisk() {
     ...(shown.length ? shown : [null]).map((f) => {
       const li = document.createElement("li");
       li.textContent = f
-        ? `${f.direction === "raises" ? "↑" : "↓"} ${t("risk_f_" + f.key)} — ${t("str_" + factorStrength(f.contribution))} ${t("risk_" + f.direction)}`
+        ? `${f.direction === "raises" ? "↑" : "↓"} ${factorLabel(f, r)} — ${t("str_" + factorStrength(f.contribution))} ${t("risk_" + f.direction)}`
         : t("risk_f_none");
       return li;
     })
@@ -479,11 +517,9 @@ function renderRisk() {
   $("cmp-dot").style.background = color;
   $("cmp-prio").textContent = t("prio_" + r.level);
   if (familyData) {
-    const below = familyData.level === "D" || familyData.level === "E";
-    const flagged = r.level !== "usual";
-    const key = below ? (flagged ? "cmp_both_flag" : "cmp_missed") : flagged ? "cmp_extra" : "cmp_both_clear";
-    $("cmp-verdict").textContent = t(key);
-    $("cmp-verdict").classList.toggle("warn", below && !flagged);
+    const verdict = compareVerdict(familyData.level, r.level); // правило — в compare.js
+    $("cmp-verdict").textContent = t(verdict.key);
+    $("cmp-verdict").className = `compare-verdict tone-${verdict.tone}`;
   }
 }
 
