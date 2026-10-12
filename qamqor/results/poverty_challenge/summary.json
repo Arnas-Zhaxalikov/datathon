@@ -1,0 +1,485 @@
+{
+ "version": "poverty_challenge 1.0",
+ "seed": 20261012,
+ "train_years": [
+  2022,
+  2023
+ ],
+ "test_year": 2024,
+ "thresholds": {
+  "h4a_min_auc": 0.75,
+  "h4b_margin_auc": 0.01,
+  "bootstrap_resamples": 1000
+ },
+ "class_balance": [
+  {
+   "year": 2022,
+   "households": 11939,
+   "poor_households_pct": 9.72,
+   "poor_people_pct": 14.42,
+   "poor_or_near_people_pct": 26.71
+  },
+  {
+   "year": 2023,
+   "households": 11977,
+   "poor_households_pct": 8.37,
+   "poor_people_pct": 12.61,
+   "poor_or_near_people_pct": 24.2
+  },
+  {
+   "year": 2024,
+   "households": 11960,
+   "poor_households_pct": 6.19,
+   "poor_people_pct": 9.07,
+   "poor_or_near_people_pct": 18.34
+  }
+ ],
+ "feature_sets": {
+  "A": {
+   "columns": 28,
+   "best_simple": "logistic_l1",
+   "best_complex": "blend_logistic_lightgbm",
+   "simple_metrics": {
+    "log_loss": 0.1857,
+    "auc": 0.8491,
+    "average_precision": 0.3302,
+    "brier": 0.0512,
+    "mean_predicted_pct": 9.3,
+    "actual_pct": 6.19,
+    "recall_at_10_pct": 42.1,
+    "precision_at_10_pct": 38.2,
+    "recall_at_20_pct": 62.3,
+    "precision_at_20_pct": 28.3,
+    "recall_at_30_pct": 76.5,
+    "precision_at_30_pct": 23.1
+   },
+   "complex_metrics": {
+    "log_loss": 0.1834,
+    "auc": 0.8535,
+    "average_precision": 0.3546,
+    "brier": 0.0503,
+    "mean_predicted_pct": 9.34,
+    "actual_pct": 6.19,
+    "recall_at_10_pct": 42.3,
+    "precision_at_10_pct": 38.4,
+    "recall_at_20_pct": 64.0,
+    "precision_at_20_pct": 29.0,
+    "recall_at_30_pct": 76.3,
+    "precision_at_30_pct": 23.1
+   },
+   "class_weights": {
+    "logistic_l2": false,
+    "logistic_l1": false,
+    "random_forest": false,
+    "lightgbm": false,
+    "blend_logistic_lightgbm": null
+   },
+   "rules": {
+    "3+ children": {
+     "flagged_pct_of_people": 32.8,
+     "recall_pct": 69.7,
+     "precision_pct": 19.3,
+     "auc": 0.6997
+    },
+    "4+ children": {
+     "flagged_pct_of_people": 14.6,
+     "recall_pct": 45.2,
+     "precision_pct": 28.0,
+     "auc": 0.6346
+    }
+   },
+   "model_vs_rules_same_share": {
+    "3+ children": {
+     "people_flagged_pct": 32.8,
+     "rule_recall_pct": 69.7,
+     "model_recall_pct": 79.5,
+     "rule_precision_pct": 19.3,
+     "model_precision_pct": 22.0
+    },
+    "4+ children": {
+     "people_flagged_pct": 14.6,
+     "rule_recall_pct": 45.2,
+     "model_recall_pct": 51.8,
+     "rule_precision_pct": 28.0,
+     "model_precision_pct": 32.1
+    }
+   },
+   "complex_minus_simple": {
+    "auc_diff": 0.0044,
+    "auc_diff_ci95": [
+     0.0022,
+     0.0065
+    ],
+    "log_loss_diff": -0.0023,
+    "log_loss_diff_ci95": [
+     -0.0032,
+     -0.0014
+    ],
+    "resamples": 1000
+   },
+   "H4a": "supported",
+   "H4b": "supported",
+   "H4": "supported"
+  },
+  "A + n_earners (SENSITIVITY, not for verdicts)": {
+   "columns": 29,
+   "best_simple": "logistic_l1",
+   "best_complex": "blend_logistic_lightgbm",
+   "simple_metrics": {
+    "log_loss": 0.1405,
+    "auc": 0.9303,
+    "average_precision": 0.571,
+    "brier": 0.0399,
+    "mean_predicted_pct": 8.89,
+    "actual_pct": 6.19,
+    "recall_at_10_pct": 59.9,
+    "precision_at_10_pct": 54.3,
+    "recall_at_20_pct": 81.1,
+    "precision_at_20_pct": 36.8,
+    "recall_at_30_pct": 91.1,
+    "precision_at_30_pct": 27.6
+   },
+   "complex_metrics": {
+    "log_loss": 0.1385,
+    "auc": 0.9327,
+    "average_precision": 0.5858,
+    "brier": 0.0394,
+    "mean_predicted_pct": 8.93,
+    "actual_pct": 6.19,
+    "recall_at_10_pct": 61.5,
+    "precision_at_10_pct": 55.7,
+    "recall_at_20_pct": 81.9,
+    "precision_at_20_pct": 37.1,
+    "recall_at_30_pct": 92.2,
+    "precision_at_30_pct": 27.9
+   },
+   "class_weights": {
+    "logistic_l2": false,
+    "logistic_l1": false,
+    "random_forest": false,
+    "lightgbm": false,
+    "blend_logistic_lightgbm": null
+   },
+   "rules": {
+    "3+ children": {
+     "flagged_pct_of_people": 32.8,
+     "recall_pct": 69.7,
+     "precision_pct": 19.3,
+     "auc": 0.6997
+    },
+    "4+ children": {
+     "flagged_pct_of_people": 14.6,
+     "recall_pct": 45.2,
+     "precision_pct": 28.0,
+     "auc": 0.6346
+    }
+   },
+   "model_vs_rules_same_share": {
+    "3+ children": {
+     "people_flagged_pct": 32.8,
+     "rule_recall_pct": 69.7,
+     "model_recall_pct": 92.3,
+     "rule_precision_pct": 19.3,
+     "model_precision_pct": 25.5
+    },
+    "4+ children": {
+     "people_flagged_pct": 14.6,
+     "rule_recall_pct": 45.2,
+     "model_recall_pct": 72.3,
+     "rule_precision_pct": 28.0,
+     "model_precision_pct": 44.9
+    }
+   },
+   "complex_minus_simple": {
+    "auc_diff": 0.0024,
+    "auc_diff_ci95": [
+     0.0011,
+     0.0036
+    ],
+    "log_loss_diff": -0.0019,
+    "log_loss_diff_ci95": [
+     -0.0028,
+     -0.0011
+    ],
+    "resamples": 1000
+   },
+   "H4a": "supported",
+   "H4b": "supported",
+   "H4": "supported"
+  }
+ },
+ "headline": {
+  "feature_set": "A",
+  "best_simple": "logistic_l1",
+  "best_complex": "blend_logistic_lightgbm",
+  "odds_ratios_feature_set": "A",
+  "odds_ratios": [
+   {
+    "feature": "n_child",
+    "odds_ratio": 2.572,
+    "ci95_low": 2.456,
+    "ci95_high": 2.694,
+    "p_value": 0.0
+   },
+   {
+    "feature": "n_child_u7",
+    "odds_ratio": 0.885,
+    "ci95_low": 0.819,
+    "ci95_high": 0.957,
+    "p_value": 0.0021
+   },
+   {
+    "feature": "n_elderly",
+    "odds_ratio": 0.545,
+    "ci95_low": 0.49,
+    "ci95_high": 0.606,
+    "p_value": 0.0
+   },
+   {
+    "feature": "n_working_age",
+    "odds_ratio": 0.674,
+    "ci95_low": 0.634,
+    "ci95_high": 0.717,
+    "p_value": 0.0
+   },
+   {
+    "feature": "urban",
+    "odds_ratio": 1.119,
+    "ci95_low": 0.999,
+    "ci95_high": 1.253,
+    "p_value": 0.0527
+   },
+   {
+    "feature": "region_Abai",
+    "odds_ratio": 1.485,
+    "ci95_low": 1.079,
+    "ci95_high": 2.044,
+    "p_value": 0.0152
+   },
+   {
+    "feature": "region_Akmola",
+    "odds_ratio": 0.797,
+    "ci95_low": 0.576,
+    "ci95_high": 1.104,
+    "p_value": 0.1726
+   },
+   {
+    "feature": "region_Aktobe",
+    "odds_ratio": 0.815,
+    "ci95_low": 0.604,
+    "ci95_high": 1.1,
+    "p_value": 0.1807
+   },
+   {
+    "feature": "region_Almaty city",
+    "odds_ratio": 1.322,
+    "ci95_low": 0.981,
+    "ci95_high": 1.782,
+    "p_value": 0.0666
+   },
+   {
+    "feature": "region_Almaty region",
+    "odds_ratio": 1.287,
+    "ci95_low": 0.935,
+    "ci95_high": 1.771,
+    "p_value": 0.122
+   },
+   {
+    "feature": "region_Astana city",
+    "odds_ratio": 1.354,
+    "ci95_low": 0.997,
+    "ci95_high": 1.838,
+    "p_value": 0.0523
+   },
+   {
+    "feature": "region_Atyrau",
+    "odds_ratio": 0.82,
+    "ci95_low": 0.599,
+    "ci95_high": 1.122,
+    "p_value": 0.2141
+   },
+   {
+    "feature": "region_East Kazakhstan",
+    "odds_ratio": 0.706,
+    "ci95_low": 0.474,
+    "ci95_high": 1.05,
+    "p_value": 0.0859
+   },
+   {
+    "feature": "region_Karaganda",
+    "odds_ratio": 0.664,
+    "ci95_low": 0.478,
+    "ci95_high": 0.922,
+    "p_value": 0.0144
+   },
+   {
+    "feature": "region_Kostanay",
+    "odds_ratio": 0.485,
+    "ci95_low": 0.336,
+    "ci95_high": 0.699,
+    "p_value": 0.0001
+   },
+   {
+    "feature": "region_Kyzylorda",
+    "odds_ratio": 0.837,
+    "ci95_low": 0.625,
+    "ci95_high": 1.122,
+    "p_value": 0.234
+   },
+   {
+    "feature": "region_Mangystau",
+    "odds_ratio": 2.869,
+    "ci95_low": 2.194,
+    "ci95_high": 3.752,
+    "p_value": 0.0
+   },
+   {
+    "feature": "region_North Kazakhstan",
+    "odds_ratio": 0.694,
+    "ci95_low": 0.482,
+    "ci95_high": 1.0,
+    "p_value": 0.0499
+   },
+   {
+    "feature": "region_Shymkent city",
+    "odds_ratio": 2.374,
+    "ci95_low": 1.776,
+    "ci95_high": 3.174,
+    "p_value": 0.0
+   },
+   {
+    "feature": "region_Turkestan",
+    "odds_ratio": 1.737,
+    "ci95_low": 1.327,
+    "ci95_high": 2.273,
+    "p_value": 0.0001
+   },
+   {
+    "feature": "region_Ulytau",
+    "odds_ratio": 0.608,
+    "ci95_low": 0.399,
+    "ci95_high": 0.926,
+    "p_value": 0.0206
+   },
+   {
+    "feature": "region_West Kazakhstan",
+    "odds_ratio": 0.736,
+    "ci95_low": 0.543,
+    "ci95_high": 0.999,
+    "p_value": 0.049
+   },
+   {
+    "feature": "region_Zhambyl",
+    "odds_ratio": 1.689,
+    "ci95_low": 1.28,
+    "ci95_high": 2.228,
+    "p_value": 0.0002
+   },
+   {
+    "feature": "region_Zhetisu",
+    "odds_ratio": 1.879,
+    "ci95_low": 1.382,
+    "ci95_high": 2.556,
+    "p_value": 0.0001
+   },
+   {
+    "feature": "reference region: Pavlodar",
+    "odds_ratio": 1.0,
+    "ci95_low": null,
+    "ci95_high": null,
+    "p_value": null
+   }
+  ],
+  "importance_simple": {
+   "children": 0.2808,
+   "region": 0.0295,
+   "age structure": 0.0035,
+   "urban/rural": 0.0004
+  },
+  "importance_complex": {
+   "children": 0.2652,
+   "region": 0.0302,
+   "age structure": 0.004,
+   "urban/rural": 0.0004
+  },
+  "same_driver_ranking": true,
+  "missed_vs_found": {
+   "found": {
+    "people_pct_of_poor": 62.3,
+    "mean_children": 4.13,
+    "mean_size": 6.6,
+    "mean_elderly": 0.36,
+    "urban_pct": 50.0,
+    "top_regions_pct": {
+     "Mangystau": 18.5,
+     "Turkestan": 15.5,
+     "Shymkent city": 9.7
+    }
+   },
+   "missed": {
+    "people_pct_of_poor": 37.7,
+    "mean_children": 2.02,
+    "mean_size": 4.77,
+    "mean_elderly": 0.35,
+    "urban_pct": 53.0,
+    "top_regions_pct": {
+     "Zhambyl": 12.6,
+     "Kyzylorda": 7.4,
+     "West Kazakhstan": 7.4
+    }
+   }
+  },
+  "loro_pooled_auc_simple": 0.8255,
+  "loro_pooled_auc_complex": 0.8254,
+  "loro_worst_regions": [
+   {
+    "region": "Almaty city",
+    "auc": 0.7485,
+    "recall_at_20_pct": 50.8,
+    "actual_pct": 4.5
+   },
+   {
+    "region": "East Kazakhstan",
+    "auc": 0.7566,
+    "recall_at_20_pct": 50.0,
+    "actual_pct": 2.59
+   },
+   {
+    "region": "Kostanay",
+    "auc": 0.7577,
+    "recall_at_20_pct": 52.8,
+    "actual_pct": 1.79
+   },
+   {
+    "region": "Aktobe",
+    "auc": 0.7715,
+    "recall_at_20_pct": 49.3,
+    "actual_pct": 4.32
+   },
+   {
+    "region": "Zhambyl",
+    "auc": 0.7905,
+    "recall_at_20_pct": 41.5,
+    "actual_pct": 12.04
+   }
+  ]
+ },
+ "secondary_label_poor_or_near_logistic_set_A": {
+  "log_loss": 0.2883,
+  "auc": 0.8529,
+  "average_precision": 0.4989,
+  "brier": 0.0877,
+  "mean_predicted_pct": 17.63,
+  "actual_pct": 12.42,
+  "recall_at_10_pct": 34.5,
+  "precision_at_10_pct": 63.2,
+  "recall_at_20_pct": 55.5,
+  "precision_at_20_pct": 50.9,
+  "recall_at_30_pct": 69.4,
+  "precision_at_30_pct": 42.4
+ },
+ "not_run": [
+  "Feature set B (member aggregates, the household head): out/persons.csv is missing; build it with `python build.py <RAW_DATA_DIR> out` and pass --persons out/persons.csv.",
+  "Feature set C (D-006 housing items): needs the raw data folder (--raw) and set B."
+ ]
+}

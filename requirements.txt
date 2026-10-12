@@ -2,4 +2,7 @@ duckdb>=1.0
 pandas>=2.0
 numpy>=1.24
 matplotlib>=3.7
+scikit-learn>=1.4
+statsmodels>=0.14
+lightgbm>=4.0
 jupyter>=1.0

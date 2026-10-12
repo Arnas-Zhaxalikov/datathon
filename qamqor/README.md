@@ -53,7 +53,7 @@ longer be used is in `CHANGES.md`. All final tables are in `results/final_tables
 ## Запуск / Run
 
 ```
-pip install pandas numpy scikit-learn statsmodels
+pip install pandas numpy scikit-learn statsmodels lightgbm matplotlib
 python build.py  <папка с данными / data folder>  out
 python run_baseline.py  out/households.csv  results
 python regression.py  out/households.csv  results
@@ -200,6 +200,32 @@ Results are in `results/regression.json`. These are associations, not causes.
 **EN.** Pass `tools.TOOLS` to the model as its tool list. When the model asks for a tool call,
 run `tools.call(name, args)` and return the result. The model does not decide who is poor:
 it only picks the calculation and explains the numbers.
+
+## Прогноз бедности без дохода / Poverty prediction challenge (H4)
+
+**RU.** `poverty_challenge.py` — эксперимент по образцу конкурса Всемирного банка Pover-T Tests.
+Проверяет гипотезу H4: бедность семьи можно предсказать без данных о доходе (H4a), и простая
+объяснимая модель делает это не хуже сложной (H4b). Признаки — только состав семьи и регион; число
+работающих (`n_earners`) берётся из записей о доходах, поэтому входит только в отдельный прогон
+чувствительности. Обучение на 2022–2023, проверка на 2024; дополнительно каждый регион 2024 года
+по очереди исключается из обучения. Пороги вердиктов заданы до расчёта и печатаются первыми.
+
+**EN.** `poverty_challenge.py` is an experiment modelled on the World Bank's Pover-T Tests. It tests
+H4: household poverty can be predicted without income data (H4a), and a simple, explainable model
+does this as well as a complex one (H4b). Features are household composition and region only; the
+number of earners (`n_earners`) comes from the income records, so it enters only a separately
+labelled sensitivity run. Train on 2022–2023, test on 2024; in addition each 2024 region is held
+out once. The verdict thresholds are fixed before the run and printed first.
+
+```
+python poverty_challenge.py out/households.csv results/poverty_challenge
+python poverty_challenge.py out/households.csv results/poverty_challenge --persons out/persons.csv --raw <data folder>
+```
+
+The second form adds feature set B (member aggregates and the household head, from
+`out/persons.csv`) and set C (D-006 housing items). Results: `results/poverty_challenge/`
+(`summary.md`, `summary.json`, `leaderboard.csv`, `scores_2024.csv`, four charts). The run takes
+about two minutes.
 
 ## Инструменты / Tools
 
