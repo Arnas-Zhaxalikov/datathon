@@ -8,6 +8,146 @@
 
 ---
 
+## Qamqor AI: что умеет система
+
+Qamqor AI показывает, кого не видит официальное определение бедности и что изменит та или иная мера поддержки. Система состоит из расчётного ядра ([`qamqor/`](qamqor/)) и веб-приложения ([`agent/`](agent/)).
+
+**Главный принцип.** Каждое число считает Python-ядро. ИИ-ассистент ничего не считает и не решает, кто беден: он вызывает инструменты ядра и объясняет их ответ.
+
+### Карта доходов A–E
+
+Доход семьи на человека в месяц сравнивается с прожиточным минимумом (ПМ) её региона. ПМ — годовые значения БНС по 20 регионам за 2022–2024 годы.
+
+| Уровень | Условие |
+|---|---|
+| A | выше ПМ, семья проходит все четыре стресс-теста |
+| B | выше ПМ, не проходит один тест |
+| C | выше ПМ, не проходит два и более |
+| D | ниже ПМ, но не ниже черты АСП (70% ПМ) |
+| E | ниже черты АСП |
+
+Стресс-тесты: главный кормилец 3 месяца без заработка (наёмный сохраняет 45%, самозанятый ничего), стоимость жизни +10%, жильё и коммунальные +30%, ещё один иждивенец. Есть слабая, базовая и сильная версии.
+
+### Веб-приложение
+
+Три раздела, три языка (английский, казахский, русский), светлая и тёмная тема.
+
+- **Моя семья.** Калькулятор для гражданина, работает без ключа API. Вводятся состав семьи, доход и регион; по желанию — заработок и тип занятости главного кормильца, пенсии и пособия, расходы на жильё. Экран показывает:
+  - уровень A–E и положение дохода относительно черты АСП и ПМ региона;
+  - четыре стресс-теста с ползунками: силу каждого можно менять и сразу видеть доход на человека после теста;
+  - блок «А что, если»: прибавка к заработку или детское пособие;
+  - сравнение с семьями выборки с тем же числом детей в том же регионе (при 30 и более семьях);
+  - допущения, принятые для незаполненных полей.
+- **Обзор по стране.** Доли людей по уровням A–E и таблица 20 регионов. Без ключа API.
+- **Для анализа (ИИ).** Чат с ассистентом (Claude Sonnet 5.5, нужен ключ API). Отвечает на вопросы о бедности, регионах, мерах и шоках, строит графики (линии, столбцы, точки) и показывает под ответом, какие расчёты ядра были вызваны.
+
+### Пять инструментов ассистента
+
+| Инструмент | Что делает |
+|---|---|
+| `gap_overview` | Доли людей по уровням A–E; три черты (АСП, бюджетный ПМ, региональный ПМ) и «непокрытая полоса» между ними; разбивка по типу семьи, региону, город/село, числу детей; шкала эквивалентности БНС; профиль уровней B и C |
+| `simulate` | «Что, если»: шок (заработки, потеря кормильца, коммунальные, цены) и/или мера поддержки (АСП с другой чертой, правило 2025 года, детское пособие, неполный охват); сравнение с базой по бедности, неравенству, стоимости и получателям |
+| `compare_policies` | Несколько мер рядом при равном бюджете, в том числе после шока и отдельно для уровней B и C |
+| `check_household` | Одна семья по описанию: уровень, доплата АСП, запас над ПМ, какие тесты она не проходит |
+| `explain` | Откуда взята цифра и каким правилом получена: источник (форма данных, ключ в `results.json`, проверка), связанные правила и оговорки. Читает граф из 129 узлов и 339 связей, ничего не считает |
+
+### Аналитика ядра
+
+- Доли по годам, регионам, типам семей и город/село; доверительные интервалы.
+- Чувствительность к силе стресс-тестов и к выбору черты.
+- Три регрессии и разложение связи «ребёнок — доход» (`regression.py`).
+- Скрининг без данных о доходе: насколько состав семьи и регион предсказывают доход ниже ПМ (`quick_screen.py`).
+- Итоговые таблицы и график трёх черт (`results/final_tables.md`, `results/three_lines.svg`).
+
+### Проверка
+
+- `verify.py` пересчитывает главные цифры независимо от ядра и сверяет, что инструменты ассистента возвращают те же числа: 72 проверки.
+- `verify_graph.py` проверяет, что каждая цифра графа равна значению в результатах: 22 проверки.
+- `agent/backend/test_core.py` проверяет связь приложения с ядром: 9 тестов.
+
+### Ограничения
+
+- Данные синтетические и без весов: доли — это доли выборки. Допустимы только относительные и методологические выводы, без оценок численности или сумм по стране.
+- Бедность считается по денежному доходу; официальная статистика — по потреблению.
+- Модель статическая: это эффект «на следующий день», а не прогноз.
+- Панели нет: семьи в разные годы разные.
+- У АСП есть неденежные условия, которые модель не учитывает; правило АСП изменилось в 2025 году и требует сверки с законом.
+- Приложение запускается локально; публикации в сети пока нет.
+
+Запуск приложения — в [`agent/README.md`](agent/README.md), запуск ядра и методика — в [`qamqor/README.md`](qamqor/README.md).
+
+---
+
+## Qamqor AI: what the system does
+
+Qamqor AI shows who is missed by the official poverty definition and what a given support measure would change. It consists of a calculation engine ([`qamqor/`](qamqor/)) and a web application ([`agent/`](agent/)).
+
+**Core principle.** Every number is computed by the Python engine. The AI assistant computes nothing and does not decide who is poor: it calls the engine's tools and explains their output.
+
+### The A–E income map
+
+A household's monthly income per person is compared with the subsistence minimum (SM) of its region. The SMs are Bureau of National Statistics annual values for 20 regions, 2022–2024.
+
+| Level | Condition |
+|---|---|
+| A | above the SM, passes all four stress tests |
+| B | above the SM, fails one test |
+| C | above the SM, fails two or more |
+| D | below the SM but not below the TSA line (70% of the SM) |
+| E | below the TSA line |
+
+TSA is targeted social assistance. Stress tests: the main earner goes 3 months without earnings (an employee keeps 45%, a self-employed person nothing), cost of living +10%, housing and utilities +30%, one more dependant. Weak, base and strong versions exist.
+
+### Web application
+
+Three sections, three languages (English, Kazakh, Russian), light and dark themes.
+
+- **My family.** A calculator for citizens; works without an API key. Inputs are household composition, income and region; optionally the main earner's earnings and employment type, pensions and benefits, and housing costs. The screen shows:
+  - the A–E level and where income stands against the TSA line and the regional SM;
+  - four stress tests with sliders: change the strength of each and see income per person after the test;
+  - a "what if" block: extra earnings or a child allowance;
+  - a comparison with sample households with the same number of children in the same region (30 or more households);
+  - the assumptions used for fields left empty.
+- **Country overview.** Shares of people on levels A–E and a table of 20 regions. No API key needed.
+- **For analysis (AI).** A chat with the assistant (Claude Sonnet 5.5, API key required). It answers questions on poverty, regions, measures and shocks, draws charts (line, bar, scatter) and lists under each answer which engine calculations were called.
+
+### The assistant's five tools
+
+| Tool | What it does |
+|---|---|
+| `gap_overview` | Shares of people on levels A–E; three lines (TSA, budget-law SM, regional SM) and the uncovered band between them; breakdown by household type, region, urban/rural, number of children; the Bureau's equivalence scale; the profile of levels B and C |
+| `simulate` | What-if: a shock (wages, loss of the main earner, utilities, prices) and/or a support measure (TSA with another line, the 2025 rule, a child allowance, partial take-up); comparison with the baseline on poverty, inequality, cost and beneficiaries |
+| `compare_policies` | Several measures side by side at an equal budget, also after a shock and separately for levels B and C |
+| `check_household` | One household from a description: level, TSA top-up, margin above the SM, which tests it fails |
+| `explain` | Where a figure comes from and which rule produced it: the source (data form, `results.json` key, check), related rules and caveats. Reads a graph of 129 nodes and 339 edges; computes nothing |
+
+### Engine analytics
+
+- Shares by year, region, household type and urban/rural; confidence intervals.
+- Sensitivity to the strength of the stress tests and to the choice of line.
+- Three regressions and a decomposition of the child–income link (`regression.py`).
+- A screen without income data: how well household composition and region predict income below the SM (`quick_screen.py`).
+- Final tables and the three-lines chart (`results/final_tables.md`, `results/three_lines.svg`).
+
+### Verification
+
+- `verify.py` recomputes the headline figures independently of the engine and checks that the assistant's tools return the same numbers: 72 checks.
+- `verify_graph.py` checks that every figure in the graph equals the value in the results: 22 checks.
+- `agent/backend/test_core.py` checks the bridge between the application and the engine: 9 tests.
+
+### Limitations
+
+- The data is synthetic and has no survey weights: shares are shares of the sample. Only relative and methodological statements are valid, with no national counts or sums.
+- Poverty is measured by money income; official statistics use consumption.
+- The model is static: a next-day effect, not a forecast.
+- There is no panel: households differ between years.
+- TSA also has non-income conditions that the model does not cover; the TSA rule changed in 2025 and needs a legal check.
+- The application runs locally; it is not published online yet.
+
+How to run the application: [`agent/README.md`](agent/README.md). How to run the engine, and the method: [`qamqor/README.md`](qamqor/README.md).
+
+---
+
 ## Конвейер
 
 Семь шагов превращают 4,68 ГБ разнородных CSV в одну аналитическую таблицу, набор агрегатов, готовые графики и слайды.
