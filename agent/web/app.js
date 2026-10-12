@@ -96,6 +96,17 @@ const SLIDERS = [
   { id: "s-rise", field: "housing_rise_pct", label: "sc_housing_param", v: "y" },
 ];
 
+const CITY_REGIONS = [71, 75, 79]; // Астана, Алматы, Шымкент целиком городские
+// приоритет проверки: красный, оранжевый, серый — зелёного нет, «обычный» не значит «всё хорошо»
+const PRIO_COLOR = { high: "var(--status-critical)", elevated: "var(--status-serious)", usual: "var(--text-muted)" };
+
+// режим экрана: "income" — доход известен, полный расчёт; "screen" — дохода нет, только оценка
+let familyMode = "income";
+let riskData = null;
+let riskErrorKey = null;
+let riskSeq = 0;
+let calcSeq = 0;
+
 function familyPayload() {
   const payload = {
     hh_size: Number($("f-hh-size").value),
@@ -127,11 +138,39 @@ function riskPayload() {
   };
 }
 
-const CITY_REGIONS = [71, 75, 79]; // Астана, Алматы, Шымкент целиком городские
-const RISK_STATUS = { high: "serious", elevated: "warning", usual: "good" };
-let riskData = null;
-let riskErrorKey = null;
-let riskSeq = 0;
+// проверка состава до запроса: детей и пожилых не больше, чем людей в семье
+function compositionError() {
+  const size = Number($("f-hh-size").value);
+  const child = Number($("f-n-child").value);
+  const u7 = Number($("f-child-u7").value || 0);
+  const elderly = Number($("f-elderly").value || 0);
+  if (child + elderly > size || u7 > child) return "err_risk_members";
+  if (familyMode === "income" && Number($("f-n-employed").value) > size) return "err_members";
+  return null;
+}
+
+function syncUrbanField() {
+  const city = CITY_REGIONS.includes(Number($("f-region").value));
+  if (city) $("f-urban").value = "1";
+  $("f-urban").disabled = city;
+}
+
+function setMode(mode) {
+  familyMode = mode;
+  // поля дохода в режиме без дохода скрыты и отключены: они не проверяются и никуда не уходят
+  familyForm.querySelectorAll(".income-only").forEach((el) => {
+    el.classList.toggle("hidden", mode !== "income");
+    el.querySelectorAll("input").forEach((input) => (input.disabled = mode !== "income"));
+    if (el.matches("fieldset")) el.disabled = mode !== "income";
+  });
+  $(mode === "screen" ? "risk-slot-screen" : "risk-slot-income").appendChild($("risk-block"));
+  if (familyData || riskData || familyErrorKey) runCalculation();
+  else renderAll();
+}
+
+document.querySelectorAll('input[name="family-mode"]').forEach((radio) =>
+  radio.addEventListener("change", () => radio.checked && setMode(radio.value))
+);
 
 async function calculateRisk() {
   const seq = ++riskSeq;
@@ -156,53 +195,7 @@ async function calculateRisk() {
     riskData = null;
     riskErrorKey = "risk_error";
   }
-  renderRisk();
 }
-
-function syncUrbanField() {
-  const city = CITY_REGIONS.includes(Number($("f-region").value));
-  if (city) $("f-urban").value = "1";
-  $("f-urban").disabled = city;
-}
-
-function renderRisk() {
-  const card = $("risk-card");
-  card.classList.toggle("hidden", !riskData && !riskErrorKey);
-  const err = $("risk-error");
-  err.classList.toggle("hidden", !riskErrorKey);
-  if (riskErrorKey) err.textContent = t(riskErrorKey);
-  card.querySelectorAll(".risk-banner, .assumptions, .risk-filter, .risk-caveats").forEach((el) => el.classList.toggle("hidden", !riskData));
-  if (!riskData) {
-    $("risk-diverge").classList.add("hidden");
-    return;
-  }
-  const r = riskData;
-  $("risk-dot").style.background = STATUS_COLOR[RISK_STATUS[r.level]];
-  $("risk-label").textContent = t("risk_level_" + r.level);
-  $("risk-rank").textContent = t("risk_rank", { p: fmtPct(r.rank_pct), y: r.test_year });
-  const shown = r.factors.filter((f) => f.direction !== "neutral").slice(0, 3);
-  $("risk-factors").replaceChildren(
-    ...(shown.length ? shown : [null]).map((f) => {
-      const li = document.createElement("li");
-      li.textContent = f ? `${f.direction === "raises" ? "↑" : "↓"} ${t("risk_f_" + f.key)} — ${t("risk_" + f.direction)}` : t("risk_f_none");
-      return li;
-    })
-  );
-  $("risk-caveat-recall").textContent = t("risk_caveat_recall", { p: fmtPct(Math.round(r.recall_top20_pct)) });
-  // расхождение с расчётом по доходу: показываются оба результата, «правильного» нет
-  const below = familyData && (familyData.level === "D" || familyData.level === "E");
-  const flagged = r.level !== "usual";
-  const diverge = familyData && below !== flagged;
-  $("risk-diverge").classList.toggle("hidden", !diverge);
-  if (diverge) {
-    $("risk-diverge").textContent = t(below ? "risk_div_below" : "risk_div_above", {
-      l: t("level_" + familyData.level),
-      r: t("risk_level_" + r.level),
-    });
-  }
-}
-
-let calcSeq = 0;
 
 async function calculate() {
   const seq = ++calcSeq; // ответы на устаревшие запросы (ползунок уже сдвинут дальше) отбрасываются
@@ -216,26 +209,41 @@ async function calculate() {
     });
     data = await res.json();
   } catch (err) {
-    // сюда попадает только сбой запроса; ошибка отрисовки ниже не должна выглядеть как «нет связи»
-    if (seq === calcSeq) showFamilyError(res ? "calc_error" : "no_connection");
+    if (seq === calcSeq) setFamilyError(res ? "calc_error" : "no_connection");
     return;
   }
   if (seq !== calcSeq) return;
   if (!res.ok) {
     // сервер присылает код ошибки, текст на нужном языке — из словаря
     const code = data.detail && data.detail.code;
-    showFamilyError(code && I18N[DEFAULT_LANG][code] ? code : res.status < 500 ? "calc_invalid" : "calc_error");
+    setFamilyError(code && I18N[DEFAULT_LANG][code] ? code : res.status < 500 ? "calc_invalid" : "calc_error");
     return;
   }
   familyData = data;
   familyErrorKey = null;
-  try {
-    renderFamilyResult();
-    renderRisk();
-  } catch (err) {
-    console.error(err);
-    showFamilyError("calc_error");
+}
+
+function setFamilyError(key) {
+  familyData = null;
+  familyErrorKey = key;
+}
+
+async function runCalculation() {
+  syncUrbanField();
+  const bad = compositionError();
+  if (bad) {
+    setFamilyError(bad);
+    riskData = null;
+    renderAll();
+    return;
   }
+  familyErrorKey = null;
+  if (familyMode === "income") await Promise.all([calculate(), calculateRisk()]);
+  else {
+    await calculateRisk();
+    if (riskErrorKey) familyErrorKey = riskErrorKey;
+  }
+  renderAll();
 }
 
 familyForm.addEventListener("submit", async (e) => {
@@ -245,8 +253,11 @@ familyForm.addEventListener("submit", async (e) => {
   const btn = familyForm.querySelector('button[type="submit"]');
   btn.disabled = true;
   btn.setAttribute("aria-busy", "true");
-  syncUrbanField();
-  await Promise.all([calculate(), calculateRisk()]);
+  if (familyForm.checkValidity()) await runCalculation();
+  else {
+    setFamilyError($("f-region").value ? "calc_invalid" : "err_region");
+    renderAll();
+  }
   btn.disabled = false;
   btn.removeAttribute("aria-busy");
   if (familyErrorKey) {
@@ -258,13 +269,10 @@ familyForm.addEventListener("submit", async (e) => {
 // после первого расчёта любое изменение пересчитывает результат без кнопки
 let recalcTimer = null;
 function scheduleRecalc(delay) {
-  if (!familyData && !familyErrorKey) return;
+  if (!familyData && !riskData && !familyErrorKey) return;
   clearTimeout(recalcTimer);
   recalcTimer = setTimeout(() => {
-    if (familyForm.checkValidity()) {
-      calculate();
-      calculateRisk();
-    }
+    if (familyForm.checkValidity()) runCalculation();
   }, delay);
 }
 familyForm.addEventListener("change", () => {
@@ -279,34 +287,31 @@ SLIDERS.forEach((s) =>
 );
 ["w-wage", "w-allowance"].forEach((id) => $(id).addEventListener("input", () => scheduleRecalc(250)));
 
+// используется и при сбое загрузки регионов
 function showFamilyError(key) {
-  familyData = null;
-  familyErrorKey = key;
-  familyResult.classList.add("hidden");
-  $("family-empty").classList.remove("hidden");
-  familyError.classList.remove("hidden");
-  familyError.textContent = t(key);
+  setFamilyError(key);
+  renderAll();
+}
+
+// что показать: зависит от режима и от того, что уже посчитано
+function renderAll() {
+  const showIncome = familyMode === "income" && Boolean(familyData);
+  const showScreen = familyMode === "screen" && Boolean(riskData);
+  familyResult.classList.toggle("hidden", !showIncome);
+  $("screen-result").classList.toggle("hidden", !showScreen);
+  $("family-empty").classList.toggle("hidden", showIncome || showScreen);
+  familyError.classList.toggle("hidden", !familyErrorKey);
+  if (familyErrorKey) familyError.textContent = t(familyErrorKey);
+  // в режиме с доходом сбой оценки не мешает основному расчёту: сообщение отдельно
+  const riskOnly = familyMode === "income" && showIncome && riskErrorKey;
+  $("risk-error").classList.toggle("hidden", !riskOnly);
+  if (riskOnly) $("risk-error").textContent = t(riskErrorKey);
+  if (showIncome) renderFamilyResult();
+  renderRisk();
 }
 
 function renderSliderLabels() {
   SLIDERS.forEach((s) => ($(`${s.id}-label`).textContent = t(s.label, { [s.v]: fmtPct($(s.id).value) })));
-}
-
-// короткое название теста с его параметром — для фразы «опускается ниже минимума, если…»
-function testShort(key, d) {
-  const s = d.stress;
-  if (key === "fail_earner_loss") return t("sc_earner_short", { n: fmtPct(s.months) });
-  if (key === "fail_cost_of_living") return t("sc_col_short", { x: fmtPct(s.cost_of_living_pct) });
-  return t("sc_housing_short", { y: fmtPct(s.housing_rise_pct) });
-}
-
-function outcomeText(d) {
-  const o = d.outcome;
-  if (d.level === "E") return t("out_E", { v: fmt(o.topup_family) });
-  if (d.level === "D") return t("out_D", { pc: fmt(o.gap_pc), fam: fmt(o.gap_family), asp: fmt(o.above_asp_pc) });
-  const margin = { pc: fmt(o.margin_pc), fam: fmt(o.margin_family) };
-  if (d.level === "A") return t("out_A", margin);
-  return t("out_BC", { ...margin, list: o.failing.map((k) => testShort(k, d)).join("; ") });
 }
 
 function assumptionText(a) {
@@ -319,6 +324,21 @@ function assumptionText(a) {
 function setStatus(dotId, labelId, status, level) {
   $(dotId).style.background = STATUS_COLOR[status];
   $(labelId).textContent = t("level_" + level);
+}
+
+// буква уровня в цвете уровня; на жёлтом фоне текст тёмный, иначе не читается
+function setBadge(el, level, status) {
+  el.textContent = level;
+  el.style.background = STATUS_COLOR[status];
+  el.classList.toggle("dark-ink", status === "warning");
+}
+
+// название строки шока с его параметром
+function shockName(key, d) {
+  const s = d.stress;
+  if (key === "fail_earner_loss") return t("shock_earner", { n: fmtPct(s.months) });
+  if (key === "fail_cost_of_living") return t("shock_col", { x: fmtPct(s.cost_of_living_pct) });
+  return t("shock_housing", { y: fmtPct(s.housing_rise_pct) });
 }
 
 // что предполагает тест и как получено число: значения — из ответа ядра
@@ -341,45 +361,54 @@ function testDetails(key, d) {
       formula: `${I} / (100% + ${fmtPct(s.cost_of_living_pct)}%) / ${S} = ${r}`,
     };
   }
-  {
-    const H = d.housing_cost;
-    return {
-      assume: t("sc_housing_assume", {
-        h: fmt(H),
-        y: fmtPct(s.housing_rise_pct),
-        d: fmt((H * s.housing_rise_pct) / 100),
-      }),
-      formula: `(${I} − ${fmt(H)} × ${fmtPct(s.housing_rise_pct)}%) / ${S} = ${r}`,
-    };
-  }
+  const H = d.housing_cost;
+  return {
+    assume: t("sc_housing_assume", { h: fmt(H), y: fmtPct(s.housing_rise_pct), d: fmt((H * s.housing_rise_pct) / 100) }),
+    formula: `(${I} − ${fmt(H)} × ${fmtPct(s.housing_rise_pct)}%) / ${S} = ${r}`,
+  };
 }
 
 function renderFamilyResult() {
   const d = familyData;
   if (!d) return;
-  familyError.classList.add("hidden");
-  $("family-empty").classList.add("hidden");
-  familyResult.classList.remove("hidden");
+  const o = d.outcome;
+  const below = d.level === "D" || d.level === "E";
 
-  // уровень, ключевые числа и вывод
-  setStatus("r-dot", "r-label", d.status, d.level);
+  // итог: буква, одна строка, запас или дефицит, право на АСП
+  setBadge($("r-badge"), d.level, d.status);
+  $("r-line").textContent = t("verdict_" + d.level);
   $("r-sub").textContent = t("result_sub", { v: fmt(d.income_pc), p: fmtPct(d.pct_of_sm) });
-  $("st-income").textContent = kzt(d.income_pc);
-  $("st-sm").textContent = kzt(d.sm);
-  $("st-asp").textContent = kzt(d.asp);
-  drawMeter(d);
-  $("r-outcome").textContent = outcomeText(d);
+  $("r-gap-pc-label").textContent = t(below ? "fact_gap_pc" : "fact_margin_pc");
+  $("r-gap-fam-label").textContent = t(below ? "fact_gap_fam" : "fact_margin_fam");
+  $("r-gap-pc").textContent = t("per_month", { v: kzt(below ? o.gap_pc : o.margin_pc) });
+  $("r-gap-fam").textContent = t("per_month", { v: kzt(below ? o.gap_family : o.margin_family) });
+  $("r-asp-right").textContent = d.level === "E" ? t("asp_yes", { v: fmt(o.topup_family) }) : t("asp_no");
   $("r-link").classList.toggle("hidden", d.level !== "E");
   $("r-link").firstElementChild.href = `https://egov.kz/cms/${currentLang}/services/pass166_mtszn`;
 
-  $("r-peers").classList.toggle("hidden", !d.peers);
-  if (d.peers) {
-    $("r-peers").textContent = t("peers", {
-      c: d.peers.n_child,
-      p: fmtPct(d.peers.pct_below_sm),
-      n: fmt(d.peers.households),
-    });
-  }
+  // шкала и три числа под ней
+  drawMeter(d);
+  $("st-income").textContent = kzt(d.income_pc);
+  $("st-sm").textContent = kzt(d.sm);
+  $("st-asp").textContent = kzt(d.asp);
+
+  // что будет при шоке: строка на тест, подробности внутри
+  renderSliderLabels();
+  familyResult.querySelectorAll(".shock").forEach((el) => {
+    const test = d.tests.find((x) => x.key === el.dataset.scenario);
+    const details = testDetails(test.key, d);
+    el.querySelector("[data-name]").textContent = shockName(test.key, d);
+    el.querySelector("[data-value]").textContent = kzt(test.income_pc);
+    const badge = el.querySelector("[data-badge]");
+    badge.textContent = t(test.failed ? "shock_below" : "shock_above");
+    badge.classList.toggle("bad", test.failed);
+    el.querySelector("[data-assume]").textContent = details.assume;
+    el.querySelector("[data-formula]").textContent = details.formula;
+  });
+
+  // сравнение с фильтром: левая половина — расчёт по доходу
+  setBadge($("cmp-badge"), d.level, d.status);
+  $("cmp-line").textContent = t("verdict_" + d.level);
 
   const items = d.assumptions.length ? d.assumptions.map(assumptionText) : [t("as_none")];
   $("r-assumptions").replaceChildren(
@@ -389,18 +418,10 @@ function renderFamilyResult() {
       return li;
     })
   );
-
-  // три стресс-теста
-  renderSliderLabels();
-  familyResult.querySelectorAll(".scenario").forEach((el) => {
-    const test = d.tests.find((x) => x.key === el.dataset.scenario);
-    const details = testDetails(test.key, d);
-    el.querySelector("[data-assume]").textContent = details.assume;
-    el.querySelector("[data-value]").textContent = kzt(test.income_pc);
-    el.querySelector("[data-formula]").textContent = details.formula;
-    // предупреждение — только если тест опускает ниже минимума семью, которая была выше
-    el.querySelector(".scenario-flag").classList.toggle("hidden", !test.crosses);
-  });
+  $("peers-fold").classList.toggle("hidden", !d.peers);
+  if (d.peers) {
+    $("r-peers").textContent = t("peers", { c: d.peers.n_child, p: fmtPct(d.peers.pct_below_sm), n: fmt(d.peers.households) });
+  }
 
   // а что, если
   const wi = d.what_if;
@@ -413,18 +434,63 @@ function renderFamilyResult() {
     $("w-after-num").textContent = t("wi_line", { v: fmt(wi.income_pc) });
   }
 
-  $("r-foot").textContent = t("foot", {
-    year: d.year,
-    region: regionName(d.region.code, d.region.name),
-    sm: fmt(d.sm),
-    asp: fmt(d.asp),
-  });
+  $("r-foot").textContent = t("foot", { year: d.year, region: regionName(d.region.code, d.region.name), sm: fmt(d.sm), asp: fmt(d.asp) });
+}
+
+// сила фактора словами: вклад в логарифм шансов относительно средней семьи выборки
+function factorStrength(c) {
+  const a = Math.abs(c);
+  return a >= 1 ? "strong" : a >= 0.3 ? "moderate" : "weak";
+}
+
+function renderRisk() {
+  const block = $("risk-block");
+  block.classList.toggle("hidden", !riskData);
+  $("filter-fold").classList.toggle("hidden", !riskData);
+  if (!riskData) return;
+  const r = riskData;
+  const color = PRIO_COLOR[r.level];
+  $("risk-dot").style.background = color;
+  $("risk-label").textContent = t("prio_" + r.level);
+
+  // шкала 0–100%: место семьи среди людей выборки; число — мелко под маркером
+  const p = Math.max(0, Math.min(100, r.rank_pct));
+  $("risk-marker").style.left = `${p}%`;
+  const pin = $("risk-pin");
+  pin.style.left = `${p}%`;
+  pin.classList.toggle("flip", p > 50);
+  const rank = t("prio_rank", { p: fmtPct(r.rank_pct), y: r.test_year });
+  $("risk-rank").textContent = rank;
+  $("risk-scale").setAttribute("aria-label", `${t("prio_" + r.level)}. ${rank}`);
+
+  const shown = r.factors.filter((f) => f.direction !== "neutral").slice(0, 4);
+  $("risk-factors").replaceChildren(
+    ...(shown.length ? shown : [null]).map((f) => {
+      const li = document.createElement("li");
+      li.textContent = f
+        ? `${f.direction === "raises" ? "↑" : "↓"} ${t("risk_f_" + f.key)} — ${t("str_" + factorStrength(f.contribution))} ${t("risk_" + f.direction)}`
+        : t("risk_f_none");
+      return li;
+    })
+  );
+  $("risk-caveat-recall").textContent = t("risk_caveat_recall", { p: fmtPct(Math.round(r.recall_top20_pct)) });
+
+  // сравнение двух результатов: оба рядом и одно предложение
+  $("cmp-dot").style.background = color;
+  $("cmp-prio").textContent = t("prio_" + r.level);
+  if (familyData) {
+    const below = familyData.level === "D" || familyData.level === "E";
+    const flagged = r.level !== "usual";
+    const key = below ? (flagged ? "cmp_both_flag" : "cmp_missed") : flagged ? "cmp_extra" : "cmp_both_clear";
+    $("cmp-verdict").textContent = t(key);
+    $("cmp-verdict").classList.toggle("warn", below && !flagged);
+  }
 }
 
 function drawMeter(d) {
   // шкала от 0; правый край — с запасом над минимумом и над доходом семьи, но не дальше
   // 3,2 минимума: иначе у обеспеченной семьи зоны у нуля сжались бы до нечитаемых
-  const max = Math.max(d.sm * 1.6, Math.min(Math.max(d.income_pc, d.worst.income_pc) * 1.15, d.sm * 3.2));
+  const max = Math.max(d.sm * 1.6, Math.min(d.income_pc * 1.15, d.sm * 3.2));
   const pct = (v) => Math.max(0, Math.min(100, (v / max) * 100));
   const pAsp = pct(d.asp);
   const pSm = pct(d.sm);
@@ -436,28 +502,23 @@ function drawMeter(d) {
   const bAsp = $("b-asp");
   bAsp.style.right = `${100 - pAsp}%`;
   bAsp.style.maxWidth = `${pAsp}%`;
-  bAsp.firstElementChild.textContent = t("tick_asp", { v: fmt(d.asp) });
   const bSm = $("b-sm");
   bSm.style.left = `${pSm}%`;
   bSm.style.maxWidth = `${100 - pSm}%`;
-  bSm.firstElementChild.textContent = t("tick_pm", { v: fmt(d.sm) });
 
-  const place = (markerId, flagId, value, text) => {
-    const p = pct(value);
-    $(markerId).style.left = `${p}%`;
-    const flag = $(flagId);
-    const flip = p > 50; // подпись растёт от маркера внутрь шкалы, чтобы не вылезать за край
-    flag.classList.toggle("flip", flip);
-    flag.style.marginLeft = flip ? "0" : `${p}%`;
-    flag.style.marginRight = flip ? `${100 - p}%` : "0";
-    flag.lastElementChild.textContent = text;
-  };
-  place("mk-now", "m-now", d.income_pc, t("m_now", { v: fmt(d.income_pc) }));
-  place("mk-worst", "m-worst", d.worst.income_pc, t("m_worst", { v: fmt(d.worst.income_pc) }));
+  const p = pct(d.income_pc);
+  $("mk-now").style.left = `${p}%`;
+  const flag = $("m-now");
+  const flip = p > 50; // подпись растёт от маркера внутрь шкалы, чтобы не вылезать за край
+  flag.classList.toggle("flip", flip);
+  flag.style.marginLeft = flip ? "0" : `${p}%`;
+  flag.style.marginRight = flip ? `${100 - p}%` : "0";
+  flag.lastElementChild.textContent = t("m_now", { v: fmt(d.income_pc) });
 }
 
 loadRegions();
 renderSliderLabels();
+setMode("income");
 
 // ---------- Обзор по стране ----------
 // Данные — инструмент ядра gap_overview с разбивкой по регионам.
@@ -814,9 +875,7 @@ input.addEventListener("input", () => {
 document.addEventListener("langchange", () => {
   renderRegions();
   renderSliderLabels();
-  if (familyData) renderFamilyResult();
-  else if (familyErrorKey) showFamilyError(familyErrorKey);
-  renderRisk();
+  renderAll();
 
   if (overviewData) renderOverview();
   else if (overviewStatus) showOverviewStatus(overviewStatus);

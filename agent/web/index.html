@@ -73,10 +73,16 @@
             <p class="page-lead" data-i18n="family_hint"></p>
           </header>
 
+          <!-- режим: с доходом — полный расчёт; без дохода — только оценка приоритета проверки -->
+          <div class="mode-switch" role="radiogroup" aria-label="mode" id="mode-switch">
+            <label class="mode-opt"><input type="radio" name="family-mode" value="income" checked><span data-i18n="mode_income"></span></label>
+            <label class="mode-opt"><input type="radio" name="family-mode" value="screen"><span data-i18n="mode_screen"></span></label>
+          </div>
+
           <div class="family-layout">
             <form id="family-form" class="card form-card" novalidate>
               <fieldset>
-                <legend data-i18n="f_main_title"></legend>
+                <legend data-i18n="f_grp_family"></legend>
                 <div class="form-grid">
                   <label class="field"><span data-i18n="f_hh_size">Family size</span>
                     <input type="number" id="f-hh-size" min="1" max="30" step="1" value="4" inputmode="numeric" required>
@@ -84,21 +90,39 @@
                   <label class="field"><span data-i18n="f_n_child">Children</span>
                     <input type="number" id="f-n-child" min="0" max="30" step="1" value="2" inputmode="numeric" required>
                   </label>
-                  <label class="field"><span data-i18n="f_n_employed">Working family members</span>
+                  <label class="field"><span data-i18n="f_child_u7"></span>
+                    <input type="number" id="f-child-u7" min="0" max="30" step="1" value="0" inputmode="numeric">
+                  </label>
+                  <label class="field"><span data-i18n="f_elderly"></span>
+                    <input type="number" id="f-elderly" min="0" max="30" step="1" value="0" inputmode="numeric">
+                  </label>
+                  <label class="field span-2 income-only"><span data-i18n="f_n_employed">Working family members</span>
                     <input type="number" id="f-n-employed" min="0" max="30" step="1" value="1" inputmode="numeric" required>
-                  </label>
-                  <label class="field"><span data-i18n="f_income">Family income per month, KZT</span>
-                    <input type="number" id="f-income" min="0" step="1000" value="200000" inputmode="numeric" required>
-                  </label>
-                  <label class="field span-2"><span data-i18n="f_region">Region</span>
-                    <select id="f-region" required></select>
                   </label>
                 </div>
               </fieldset>
 
               <fieldset>
-                <legend data-i18n="f_optional_title"></legend>
+                <legend data-i18n="f_grp_where"></legend>
                 <div class="form-grid">
+                  <label class="field span-2"><span data-i18n="f_region">Region</span>
+                    <select id="f-region" required></select>
+                  </label>
+                  <label class="field span-2"><span data-i18n="risk_f_urban"></span>
+                    <select id="f-urban">
+                      <option value="1" data-i18n="f_urban_city"></option>
+                      <option value="0" data-i18n="f_urban_village"></option>
+                    </select>
+                  </label>
+                </div>
+              </fieldset>
+
+              <fieldset class="income-only">
+                <legend data-i18n="f_grp_money"></legend>
+                <div class="form-grid">
+                  <label class="field span-2"><span data-i18n="f_income">Family income per month, KZT</span>
+                    <input type="number" id="f-income" min="0" step="1000" value="200000" inputmode="numeric" required>
+                  </label>
                   <label class="field span-2"><span data-i18n="f_earner_wage"></span>
                     <input type="number" id="f-earner-wage" min="0" step="1000" inputmode="numeric" data-i18n-placeholder="ph_optional">
                   </label>
@@ -115,24 +139,6 @@
                 </div>
               </fieldset>
 
-              <fieldset>
-                <legend data-i18n="f_risk_title"></legend>
-                <div class="form-grid">
-                  <label class="field"><span data-i18n="f_child_u7"></span>
-                    <input type="number" id="f-child-u7" min="0" max="30" step="1" value="0" inputmode="numeric">
-                  </label>
-                  <label class="field"><span data-i18n="f_elderly"></span>
-                    <input type="number" id="f-elderly" min="0" max="30" step="1" value="0" inputmode="numeric">
-                  </label>
-                  <label class="field span-2"><span data-i18n="f_urban"></span>
-                    <select id="f-urban">
-                      <option value="1" data-i18n="f_urban_city"></option>
-                      <option value="0" data-i18n="f_urban_village"></option>
-                    </select>
-                  </label>
-                </div>
-              </fieldset>
-
               <p id="family-error" class="form-error hidden" role="alert"></p>
               <button type="submit" class="btn btn-primary" data-i18n="calc">Calculate</button>
             </form>
@@ -145,128 +151,130 @@
                 <p data-i18n="empty_text"></p>
               </div>
 
+              <!-- ============ режим «Дохода нет»: оценка — главный результат ============ -->
+              <div id="screen-result" class="result hidden">
+                <section class="card">
+                  <h2 class="card-title" data-i18n="prio_title"></h2>
+                  <p class="card-lead" data-i18n="risk_lead"></p>
+                  <div id="risk-slot-screen"></div>
+                </section>
+              </div>
+
+              <!-- ============ режим «Доход известен» ============ -->
               <!-- Разметка результата статична: расчёт только заполняет числа и тексты,
                    поэтому ползунки не пересоздаются при пересчёте -->
               <div id="family-result" class="result hidden">
-                <!-- статус, ключевые числа, шкала, вывод -->
+                <!-- итог: буква уровня, одна строка, запас или дефицит, право на АСП -->
                 <section class="card">
-                  <div class="status-banner" id="r-banner">
-                    <span class="status-dot" id="r-dot"></span>
-                    <div>
-                      <h2 class="result-label" id="r-label"></h2>
-                      <p class="result-sub" id="r-sub"></p>
+                  <div class="verdict">
+                    <div class="level-badge" id="r-badge" aria-hidden="true"></div>
+                    <div class="verdict-text">
+                      <h2 class="verdict-line" id="r-line"></h2>
+                      <p class="verdict-sub" id="r-sub"></p>
                     </div>
                   </div>
-
-                  <dl class="stats">
-                    <div class="stat"><dt data-i18n="st_income"></dt><dd id="st-income"></dd></div>
-                    <div class="stat"><dt data-i18n="st_sm"></dt><dd id="st-sm"></dd></div>
-                    <div class="stat"><dt data-i18n="st_asp"></dt><dd id="st-asp"></dd></div>
+                  <dl class="facts">
+                    <div class="fact"><dt id="r-gap-pc-label"></dt><dd id="r-gap-pc"></dd></div>
+                    <div class="fact"><dt id="r-gap-fam-label"></dt><dd id="r-gap-fam"></dd></div>
+                    <div class="fact"><dt data-i18n="fact_asp"></dt><dd id="r-asp-right"></dd></div>
                   </dl>
+                  <p class="outcome-link hidden" id="r-link"><a target="_blank" rel="noopener" data-i18n="out_E_link"></a></p>
 
+                  <!-- шкала с маркером «сейчас» -->
                   <div class="meter">
-                    <div class="meter-flag" id="m-worst"><i class="mk mk-worst"></i><span></span></div>
                     <div class="meter-flag" id="m-now"><i class="mk mk-now"></i><span></span></div>
                     <div class="meter-track">
                       <div class="meter-zone zone-a" id="z-a"></div>
                       <div class="meter-zone zone-b" id="z-b"></div>
                       <div class="meter-zone zone-c"></div>
-                      <div class="meter-marker marker-worst" id="mk-worst"></div>
                       <div class="meter-marker marker-now" id="mk-now"></div>
                     </div>
                     <div class="meter-bounds">
-                      <div class="meter-bound bound-asp" id="b-asp"><span></span></div>
-                      <div class="meter-bound bound-sm" id="b-sm"><span></span></div>
+                      <div class="meter-bound bound-asp" id="b-asp"><span data-i18n="tick_asp_short"></span></div>
+                      <div class="meter-bound bound-sm" id="b-sm"><span data-i18n="tick_pm_short"></span></div>
                     </div>
-                    <div class="meter-zones-legend">
-                      <span><i class="sw zone-a"></i><span data-i18n="z_a"></span></span>
-                      <span><i class="sw zone-b"></i><span data-i18n="z_b"></span></span>
-                      <span><i class="sw zone-c"></i><span data-i18n="z_c"></span></span>
-                    </div>
-                  </div>
-
-                  <p class="outcome" id="r-outcome"></p>
-                  <p class="outcome-link hidden" id="r-link"><a target="_blank" rel="noopener" data-i18n="out_E_link"></a></p>
-                  <p class="peers hidden" id="r-peers"></p>
-
-                  <div class="assumptions">
-                    <h3 class="assumptions-title" data-i18n="as_title"></h3>
-                    <ul id="r-assumptions"></ul>
+                    <dl class="meter-nums">
+                      <div><dt data-i18n="st_income"></dt><dd id="st-income"></dd></div>
+                      <div><dt data-i18n="st_sm"></dt><dd id="st-sm"></dd></div>
+                      <div><dt data-i18n="st_asp"></dt><dd id="st-asp"></dd></div>
+                    </dl>
                   </div>
                 </section>
 
-                <!-- оценка без данных о доходе: отдельная модель, дохода не видит -->
-                <section class="card hidden" id="risk-card">
-                  <h2 class="card-title" data-i18n="risk_title"></h2>
-                  <p class="card-lead" data-i18n="risk_lead"></p>
-                  <div class="status-banner risk-banner">
-                    <span class="status-dot" id="risk-dot"></span>
-                    <div>
-                      <h3 class="result-label" id="risk-label"></h3>
-                      <p class="result-sub" id="risk-rank"></p>
-                    </div>
-                  </div>
-                  <div class="assumptions">
-                    <h3 class="assumptions-title" data-i18n="risk_factors_title"></h3>
-                    <ul id="risk-factors"></ul>
-                  </div>
-                  <p class="risk-diverge hidden" id="risk-diverge"></p>
-                  <p class="risk-filter" data-i18n="risk_filter"></p>
-                  <ul class="risk-caveats">
-                    <li id="risk-caveat-recall"></li>
-                    <li data-i18n="risk_caveat_synthetic"></li>
-                  </ul>
-                  <p class="form-error hidden" id="risk-error" role="alert"></p>
-                </section>
-
-                <!-- три стресс-теста -->
+                <!-- что будет при шоке: три строки, подробности и ползунок — внутри -->
                 <section class="card">
-                  <h2 class="card-title" data-i18n="sc_title"></h2>
-                  <p class="card-lead" data-i18n="sc_hint"></p>
+                  <h2 class="card-title" data-i18n="shock_title"></h2>
+                  <p class="card-lead" data-i18n="shock_hint"></p>
 
-                  <div class="scenario" data-scenario="fail_earner_loss">
-                    <div class="scenario-head">
-                      <h3 class="scenario-title" data-i18n="sc_earner_title"></h3>
-                      <span class="scenario-flag hidden"><span aria-hidden="true">⚠</span> <span data-i18n="sc_cross"></span></span>
-                    </div>
+                  <details class="shock" data-scenario="fail_earner_loss">
+                    <summary>
+                      <span class="shock-name" data-name></span>
+                      <span class="shock-value" data-value></span>
+                      <span class="shock-badge" data-badge></span>
+                    </summary>
                     <label class="slider"><span id="s-months-label"></span>
                       <input type="range" id="s-months" min="1" max="12" step="1" value="3">
                     </label>
                     <p class="scenario-assume" data-assume></p>
-                    <div class="scenario-line"><span data-i18n="sc_year_label"></span><b data-value></b></div>
                     <div class="scenario-formula" data-formula></div>
-                  </div>
+                  </details>
 
-                  <div class="scenario" data-scenario="fail_cost_of_living">
-                    <div class="scenario-head">
-                      <h3 class="scenario-title" data-i18n="sc_col_title"></h3>
-                      <span class="scenario-flag hidden"><span aria-hidden="true">⚠</span> <span data-i18n="sc_cross"></span></span>
-                    </div>
+                  <details class="shock" data-scenario="fail_cost_of_living">
+                    <summary>
+                      <span class="shock-name" data-name></span>
+                      <span class="shock-value" data-value></span>
+                      <span class="shock-badge" data-badge></span>
+                    </summary>
                     <label class="slider"><span id="s-col-label"></span>
                       <input type="range" id="s-col" min="5" max="30" step="5" value="10">
                     </label>
                     <p class="scenario-assume" data-assume></p>
-                    <div class="scenario-line"><span data-i18n="sc_real_label"></span><b data-value></b></div>
                     <div class="scenario-formula" data-formula></div>
-                  </div>
+                  </details>
 
-                  <div class="scenario" data-scenario="fail_utilities">
-                    <div class="scenario-head">
-                      <h3 class="scenario-title" data-i18n="sc_housing_title"></h3>
-                      <span class="scenario-flag hidden"><span aria-hidden="true">⚠</span> <span data-i18n="sc_cross"></span></span>
-                    </div>
+                  <details class="shock" data-scenario="fail_utilities">
+                    <summary>
+                      <span class="shock-name" data-name></span>
+                      <span class="shock-value" data-value></span>
+                      <span class="shock-badge" data-badge></span>
+                    </summary>
                     <label class="slider"><span id="s-rise-label"></span>
                       <input type="range" id="s-rise" min="5" max="100" step="5" value="30">
                     </label>
                     <p class="scenario-assume" data-assume></p>
-                    <div class="scenario-line"><span data-i18n="sc_pp_label"></span><b data-value></b></div>
                     <div class="scenario-formula" data-formula></div>
-                  </div>
+                  </details>
                 </section>
 
-                <!-- а что, если -->
-                <section class="card">
-                  <h2 class="card-title" data-i18n="wi_title"></h2>
+                <!-- как бы эту семью оценил фильтр без дохода -->
+                <details class="card fold" id="filter-fold">
+                  <summary><span data-i18n="fold_filter"></span></summary>
+                  <div class="compare">
+                    <div class="compare-col">
+                      <div class="compare-cap" data-i18n="cmp_income"></div>
+                      <div class="compare-main"><span class="level-badge small" id="cmp-badge"></span><span id="cmp-line"></span></div>
+                    </div>
+                    <div class="compare-col">
+                      <div class="compare-cap" data-i18n="cmp_filter"></div>
+                      <div class="compare-main"><span class="prio-dot" id="cmp-dot"></span><span id="cmp-prio"></span></div>
+                    </div>
+                  </div>
+                  <p class="compare-verdict" id="cmp-verdict"></p>
+                  <div id="risk-slot-income"></div>
+                </details>
+
+                <details class="card fold">
+                  <summary><span data-i18n="as_title"></span></summary>
+                  <ul class="fold-list" id="r-assumptions"></ul>
+                </details>
+
+                <details class="card fold hidden" id="peers-fold">
+                  <summary><span data-i18n="fold_peers"></span></summary>
+                  <p class="fold-text" id="r-peers"></p>
+                </details>
+
+                <details class="card fold">
+                  <summary><span data-i18n="wi_title"></span></summary>
                   <div class="form-grid whatif-form">
                     <label class="field"><span data-i18n="wi_wage"></span>
                       <input type="number" id="w-wage" min="0" step="10000" inputmode="numeric" placeholder="0">
@@ -289,10 +297,40 @@
                       <div class="whatif-num" id="w-after-num"></div>
                     </div>
                   </div>
-                </section>
+                </details>
 
                 <p class="footnote" id="r-foot"></p>
               </div>
+
+              <!-- оценка без дохода: один блок, переносится в нужное место в зависимости от режима -->
+              <div id="risk-block" class="hidden">
+                <div class="prio-head"><span class="prio-dot" id="risk-dot"></span><h3 class="prio-label" id="risk-label"></h3></div>
+                <div class="prio-scale" id="risk-scale" role="img">
+                  <div class="prio-track">
+                    <div class="prio-zone prio-usual"></div>
+                    <div class="prio-zone prio-elevated"></div>
+                    <div class="prio-zone prio-high"></div>
+                    <div class="prio-marker" id="risk-marker"></div>
+                  </div>
+                  <div class="prio-pin" id="risk-pin"><span id="risk-rank"></span></div>
+                  <div class="prio-axis"><span>0%</span><span class="ax-80">80%</span><span class="ax-90">90%</span><span>100%</span></div>
+                  <div class="prio-legend">
+                    <span><i class="sw prio-usual"></i><span data-i18n="prio_zone_usual"></span></span>
+                    <span><i class="sw prio-elevated"></i><span data-i18n="prio_zone_elevated"></span></span>
+                    <span><i class="sw prio-high"></i><span data-i18n="prio_zone_high"></span></span>
+                  </div>
+                </div>
+                <div class="assumptions">
+                  <h3 class="assumptions-title" data-i18n="risk_factors_title"></h3>
+                  <ul id="risk-factors"></ul>
+                </div>
+                <p class="risk-filter" data-i18n="risk_filter"></p>
+                <ul class="risk-caveats">
+                  <li id="risk-caveat-recall"></li>
+                  <li data-i18n="risk_caveat_synthetic"></li>
+                </ul>
+              </div>
+              <p class="form-error hidden" id="risk-error" role="alert"></p>
             </div>
           </div>
         </div>

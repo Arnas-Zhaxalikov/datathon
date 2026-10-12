@@ -227,7 +227,7 @@ def classify_household(
     worst = min(tests, key=lambda t: t["income_pc"])
     margin = res["margin_above_sm_month_per_capita"]
     if level == "E":
-        outcome = {"topup_family": res["tsa_topup_month_whole_family"]}
+        outcome = {"topup_family": res["tsa_topup_month_whole_family"], "gap_pc": -margin, "gap_family": -margin * hh_size}
     elif level == "D":
         outcome = {"gap_pc": -margin, "gap_family": -margin * hh_size, "above_asp_pc": pc - asp}
     else:
