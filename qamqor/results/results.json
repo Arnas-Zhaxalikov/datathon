@@ -1,0 +1,3237 @@
+{
+  "version": "0.3",
+  "gap_by_year_budget_line": [
+    {
+      "year": 2022,
+      "line_mode": "budget",
+      "persons_in_sample": 42535,
+      "households_in_sample": 11939,
+      "subsistence_minimum": 37046,
+      "tsa_line": 25932,
+      "median_income_per_capita": 71700,
+      "poverty_rate_sm_pct": 9.19,
+      "poverty_rate_tsa_line_pct": 2.66,
+      "gini": 0.2601,
+      "gap_to_sm_per_capita_year": 9349,
+      "tiers_pct": {
+        "A_tsa_eligible": 2.66,
+        "B_poor_not_eligible": 6.54,
+        "C_hidden_vulnerable": 6.84,
+        "D_resilient": 83.96
+      }
+    },
+    {
+      "year": 2023,
+      "line_mode": "budget",
+      "persons_in_sample": 42623,
+      "households_in_sample": 11977,
+      "subsistence_minimum": 40567,
+      "tsa_line": 28397,
+      "median_income_per_capita": 84267,
+      "poverty_rate_sm_pct": 7.32,
+      "poverty_rate_tsa_line_pct": 1.99,
+      "gini": 0.2612,
+      "gap_to_sm_per_capita_year": 7951,
+      "tiers_pct": {
+        "A_tsa_eligible": 1.99,
+        "B_poor_not_eligible": 5.33,
+        "C_hidden_vulnerable": 5.59,
+        "D_resilient": 87.09
+      }
+    },
+    {
+      "year": 2024,
+      "line_mode": "budget",
+      "persons_in_sample": 41745,
+      "households_in_sample": 11960,
+      "subsistence_minimum": 43407,
+      "tsa_line": 30385,
+      "median_income_per_capita": 95839,
+      "poverty_rate_sm_pct": 5.52,
+      "poverty_rate_tsa_line_pct": 1.47,
+      "gini": 0.257,
+      "gap_to_sm_per_capita_year": 6303,
+      "tiers_pct": {
+        "A_tsa_eligible": 1.47,
+        "B_poor_not_eligible": 4.04,
+        "C_hidden_vulnerable": 4.72,
+        "D_resilient": 89.76
+      }
+    }
+  ],
+  "gap_by_year_regional_line": [
+    {
+      "year": 2022,
+      "line_mode": "regional",
+      "persons_in_sample": 42535,
+      "households_in_sample": 11939,
+      "subsistence_minimum": 42940,
+      "tsa_line": 30058,
+      "median_income_per_capita": 71700,
+      "poverty_rate_sm_pct": 14.42,
+      "poverty_rate_tsa_line_pct": 4.58,
+      "gini": 0.2601,
+      "gap_to_sm_per_capita_year": 17572,
+      "tiers_pct": {
+        "A_tsa_eligible": 4.58,
+        "B_poor_not_eligible": 9.84,
+        "C_hidden_vulnerable": 9.07,
+        "D_resilient": 76.51
+      }
+    },
+    {
+      "year": 2023,
+      "line_mode": "regional",
+      "persons_in_sample": 42623,
+      "households_in_sample": 11977,
+      "subsistence_minimum": 48046,
+      "tsa_line": 33632,
+      "median_income_per_capita": 84267,
+      "poverty_rate_sm_pct": 12.61,
+      "poverty_rate_tsa_line_pct": 3.62,
+      "gini": 0.2612,
+      "gap_to_sm_per_capita_year": 17114,
+      "tiers_pct": {
+        "A_tsa_eligible": 3.62,
+        "B_poor_not_eligible": 8.99,
+        "C_hidden_vulnerable": 8.56,
+        "D_resilient": 78.83
+      }
+    },
+    {
+      "year": 2024,
+      "line_mode": "regional",
+      "persons_in_sample": 41745,
+      "households_in_sample": 11960,
+      "subsistence_minimum": 50086,
+      "tsa_line": 35060,
+      "median_income_per_capita": 95839,
+      "poverty_rate_sm_pct": 9.07,
+      "poverty_rate_tsa_line_pct": 2.47,
+      "gini": 0.257,
+      "gap_to_sm_per_capita_year": 12253,
+      "tiers_pct": {
+        "A_tsa_eligible": 2.47,
+        "B_poor_not_eligible": 6.61,
+        "C_hidden_vulnerable": 6.53,
+        "D_resilient": 84.4
+      }
+    }
+  ],
+  "three_lines_by_year": [
+    {
+      "year": 2022,
+      "tsa_line_tenge": 30058,
+      "budget_sm_tenge": 37046,
+      "regional_sm_tenge": 42940,
+      "below_tsa_line_pct": 4.58,
+      "below_budget_sm_pct": 9.19,
+      "below_regional_sm_pct": 14.42,
+      "uncovered_band_pct": 9.84,
+      "share_of_poor_not_eligible_pct": 68.2
+    },
+    {
+      "year": 2023,
+      "tsa_line_tenge": 33632,
+      "budget_sm_tenge": 40567,
+      "regional_sm_tenge": 48046,
+      "below_tsa_line_pct": 3.62,
+      "below_budget_sm_pct": 7.32,
+      "below_regional_sm_pct": 12.61,
+      "uncovered_band_pct": 8.99,
+      "share_of_poor_not_eligible_pct": 71.3
+    },
+    {
+      "year": 2024,
+      "tsa_line_tenge": 35060,
+      "budget_sm_tenge": 43407,
+      "regional_sm_tenge": 50086,
+      "below_tsa_line_pct": 2.47,
+      "below_budget_sm_pct": 5.52,
+      "below_regional_sm_pct": 9.07,
+      "uncovered_band_pct": 6.61,
+      "share_of_poor_not_eligible_pct": 72.8
+    }
+  ],
+  "regional_sm_by_year": {
+    "2022": {
+      "Abai": 43273,
+      "Akmola": 43821,
+      "Aktobe": 40629,
+      "Almaty region": 43721,
+      "Atyrau": 42666,
+      "West Kazakhstan": 40448,
+      "Zhambyl": 41170,
+      "Zhetisu": 42776,
+      "Karaganda": 41421,
+      "Kostanay": 42610,
+      "Kyzylorda": 39446,
+      "Mangystau": 52366,
+      "Pavlodar": 43315,
+      "North Kazakhstan": 42821,
+      "Turkestan": 41099,
+      "Ulytau": 41652,
+      "East Kazakhstan": 44982,
+      "Astana city": 47811,
+      "Almaty city": 46060,
+      "Shymkent city": 41426
+    },
+    "2023": {
+      "Abai": 47828,
+      "Akmola": 48174,
+      "Aktobe": 44463,
+      "Almaty region": 48836,
+      "Atyrau": 47060,
+      "West Kazakhstan": 44605,
+      "Zhambyl": 46601,
+      "Zhetisu": 47609,
+      "Karaganda": 46728,
+      "Kostanay": 46440,
+      "Kyzylorda": 44211,
+      "Mangystau": 61520,
+      "Pavlodar": 47774,
+      "North Kazakhstan": 47845,
+      "Turkestan": 44555,
+      "Ulytau": 48448,
+      "East Kazakhstan": 50894,
+      "Astana city": 54415,
+      "Almaty city": 51048,
+      "Shymkent city": 47768
+    },
+    "2024": {
+      "Abai": 50728,
+      "Akmola": 50136,
+      "Aktobe": 46358,
+      "Almaty region": 52152,
+      "Atyrau": 48292,
+      "West Kazakhstan": 47161,
+      "Zhambyl": 48135,
+      "Zhetisu": 49284,
+      "Karaganda": 49063,
+      "Kostanay": 48952,
+      "Kyzylorda": 45858,
+      "Mangystau": 62592,
+      "Pavlodar": 49322,
+      "North Kazakhstan": 50010,
+      "Turkestan": 45778,
+      "Ulytau": 51569,
+      "East Kazakhstan": 53792,
+      "Astana city": 55386,
+      "Almaty city": 54495,
+      "Shymkent city": 50146
+    }
+  },
+  "national_sm_by_year": {
+    "2022": {
+      "actual": 43567,
+      "budget_law": 37046
+    },
+    "2023": {
+      "actual": 48738,
+      "budget_law": 40567
+    },
+    "2024": {
+      "actual": 51058,
+      "budget_law": 43407
+    }
+  },
+  "below_sm_by_region_by_year": [
+    {
+      "region": "Mangystau",
+      "2022": 28.8,
+      "2023": 28.8,
+      "2024": 23.5
+    },
+    {
+      "region": "Shymkent city",
+      "2022": 23.0,
+      "2023": 18.5,
+      "2024": 19.2
+    },
+    {
+      "region": "Zhambyl",
+      "2022": 19.6,
+      "2023": 16.1,
+      "2024": 15.9
+    },
+    {
+      "region": "Zhetisu",
+      "2022": 19.3,
+      "2023": 19.0,
+      "2024": 14.3
+    },
+    {
+      "region": "Turkestan",
+      "2022": 30.3,
+      "2023": 21.3,
+      "2024": 14.2
+    },
+    {
+      "region": "Almaty region",
+      "2022": 15.1,
+      "2023": 14.8,
+      "2024": 10.6
+    },
+    {
+      "region": "West Kazakhstan",
+      "2022": 11.0,
+      "2023": 10.7,
+      "2024": 10.1
+    },
+    {
+      "region": "Ulytau",
+      "2022": 10.8,
+      "2023": 10.2,
+      "2024": 8.9
+    },
+    {
+      "region": "Kyzylorda",
+      "2022": 14.6,
+      "2023": 13.5,
+      "2024": 8.8
+    },
+    {
+      "region": "Astana city",
+      "2022": 12.4,
+      "2023": 14.2,
+      "2024": 6.9
+    },
+    {
+      "region": "Atyrau",
+      "2022": 13.4,
+      "2023": 12.2,
+      "2024": 6.0
+    },
+    {
+      "region": "Almaty city",
+      "2022": 12.9,
+      "2023": 9.3,
+      "2024": 5.9
+    },
+    {
+      "region": "Akmola",
+      "2022": 6.8,
+      "2023": 7.3,
+      "2024": 5.7
+    },
+    {
+      "region": "Abai",
+      "2022": 10.9,
+      "2023": 19.2,
+      "2024": 5.6
+    },
+    {
+      "region": "Aktobe",
+      "2022": 12.1,
+      "2023": 8.1,
+      "2024": 5.2
+    },
+    {
+      "region": "Pavlodar",
+      "2022": 11.3,
+      "2023": 6.3,
+      "2024": 4.5
+    },
+    {
+      "region": "North Kazakhstan",
+      "2022": 6.9,
+      "2023": 5.6,
+      "2024": 3.9
+    },
+    {
+      "region": "East Kazakhstan",
+      "2022": 7.8,
+      "2023": 4.0,
+      "2024": 3.0
+    },
+    {
+      "region": "Karaganda",
+      "2022": 8.8,
+      "2023": 6.3,
+      "2024": 2.7
+    },
+    {
+      "region": "Kostanay",
+      "2022": 5.3,
+      "2023": 3.1,
+      "2024": 2.4
+    }
+  ],
+  "line_modes_2024": {
+    "budget": {
+      "year": 2024,
+      "line_mode": "budget",
+      "persons_in_sample": 41745,
+      "households_in_sample": 11960,
+      "subsistence_minimum": 43407,
+      "tsa_line": 30385,
+      "median_income_per_capita": 95839,
+      "poverty_rate_sm_pct": 5.52,
+      "poverty_rate_tsa_line_pct": 1.47,
+      "gini": 0.257,
+      "gap_to_sm_per_capita_year": 6303,
+      "tiers_pct": {
+        "A_tsa_eligible": 1.47,
+        "B_poor_not_eligible": 4.04,
+        "C_hidden_vulnerable": 4.72,
+        "D_resilient": 89.76
+      }
+    },
+    "actual": {
+      "year": 2024,
+      "line_mode": "actual",
+      "persons_in_sample": 41745,
+      "households_in_sample": 11960,
+      "subsistence_minimum": 51058,
+      "tsa_line": 35741,
+      "median_income_per_capita": 95839,
+      "poverty_rate_sm_pct": 9.73,
+      "poverty_rate_tsa_line_pct": 2.81,
+      "gini": 0.257,
+      "gap_to_sm_per_capita_year": 13239,
+      "tiers_pct": {
+        "A_tsa_eligible": 2.81,
+        "B_poor_not_eligible": 6.92,
+        "C_hidden_vulnerable": 7.41,
+        "D_resilient": 82.86
+      }
+    },
+    "regional": {
+      "year": 2024,
+      "line_mode": "regional",
+      "persons_in_sample": 41745,
+      "households_in_sample": 11960,
+      "subsistence_minimum": 50086,
+      "tsa_line": 35060,
+      "median_income_per_capita": 95839,
+      "poverty_rate_sm_pct": 9.07,
+      "poverty_rate_tsa_line_pct": 2.47,
+      "gini": 0.257,
+      "gap_to_sm_per_capita_year": 12253,
+      "tiers_pct": {
+        "A_tsa_eligible": 2.47,
+        "B_poor_not_eligible": 6.61,
+        "C_hidden_vulnerable": 6.53,
+        "D_resilient": 84.4
+      }
+    }
+  },
+  "regional_sm_2024": {
+    "Abai": 50728,
+    "Akmola": 50136,
+    "Aktobe": 46358,
+    "Almaty region": 52152,
+    "Atyrau": 48292,
+    "West Kazakhstan": 47161,
+    "Zhambyl": 48135,
+    "Zhetisu": 49284,
+    "Karaganda": 49063,
+    "Kostanay": 48952,
+    "Kyzylorda": 45858,
+    "Mangystau": 62592,
+    "Pavlodar": 49322,
+    "North Kazakhstan": 50010,
+    "Turkestan": 45778,
+    "Ulytau": 51569,
+    "East Kazakhstan": 53792,
+    "Astana city": 55386,
+    "Almaty city": 54495,
+    "Shymkent city": 50146
+  },
+  "gap_by_children_2024": [
+    {
+      "n_child": "0",
+      "persons_pct_of_sample": 24.2,
+      "A_tsa_eligible": 0.5,
+      "B_poor_not_eligible": 0.4,
+      "C_hidden_vulnerable": 0.6,
+      "D_resilient": 98.6
+    },
+    {
+      "n_child": "1",
+      "persons_pct_of_sample": 21.9,
+      "A_tsa_eligible": 0.8,
+      "B_poor_not_eligible": 2.6,
+      "C_hidden_vulnerable": 3.6,
+      "D_resilient": 92.9
+    },
+    {
+      "n_child": "2",
+      "persons_pct_of_sample": 21.0,
+      "A_tsa_eligible": 2.3,
+      "B_poor_not_eligible": 6.2,
+      "C_hidden_vulnerable": 6.3,
+      "D_resilient": 85.1
+    },
+    {
+      "n_child": "3",
+      "persons_pct_of_sample": 18.2,
+      "A_tsa_eligible": 2.9,
+      "B_poor_not_eligible": 9.3,
+      "C_hidden_vulnerable": 11.2,
+      "D_resilient": 76.6
+    },
+    {
+      "n_child": "4+",
+      "persons_pct_of_sample": 14.6,
+      "A_tsa_eligible": 7.9,
+      "B_poor_not_eligible": 20.1,
+      "C_hidden_vulnerable": 15.2,
+      "D_resilient": 56.8
+    }
+  ],
+  "gap_by_type_2024": [
+    {
+      "hh_type": "children_1_3",
+      "persons_pct_of_sample": 58.4,
+      "A_tsa_eligible": 1.7,
+      "B_poor_not_eligible": 5.3,
+      "C_hidden_vulnerable": 6.5,
+      "D_resilient": 86.5
+    },
+    {
+      "hh_type": "children_4plus",
+      "persons_pct_of_sample": 14.4,
+      "A_tsa_eligible": 7.3,
+      "B_poor_not_eligible": 19.9,
+      "C_hidden_vulnerable": 15.3,
+      "D_resilient": 57.5
+    },
+    {
+      "hh_type": "pensioners_only",
+      "persons_pct_of_sample": 3.5,
+      "A_tsa_eligible": 0.5,
+      "B_poor_not_eligible": 0.1,
+      "C_hidden_vulnerable": 0.2,
+      "D_resilient": 99.2
+    },
+    {
+      "hh_type": "single_adult_with_children",
+      "persons_pct_of_sample": 2.9,
+      "A_tsa_eligible": 11.3,
+      "B_poor_not_eligible": 18.5,
+      "C_hidden_vulnerable": 13.3,
+      "D_resilient": 56.8
+    },
+    {
+      "hh_type": "working_age_no_children",
+      "persons_pct_of_sample": 20.8,
+      "A_tsa_eligible": 0.5,
+      "B_poor_not_eligible": 0.4,
+      "C_hidden_vulnerable": 0.6,
+      "D_resilient": 98.5
+    }
+  ],
+  "hidden_vulnerable_reasons_2024": {
+    "fail_earner_loss": 73.6,
+    "fail_income_drop": 91.9,
+    "fail_utilities": 10.1,
+    "drv_many_children": 65.3,
+    "drv_no_earner": 3.1,
+    "drv_one_earner_many_dependents": 23.6,
+    "drv_transfer_dependent": 13.7,
+    "drv_high_housing_burden": 13.8
+  },
+  "hidden_vulnerable_sensitivity_2024": [
+    {
+      "main_earner_months_lost": 1,
+      "income_drop": 0.05,
+      "utilities_rise": 0.1,
+      "hidden_vulnerable_pct": 1.77
+    },
+    {
+      "main_earner_months_lost": 2,
+      "income_drop": 0.1,
+      "utilities_rise": 0.2,
+      "hidden_vulnerable_pct": 4.01
+    },
+    {
+      "main_earner_months_lost": 3,
+      "income_drop": 0.15,
+      "utilities_rise": 0.3,
+      "hidden_vulnerable_pct": 6.53
+    },
+    {
+      "main_earner_months_lost": 6,
+      "income_drop": 0.25,
+      "utilities_rise": 0.5,
+      "hidden_vulnerable_pct": 15.91
+    }
+  ],
+  "gap_by_region_2024": [
+    {
+      "region": "Mangystau",
+      "persons_pct_of_sample": 5.5,
+      "subsistence_minimum": 62592,
+      "median_income_per_capita": 91336,
+      "below_sm_one_national_line_pct": 11.5,
+      "below_sm_regional_line_pct": 23.5,
+      "A_tsa_eligible": 8.1,
+      "B_poor_not_eligible": 15.4,
+      "C_hidden_vulnerable": 9.4,
+      "D_resilient": 67.1
+    },
+    {
+      "region": "Shymkent city",
+      "persons_pct_of_sample": 4.1,
+      "subsistence_minimum": 50146,
+      "median_income_per_capita": 75609,
+      "below_sm_one_national_line_pct": 19.8,
+      "below_sm_regional_line_pct": 19.2,
+      "A_tsa_eligible": 6.3,
+      "B_poor_not_eligible": 12.8,
+      "C_hidden_vulnerable": 11.6,
+      "D_resilient": 69.3
+    },
+    {
+      "region": "Zhambyl",
+      "persons_pct_of_sample": 6.0,
+      "subsistence_minimum": 48135,
+      "median_income_per_capita": 79908,
+      "below_sm_one_national_line_pct": 19.0,
+      "below_sm_regional_line_pct": 15.9,
+      "A_tsa_eligible": 4.1,
+      "B_poor_not_eligible": 11.8,
+      "C_hidden_vulnerable": 11.2,
+      "D_resilient": 72.9
+    },
+    {
+      "region": "Zhetisu",
+      "persons_pct_of_sample": 3.8,
+      "subsistence_minimum": 49284,
+      "median_income_per_capita": 82894,
+      "below_sm_one_national_line_pct": 15.7,
+      "below_sm_regional_line_pct": 14.3,
+      "A_tsa_eligible": 5.3,
+      "B_poor_not_eligible": 9.0,
+      "C_hidden_vulnerable": 9.1,
+      "D_resilient": 76.6
+    },
+    {
+      "region": "Turkestan",
+      "persons_pct_of_sample": 7.5,
+      "subsistence_minimum": 45778,
+      "median_income_per_capita": 73824,
+      "below_sm_one_national_line_pct": 20.6,
+      "below_sm_regional_line_pct": 14.2,
+      "A_tsa_eligible": 3.9,
+      "B_poor_not_eligible": 10.3,
+      "C_hidden_vulnerable": 10.7,
+      "D_resilient": 75.1
+    },
+    {
+      "region": "Almaty region",
+      "persons_pct_of_sample": 3.9,
+      "subsistence_minimum": 52152,
+      "median_income_per_capita": 100533,
+      "below_sm_one_national_line_pct": 10.6,
+      "below_sm_regional_line_pct": 10.6,
+      "A_tsa_eligible": 3.4,
+      "B_poor_not_eligible": 7.2,
+      "C_hidden_vulnerable": 5.9,
+      "D_resilient": 83.5
+    },
+    {
+      "region": "West Kazakhstan",
+      "persons_pct_of_sample": 5.7,
+      "subsistence_minimum": 47161,
+      "median_income_per_capita": 93192,
+      "below_sm_one_national_line_pct": 12.9,
+      "below_sm_regional_line_pct": 10.1,
+      "A_tsa_eligible": 2.5,
+      "B_poor_not_eligible": 7.6,
+      "C_hidden_vulnerable": 5.8,
+      "D_resilient": 84.1
+    },
+    {
+      "region": "Ulytau",
+      "persons_pct_of_sample": 4.1,
+      "subsistence_minimum": 51569,
+      "median_income_per_capita": 89500,
+      "below_sm_one_national_line_pct": 8.9,
+      "below_sm_regional_line_pct": 8.9,
+      "A_tsa_eligible": 1.1,
+      "B_poor_not_eligible": 7.9,
+      "C_hidden_vulnerable": 7.5,
+      "D_resilient": 83.5
+    },
+    {
+      "region": "Kyzylorda",
+      "persons_pct_of_sample": 6.4,
+      "subsistence_minimum": 45858,
+      "median_income_per_capita": 80493,
+      "below_sm_one_national_line_pct": 11.3,
+      "below_sm_regional_line_pct": 8.8,
+      "A_tsa_eligible": 1.8,
+      "B_poor_not_eligible": 7.0,
+      "C_hidden_vulnerable": 5.1,
+      "D_resilient": 86.1
+    },
+    {
+      "region": "Astana city",
+      "persons_pct_of_sample": 3.8,
+      "subsistence_minimum": 55386,
+      "median_income_per_capita": 116378,
+      "below_sm_one_national_line_pct": 4.3,
+      "below_sm_regional_line_pct": 6.9,
+      "A_tsa_eligible": 0.8,
+      "B_poor_not_eligible": 6.0,
+      "C_hidden_vulnerable": 5.1,
+      "D_resilient": 88.0
+    },
+    {
+      "region": "Atyrau",
+      "persons_pct_of_sample": 5.5,
+      "subsistence_minimum": 48292,
+      "median_income_per_capita": 91319,
+      "below_sm_one_national_line_pct": 8.7,
+      "below_sm_regional_line_pct": 6.0,
+      "A_tsa_eligible": 0.9,
+      "B_poor_not_eligible": 5.1,
+      "C_hidden_vulnerable": 7.8,
+      "D_resilient": 86.2
+    },
+    {
+      "region": "Almaty city",
+      "persons_pct_of_sample": 5.1,
+      "subsistence_minimum": 54495,
+      "median_income_per_capita": 112796,
+      "below_sm_one_national_line_pct": 4.7,
+      "below_sm_regional_line_pct": 5.9,
+      "A_tsa_eligible": 1.1,
+      "B_poor_not_eligible": 4.8,
+      "C_hidden_vulnerable": 6.0,
+      "D_resilient": 88.1
+    },
+    {
+      "region": "Akmola",
+      "persons_pct_of_sample": 5.3,
+      "subsistence_minimum": 50136,
+      "median_income_per_capita": 112936,
+      "below_sm_one_national_line_pct": 6.4,
+      "below_sm_regional_line_pct": 5.7,
+      "A_tsa_eligible": 1.2,
+      "B_poor_not_eligible": 4.5,
+      "C_hidden_vulnerable": 3.3,
+      "D_resilient": 90.9
+    },
+    {
+      "region": "Abai",
+      "persons_pct_of_sample": 3.5,
+      "subsistence_minimum": 50728,
+      "median_income_per_capita": 109970,
+      "below_sm_one_national_line_pct": 5.6,
+      "below_sm_regional_line_pct": 5.6,
+      "A_tsa_eligible": 1.3,
+      "B_poor_not_eligible": 4.3,
+      "C_hidden_vulnerable": 5.8,
+      "D_resilient": 88.6
+    },
+    {
+      "region": "Aktobe",
+      "persons_pct_of_sample": 6.5,
+      "subsistence_minimum": 46358,
+      "median_income_per_capita": 94683,
+      "below_sm_one_national_line_pct": 7.4,
+      "below_sm_regional_line_pct": 5.2,
+      "A_tsa_eligible": 2.0,
+      "B_poor_not_eligible": 3.2,
+      "C_hidden_vulnerable": 4.7,
+      "D_resilient": 90.1
+    },
+    {
+      "region": "Pavlodar",
+      "persons_pct_of_sample": 5.8,
+      "subsistence_minimum": 49322,
+      "median_income_per_capita": 110705,
+      "below_sm_one_national_line_pct": 5.6,
+      "below_sm_regional_line_pct": 4.5,
+      "A_tsa_eligible": 0.9,
+      "B_poor_not_eligible": 3.6,
+      "C_hidden_vulnerable": 5.0,
+      "D_resilient": 90.5
+    },
+    {
+      "region": "North Kazakhstan",
+      "persons_pct_of_sample": 4.5,
+      "subsistence_minimum": 50010,
+      "median_income_per_capita": 114752,
+      "below_sm_one_national_line_pct": 4.3,
+      "below_sm_regional_line_pct": 3.9,
+      "A_tsa_eligible": 0.4,
+      "B_poor_not_eligible": 3.5,
+      "C_hidden_vulnerable": 4.7,
+      "D_resilient": 91.4
+    },
+    {
+      "region": "East Kazakhstan",
+      "persons_pct_of_sample": 3.3,
+      "subsistence_minimum": 53792,
+      "median_income_per_capita": 122857,
+      "below_sm_one_national_line_pct": 1.8,
+      "below_sm_regional_line_pct": 3.0,
+      "A_tsa_eligible": 0.8,
+      "B_poor_not_eligible": 2.2,
+      "C_hidden_vulnerable": 5.0,
+      "D_resilient": 92.0
+    },
+    {
+      "region": "Karaganda",
+      "persons_pct_of_sample": 4.3,
+      "subsistence_minimum": 49063,
+      "median_income_per_capita": 117022,
+      "below_sm_one_national_line_pct": 2.7,
+      "below_sm_regional_line_pct": 2.7,
+      "A_tsa_eligible": 1.0,
+      "B_poor_not_eligible": 1.7,
+      "C_hidden_vulnerable": 2.4,
+      "D_resilient": 94.8
+    },
+    {
+      "region": "Kostanay",
+      "persons_pct_of_sample": 5.3,
+      "subsistence_minimum": 48952,
+      "median_income_per_capita": 122240,
+      "below_sm_one_national_line_pct": 3.1,
+      "below_sm_regional_line_pct": 2.4,
+      "A_tsa_eligible": 1.3,
+      "B_poor_not_eligible": 1.0,
+      "C_hidden_vulnerable": 2.2,
+      "D_resilient": 95.4
+    }
+  ],
+  "gap_urban_rural_2024": [
+    {
+      "area": "rural",
+      "persons_pct_of_sample": 48.7,
+      "below_sm_one_national_line_pct": 10.4,
+      "below_sm_regional_line_pct": 9.1,
+      "A_tsa_eligible": 2.1,
+      "B_poor_not_eligible": 7.0,
+      "C_hidden_vulnerable": 6.6,
+      "D_resilient": 84.2
+    },
+    {
+      "area": "urban",
+      "persons_pct_of_sample": 51.3,
+      "below_sm_one_national_line_pct": 9.1,
+      "below_sm_regional_line_pct": 9.0,
+      "A_tsa_eligible": 2.8,
+      "B_poor_not_eligible": 6.2,
+      "C_hidden_vulnerable": 6.4,
+      "D_resilient": 84.5
+    }
+  ],
+  "regional_line_reclassification_2024": {
+    "become_poor_pct": 0.86,
+    "stop_being_poor_pct": 1.51
+  },
+  "uncertainty_2024": {
+    "poverty_rate_sm_pct": {
+      "value": 9.07,
+      "ci95": [
+        8.4,
+        9.7
+      ]
+    },
+    "tsa_eligible_pct": {
+      "value": 2.47,
+      "ci95": [
+        2.1,
+        2.841
+      ]
+    },
+    "hidden_vulnerable_pct": {
+      "value": 6.53,
+      "ci95": [
+        5.96,
+        7.101
+      ]
+    }
+  },
+  "equivalence_2024": {
+    "year": 2024,
+    "scale": "1 + 0.8 per additional member",
+    "below_sm_per_capita_pct": 9.07,
+    "below_sm_equivalised_same_line_pct": 4.73,
+    "reclassified_out_of_poverty_pct_of_people": 4.35,
+    "reclassified_share_of_the_poor_pct": 47.9,
+    "below_tsa_line_per_capita_pct": 2.47,
+    "below_tsa_line_equivalised_same_line_pct": 1.39,
+    "same_headcount": {
+      "line_multiplier": 1.1897,
+      "below_line_pct": 9.07,
+      "enter_poverty_pct_of_people": 0.14,
+      "leave_poverty_pct_of_people": 0.14
+    },
+    "by_children": [
+      {
+        "n_child_group": "0",
+        "persons_pct_of_sample": 24.2,
+        "below_sm_per_capita_pct": 0.8,
+        "below_sm_equivalised_same_line_pct": 0.6,
+        "below_line_same_headcount_pct": 1.0
+      },
+      {
+        "n_child_group": "1",
+        "persons_pct_of_sample": 21.9,
+        "below_sm_per_capita_pct": 3.5,
+        "below_sm_equivalised_same_line_pct": 1.9,
+        "below_line_same_headcount_pct": 3.8
+      },
+      {
+        "n_child_group": "2",
+        "persons_pct_of_sample": 21.0,
+        "below_sm_per_capita_pct": 8.5,
+        "below_sm_equivalised_same_line_pct": 4.2,
+        "below_line_same_headcount_pct": 8.6
+      },
+      {
+        "n_child_group": "3",
+        "persons_pct_of_sample": 18.2,
+        "below_sm_per_capita_pct": 12.2,
+        "below_sm_equivalised_same_line_pct": 6.4,
+        "below_line_same_headcount_pct": 11.9
+      },
+      {
+        "n_child_group": "4+",
+        "persons_pct_of_sample": 14.6,
+        "below_sm_per_capita_pct": 28.0,
+        "below_sm_equivalised_same_line_pct": 14.3,
+        "below_line_same_headcount_pct": 27.4
+      }
+    ],
+    "by_size": [
+      {
+        "size_group": "1",
+        "persons_pct_of_sample": 4.1,
+        "below_sm_per_capita_pct": 1.2,
+        "below_sm_equivalised_same_line_pct": 1.2,
+        "below_line_same_headcount_pct": 1.4
+      },
+      {
+        "size_group": "2",
+        "persons_pct_of_sample": 13.6,
+        "below_sm_per_capita_pct": 1.4,
+        "below_sm_equivalised_same_line_pct": 0.8,
+        "below_line_same_headcount_pct": 2.0
+      },
+      {
+        "size_group": "3",
+        "persons_pct_of_sample": 15.7,
+        "below_sm_per_capita_pct": 5.4,
+        "below_sm_equivalised_same_line_pct": 3.3,
+        "below_line_same_headcount_pct": 5.5
+      },
+      {
+        "size_group": "4",
+        "persons_pct_of_sample": 18.0,
+        "below_sm_per_capita_pct": 5.4,
+        "below_sm_equivalised_same_line_pct": 3.3,
+        "below_line_same_headcount_pct": 5.5
+      },
+      {
+        "size_group": "5",
+        "persons_pct_of_sample": 16.2,
+        "below_sm_per_capita_pct": 11.0,
+        "below_sm_equivalised_same_line_pct": 5.8,
+        "below_line_same_headcount_pct": 11.0
+      },
+      {
+        "size_group": "6",
+        "persons_pct_of_sample": 14.7,
+        "below_sm_per_capita_pct": 14.0,
+        "below_sm_equivalised_same_line_pct": 6.0,
+        "below_line_same_headcount_pct": 13.4
+      },
+      {
+        "size_group": "7+",
+        "persons_pct_of_sample": 17.8,
+        "below_sm_per_capita_pct": 17.9,
+        "below_sm_equivalised_same_line_pct": 9.3,
+        "below_line_same_headcount_pct": 17.6
+      }
+    ],
+    "by_type": [
+      {
+        "hh_type": "children_1_3",
+        "persons_pct_of_sample": 58.4,
+        "below_sm_per_capita_pct": 7.0,
+        "below_sm_equivalised_same_line_pct": 3.5,
+        "below_line_same_headcount_pct": 6.9
+      },
+      {
+        "hh_type": "children_4plus",
+        "persons_pct_of_sample": 14.4,
+        "below_sm_per_capita_pct": 27.1,
+        "below_sm_equivalised_same_line_pct": 13.7,
+        "below_line_same_headcount_pct": 26.4
+      },
+      {
+        "hh_type": "pensioners_only",
+        "persons_pct_of_sample": 3.5,
+        "below_sm_per_capita_pct": 0.6,
+        "below_sm_equivalised_same_line_pct": 0.5,
+        "below_line_same_headcount_pct": 0.8
+      },
+      {
+        "hh_type": "single_adult_with_children",
+        "persons_pct_of_sample": 2.9,
+        "below_sm_per_capita_pct": 29.8,
+        "below_sm_equivalised_same_line_pct": 18.2,
+        "below_line_same_headcount_pct": 31.9
+      },
+      {
+        "hh_type": "working_age_no_children",
+        "persons_pct_of_sample": 20.8,
+        "below_sm_per_capita_pct": 0.9,
+        "below_sm_equivalised_same_line_pct": 0.7,
+        "below_line_same_headcount_pct": 1.1
+      }
+    ],
+    "by_elderly": [
+      {
+        "n_elderly_group": "0",
+        "persons_pct_of_sample": 65.9,
+        "below_sm_per_capita_pct": 9.4,
+        "below_sm_equivalised_same_line_pct": 4.9,
+        "below_line_same_headcount_pct": 9.5
+      },
+      {
+        "n_elderly_group": "1",
+        "persons_pct_of_sample": 28.9,
+        "below_sm_per_capita_pct": 8.5,
+        "below_sm_equivalised_same_line_pct": 4.3,
+        "below_line_same_headcount_pct": 8.3
+      },
+      {
+        "n_elderly_group": "2+",
+        "persons_pct_of_sample": 5.2,
+        "below_sm_per_capita_pct": 7.9,
+        "below_sm_equivalised_same_line_pct": 4.4,
+        "below_line_same_headcount_pct": 8.0
+      }
+    ],
+    "by_region": [
+      {
+        "region": "Abai",
+        "persons_pct_of_sample": 3.5,
+        "below_sm_per_capita_pct": 5.6,
+        "below_sm_equivalised_same_line_pct": 3.5,
+        "below_line_same_headcount_pct": 5.6
+      },
+      {
+        "region": "Akmola",
+        "persons_pct_of_sample": 5.3,
+        "below_sm_per_capita_pct": 5.7,
+        "below_sm_equivalised_same_line_pct": 2.9,
+        "below_line_same_headcount_pct": 5.8
+      },
+      {
+        "region": "Aktobe",
+        "persons_pct_of_sample": 6.5,
+        "below_sm_per_capita_pct": 5.2,
+        "below_sm_equivalised_same_line_pct": 3.0,
+        "below_line_same_headcount_pct": 5.1
+      },
+      {
+        "region": "Almaty region",
+        "persons_pct_of_sample": 3.9,
+        "below_sm_per_capita_pct": 10.6,
+        "below_sm_equivalised_same_line_pct": 7.1,
+        "below_line_same_headcount_pct": 10.8
+      },
+      {
+        "region": "Atyrau",
+        "persons_pct_of_sample": 5.5,
+        "below_sm_per_capita_pct": 6.0,
+        "below_sm_equivalised_same_line_pct": 2.3,
+        "below_line_same_headcount_pct": 5.6
+      },
+      {
+        "region": "West Kazakhstan",
+        "persons_pct_of_sample": 5.7,
+        "below_sm_per_capita_pct": 10.1,
+        "below_sm_equivalised_same_line_pct": 3.9,
+        "below_line_same_headcount_pct": 9.7
+      },
+      {
+        "region": "Zhambyl",
+        "persons_pct_of_sample": 6.0,
+        "below_sm_per_capita_pct": 15.9,
+        "below_sm_equivalised_same_line_pct": 8.7,
+        "below_line_same_headcount_pct": 15.7
+      },
+      {
+        "region": "Zhetisu",
+        "persons_pct_of_sample": 3.8,
+        "below_sm_per_capita_pct": 14.3,
+        "below_sm_equivalised_same_line_pct": 9.7,
+        "below_line_same_headcount_pct": 14.3
+      },
+      {
+        "region": "Karaganda",
+        "persons_pct_of_sample": 4.3,
+        "below_sm_per_capita_pct": 2.7,
+        "below_sm_equivalised_same_line_pct": 1.4,
+        "below_line_same_headcount_pct": 2.4
+      },
+      {
+        "region": "Kostanay",
+        "persons_pct_of_sample": 5.3,
+        "below_sm_per_capita_pct": 2.4,
+        "below_sm_equivalised_same_line_pct": 1.7,
+        "below_line_same_headcount_pct": 2.4
+      },
+      {
+        "region": "Kyzylorda",
+        "persons_pct_of_sample": 6.4,
+        "below_sm_per_capita_pct": 8.8,
+        "below_sm_equivalised_same_line_pct": 3.7,
+        "below_line_same_headcount_pct": 8.8
+      },
+      {
+        "region": "Mangystau",
+        "persons_pct_of_sample": 5.5,
+        "below_sm_per_capita_pct": 23.5,
+        "below_sm_equivalised_same_line_pct": 13.6,
+        "below_line_same_headcount_pct": 23.5
+      },
+      {
+        "region": "Pavlodar",
+        "persons_pct_of_sample": 5.8,
+        "below_sm_per_capita_pct": 4.5,
+        "below_sm_equivalised_same_line_pct": 1.9,
+        "below_line_same_headcount_pct": 4.7
+      },
+      {
+        "region": "North Kazakhstan",
+        "persons_pct_of_sample": 4.5,
+        "below_sm_per_capita_pct": 3.9,
+        "below_sm_equivalised_same_line_pct": 1.7,
+        "below_line_same_headcount_pct": 4.2
+      },
+      {
+        "region": "Turkestan",
+        "persons_pct_of_sample": 7.5,
+        "below_sm_per_capita_pct": 14.2,
+        "below_sm_equivalised_same_line_pct": 7.6,
+        "below_line_same_headcount_pct": 13.9
+      },
+      {
+        "region": "Ulytau",
+        "persons_pct_of_sample": 4.1,
+        "below_sm_per_capita_pct": 8.9,
+        "below_sm_equivalised_same_line_pct": 3.6,
+        "below_line_same_headcount_pct": 9.1
+      },
+      {
+        "region": "East Kazakhstan",
+        "persons_pct_of_sample": 3.3,
+        "below_sm_per_capita_pct": 3.0,
+        "below_sm_equivalised_same_line_pct": 1.1,
+        "below_line_same_headcount_pct": 3.0
+      },
+      {
+        "region": "Astana city",
+        "persons_pct_of_sample": 3.8,
+        "below_sm_per_capita_pct": 6.9,
+        "below_sm_equivalised_same_line_pct": 2.6,
+        "below_line_same_headcount_pct": 7.4
+      },
+      {
+        "region": "Almaty city",
+        "persons_pct_of_sample": 5.1,
+        "below_sm_per_capita_pct": 5.9,
+        "below_sm_equivalised_same_line_pct": 2.6,
+        "below_line_same_headcount_pct": 6.0
+      },
+      {
+        "region": "Shymkent city",
+        "persons_pct_of_sample": 4.1,
+        "below_sm_per_capita_pct": 19.2,
+        "below_sm_equivalised_same_line_pct": 10.4,
+        "below_line_same_headcount_pct": 19.5
+      }
+    ],
+    "by_urban": [
+      {
+        "area": "rural",
+        "persons_pct_of_sample": 48.7,
+        "below_sm_per_capita_pct": 9.1,
+        "below_sm_equivalised_same_line_pct": 4.3,
+        "below_line_same_headcount_pct": 9.0
+      },
+      {
+        "area": "urban",
+        "persons_pct_of_sample": 51.3,
+        "below_sm_per_capita_pct": 9.0,
+        "below_sm_equivalised_same_line_pct": 5.1,
+        "below_line_same_headcount_pct": 9.2
+      }
+    ]
+  },
+  "equivalence_by_year": [
+    {
+      "year": 2022,
+      "scale": "1 + 0.8 per additional member",
+      "below_sm_per_capita_pct": 14.42,
+      "below_sm_equivalised_same_line_pct": 7.92,
+      "reclassified_out_of_poverty_pct_of_people": 6.5,
+      "reclassified_share_of_the_poor_pct": 45.1,
+      "below_tsa_line_per_capita_pct": 4.58,
+      "below_tsa_line_equivalised_same_line_pct": 2.41,
+      "same_headcount": {
+        "line_multiplier": 1.1896,
+        "below_line_pct": 14.41,
+        "enter_poverty_pct_of_people": 0.24,
+        "leave_poverty_pct_of_people": 0.25
+      }
+    },
+    {
+      "year": 2023,
+      "scale": "1 + 0.8 per additional member",
+      "below_sm_per_capita_pct": 12.61,
+      "below_sm_equivalised_same_line_pct": 6.95,
+      "reclassified_out_of_poverty_pct_of_people": 5.65,
+      "reclassified_share_of_the_poor_pct": 44.8,
+      "below_tsa_line_per_capita_pct": 3.62,
+      "below_tsa_line_equivalised_same_line_pct": 2.05,
+      "same_headcount": {
+        "line_multiplier": 1.1912,
+        "below_line_pct": 12.6,
+        "enter_poverty_pct_of_people": 0.2,
+        "leave_poverty_pct_of_people": 0.21
+      }
+    },
+    {
+      "year": 2024,
+      "scale": "1 + 0.8 per additional member",
+      "below_sm_per_capita_pct": 9.07,
+      "below_sm_equivalised_same_line_pct": 4.73,
+      "reclassified_out_of_poverty_pct_of_people": 4.35,
+      "reclassified_share_of_the_poor_pct": 47.9,
+      "below_tsa_line_per_capita_pct": 2.47,
+      "below_tsa_line_equivalised_same_line_pct": 1.39,
+      "same_headcount": {
+        "line_multiplier": 1.1897,
+        "below_line_pct": 9.07,
+        "enter_poverty_pct_of_people": 0.14,
+        "leave_poverty_pct_of_people": 0.14
+      }
+    }
+  ],
+  "policy_2024": [
+    {
+      "year": 2024,
+      "policy": "TSA top-up to 70% SM (pre-2025 rule)",
+      "shock": "No shock",
+      "policy_line_tenge_month": 35060,
+      "baseline": {
+        "year": 2024,
+        "line_mode": "regional",
+        "persons_in_sample": 41745,
+        "households_in_sample": 11960,
+        "subsistence_minimum": 50086,
+        "tsa_line": 35060,
+        "median_income_per_capita": 95839,
+        "poverty_rate_sm_pct": 9.07,
+        "poverty_rate_tsa_line_pct": 2.47,
+        "gini": 0.257,
+        "gap_to_sm_per_capita_year": 12253,
+        "tiers_pct": {
+          "A_tsa_eligible": 2.47,
+          "B_poor_not_eligible": 6.61,
+          "C_hidden_vulnerable": 6.53,
+          "D_resilient": 84.4
+        }
+      },
+      "after_shock": {
+        "year": 2024,
+        "line_mode": "regional",
+        "persons_in_sample": 41745,
+        "households_in_sample": 11960,
+        "subsistence_minimum": 50086,
+        "tsa_line": 35060,
+        "median_income_per_capita": 95839,
+        "poverty_rate_sm_pct": 9.07,
+        "poverty_rate_tsa_line_pct": 2.47,
+        "gini": 0.257,
+        "gap_to_sm_per_capita_year": 12253,
+        "tiers_pct": {
+          "A_tsa_eligible": 2.47,
+          "B_poor_not_eligible": 6.61,
+          "C_hidden_vulnerable": 6.53,
+          "D_resilient": 84.4
+        }
+      },
+      "after_policy": {
+        "year": 2024,
+        "line_mode": "regional",
+        "persons_in_sample": 41745,
+        "households_in_sample": 11960,
+        "subsistence_minimum": 50086,
+        "tsa_line": 35060,
+        "median_income_per_capita": 95839,
+        "poverty_rate_sm_pct": 9.07,
+        "poverty_rate_tsa_line_pct": 0.0,
+        "gini": 0.2545,
+        "gap_to_sm_per_capita_year": 9687,
+        "tiers_pct": {
+          "A_tsa_eligible": 0.0,
+          "B_poor_not_eligible": 9.07,
+          "C_hidden_vulnerable": 6.53,
+          "D_resilient": 84.4
+        }
+      },
+      "cost": {
+        "sample_tenge_year": 107113391,
+        "per_capita_tenge_year": 2566,
+        "share_of_household_income_pct": 0.202,
+        "illustrative_national_bln_tenge_year": 51.3
+      },
+      "poverty_gap_closed_pct": 20.9,
+      "beneficiaries": {
+        "households_pct": 1.82,
+        "persons_pct": 2.47,
+        "avg_payment_per_person_month": 8666,
+        "spending_to_poor_pct": 100.0
+      },
+      "by_group": [
+        {
+          "hh_type": "children_1_3",
+          "persons_pct_of_sample": 58.4,
+          "subsistence_minimum": 50019,
+          "poor_baseline_pct": 7.0,
+          "poor_after_shock_pct": 7.0,
+          "poor_after_policy_pct": 7.0,
+          "hidden_vulnerable_after_policy_pct": 6.5,
+          "receives_payment_pct": 1.7,
+          "share_of_spending_pct": 35.8
+        },
+        {
+          "hh_type": "children_4plus",
+          "persons_pct_of_sample": 14.4,
+          "subsistence_minimum": 49557,
+          "poor_baseline_pct": 27.1,
+          "poor_after_shock_pct": 27.1,
+          "poor_after_policy_pct": 27.1,
+          "hidden_vulnerable_after_policy_pct": 15.3,
+          "receives_payment_pct": 7.3,
+          "share_of_spending_pct": 38.9
+        },
+        {
+          "hh_type": "pensioners_only",
+          "persons_pct_of_sample": 3.5,
+          "subsistence_minimum": 50570,
+          "poor_baseline_pct": 0.6,
+          "poor_after_shock_pct": 0.6,
+          "poor_after_policy_pct": 0.6,
+          "hidden_vulnerable_after_policy_pct": 0.2,
+          "receives_payment_pct": 0.5,
+          "share_of_spending_pct": 1.5
+        },
+        {
+          "hh_type": "single_adult_with_children",
+          "persons_pct_of_sample": 2.9,
+          "subsistence_minimum": 50660,
+          "poor_baseline_pct": 29.8,
+          "poor_after_shock_pct": 29.8,
+          "poor_after_policy_pct": 29.8,
+          "hidden_vulnerable_after_policy_pct": 13.3,
+          "receives_payment_pct": 11.3,
+          "share_of_spending_pct": 15.9
+        },
+        {
+          "hh_type": "working_age_no_children",
+          "persons_pct_of_sample": 20.8,
+          "subsistence_minimum": 50479,
+          "poor_baseline_pct": 0.9,
+          "poor_after_shock_pct": 0.9,
+          "poor_after_policy_pct": 0.9,
+          "hidden_vulnerable_after_policy_pct": 0.6,
+          "receives_payment_pct": 0.5,
+          "share_of_spending_pct": 7.9
+        }
+      ]
+    },
+    {
+      "year": 2024,
+      "policy": "TSA top-up to max(35% median, 70% SM) (2025 rule)",
+      "shock": "No shock",
+      "policy_line_tenge_month": 35367,
+      "baseline": {
+        "year": 2024,
+        "line_mode": "regional",
+        "persons_in_sample": 41745,
+        "households_in_sample": 11960,
+        "subsistence_minimum": 50086,
+        "tsa_line": 35060,
+        "median_income_per_capita": 95839,
+        "poverty_rate_sm_pct": 9.07,
+        "poverty_rate_tsa_line_pct": 2.47,
+        "gini": 0.257,
+        "gap_to_sm_per_capita_year": 12253,
+        "tiers_pct": {
+          "A_tsa_eligible": 2.47,
+          "B_poor_not_eligible": 6.61,
+          "C_hidden_vulnerable": 6.53,
+          "D_resilient": 84.4
+        }
+      },
+      "after_shock": {
+        "year": 2024,
+        "line_mode": "regional",
+        "persons_in_sample": 41745,
+        "households_in_sample": 11960,
+        "subsistence_minimum": 50086,
+        "tsa_line": 35060,
+        "median_income_per_capita": 95839,
+        "poverty_rate_sm_pct": 9.07,
+        "poverty_rate_tsa_line_pct": 2.47,
+        "gini": 0.257,
+        "gap_to_sm_per_capita_year": 12253,
+        "tiers_pct": {
+          "A_tsa_eligible": 2.47,
+          "B_poor_not_eligible": 6.61,
+          "C_hidden_vulnerable": 6.53,
+          "D_resilient": 84.4
+        }
+      },
+      "after_policy": {
+        "year": 2024,
+        "line_mode": "regional",
+        "persons_in_sample": 41745,
+        "households_in_sample": 11960,
+        "subsistence_minimum": 50086,
+        "tsa_line": 35060,
+        "median_income_per_capita": 95839,
+        "poverty_rate_sm_pct": 9.07,
+        "poverty_rate_tsa_line_pct": 0.0,
+        "gini": 0.2544,
+        "gap_to_sm_per_capita_year": 9584,
+        "tiers_pct": {
+          "A_tsa_eligible": 0.0,
+          "B_poor_not_eligible": 9.07,
+          "C_hidden_vulnerable": 6.53,
+          "D_resilient": 84.4
+        }
+      },
+      "cost": {
+        "sample_tenge_year": 111414766,
+        "per_capita_tenge_year": 2669,
+        "share_of_household_income_pct": 0.211,
+        "illustrative_national_bln_tenge_year": 53.4
+      },
+      "poverty_gap_closed_pct": 21.8,
+      "beneficiaries": {
+        "households_pct": 1.87,
+        "persons_pct": 2.55,
+        "avg_payment_per_person_month": 8718,
+        "spending_to_poor_pct": 100.0
+      },
+      "by_group": [
+        {
+          "hh_type": "children_1_3",
+          "persons_pct_of_sample": 58.4,
+          "subsistence_minimum": 50019,
+          "poor_baseline_pct": 7.0,
+          "poor_after_shock_pct": 7.0,
+          "poor_after_policy_pct": 7.0,
+          "hidden_vulnerable_after_policy_pct": 6.5,
+          "receives_payment_pct": 1.7,
+          "share_of_spending_pct": 35.3
+        },
+        {
+          "hh_type": "children_4plus",
+          "persons_pct_of_sample": 14.4,
+          "subsistence_minimum": 49557,
+          "poor_baseline_pct": 27.1,
+          "poor_after_shock_pct": 27.1,
+          "poor_after_policy_pct": 27.1,
+          "hidden_vulnerable_after_policy_pct": 15.3,
+          "receives_payment_pct": 7.6,
+          "share_of_spending_pct": 40.1
+        },
+        {
+          "hh_type": "pensioners_only",
+          "persons_pct_of_sample": 3.5,
+          "subsistence_minimum": 50570,
+          "poor_baseline_pct": 0.6,
+          "poor_after_shock_pct": 0.6,
+          "poor_after_policy_pct": 0.6,
+          "hidden_vulnerable_after_policy_pct": 0.2,
+          "receives_payment_pct": 0.5,
+          "share_of_spending_pct": 1.4
+        },
+        {
+          "hh_type": "single_adult_with_children",
+          "persons_pct_of_sample": 2.9,
+          "subsistence_minimum": 50660,
+          "poor_baseline_pct": 29.8,
+          "poor_after_shock_pct": 29.8,
+          "poor_after_policy_pct": 29.8,
+          "hidden_vulnerable_after_policy_pct": 13.3,
+          "receives_payment_pct": 11.6,
+          "share_of_spending_pct": 15.5
+        },
+        {
+          "hh_type": "working_age_no_children",
+          "persons_pct_of_sample": 20.8,
+          "subsistence_minimum": 50479,
+          "poor_baseline_pct": 0.9,
+          "poor_after_shock_pct": 0.9,
+          "poor_after_policy_pct": 0.9,
+          "hidden_vulnerable_after_policy_pct": 0.6,
+          "receives_payment_pct": 0.5,
+          "share_of_spending_pct": 7.7
+        }
+      ]
+    },
+    {
+      "year": 2024,
+      "policy": "TSA top-up to 100% SM",
+      "shock": "No shock",
+      "policy_line_tenge_month": 50086,
+      "baseline": {
+        "year": 2024,
+        "line_mode": "regional",
+        "persons_in_sample": 41745,
+        "households_in_sample": 11960,
+        "subsistence_minimum": 50086,
+        "tsa_line": 35060,
+        "median_income_per_capita": 95839,
+        "poverty_rate_sm_pct": 9.07,
+        "poverty_rate_tsa_line_pct": 2.47,
+        "gini": 0.257,
+        "gap_to_sm_per_capita_year": 12253,
+        "tiers_pct": {
+          "A_tsa_eligible": 2.47,
+          "B_poor_not_eligible": 6.61,
+          "C_hidden_vulnerable": 6.53,
+          "D_resilient": 84.4
+        }
+      },
+      "after_shock": {
+        "year": 2024,
+        "line_mode": "regional",
+        "persons_in_sample": 41745,
+        "households_in_sample": 11960,
+        "subsistence_minimum": 50086,
+        "tsa_line": 35060,
+        "median_income_per_capita": 95839,
+        "poverty_rate_sm_pct": 9.07,
+        "poverty_rate_tsa_line_pct": 2.47,
+        "gini": 0.257,
+        "gap_to_sm_per_capita_year": 12253,
+        "tiers_pct": {
+          "A_tsa_eligible": 2.47,
+          "B_poor_not_eligible": 6.61,
+          "C_hidden_vulnerable": 6.53,
+          "D_resilient": 84.4
+        }
+      },
+      "after_policy": {
+        "year": 2024,
+        "line_mode": "regional",
+        "persons_in_sample": 41745,
+        "households_in_sample": 11960,
+        "subsistence_minimum": 50086,
+        "tsa_line": 35060,
+        "median_income_per_capita": 95839,
+        "poverty_rate_sm_pct": 0.0,
+        "poverty_rate_tsa_line_pct": 0.0,
+        "gini": 0.2458,
+        "gap_to_sm_per_capita_year": 0,
+        "tiers_pct": {
+          "A_tsa_eligible": 0.0,
+          "B_poor_not_eligible": 0.0,
+          "C_hidden_vulnerable": 15.6,
+          "D_resilient": 84.4
+        }
+      },
+      "cost": {
+        "sample_tenge_year": 511510721,
+        "per_capita_tenge_year": 12253,
+        "share_of_household_income_pct": 0.967,
+        "illustrative_national_bln_tenge_year": 245.1
+      },
+      "poverty_gap_closed_pct": 100.0,
+      "beneficiaries": {
+        "households_pct": 6.19,
+        "persons_pct": 9.07,
+        "avg_payment_per_person_month": 11253,
+        "spending_to_poor_pct": 100.0
+      },
+      "by_group": [
+        {
+          "hh_type": "children_1_3",
+          "persons_pct_of_sample": 58.4,
+          "subsistence_minimum": 50019,
+          "poor_baseline_pct": 7.0,
+          "poor_after_shock_pct": 7.0,
+          "poor_after_policy_pct": 0.0,
+          "hidden_vulnerable_after_policy_pct": 13.5,
+          "receives_payment_pct": 7.0,
+          "share_of_spending_pct": 41.9
+        },
+        {
+          "hh_type": "children_4plus",
+          "persons_pct_of_sample": 14.4,
+          "subsistence_minimum": 49557,
+          "poor_baseline_pct": 27.1,
+          "poor_after_shock_pct": 27.1,
+          "poor_after_policy_pct": 0.0,
+          "hidden_vulnerable_after_policy_pct": 42.5,
+          "receives_payment_pct": 27.1,
+          "share_of_spending_pct": 42.0
+        },
+        {
+          "hh_type": "pensioners_only",
+          "persons_pct_of_sample": 3.5,
+          "subsistence_minimum": 50570,
+          "poor_baseline_pct": 0.6,
+          "poor_after_shock_pct": 0.6,
+          "poor_after_policy_pct": 0.0,
+          "hidden_vulnerable_after_policy_pct": 0.8,
+          "receives_payment_pct": 0.6,
+          "share_of_spending_pct": 0.6
+        },
+        {
+          "hh_type": "single_adult_with_children",
+          "persons_pct_of_sample": 2.9,
+          "subsistence_minimum": 50660,
+          "poor_baseline_pct": 29.8,
+          "poor_after_shock_pct": 29.8,
+          "poor_after_policy_pct": 0.0,
+          "hidden_vulnerable_after_policy_pct": 43.2,
+          "receives_payment_pct": 29.8,
+          "share_of_spending_pct": 11.9
+        },
+        {
+          "hh_type": "working_age_no_children",
+          "persons_pct_of_sample": 20.8,
+          "subsistence_minimum": 50479,
+          "poor_baseline_pct": 0.9,
+          "poor_after_shock_pct": 0.9,
+          "poor_after_policy_pct": 0.0,
+          "hidden_vulnerable_after_policy_pct": 1.5,
+          "receives_payment_pct": 0.9,
+          "share_of_spending_pct": 3.6
+        }
+      ]
+    }
+  ],
+  "shock_2024": [
+    {
+      "year": 2024,
+      "policy": "No change",
+      "shock": "Labour income -10%",
+      "policy_line_tenge_month": null,
+      "baseline": {
+        "year": 2024,
+        "line_mode": "regional",
+        "persons_in_sample": 41745,
+        "households_in_sample": 11960,
+        "subsistence_minimum": 50086,
+        "tsa_line": 35060,
+        "median_income_per_capita": 95839,
+        "poverty_rate_sm_pct": 9.07,
+        "poverty_rate_tsa_line_pct": 2.47,
+        "gini": 0.257,
+        "gap_to_sm_per_capita_year": 12253,
+        "tiers_pct": {
+          "A_tsa_eligible": 2.47,
+          "B_poor_not_eligible": 6.61,
+          "C_hidden_vulnerable": 6.53,
+          "D_resilient": 84.4
+        }
+      },
+      "after_shock": {
+        "year": 2024,
+        "line_mode": "regional",
+        "persons_in_sample": 41745,
+        "households_in_sample": 11960,
+        "subsistence_minimum": 50086,
+        "tsa_line": 35060,
+        "median_income_per_capita": 88462,
+        "poverty_rate_sm_pct": 11.34,
+        "poverty_rate_tsa_line_pct": 3.12,
+        "gini": 0.2568,
+        "gap_to_sm_per_capita_year": 15676,
+        "tiers_pct": {
+          "A_tsa_eligible": 3.12,
+          "B_poor_not_eligible": 8.21,
+          "C_hidden_vulnerable": 8.52,
+          "D_resilient": 80.14
+        }
+      },
+      "after_policy": {
+        "year": 2024,
+        "line_mode": "regional",
+        "persons_in_sample": 41745,
+        "households_in_sample": 11960,
+        "subsistence_minimum": 50086,
+        "tsa_line": 35060,
+        "median_income_per_capita": 88462,
+        "poverty_rate_sm_pct": 11.34,
+        "poverty_rate_tsa_line_pct": 3.12,
+        "gini": 0.2568,
+        "gap_to_sm_per_capita_year": 15676,
+        "tiers_pct": {
+          "A_tsa_eligible": 3.12,
+          "B_poor_not_eligible": 8.21,
+          "C_hidden_vulnerable": 8.52,
+          "D_resilient": 80.14
+        }
+      },
+      "cost": {
+        "sample_tenge_year": 0,
+        "per_capita_tenge_year": 0,
+        "share_of_household_income_pct": 0.0,
+        "illustrative_national_bln_tenge_year": 0.0
+      },
+      "poverty_gap_closed_pct": 0.0,
+      "beneficiaries": {
+        "households_pct": 0.0,
+        "persons_pct": 0.0,
+        "avg_payment_per_person_month": 0,
+        "spending_to_poor_pct": 0.0
+      },
+      "by_group": [
+        {
+          "hh_type": "children_1_3",
+          "persons_pct_of_sample": 58.4,
+          "subsistence_minimum": 50019,
+          "poor_baseline_pct": 7.0,
+          "poor_after_shock_pct": 9.3,
+          "poor_after_policy_pct": 9.3,
+          "hidden_vulnerable_after_policy_pct": 8.4,
+          "receives_payment_pct": 0.0,
+          "share_of_spending_pct": 0.0
+        },
+        {
+          "hh_type": "children_4plus",
+          "persons_pct_of_sample": 14.4,
+          "subsistence_minimum": 49557,
+          "poor_baseline_pct": 27.1,
+          "poor_after_shock_pct": 32.4,
+          "poor_after_policy_pct": 32.4,
+          "hidden_vulnerable_after_policy_pct": 19.0,
+          "receives_payment_pct": 0.0,
+          "share_of_spending_pct": 0.0
+        },
+        {
+          "hh_type": "pensioners_only",
+          "persons_pct_of_sample": 3.5,
+          "subsistence_minimum": 50570,
+          "poor_baseline_pct": 0.6,
+          "poor_after_shock_pct": 0.6,
+          "poor_after_policy_pct": 0.6,
+          "hidden_vulnerable_after_policy_pct": 0.2,
+          "receives_payment_pct": 0.0,
+          "share_of_spending_pct": 0.0
+        },
+        {
+          "hh_type": "single_adult_with_children",
+          "persons_pct_of_sample": 2.9,
+          "subsistence_minimum": 50660,
+          "poor_baseline_pct": 29.8,
+          "poor_after_shock_pct": 33.0,
+          "poor_after_policy_pct": 33.0,
+          "hidden_vulnerable_after_policy_pct": 19.3,
+          "receives_payment_pct": 0.0,
+          "share_of_spending_pct": 0.0
+        },
+        {
+          "hh_type": "working_age_no_children",
+          "persons_pct_of_sample": 20.8,
+          "subsistence_minimum": 50479,
+          "poor_baseline_pct": 0.9,
+          "poor_after_shock_pct": 1.0,
+          "poor_after_policy_pct": 1.0,
+          "hidden_vulnerable_after_policy_pct": 1.4,
+          "receives_payment_pct": 0.0,
+          "share_of_spending_pct": 0.0
+        }
+      ]
+    },
+    {
+      "year": 2024,
+      "policy": "No change",
+      "shock": "Main earner loses 3 months of earnings",
+      "policy_line_tenge_month": null,
+      "baseline": {
+        "year": 2024,
+        "line_mode": "regional",
+        "persons_in_sample": 41745,
+        "households_in_sample": 11960,
+        "subsistence_minimum": 50086,
+        "tsa_line": 35060,
+        "median_income_per_capita": 95839,
+        "poverty_rate_sm_pct": 9.07,
+        "poverty_rate_tsa_line_pct": 2.47,
+        "gini": 0.257,
+        "gap_to_sm_per_capita_year": 12253,
+        "tiers_pct": {
+          "A_tsa_eligible": 2.47,
+          "B_poor_not_eligible": 6.61,
+          "C_hidden_vulnerable": 6.53,
+          "D_resilient": 84.4
+        }
+      },
+      "after_shock": {
+        "year": 2024,
+        "line_mode": "regional",
+        "persons_in_sample": 41745,
+        "households_in_sample": 11960,
+        "subsistence_minimum": 50086,
+        "tsa_line": 35060,
+        "median_income_per_capita": 84512,
+        "poverty_rate_sm_pct": 13.88,
+        "poverty_rate_tsa_line_pct": 4.41,
+        "gini": 0.258,
+        "gap_to_sm_per_capita_year": 20176,
+        "tiers_pct": {
+          "A_tsa_eligible": 4.41,
+          "B_poor_not_eligible": 9.47,
+          "C_hidden_vulnerable": 10.16,
+          "D_resilient": 75.96
+        }
+      },
+      "after_policy": {
+        "year": 2024,
+        "line_mode": "regional",
+        "persons_in_sample": 41745,
+        "households_in_sample": 11960,
+        "subsistence_minimum": 50086,
+        "tsa_line": 35060,
+        "median_income_per_capita": 84512,
+        "poverty_rate_sm_pct": 13.88,
+        "poverty_rate_tsa_line_pct": 4.41,
+        "gini": 0.258,
+        "gap_to_sm_per_capita_year": 20176,
+        "tiers_pct": {
+          "A_tsa_eligible": 4.41,
+          "B_poor_not_eligible": 9.47,
+          "C_hidden_vulnerable": 10.16,
+          "D_resilient": 75.96
+        }
+      },
+      "cost": {
+        "sample_tenge_year": 0,
+        "per_capita_tenge_year": 0,
+        "share_of_household_income_pct": 0.0,
+        "illustrative_national_bln_tenge_year": 0.0
+      },
+      "poverty_gap_closed_pct": 0.0,
+      "beneficiaries": {
+        "households_pct": 0.0,
+        "persons_pct": 0.0,
+        "avg_payment_per_person_month": 0,
+        "spending_to_poor_pct": 0.0
+      },
+      "by_group": [
+        {
+          "hh_type": "children_1_3",
+          "persons_pct_of_sample": 58.4,
+          "subsistence_minimum": 50019,
+          "poor_baseline_pct": 7.0,
+          "poor_after_shock_pct": 11.9,
+          "poor_after_policy_pct": 11.9,
+          "hidden_vulnerable_after_policy_pct": 10.1,
+          "receives_payment_pct": 0.0,
+          "share_of_spending_pct": 0.0
+        },
+        {
+          "hh_type": "children_4plus",
+          "persons_pct_of_sample": 14.4,
+          "subsistence_minimum": 49557,
+          "poor_baseline_pct": 27.1,
+          "poor_after_shock_pct": 37.7,
+          "poor_after_policy_pct": 37.7,
+          "hidden_vulnerable_after_policy_pct": 20.6,
+          "receives_payment_pct": 0.0,
+          "share_of_spending_pct": 0.0
+        },
+        {
+          "hh_type": "pensioners_only",
+          "persons_pct_of_sample": 3.5,
+          "subsistence_minimum": 50570,
+          "poor_baseline_pct": 0.6,
+          "poor_after_shock_pct": 0.6,
+          "poor_after_policy_pct": 0.6,
+          "hidden_vulnerable_after_policy_pct": 0.2,
+          "receives_payment_pct": 0.0,
+          "share_of_spending_pct": 0.0
+        },
+        {
+          "hh_type": "single_adult_with_children",
+          "persons_pct_of_sample": 2.9,
+          "subsistence_minimum": 50660,
+          "poor_baseline_pct": 29.8,
+          "poor_after_shock_pct": 40.4,
+          "poor_after_policy_pct": 40.4,
+          "hidden_vulnerable_after_policy_pct": 25.9,
+          "receives_payment_pct": 0.0,
+          "share_of_spending_pct": 0.0
+        },
+        {
+          "hh_type": "working_age_no_children",
+          "persons_pct_of_sample": 20.8,
+          "subsistence_minimum": 50479,
+          "poor_baseline_pct": 0.9,
+          "poor_after_shock_pct": 1.3,
+          "poor_after_policy_pct": 1.3,
+          "hidden_vulnerable_after_policy_pct": 2.5,
+          "receives_payment_pct": 0.0,
+          "share_of_spending_pct": 0.0
+        }
+      ]
+    },
+    {
+      "year": 2024,
+      "policy": "No change",
+      "shock": "Housing and utility costs +30%",
+      "policy_line_tenge_month": null,
+      "baseline": {
+        "year": 2024,
+        "line_mode": "regional",
+        "persons_in_sample": 41745,
+        "households_in_sample": 11960,
+        "subsistence_minimum": 50086,
+        "tsa_line": 35060,
+        "median_income_per_capita": 95839,
+        "poverty_rate_sm_pct": 9.07,
+        "poverty_rate_tsa_line_pct": 2.47,
+        "gini": 0.257,
+        "gap_to_sm_per_capita_year": 12253,
+        "tiers_pct": {
+          "A_tsa_eligible": 2.47,
+          "B_poor_not_eligible": 6.61,
+          "C_hidden_vulnerable": 6.53,
+          "D_resilient": 84.4
+        }
+      },
+      "after_shock": {
+        "year": 2024,
+        "line_mode": "regional",
+        "persons_in_sample": 41745,
+        "households_in_sample": 11960,
+        "subsistence_minimum": 50086,
+        "tsa_line": 35060,
+        "median_income_per_capita": 94406,
+        "poverty_rate_sm_pct": 9.73,
+        "poverty_rate_tsa_line_pct": 2.72,
+        "gini": 0.258,
+        "gap_to_sm_per_capita_year": 13409,
+        "tiers_pct": {
+          "A_tsa_eligible": 2.72,
+          "B_poor_not_eligible": 7.01,
+          "C_hidden_vulnerable": 6.78,
+          "D_resilient": 83.49
+        }
+      },
+      "after_policy": {
+        "year": 2024,
+        "line_mode": "regional",
+        "persons_in_sample": 41745,
+        "households_in_sample": 11960,
+        "subsistence_minimum": 50086,
+        "tsa_line": 35060,
+        "median_income_per_capita": 94406,
+        "poverty_rate_sm_pct": 9.73,
+        "poverty_rate_tsa_line_pct": 2.72,
+        "gini": 0.258,
+        "gap_to_sm_per_capita_year": 13409,
+        "tiers_pct": {
+          "A_tsa_eligible": 2.72,
+          "B_poor_not_eligible": 7.01,
+          "C_hidden_vulnerable": 6.78,
+          "D_resilient": 83.49
+        }
+      },
+      "cost": {
+        "sample_tenge_year": 0,
+        "per_capita_tenge_year": 0,
+        "share_of_household_income_pct": 0.0,
+        "illustrative_national_bln_tenge_year": 0.0
+      },
+      "poverty_gap_closed_pct": 0.0,
+      "beneficiaries": {
+        "households_pct": 0.0,
+        "persons_pct": 0.0,
+        "avg_payment_per_person_month": 0,
+        "spending_to_poor_pct": 0.0
+      },
+      "by_group": [
+        {
+          "hh_type": "children_1_3",
+          "persons_pct_of_sample": 58.4,
+          "subsistence_minimum": 50019,
+          "poor_baseline_pct": 7.0,
+          "poor_after_shock_pct": 7.7,
+          "poor_after_policy_pct": 7.7,
+          "hidden_vulnerable_after_policy_pct": 6.7,
+          "receives_payment_pct": 0.0,
+          "share_of_spending_pct": 0.0
+        },
+        {
+          "hh_type": "children_4plus",
+          "persons_pct_of_sample": 14.4,
+          "subsistence_minimum": 49557,
+          "poor_baseline_pct": 27.1,
+          "poor_after_shock_pct": 28.2,
+          "poor_after_policy_pct": 28.2,
+          "hidden_vulnerable_after_policy_pct": 15.7,
+          "receives_payment_pct": 0.0,
+          "share_of_spending_pct": 0.0
+        },
+        {
+          "hh_type": "pensioners_only",
+          "persons_pct_of_sample": 3.5,
+          "subsistence_minimum": 50570,
+          "poor_baseline_pct": 0.6,
+          "poor_after_shock_pct": 0.8,
+          "poor_after_policy_pct": 0.8,
+          "hidden_vulnerable_after_policy_pct": 0.1,
+          "receives_payment_pct": 0.0,
+          "share_of_spending_pct": 0.0
+        },
+        {
+          "hh_type": "single_adult_with_children",
+          "persons_pct_of_sample": 2.9,
+          "subsistence_minimum": 50660,
+          "poor_baseline_pct": 29.8,
+          "poor_after_shock_pct": 31.3,
+          "poor_after_policy_pct": 31.3,
+          "hidden_vulnerable_after_policy_pct": 14.3,
+          "receives_payment_pct": 0.0,
+          "share_of_spending_pct": 0.0
+        },
+        {
+          "hh_type": "working_age_no_children",
+          "persons_pct_of_sample": 20.8,
+          "subsistence_minimum": 50479,
+          "poor_baseline_pct": 0.9,
+          "poor_after_shock_pct": 1.1,
+          "poor_after_policy_pct": 1.1,
+          "hidden_vulnerable_after_policy_pct": 0.8,
+          "receives_payment_pct": 0.0,
+          "share_of_spending_pct": 0.0
+        }
+      ]
+    },
+    {
+      "year": 2024,
+      "policy": "No change",
+      "shock": "Prices +10%",
+      "policy_line_tenge_month": null,
+      "baseline": {
+        "year": 2024,
+        "line_mode": "regional",
+        "persons_in_sample": 41745,
+        "households_in_sample": 11960,
+        "subsistence_minimum": 50086,
+        "tsa_line": 35060,
+        "median_income_per_capita": 95839,
+        "poverty_rate_sm_pct": 9.07,
+        "poverty_rate_tsa_line_pct": 2.47,
+        "gini": 0.257,
+        "gap_to_sm_per_capita_year": 12253,
+        "tiers_pct": {
+          "A_tsa_eligible": 2.47,
+          "B_poor_not_eligible": 6.61,
+          "C_hidden_vulnerable": 6.53,
+          "D_resilient": 84.4
+        }
+      },
+      "after_shock": {
+        "year": 2024,
+        "line_mode": "regional",
+        "persons_in_sample": 41745,
+        "households_in_sample": 11960,
+        "subsistence_minimum": 50086,
+        "tsa_line": 35060,
+        "median_income_per_capita": 87127,
+        "poverty_rate_sm_pct": 12.39,
+        "poverty_rate_tsa_line_pct": 3.59,
+        "gini": 0.257,
+        "gap_to_sm_per_capita_year": 17052,
+        "tiers_pct": {
+          "A_tsa_eligible": 3.59,
+          "B_poor_not_eligible": 8.8,
+          "C_hidden_vulnerable": 8.61,
+          "D_resilient": 79.0
+        }
+      },
+      "after_policy": {
+        "year": 2024,
+        "line_mode": "regional",
+        "persons_in_sample": 41745,
+        "households_in_sample": 11960,
+        "subsistence_minimum": 50086,
+        "tsa_line": 35060,
+        "median_income_per_capita": 87127,
+        "poverty_rate_sm_pct": 12.39,
+        "poverty_rate_tsa_line_pct": 3.59,
+        "gini": 0.257,
+        "gap_to_sm_per_capita_year": 17052,
+        "tiers_pct": {
+          "A_tsa_eligible": 3.59,
+          "B_poor_not_eligible": 8.8,
+          "C_hidden_vulnerable": 8.61,
+          "D_resilient": 79.0
+        }
+      },
+      "cost": {
+        "sample_tenge_year": 0,
+        "per_capita_tenge_year": 0,
+        "share_of_household_income_pct": 0.0,
+        "illustrative_national_bln_tenge_year": 0.0
+      },
+      "poverty_gap_closed_pct": 0.0,
+      "beneficiaries": {
+        "households_pct": 0.0,
+        "persons_pct": 0.0,
+        "avg_payment_per_person_month": 0,
+        "spending_to_poor_pct": 0.0
+      },
+      "by_group": [
+        {
+          "hh_type": "children_1_3",
+          "persons_pct_of_sample": 58.4,
+          "subsistence_minimum": 50019,
+          "poor_baseline_pct": 7.0,
+          "poor_after_shock_pct": 10.3,
+          "poor_after_policy_pct": 10.3,
+          "hidden_vulnerable_after_policy_pct": 8.5,
+          "receives_payment_pct": 0.0,
+          "share_of_spending_pct": 0.0
+        },
+        {
+          "hh_type": "children_4plus",
+          "persons_pct_of_sample": 14.4,
+          "subsistence_minimum": 49557,
+          "poor_baseline_pct": 27.1,
+          "poor_after_shock_pct": 35.4,
+          "poor_after_policy_pct": 35.4,
+          "hidden_vulnerable_after_policy_pct": 18.5,
+          "receives_payment_pct": 0.0,
+          "share_of_spending_pct": 0.0
+        },
+        {
+          "hh_type": "pensioners_only",
+          "persons_pct_of_sample": 3.5,
+          "subsistence_minimum": 50570,
+          "poor_baseline_pct": 0.6,
+          "poor_after_shock_pct": 0.8,
+          "poor_after_policy_pct": 0.8,
+          "hidden_vulnerable_after_policy_pct": 0.1,
+          "receives_payment_pct": 0.0,
+          "share_of_spending_pct": 0.0
+        },
+        {
+          "hh_type": "single_adult_with_children",
+          "persons_pct_of_sample": 2.9,
+          "subsistence_minimum": 50660,
+          "poor_baseline_pct": 29.8,
+          "poor_after_shock_pct": 34.6,
+          "poor_after_policy_pct": 34.6,
+          "hidden_vulnerable_after_policy_pct": 19.8,
+          "receives_payment_pct": 0.0,
+          "share_of_spending_pct": 0.0
+        },
+        {
+          "hh_type": "working_age_no_children",
+          "persons_pct_of_sample": 20.8,
+          "subsistence_minimum": 50479,
+          "poor_baseline_pct": 0.9,
+          "poor_after_shock_pct": 1.1,
+          "poor_after_policy_pct": 1.1,
+          "hidden_vulnerable_after_policy_pct": 1.7,
+          "receives_payment_pct": 0.0,
+          "share_of_spending_pct": 0.0
+        }
+      ]
+    }
+  ],
+  "compare_equal_budget_2024": {
+    "year": 2024,
+    "shock": "No shock",
+    "equal_cost_per_capita": 12253,
+    "results": [
+      {
+        "year": 2024,
+        "policy": "TSA top-up to 100% SM",
+        "shock": "No shock",
+        "policy_line_tenge_month": 50087,
+        "baseline": {
+          "year": 2024,
+          "line_mode": "regional",
+          "persons_in_sample": 41745,
+          "households_in_sample": 11960,
+          "subsistence_minimum": 50086,
+          "tsa_line": 35060,
+          "median_income_per_capita": 95839,
+          "poverty_rate_sm_pct": 9.07,
+          "poverty_rate_tsa_line_pct": 2.47,
+          "gini": 0.257,
+          "gap_to_sm_per_capita_year": 12253,
+          "tiers_pct": {
+            "A_tsa_eligible": 2.47,
+            "B_poor_not_eligible": 6.61,
+            "C_hidden_vulnerable": 6.53,
+            "D_resilient": 84.4
+          }
+        },
+        "after_shock": {
+          "year": 2024,
+          "line_mode": "regional",
+          "persons_in_sample": 41745,
+          "households_in_sample": 11960,
+          "subsistence_minimum": 50086,
+          "tsa_line": 35060,
+          "median_income_per_capita": 95839,
+          "poverty_rate_sm_pct": 9.07,
+          "poverty_rate_tsa_line_pct": 2.47,
+          "gini": 0.257,
+          "gap_to_sm_per_capita_year": 12253,
+          "tiers_pct": {
+            "A_tsa_eligible": 2.47,
+            "B_poor_not_eligible": 6.61,
+            "C_hidden_vulnerable": 6.53,
+            "D_resilient": 84.4
+          }
+        },
+        "after_policy": {
+          "year": 2024,
+          "line_mode": "regional",
+          "persons_in_sample": 41745,
+          "households_in_sample": 11960,
+          "subsistence_minimum": 50086,
+          "tsa_line": 35060,
+          "median_income_per_capita": 95839,
+          "poverty_rate_sm_pct": 0.0,
+          "poverty_rate_tsa_line_pct": 0.0,
+          "gini": 0.2457,
+          "gap_to_sm_per_capita_year": 0,
+          "tiers_pct": {
+            "A_tsa_eligible": 0.0,
+            "B_poor_not_eligible": 0.0,
+            "C_hidden_vulnerable": 15.6,
+            "D_resilient": 84.4
+          }
+        },
+        "cost": {
+          "sample_tenge_year": 511563693,
+          "per_capita_tenge_year": 12254,
+          "share_of_household_income_pct": 0.967,
+          "illustrative_national_bln_tenge_year": 245.1
+        },
+        "poverty_gap_closed_pct": 100.0,
+        "beneficiaries": {
+          "households_pct": 6.19,
+          "persons_pct": 9.07,
+          "avg_payment_per_person_month": 11254,
+          "spending_to_poor_pct": 100.0
+        },
+        "by_group": [
+          {
+            "hh_type": "children_1_3",
+            "persons_pct_of_sample": 58.4,
+            "subsistence_minimum": 50019,
+            "poor_baseline_pct": 7.0,
+            "poor_after_shock_pct": 7.0,
+            "poor_after_policy_pct": 0.0,
+            "hidden_vulnerable_after_policy_pct": 13.5,
+            "receives_payment_pct": 7.0,
+            "share_of_spending_pct": 41.9
+          },
+          {
+            "hh_type": "children_4plus",
+            "persons_pct_of_sample": 14.4,
+            "subsistence_minimum": 49557,
+            "poor_baseline_pct": 27.1,
+            "poor_after_shock_pct": 27.1,
+            "poor_after_policy_pct": 0.0,
+            "hidden_vulnerable_after_policy_pct": 42.5,
+            "receives_payment_pct": 27.1,
+            "share_of_spending_pct": 42.0
+          },
+          {
+            "hh_type": "pensioners_only",
+            "persons_pct_of_sample": 3.5,
+            "subsistence_minimum": 50570,
+            "poor_baseline_pct": 0.6,
+            "poor_after_shock_pct": 0.6,
+            "poor_after_policy_pct": 0.0,
+            "hidden_vulnerable_after_policy_pct": 0.8,
+            "receives_payment_pct": 0.6,
+            "share_of_spending_pct": 0.6
+          },
+          {
+            "hh_type": "single_adult_with_children",
+            "persons_pct_of_sample": 2.9,
+            "subsistence_minimum": 50660,
+            "poor_baseline_pct": 29.8,
+            "poor_after_shock_pct": 29.8,
+            "poor_after_policy_pct": 0.0,
+            "hidden_vulnerable_after_policy_pct": 43.2,
+            "receives_payment_pct": 29.8,
+            "share_of_spending_pct": 11.9
+          },
+          {
+            "hh_type": "working_age_no_children",
+            "persons_pct_of_sample": 20.8,
+            "subsistence_minimum": 50479,
+            "poor_baseline_pct": 0.9,
+            "poor_after_shock_pct": 0.9,
+            "poor_after_policy_pct": 0.0,
+            "hidden_vulnerable_after_policy_pct": 1.5,
+            "receives_payment_pct": 0.9,
+            "share_of_spending_pct": 3.6
+          }
+        ]
+      },
+      {
+        "year": 2024,
+        "policy": "TSA top-up to 111% SM, take-up 60%",
+        "shock": "No shock",
+        "policy_line_tenge_month": 55616,
+        "baseline": {
+          "year": 2024,
+          "line_mode": "regional",
+          "persons_in_sample": 41745,
+          "households_in_sample": 11960,
+          "subsistence_minimum": 50086,
+          "tsa_line": 35060,
+          "median_income_per_capita": 95839,
+          "poverty_rate_sm_pct": 9.07,
+          "poverty_rate_tsa_line_pct": 2.47,
+          "gini": 0.257,
+          "gap_to_sm_per_capita_year": 12253,
+          "tiers_pct": {
+            "A_tsa_eligible": 2.47,
+            "B_poor_not_eligible": 6.61,
+            "C_hidden_vulnerable": 6.53,
+            "D_resilient": 84.4
+          }
+        },
+        "after_shock": {
+          "year": 2024,
+          "line_mode": "regional",
+          "persons_in_sample": 41745,
+          "households_in_sample": 11960,
+          "subsistence_minimum": 50086,
+          "tsa_line": 35060,
+          "median_income_per_capita": 95839,
+          "poverty_rate_sm_pct": 9.07,
+          "poverty_rate_tsa_line_pct": 2.47,
+          "gini": 0.257,
+          "gap_to_sm_per_capita_year": 12253,
+          "tiers_pct": {
+            "A_tsa_eligible": 2.47,
+            "B_poor_not_eligible": 6.61,
+            "C_hidden_vulnerable": 6.53,
+            "D_resilient": 84.4
+          }
+        },
+        "after_policy": {
+          "year": 2024,
+          "line_mode": "regional",
+          "persons_in_sample": 41745,
+          "households_in_sample": 11960,
+          "subsistence_minimum": 50086,
+          "tsa_line": 35060,
+          "median_income_per_capita": 95839,
+          "poverty_rate_sm_pct": 3.42,
+          "poverty_rate_tsa_line_pct": 0.95,
+          "gini": 0.2462,
+          "gap_to_sm_per_capita_year": 4515,
+          "tiers_pct": {
+            "A_tsa_eligible": 0.95,
+            "B_poor_not_eligible": 2.47,
+            "C_hidden_vulnerable": 12.18,
+            "D_resilient": 84.4
+          }
+        },
+        "cost": {
+          "sample_tenge_year": 511462145,
+          "per_capita_tenge_year": 12252,
+          "share_of_household_income_pct": 0.967,
+          "illustrative_national_bln_tenge_year": 245.0
+        },
+        "poverty_gap_closed_pct": 63.2,
+        "beneficiaries": {
+          "households_pct": 5.16,
+          "persons_pct": 7.77,
+          "avg_payment_per_person_month": 13139,
+          "spending_to_poor_pct": 94.2
+        },
+        "by_group": [
+          {
+            "hh_type": "children_1_3",
+            "persons_pct_of_sample": 58.4,
+            "subsistence_minimum": 50019,
+            "poor_baseline_pct": 7.0,
+            "poor_after_shock_pct": 7.0,
+            "poor_after_policy_pct": 2.5,
+            "hidden_vulnerable_after_policy_pct": 10.9,
+            "receives_payment_pct": 6.4,
+            "share_of_spending_pct": 43.6
+          },
+          {
+            "hh_type": "children_4plus",
+            "persons_pct_of_sample": 14.4,
+            "subsistence_minimum": 49557,
+            "poor_baseline_pct": 27.1,
+            "poor_after_shock_pct": 27.1,
+            "poor_after_policy_pct": 10.6,
+            "hidden_vulnerable_after_policy_pct": 31.9,
+            "receives_payment_pct": 22.6,
+            "share_of_spending_pct": 42.4
+          },
+          {
+            "hh_type": "pensioners_only",
+            "persons_pct_of_sample": 3.5,
+            "subsistence_minimum": 50570,
+            "poor_baseline_pct": 0.6,
+            "poor_after_shock_pct": 0.6,
+            "poor_after_policy_pct": 0.2,
+            "hidden_vulnerable_after_policy_pct": 0.6,
+            "receives_payment_pct": 0.4,
+            "share_of_spending_pct": 0.4
+          },
+          {
+            "hh_type": "single_adult_with_children",
+            "persons_pct_of_sample": 2.9,
+            "subsistence_minimum": 50660,
+            "poor_baseline_pct": 29.8,
+            "poor_after_shock_pct": 29.8,
+            "poor_after_policy_pct": 11.4,
+            "hidden_vulnerable_after_policy_pct": 31.8,
+            "receives_payment_pct": 21.7,
+            "share_of_spending_pct": 10.4
+          },
+          {
+            "hh_type": "working_age_no_children",
+            "persons_pct_of_sample": 20.8,
+            "subsistence_minimum": 50479,
+            "poor_baseline_pct": 0.9,
+            "poor_after_shock_pct": 0.9,
+            "poor_after_policy_pct": 0.4,
+            "hidden_vulnerable_after_policy_pct": 1.1,
+            "receives_payment_pct": 0.6,
+            "share_of_spending_pct": 3.1
+          }
+        ]
+      },
+      {
+        "year": 2024,
+        "policy": "Child allowance 3,041 tg/mo per child, families with 1+ children",
+        "shock": "No shock",
+        "policy_line_tenge_month": null,
+        "baseline": {
+          "year": 2024,
+          "line_mode": "regional",
+          "persons_in_sample": 41745,
+          "households_in_sample": 11960,
+          "subsistence_minimum": 50086,
+          "tsa_line": 35060,
+          "median_income_per_capita": 95839,
+          "poverty_rate_sm_pct": 9.07,
+          "poverty_rate_tsa_line_pct": 2.47,
+          "gini": 0.257,
+          "gap_to_sm_per_capita_year": 12253,
+          "tiers_pct": {
+            "A_tsa_eligible": 2.47,
+            "B_poor_not_eligible": 6.61,
+            "C_hidden_vulnerable": 6.53,
+            "D_resilient": 84.4
+          }
+        },
+        "after_shock": {
+          "year": 2024,
+          "line_mode": "regional",
+          "persons_in_sample": 41745,
+          "households_in_sample": 11960,
+          "subsistence_minimum": 50086,
+          "tsa_line": 35060,
+          "median_income_per_capita": 95839,
+          "poverty_rate_sm_pct": 9.07,
+          "poverty_rate_tsa_line_pct": 2.47,
+          "gini": 0.257,
+          "gap_to_sm_per_capita_year": 12253,
+          "tiers_pct": {
+            "A_tsa_eligible": 2.47,
+            "B_poor_not_eligible": 6.61,
+            "C_hidden_vulnerable": 6.53,
+            "D_resilient": 84.4
+          }
+        },
+        "after_policy": {
+          "year": 2024,
+          "line_mode": "regional",
+          "persons_in_sample": 41745,
+          "households_in_sample": 11960,
+          "subsistence_minimum": 50086,
+          "tsa_line": 35060,
+          "median_income_per_capita": 97009,
+          "poverty_rate_sm_pct": 8.08,
+          "poverty_rate_tsa_line_pct": 2.1,
+          "gini": 0.252,
+          "gap_to_sm_per_capita_year": 10538,
+          "tiers_pct": {
+            "A_tsa_eligible": 2.1,
+            "B_poor_not_eligible": 5.98,
+            "C_hidden_vulnerable": 6.54,
+            "D_resilient": 85.38
+          }
+        },
+        "cost": {
+          "sample_tenge_year": 511494962,
+          "per_capita_tenge_year": 12253,
+          "share_of_household_income_pct": 0.967,
+          "illustrative_national_bln_tenge_year": 245.1
+        },
+        "poverty_gap_closed_pct": 14.0,
+        "beneficiaries": {
+          "households_pct": 55.93,
+          "persons_pct": 75.79,
+          "avg_payment_per_person_month": 1347,
+          "spending_to_poor_pct": 14.8
+        },
+        "by_group": [
+          {
+            "hh_type": "children_1_3",
+            "persons_pct_of_sample": 58.4,
+            "subsistence_minimum": 50019,
+            "poor_baseline_pct": 7.0,
+            "poor_after_shock_pct": 7.0,
+            "poor_after_policy_pct": 6.3,
+            "hidden_vulnerable_after_policy_pct": 6.3,
+            "receives_payment_pct": 100.0,
+            "share_of_spending_pct": 68.6
+          },
+          {
+            "hh_type": "children_4plus",
+            "persons_pct_of_sample": 14.4,
+            "subsistence_minimum": 49557,
+            "poor_baseline_pct": 27.1,
+            "poor_after_shock_pct": 27.1,
+            "poor_after_policy_pct": 23.7,
+            "hidden_vulnerable_after_policy_pct": 16.0,
+            "receives_payment_pct": 100.0,
+            "share_of_spending_pct": 26.1
+          },
+          {
+            "hh_type": "pensioners_only",
+            "persons_pct_of_sample": 3.5,
+            "subsistence_minimum": 50570,
+            "poor_baseline_pct": 0.6,
+            "poor_after_shock_pct": 0.6,
+            "poor_after_policy_pct": 0.6,
+            "hidden_vulnerable_after_policy_pct": 0.2,
+            "receives_payment_pct": 0.0,
+            "share_of_spending_pct": 0.0
+          },
+          {
+            "hh_type": "single_adult_with_children",
+            "persons_pct_of_sample": 2.9,
+            "subsistence_minimum": 50660,
+            "poor_baseline_pct": 29.8,
+            "poor_after_shock_pct": 29.8,
+            "poor_after_policy_pct": 26.4,
+            "hidden_vulnerable_after_policy_pct": 14.5,
+            "receives_payment_pct": 100.0,
+            "share_of_spending_pct": 5.3
+          },
+          {
+            "hh_type": "working_age_no_children",
+            "persons_pct_of_sample": 20.8,
+            "subsistence_minimum": 50479,
+            "poor_baseline_pct": 0.9,
+            "poor_after_shock_pct": 0.9,
+            "poor_after_policy_pct": 0.9,
+            "hidden_vulnerable_after_policy_pct": 0.6,
+            "receives_payment_pct": 0.0,
+            "share_of_spending_pct": 0.0
+          }
+        ]
+      },
+      {
+        "year": 2024,
+        "policy": "Child allowance 11,450 tg/mo per child, families with 4+ children",
+        "shock": "No shock",
+        "policy_line_tenge_month": null,
+        "baseline": {
+          "year": 2024,
+          "line_mode": "regional",
+          "persons_in_sample": 41745,
+          "households_in_sample": 11960,
+          "subsistence_minimum": 50086,
+          "tsa_line": 35060,
+          "median_income_per_capita": 95839,
+          "poverty_rate_sm_pct": 9.07,
+          "poverty_rate_tsa_line_pct": 2.47,
+          "gini": 0.257,
+          "gap_to_sm_per_capita_year": 12253,
+          "tiers_pct": {
+            "A_tsa_eligible": 2.47,
+            "B_poor_not_eligible": 6.61,
+            "C_hidden_vulnerable": 6.53,
+            "D_resilient": 84.4
+          }
+        },
+        "after_shock": {
+          "year": 2024,
+          "line_mode": "regional",
+          "persons_in_sample": 41745,
+          "households_in_sample": 11960,
+          "subsistence_minimum": 50086,
+          "tsa_line": 35060,
+          "median_income_per_capita": 95839,
+          "poverty_rate_sm_pct": 9.07,
+          "poverty_rate_tsa_line_pct": 2.47,
+          "gini": 0.257,
+          "gap_to_sm_per_capita_year": 12253,
+          "tiers_pct": {
+            "A_tsa_eligible": 2.47,
+            "B_poor_not_eligible": 6.61,
+            "C_hidden_vulnerable": 6.53,
+            "D_resilient": 84.4
+          }
+        },
+        "after_policy": {
+          "year": 2024,
+          "line_mode": "regional",
+          "persons_in_sample": 41745,
+          "households_in_sample": 11960,
+          "subsistence_minimum": 50086,
+          "tsa_line": 35060,
+          "median_income_per_capita": 96551,
+          "poverty_rate_sm_pct": 7.43,
+          "poverty_rate_tsa_line_pct": 1.91,
+          "gini": 0.2493,
+          "gap_to_sm_per_capita_year": 9490,
+          "tiers_pct": {
+            "A_tsa_eligible": 1.91,
+            "B_poor_not_eligible": 5.51,
+            "C_hidden_vulnerable": 6.35,
+            "D_resilient": 86.22
+          }
+        },
+        "cost": {
+          "sample_tenge_year": 511539020,
+          "per_capita_tenge_year": 12254,
+          "share_of_household_income_pct": 0.967,
+          "illustrative_national_bln_tenge_year": 245.1
+        },
+        "poverty_gap_closed_pct": 22.5,
+        "beneficiaries": {
+          "households_pct": 7.17,
+          "persons_pct": 14.63,
+          "avg_payment_per_person_month": 6979,
+          "spending_to_poor_pct": 29.4
+        },
+        "by_group": [
+          {
+            "hh_type": "children_1_3",
+            "persons_pct_of_sample": 58.4,
+            "subsistence_minimum": 50019,
+            "poor_baseline_pct": 7.0,
+            "poor_after_shock_pct": 7.0,
+            "poor_after_policy_pct": 7.0,
+            "hidden_vulnerable_after_policy_pct": 6.5,
+            "receives_payment_pct": 0.0,
+            "share_of_spending_pct": 0.0
+          },
+          {
+            "hh_type": "children_4plus",
+            "persons_pct_of_sample": 14.4,
+            "subsistence_minimum": 49557,
+            "poor_baseline_pct": 27.1,
+            "poor_after_shock_pct": 27.1,
+            "poor_after_policy_pct": 16.3,
+            "hidden_vulnerable_after_policy_pct": 13.7,
+            "receives_payment_pct": 100.0,
+            "share_of_spending_pct": 98.2
+          },
+          {
+            "hh_type": "pensioners_only",
+            "persons_pct_of_sample": 3.5,
+            "subsistence_minimum": 50570,
+            "poor_baseline_pct": 0.6,
+            "poor_after_shock_pct": 0.6,
+            "poor_after_policy_pct": 0.6,
+            "hidden_vulnerable_after_policy_pct": 0.2,
+            "receives_payment_pct": 0.0,
+            "share_of_spending_pct": 0.0
+          },
+          {
+            "hh_type": "single_adult_with_children",
+            "persons_pct_of_sample": 2.9,
+            "subsistence_minimum": 50660,
+            "poor_baseline_pct": 29.8,
+            "poor_after_shock_pct": 29.8,
+            "poor_after_policy_pct": 27.2,
+            "hidden_vulnerable_after_policy_pct": 15.6,
+            "receives_payment_pct": 6.7,
+            "share_of_spending_pct": 1.8
+          },
+          {
+            "hh_type": "working_age_no_children",
+            "persons_pct_of_sample": 20.8,
+            "subsistence_minimum": 50479,
+            "poor_baseline_pct": 0.9,
+            "poor_after_shock_pct": 0.9,
+            "poor_after_policy_pct": 0.9,
+            "hidden_vulnerable_after_policy_pct": 0.6,
+            "receives_payment_pct": 0.0,
+            "share_of_spending_pct": 0.0
+          }
+        ]
+      }
+    ]
+  },
+  "compare_equal_budget_after_shock_2024": {
+    "year": 2024,
+    "shock": "Labour income -10%",
+    "equal_cost_per_capita": 12253,
+    "results": [
+      {
+        "year": 2024,
+        "policy": "TSA top-up to 95% SM",
+        "shock": "Labour income -10%",
+        "policy_line_tenge_month": 47395,
+        "baseline": {
+          "year": 2024,
+          "line_mode": "regional",
+          "persons_in_sample": 41745,
+          "households_in_sample": 11960,
+          "subsistence_minimum": 50086,
+          "tsa_line": 35060,
+          "median_income_per_capita": 95839,
+          "poverty_rate_sm_pct": 9.07,
+          "poverty_rate_tsa_line_pct": 2.47,
+          "gini": 0.257,
+          "gap_to_sm_per_capita_year": 12253,
+          "tiers_pct": {
+            "A_tsa_eligible": 2.47,
+            "B_poor_not_eligible": 6.61,
+            "C_hidden_vulnerable": 6.53,
+            "D_resilient": 84.4
+          }
+        },
+        "after_shock": {
+          "year": 2024,
+          "line_mode": "regional",
+          "persons_in_sample": 41745,
+          "households_in_sample": 11960,
+          "subsistence_minimum": 50086,
+          "tsa_line": 35060,
+          "median_income_per_capita": 88462,
+          "poverty_rate_sm_pct": 11.34,
+          "poverty_rate_tsa_line_pct": 3.12,
+          "gini": 0.2568,
+          "gap_to_sm_per_capita_year": 15676,
+          "tiers_pct": {
+            "A_tsa_eligible": 3.12,
+            "B_poor_not_eligible": 8.21,
+            "C_hidden_vulnerable": 8.52,
+            "D_resilient": 80.14
+          }
+        },
+        "after_policy": {
+          "year": 2024,
+          "line_mode": "regional",
+          "persons_in_sample": 41745,
+          "households_in_sample": 11960,
+          "subsistence_minimum": 50086,
+          "tsa_line": 35060,
+          "median_income_per_capita": 88462,
+          "poverty_rate_sm_pct": 11.34,
+          "poverty_rate_tsa_line_pct": 0.0,
+          "gini": 0.2447,
+          "gap_to_sm_per_capita_year": 3419,
+          "tiers_pct": {
+            "A_tsa_eligible": 0.0,
+            "B_poor_not_eligible": 11.34,
+            "C_hidden_vulnerable": 8.52,
+            "D_resilient": 80.14
+          }
+        },
+        "cost": {
+          "sample_tenge_year": 511679952,
+          "per_capita_tenge_year": 12257,
+          "share_of_household_income_pct": 0.967,
+          "illustrative_national_bln_tenge_year": 245.1
+        },
+        "poverty_gap_closed_pct": 78.2,
+        "beneficiaries": {
+          "households_pct": 6.56,
+          "persons_pct": 9.66,
+          "avg_payment_per_person_month": 10575,
+          "spending_to_poor_pct": 100.0
+        },
+        "by_group": [
+          {
+            "hh_type": "children_1_3",
+            "persons_pct_of_sample": 58.4,
+            "subsistence_minimum": 50019,
+            "poor_baseline_pct": 7.0,
+            "poor_after_shock_pct": 9.3,
+            "poor_after_policy_pct": 9.3,
+            "hidden_vulnerable_after_policy_pct": 8.4,
+            "receives_payment_pct": 7.7,
+            "share_of_spending_pct": 42.8
+          },
+          {
+            "hh_type": "children_4plus",
+            "persons_pct_of_sample": 14.4,
+            "subsistence_minimum": 49557,
+            "poor_baseline_pct": 27.1,
+            "poor_after_shock_pct": 32.4,
+            "poor_after_policy_pct": 32.4,
+            "hidden_vulnerable_after_policy_pct": 19.0,
+            "receives_payment_pct": 28.3,
+            "share_of_spending_pct": 41.5
+          },
+          {
+            "hh_type": "pensioners_only",
+            "persons_pct_of_sample": 3.5,
+            "subsistence_minimum": 50570,
+            "poor_baseline_pct": 0.6,
+            "poor_after_shock_pct": 0.6,
+            "poor_after_policy_pct": 0.6,
+            "hidden_vulnerable_after_policy_pct": 0.2,
+            "receives_payment_pct": 0.6,
+            "share_of_spending_pct": 0.5
+          },
+          {
+            "hh_type": "single_adult_with_children",
+            "persons_pct_of_sample": 2.9,
+            "subsistence_minimum": 50660,
+            "poor_baseline_pct": 29.8,
+            "poor_after_shock_pct": 33.0,
+            "poor_after_policy_pct": 33.0,
+            "hidden_vulnerable_after_policy_pct": 19.3,
+            "receives_payment_pct": 30.0,
+            "share_of_spending_pct": 11.7
+          },
+          {
+            "hh_type": "working_age_no_children",
+            "persons_pct_of_sample": 20.8,
+            "subsistence_minimum": 50479,
+            "poor_baseline_pct": 0.9,
+            "poor_after_shock_pct": 1.0,
+            "poor_after_policy_pct": 1.0,
+            "hidden_vulnerable_after_policy_pct": 1.4,
+            "receives_payment_pct": 0.9,
+            "share_of_spending_pct": 3.5
+          }
+        ]
+      },
+      {
+        "year": 2024,
+        "policy": "TSA top-up to 105% SM, take-up 60%",
+        "shock": "Labour income -10%",
+        "policy_line_tenge_month": 52688,
+        "baseline": {
+          "year": 2024,
+          "line_mode": "regional",
+          "persons_in_sample": 41745,
+          "households_in_sample": 11960,
+          "subsistence_minimum": 50086,
+          "tsa_line": 35060,
+          "median_income_per_capita": 95839,
+          "poverty_rate_sm_pct": 9.07,
+          "poverty_rate_tsa_line_pct": 2.47,
+          "gini": 0.257,
+          "gap_to_sm_per_capita_year": 12253,
+          "tiers_pct": {
+            "A_tsa_eligible": 2.47,
+            "B_poor_not_eligible": 6.61,
+            "C_hidden_vulnerable": 6.53,
+            "D_resilient": 84.4
+          }
+        },
+        "after_shock": {
+          "year": 2024,
+          "line_mode": "regional",
+          "persons_in_sample": 41745,
+          "households_in_sample": 11960,
+          "subsistence_minimum": 50086,
+          "tsa_line": 35060,
+          "median_income_per_capita": 88462,
+          "poverty_rate_sm_pct": 11.34,
+          "poverty_rate_tsa_line_pct": 3.12,
+          "gini": 0.2568,
+          "gap_to_sm_per_capita_year": 15676,
+          "tiers_pct": {
+            "A_tsa_eligible": 3.12,
+            "B_poor_not_eligible": 8.21,
+            "C_hidden_vulnerable": 8.52,
+            "D_resilient": 80.14
+          }
+        },
+        "after_policy": {
+          "year": 2024,
+          "line_mode": "regional",
+          "persons_in_sample": 41745,
+          "households_in_sample": 11960,
+          "subsistence_minimum": 50086,
+          "tsa_line": 35060,
+          "median_income_per_capita": 88462,
+          "poverty_rate_sm_pct": 4.39,
+          "poverty_rate_tsa_line_pct": 1.14,
+          "gini": 0.2453,
+          "gap_to_sm_per_capita_year": 5804,
+          "tiers_pct": {
+            "A_tsa_eligible": 1.14,
+            "B_poor_not_eligible": 3.25,
+            "C_hidden_vulnerable": 15.47,
+            "D_resilient": 80.14
+          }
+        },
+        "cost": {
+          "sample_tenge_year": 511467797,
+          "per_capita_tenge_year": 12252,
+          "share_of_household_income_pct": 0.967,
+          "illustrative_national_bln_tenge_year": 245.0
+        },
+        "poverty_gap_closed_pct": 63.0,
+        "beneficiaries": {
+          "households_pct": 5.4,
+          "persons_pct": 8.18,
+          "avg_payment_per_person_month": 12485,
+          "spending_to_poor_pct": 98.5
+        },
+        "by_group": [
+          {
+            "hh_type": "children_1_3",
+            "persons_pct_of_sample": 58.4,
+            "subsistence_minimum": 50019,
+            "poor_baseline_pct": 7.0,
+            "poor_after_shock_pct": 9.3,
+            "poor_after_policy_pct": 3.6,
+            "hidden_vulnerable_after_policy_pct": 14.1,
+            "receives_payment_pct": 6.8,
+            "share_of_spending_pct": 44.6
+          },
+          {
+            "hh_type": "children_4plus",
+            "persons_pct_of_sample": 14.4,
+            "subsistence_minimum": 49557,
+            "poor_baseline_pct": 27.1,
+            "poor_after_shock_pct": 32.4,
+            "poor_after_policy_pct": 12.3,
+            "hidden_vulnerable_after_policy_pct": 39.0,
+            "receives_payment_pct": 23.6,
+            "share_of_spending_pct": 41.8
+          },
+          {
+            "hh_type": "pensioners_only",
+            "persons_pct_of_sample": 3.5,
+            "subsistence_minimum": 50570,
+            "poor_baseline_pct": 0.6,
+            "poor_after_shock_pct": 0.6,
+            "poor_after_policy_pct": 0.2,
+            "hidden_vulnerable_after_policy_pct": 0.6,
+            "receives_payment_pct": 0.4,
+            "share_of_spending_pct": 0.4
+          },
+          {
+            "hh_type": "single_adult_with_children",
+            "persons_pct_of_sample": 2.9,
+            "subsistence_minimum": 50660,
+            "poor_baseline_pct": 29.8,
+            "poor_after_shock_pct": 33.0,
+            "poor_after_policy_pct": 12.9,
+            "hidden_vulnerable_after_policy_pct": 39.3,
+            "receives_payment_pct": 22.4,
+            "share_of_spending_pct": 10.1
+          },
+          {
+            "hh_type": "working_age_no_children",
+            "persons_pct_of_sample": 20.8,
+            "subsistence_minimum": 50479,
+            "poor_baseline_pct": 0.9,
+            "poor_after_shock_pct": 1.0,
+            "poor_after_policy_pct": 0.5,
+            "hidden_vulnerable_after_policy_pct": 2.0,
+            "receives_payment_pct": 0.6,
+            "share_of_spending_pct": 3.0
+          }
+        ]
+      },
+      {
+        "year": 2024,
+        "policy": "Child allowance 3,041 tg/mo per child, families with 1+ children",
+        "shock": "Labour income -10%",
+        "policy_line_tenge_month": null,
+        "baseline": {
+          "year": 2024,
+          "line_mode": "regional",
+          "persons_in_sample": 41745,
+          "households_in_sample": 11960,
+          "subsistence_minimum": 50086,
+          "tsa_line": 35060,
+          "median_income_per_capita": 95839,
+          "poverty_rate_sm_pct": 9.07,
+          "poverty_rate_tsa_line_pct": 2.47,
+          "gini": 0.257,
+          "gap_to_sm_per_capita_year": 12253,
+          "tiers_pct": {
+            "A_tsa_eligible": 2.47,
+            "B_poor_not_eligible": 6.61,
+            "C_hidden_vulnerable": 6.53,
+            "D_resilient": 84.4
+          }
+        },
+        "after_shock": {
+          "year": 2024,
+          "line_mode": "regional",
+          "persons_in_sample": 41745,
+          "households_in_sample": 11960,
+          "subsistence_minimum": 50086,
+          "tsa_line": 35060,
+          "median_income_per_capita": 88462,
+          "poverty_rate_sm_pct": 11.34,
+          "poverty_rate_tsa_line_pct": 3.12,
+          "gini": 0.2568,
+          "gap_to_sm_per_capita_year": 15676,
+          "tiers_pct": {
+            "A_tsa_eligible": 3.12,
+            "B_poor_not_eligible": 8.21,
+            "C_hidden_vulnerable": 8.52,
+            "D_resilient": 80.14
+          }
+        },
+        "after_policy": {
+          "year": 2024,
+          "line_mode": "regional",
+          "persons_in_sample": 41745,
+          "households_in_sample": 11960,
+          "subsistence_minimum": 50086,
+          "tsa_line": 35060,
+          "median_income_per_capita": 89597,
+          "poverty_rate_sm_pct": 10.29,
+          "poverty_rate_tsa_line_pct": 2.59,
+          "gini": 0.2514,
+          "gap_to_sm_per_capita_year": 13555,
+          "tiers_pct": {
+            "A_tsa_eligible": 2.59,
+            "B_poor_not_eligible": 7.69,
+            "C_hidden_vulnerable": 8.08,
+            "D_resilient": 81.63
+          }
+        },
+        "cost": {
+          "sample_tenge_year": 511494962,
+          "per_capita_tenge_year": 12253,
+          "share_of_household_income_pct": 0.967,
+          "illustrative_national_bln_tenge_year": 245.1
+        },
+        "poverty_gap_closed_pct": 13.5,
+        "beneficiaries": {
+          "households_pct": 55.93,
+          "persons_pct": 75.79,
+          "avg_payment_per_person_month": 1347,
+          "spending_to_poor_pct": 18.2
+        },
+        "by_group": [
+          {
+            "hh_type": "children_1_3",
+            "persons_pct_of_sample": 58.4,
+            "subsistence_minimum": 50019,
+            "poor_baseline_pct": 7.0,
+            "poor_after_shock_pct": 9.3,
+            "poor_after_policy_pct": 8.4,
+            "hidden_vulnerable_after_policy_pct": 8.1,
+            "receives_payment_pct": 100.0,
+            "share_of_spending_pct": 68.6
+          },
+          {
+            "hh_type": "children_4plus",
+            "persons_pct_of_sample": 14.4,
+            "subsistence_minimum": 49557,
+            "poor_baseline_pct": 27.1,
+            "poor_after_shock_pct": 32.4,
+            "poor_after_policy_pct": 29.6,
+            "hidden_vulnerable_after_policy_pct": 17.8,
+            "receives_payment_pct": 100.0,
+            "share_of_spending_pct": 26.1
+          },
+          {
+            "hh_type": "pensioners_only",
+            "persons_pct_of_sample": 3.5,
+            "subsistence_minimum": 50570,
+            "poor_baseline_pct": 0.6,
+            "poor_after_shock_pct": 0.6,
+            "poor_after_policy_pct": 0.6,
+            "hidden_vulnerable_after_policy_pct": 0.2,
+            "receives_payment_pct": 0.0,
+            "share_of_spending_pct": 0.0
+          },
+          {
+            "hh_type": "single_adult_with_children",
+            "persons_pct_of_sample": 2.9,
+            "subsistence_minimum": 50660,
+            "poor_baseline_pct": 29.8,
+            "poor_after_shock_pct": 33.0,
+            "poor_after_policy_pct": 30.4,
+            "hidden_vulnerable_after_policy_pct": 17.2,
+            "receives_payment_pct": 100.0,
+            "share_of_spending_pct": 5.3
+          },
+          {
+            "hh_type": "working_age_no_children",
+            "persons_pct_of_sample": 20.8,
+            "subsistence_minimum": 50479,
+            "poor_baseline_pct": 0.9,
+            "poor_after_shock_pct": 1.0,
+            "poor_after_policy_pct": 1.0,
+            "hidden_vulnerable_after_policy_pct": 1.4,
+            "receives_payment_pct": 0.0,
+            "share_of_spending_pct": 0.0
+          }
+        ]
+      },
+      {
+        "year": 2024,
+        "policy": "Child allowance 11,450 tg/mo per child, families with 4+ children",
+        "shock": "Labour income -10%",
+        "policy_line_tenge_month": null,
+        "baseline": {
+          "year": 2024,
+          "line_mode": "regional",
+          "persons_in_sample": 41745,
+          "households_in_sample": 11960,
+          "subsistence_minimum": 50086,
+          "tsa_line": 35060,
+          "median_income_per_capita": 95839,
+          "poverty_rate_sm_pct": 9.07,
+          "poverty_rate_tsa_line_pct": 2.47,
+          "gini": 0.257,
+          "gap_to_sm_per_capita_year": 12253,
+          "tiers_pct": {
+            "A_tsa_eligible": 2.47,
+            "B_poor_not_eligible": 6.61,
+            "C_hidden_vulnerable": 6.53,
+            "D_resilient": 84.4
+          }
+        },
+        "after_shock": {
+          "year": 2024,
+          "line_mode": "regional",
+          "persons_in_sample": 41745,
+          "households_in_sample": 11960,
+          "subsistence_minimum": 50086,
+          "tsa_line": 35060,
+          "median_income_per_capita": 88462,
+          "poverty_rate_sm_pct": 11.34,
+          "poverty_rate_tsa_line_pct": 3.12,
+          "gini": 0.2568,
+          "gap_to_sm_per_capita_year": 15676,
+          "tiers_pct": {
+            "A_tsa_eligible": 3.12,
+            "B_poor_not_eligible": 8.21,
+            "C_hidden_vulnerable": 8.52,
+            "D_resilient": 80.14
+          }
+        },
+        "after_policy": {
+          "year": 2024,
+          "line_mode": "regional",
+          "persons_in_sample": 41745,
+          "households_in_sample": 11960,
+          "subsistence_minimum": 50086,
+          "tsa_line": 35060,
+          "median_income_per_capita": 89153,
+          "poverty_rate_sm_pct": 9.56,
+          "poverty_rate_tsa_line_pct": 2.38,
+          "gini": 0.2485,
+          "gap_to_sm_per_capita_year": 12162,
+          "tiers_pct": {
+            "A_tsa_eligible": 2.38,
+            "B_poor_not_eligible": 7.17,
+            "C_hidden_vulnerable": 8.08,
+            "D_resilient": 82.36
+          }
+        },
+        "cost": {
+          "sample_tenge_year": 511539020,
+          "per_capita_tenge_year": 12254,
+          "share_of_household_income_pct": 0.967,
+          "illustrative_national_bln_tenge_year": 245.1
+        },
+        "poverty_gap_closed_pct": 22.4,
+        "beneficiaries": {
+          "households_pct": 7.17,
+          "persons_pct": 14.63,
+          "avg_payment_per_person_month": 6979,
+          "spending_to_poor_pct": 34.8
+        },
+        "by_group": [
+          {
+            "hh_type": "children_1_3",
+            "persons_pct_of_sample": 58.4,
+            "subsistence_minimum": 50019,
+            "poor_baseline_pct": 7.0,
+            "poor_after_shock_pct": 9.3,
+            "poor_after_policy_pct": 9.3,
+            "hidden_vulnerable_after_policy_pct": 8.4,
+            "receives_payment_pct": 0.0,
+            "share_of_spending_pct": 0.0
+          },
+          {
+            "hh_type": "children_4plus",
+            "persons_pct_of_sample": 14.4,
+            "subsistence_minimum": 49557,
+            "poor_baseline_pct": 27.1,
+            "poor_after_shock_pct": 32.4,
+            "poor_after_policy_pct": 20.2,
+            "hidden_vulnerable_after_policy_pct": 15.8,
+            "receives_payment_pct": 100.0,
+            "share_of_spending_pct": 98.2
+          },
+          {
+            "hh_type": "pensioners_only",
+            "persons_pct_of_sample": 3.5,
+            "subsistence_minimum": 50570,
+            "poor_baseline_pct": 0.6,
+            "poor_after_shock_pct": 0.6,
+            "poor_after_policy_pct": 0.6,
+            "hidden_vulnerable_after_policy_pct": 0.2,
+            "receives_payment_pct": 0.0,
+            "share_of_spending_pct": 0.0
+          },
+          {
+            "hh_type": "single_adult_with_children",
+            "persons_pct_of_sample": 2.9,
+            "subsistence_minimum": 50660,
+            "poor_baseline_pct": 29.8,
+            "poor_after_shock_pct": 33.0,
+            "poor_after_policy_pct": 32.1,
+            "hidden_vulnerable_after_policy_pct": 20.2,
+            "receives_payment_pct": 6.7,
+            "share_of_spending_pct": 1.8
+          },
+          {
+            "hh_type": "working_age_no_children",
+            "persons_pct_of_sample": 20.8,
+            "subsistence_minimum": 50479,
+            "poor_baseline_pct": 0.9,
+            "poor_after_shock_pct": 1.0,
+            "poor_after_policy_pct": 1.0,
+            "hidden_vulnerable_after_policy_pct": 1.4,
+            "receives_payment_pct": 0.0,
+            "share_of_spending_pct": 0.0
+          }
+        ]
+      }
+    ]
+  }
+}
